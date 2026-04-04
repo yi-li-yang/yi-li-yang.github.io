@@ -1,6 +1,5 @@
-// Entry point — import future modules here
-// e.g. import { initMap } from './modules/map.js';
+import { initStats } from './modules/stats.js';
 
 document.addEventListener('DOMContentLoaded', () => {
-  console.log('Site loaded');
+  initStats();
 });

@@ -1,0 +1,22 @@
+{
+  "profiles": {
+    "orcid": "0000-0002-1791-3899",
+    "github": "yi-li-yang",
+    "scholar": "8I00DowAAAAJ",
+    "linkedin": "yiliyang"
+  },
+  "orcid": {
+    "works": 20,
+    "reviews": 4
+  },
+  "github": {
+    "repos": 18,
+    "stars": 7
+  },
+  "scholar": {
+    "citations": 241,
+    "hIndex": 7,
+    "i10Index": 6
+  },
+  "lastUpdated": "2026-04-04T19:36:40.080Z"
+}
