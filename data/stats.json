@@ -18,5 +18,15 @@
     "hIndex": 7,
     "i10Index": 6
   },
-  "lastUpdated": "2026-04-04T19:36:40.080Z"
+  "static": {
+    "fundingAwarded": {
+      "value": 99749,
+      "label": "USD Funding",
+      "display": "~$100K"
+    },
+    "firstAuthorPapers": 8,
+    "menteesSupervised": 7,
+    "invitedTalks": 10
+  },
+  "lastUpdated": "2026-04-05T14:11:30.091Z"
 }

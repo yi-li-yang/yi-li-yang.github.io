@@ -5,9 +5,13 @@
  * then writes them to data/stats.json.
  *
  * Usage: node scripts/update-stats.js
+ *
+ * Optional env vars:
+ *   SERPAPI_KEY    — uses SerpAPI for Scholar (reliable in CI)
+ *   GH_USER_TOKEN — enables GraphQL contribution stats across orgs
  */
 
-import { writeFileSync } from 'node:fs';
+import { readFileSync, writeFileSync, existsSync } from 'node:fs';
 import { resolve, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -35,9 +39,9 @@ async function fetchOrcid() {
   return { works, reviews };
 }
 
-// ── GitHub ──────────────────────────────────────────────
+// ── GitHub REST (repos + stars) ─────────────────────────
 async function fetchGitHub() {
-  console.log('Fetching GitHub...');
+  console.log('Fetching GitHub (REST)...');
   const userRes = await fetch(`https://api.github.com/users/${PROFILES.github}`, {
     headers: { 'User-Agent': 'update-stats-script' }
   });
@@ -56,9 +60,76 @@ async function fetchGitHub() {
   return { repos: user.public_repos, stars };
 }
 
+// ── GitHub GraphQL (all-time commits across orgs) ───────
+async function fetchGitHubGraphQL() {
+  const token = process.env.GH_USER_TOKEN;
+  if (!token) {
+    console.log('Skipping GitHub GraphQL (no GH_USER_TOKEN)');
+    return null;
+  }
+  console.log('Fetching GitHub (GraphQL)...');
+  const headers = {
+    Authorization: `bearer ${token}`,
+    'Content-Type': 'application/json'
+  };
+  const gql = async (query, variables) => {
+    const r = await fetch('https://api.github.com/graphql', {
+      method: 'POST',
+      headers,
+      body: JSON.stringify({ query, variables })
+    });
+    if (!r.ok) throw new Error(`GraphQL HTTP ${r.status}`);
+    const json = await r.json();
+    if (json.errors) throw new Error(json.errors[0].message);
+    return json;
+  };
+
+  // Get contribution years
+  const yearsRes = await gql(
+    '{ viewer { contributionsCollection { contributionYears } } }'
+  );
+  const years = yearsRes.data.viewer.contributionsCollection.contributionYears;
+
+  // Query each year and sum commits
+  let commits = 0;
+  for (const year of years) {
+    const from = `${year}-01-01T00:00:00Z`;
+    const to = `${year + 1}-01-01T00:00:00Z`;
+    const res = await gql(
+      `query($from:DateTime!,$to:DateTime!){viewer{contributionsCollection(from:$from,to:$to){totalCommitContributions}}}`,
+      { from, to }
+    );
+    commits += res.data.viewer.contributionsCollection.totalCommitContributions;
+  }
+
+  console.log(`  All-time commits: ${commits}`);
+  return { commits };
+}
+
 // ── Google Scholar ──────────────────────────────────────
+// Google blocks datacenter IPs, so this direct scraper typically fails
+// in GitHub Actions. When SERPAPI_KEY is set, we use SerpAPI instead.
+// Previous-value preservation in main() ensures the last locally-fetched
+// Scholar data is retained when both methods fail.
 async function fetchScholar() {
-  console.log('Fetching Google Scholar...');
+  const serpApiKey = process.env.SERPAPI_KEY;
+
+  if (serpApiKey) {
+    console.log('Fetching Google Scholar (SerpAPI)...');
+    const url = `https://serpapi.com/search?engine=google_scholar_author&author_id=${PROFILES.scholar}&api_key=${serpApiKey}`;
+    const res = await fetch(url);
+    if (!res.ok) throw new Error(`SerpAPI ${res.status}`);
+    const data = await res.json();
+    const table = data.cited_by?.table;
+    if (!table) throw new Error('SerpAPI: cited_by.table not found');
+    const citations = table.find(r => r.citations)?.citations?.all ?? null;
+    const hIndex = table.find(r => r.h_index)?.h_index?.all ?? null;
+    const i10Index = table.find(r => r.i10_index)?.i10_index?.all ?? null;
+    console.log(`  Citations: ${citations}, h-index: ${hIndex}, i10-index: ${i10Index}`);
+    return { citations, hIndex, i10Index };
+  }
+
+  console.log('Fetching Google Scholar (direct scrape)...');
   const res = await fetch(
     `https://scholar.google.com/citations?user=${PROFILES.scholar}&hl=en`,
     {
@@ -74,7 +145,6 @@ async function fetchScholar() {
   const tableMatch = html.match(/<table id="gsc_rsb_st"[\s\S]*?<\/table>/);
   if (!tableMatch) throw new Error('Scholar stats table not found — may be rate-limited');
 
-  // Extract the "All" column values (first <td class="gsc_rsb_std"> in each row)
   const rows = [...tableMatch[0].matchAll(
     /<tr>[\s\S]*?<td class="gsc_rsb_std">(\d+)<\/td>/g
   )];
@@ -86,17 +156,43 @@ async function fetchScholar() {
 
 // ── Main ────────────────────────────────────────────────
 async function main() {
-  const [orcid, github, scholar] = await Promise.all([
+  // Load previous stats for fallback
+  let previous = {};
+  if (existsSync(OUTPUT)) {
+    try {
+      previous = JSON.parse(readFileSync(OUTPUT, 'utf-8'));
+    } catch {
+      console.warn('Could not parse existing stats.json, starting fresh');
+    }
+  }
+
+  const [orcid, githubRest, githubGql, scholar] = await Promise.all([
     fetchOrcid().catch(e => { console.error('  ORCID failed:', e.message); return null; }),
-    fetchGitHub().catch(e => { console.error('  GitHub failed:', e.message); return null; }),
+    fetchGitHub().catch(e => { console.error('  GitHub REST failed:', e.message); return null; }),
+    fetchGitHubGraphQL().catch(e => { console.error('  GitHub GraphQL failed:', e.message); return null; }),
     fetchScholar().catch(e => { console.error('  Scholar failed:', e.message); return null; })
   ]);
 
+  // Merge REST + GraphQL github stats
+  const prevGithub = previous.github ?? { repos: null, stars: null, commits: null };
+  const github = {
+    repos: githubRest?.repos ?? prevGithub.repos,
+    stars: githubRest?.stars ?? prevGithub.stars,
+    commits: githubGql?.commits ?? prevGithub.commits
+  };
+
   const stats = {
     profiles: PROFILES,
-    orcid: orcid ?? { works: null, reviews: null },
-    github: github ?? { repos: null, stars: null },
-    scholar: scholar ?? { citations: null, hIndex: null, i10Index: null },
+    orcid: orcid ?? previous.orcid ?? { works: null, reviews: null },
+    github,
+    scholar: scholar ?? previous.scholar ?? { citations: null, hIndex: null, i10Index: null },
+    // Edit these manually when they change
+    static: previous.static ?? {
+      fundingAwarded: null,
+      firstAuthorPapers: null,
+      menteesSupervised: null,
+      invitedTalks: null
+    },
     lastUpdated: new Date().toISOString()
   };
 

@@ -1,0 +1,38 @@
+name: Update Stats
+
+on:
+  schedule:
+    - cron: '0 0 1 * *'  # 1st of every month, midnight UTC
+  workflow_dispatch:      # allow manual trigger
+
+permissions:
+  contents: write
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      # Note: Scholar scraping typically fails from CI (datacenter IP).
+      # SerpAPI is the reliable path. Without SERPAPI_KEY, Scholar stats
+      # are preserved from the last successful run.
+      - run: node scripts/update-stats.js
+        env:
+          GH_USER_TOKEN: ${{ secrets.GH_PAT }}
+          SERPAPI_KEY: ${{ secrets.SERPAPI_KEY }}
+
+      - name: Validate stats JSON
+        run: node -e "const s=require('./data/stats.json');if(!s.profiles||!s.lastUpdated)process.exit(1)"
+
+      - name: Commit and push if changed
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/stats.json
+          git diff --cached --quiet || git commit -m "chore: update stats [automated]"
+          git push

@@ -41,3 +41,19 @@
   font-size: 0.75rem;
   color: var(--color-text-muted);
 }
+
+.stats-updated {
+  width: 100%;
+  text-align: right;
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+  margin-top: var(--space-sm);
+}
+
+.stats-error {
+  width: 100%;
+  text-align: center;
+  font-size: var(--font-size-sm);
+  color: var(--color-text-muted);
+  padding: var(--space-lg) 0;
+}
