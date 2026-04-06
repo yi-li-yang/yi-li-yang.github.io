@@ -60,7 +60,7 @@ async function fetchGitHub() {
   return { repos: user.public_repos, stars };
 }
 
-// ── GitHub GraphQL (all-time commits across orgs) ───────
+// ── GitHub GraphQL (repos, stars, commits across orgs) ──
 async function fetchGitHubGraphQL() {
   const token = process.env.GH_USER_TOKEN;
   if (!token) {
@@ -84,6 +84,35 @@ async function fetchGitHubGraphQL() {
     return json;
   };
 
+  // Fetch repos + stars for user and all orgs
+  const repoRes = await gql(`{
+    viewer {
+      repositories(ownerAffiliations: OWNER, first: 100) {
+        totalCount
+        nodes { stargazerCount }
+      }
+      organizations(first: 50) {
+        nodes {
+          repositories(first: 100) {
+            totalCount
+            nodes { stargazerCount }
+          }
+        }
+      }
+    }
+  }`);
+
+  const userRepos = repoRes.data.viewer.repositories;
+  let repos = userRepos.totalCount;
+  let stars = userRepos.nodes.reduce((s, r) => s + r.stargazerCount, 0);
+
+  for (const org of repoRes.data.viewer.organizations.nodes) {
+    repos += org.repositories.totalCount;
+    stars += org.repositories.nodes.reduce((s, r) => s + r.stargazerCount, 0);
+  }
+
+  console.log(`  Repos (incl. orgs): ${repos}, Stars (incl. orgs): ${stars}`);
+
   // Get contribution years
   const yearsRes = await gql(
     '{ viewer { contributionsCollection { contributionYears } } }'
@@ -103,7 +132,7 @@ async function fetchGitHubGraphQL() {
   }
 
   console.log(`  All-time commits: ${commits}`);
-  return { commits };
+  return { repos, stars, commits };
 }
 
 // ── Google Scholar ──────────────────────────────────────
@@ -174,10 +203,11 @@ async function main() {
   ]);
 
   // Merge REST + GraphQL github stats
+  // Prefer GraphQL values (include orgs) over REST (user-only) as fallback
   const prevGithub = previous.github ?? { repos: null, stars: null, commits: null };
   const github = {
-    repos: githubRest?.repos ?? prevGithub.repos,
-    stars: githubRest?.stars ?? prevGithub.stars,
+    repos: githubGql?.repos ?? githubRest?.repos ?? prevGithub.repos,
+    stars: githubGql?.stars ?? githubRest?.stars ?? prevGithub.stars,
     commits: githubGql?.commits ?? prevGithub.commits
   };
 
