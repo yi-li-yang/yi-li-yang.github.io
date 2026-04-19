@@ -2,47 +2,64 @@
   /* Colors */
   --color-bg: #ffffff;
   --color-surface: #f5f5f5;
-  --color-text: #1a1a1a;
-  --color-text-muted: #6b6b6b;
-  --color-primary: #2563eb;
-  --color-primary-hover: #1d4ed8;
-  --color-accent: #f59e0b;
+  --color-surface-alt: #f6f6f6;
+  --color-warm-surface: rgba(245, 242, 239, 0.8);
+  --color-text: #000000;
+  --color-text-muted: #4e4e4e;
+  --color-text-muted-strong: #777169;
+  --color-primary: #000000;
+  --color-primary-soft: #111111;
   --color-border: #e5e5e5;
+  --color-shadow-warm: rgba(78, 50, 23, 0.04);
+  --color-shadow-soft: rgba(0, 0, 0, 0.04);
+  --color-shadow-outline: rgba(0, 0, 0, 0.06);
 
   /* Typography */
-  --font-body: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
-  --font-heading: var(--font-body);
-  --font-mono: 'Fira Code', ui-monospace, monospace;
+  --font-body: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-heading: 'Waldenburg', 'Waldenburg Fallback', var(--font-body);
+  --font-heading-bold: 'WaldenburgFH', 'WaldenburgFH Fallback', var(--font-body);
+  --font-mono: 'Geist Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  --font-size-xs: 0.75rem;
   --font-size-sm: 0.875rem;
   --font-size-base: 1rem;
+  --font-size-md: 1.125rem;
   --font-size-lg: 1.25rem;
   --font-size-xl: 1.5rem;
   --font-size-2xl: 2rem;
   --font-size-3xl: 3rem;
+  --font-size-4xl: 4rem;
 
   /* Spacing */
-  --space-xs: 0.25rem;
-  --space-sm: 0.5rem;
-  --space-md: 1rem;
+  --space-xxs: 0.25rem;
+  --space-xs: 0.5rem;
+  --space-sm: 0.75rem;
+  --space-md: 1.25rem;
   --space-lg: 2rem;
-  --space-xl: 4rem;
+  --space-xl: 3rem;
+  --space-xxl: 4.5rem;
 
   /* Layout */
-  --max-width: 960px;
+  --max-width: 1180px;
+
+  /* Border radius */
+  --radius-sm: 8px;
+  --radius-md: 16px;
+  --radius-lg: 24px;
+  --radius-pill: 9999px;
 
   /* Transitions */
-  --transition: 200ms ease;
+  --transition: 180ms ease;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
     --color-bg: #111111;
     --color-surface: #1e1e1e;
+    --color-surface-alt: #232323;
     --color-text: #e5e5e5;
     --color-text-muted: #a3a3a3;
-    --color-primary: #60a5fa;
-    --color-primary-hover: #93bbfd;
-    --color-accent: #fbbf24;
-    --color-border: #333333;
+    --color-text-muted-strong: #c7c7c7;
+    --color-primary: #ffffff;
+    --color-border: #2b2b2b;
   }
 }

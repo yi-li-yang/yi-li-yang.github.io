@@ -84,34 +84,34 @@ async function fetchGitHubGraphQL() {
     return json;
   };
 
-  // Fetch repos + stars for user and all orgs
-  const repoRes = await gql(`{
-    viewer {
-      repositories(ownerAffiliations: OWNER, first: 100) {
-        totalCount
-        nodes { stargazerCount }
-      }
-      organizations(first: 50) {
-        nodes {
-          repositories(first: 100) {
+  // Fetch repos + stars only for repositories the viewer has contributed to.
+  // This includes personal and organization repos where the user has commit/pull request/etc. activity.
+  let repos = 0;
+  let stars = 0;
+  let after = null;
+
+  while (true) {
+    const repoRes = await gql(
+      `query($after:String){
+        viewer {
+          repositoriesContributedTo(first: 100, after: $after, includeUserRepositories: true) {
             totalCount
+            pageInfo { hasNextPage endCursor }
             nodes { stargazerCount }
           }
         }
-      }
-    }
-  }`);
+      }`,
+      { after }
+    );
 
-  const userRepos = repoRes.data.viewer.repositories;
-  let repos = userRepos.totalCount;
-  let stars = userRepos.nodes.reduce((s, r) => s + r.stargazerCount, 0);
-
-  for (const org of repoRes.data.viewer.organizations.nodes) {
-    repos += org.repositories.totalCount;
-    stars += org.repositories.nodes.reduce((s, r) => s + r.stargazerCount, 0);
+    const connection = repoRes.data.viewer.repositoriesContributedTo;
+    repos = connection.totalCount;
+    stars += connection.nodes.reduce((s, r) => s + r.stargazerCount, 0);
+    if (!connection.pageInfo.hasNextPage) break;
+    after = connection.pageInfo.endCursor;
   }
 
-  console.log(`  Repos (incl. orgs): ${repos}, Stars (incl. orgs): ${stars}`);
+  console.log(`  Repos contributed to: ${repos}, Stars on contributed repos: ${stars}`);
 
   // Get contribution years
   const yearsRes = await gql(
