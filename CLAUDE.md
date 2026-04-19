@@ -6,11 +6,11 @@ Personal portfolio site for Yili Yang.
 
 `scripts/update-stats.js` fetches metrics from ORCID, GitHub, and Google Scholar, writing to `data/stats.json`. Runs monthly via `.github/workflows/update-stats.yml`.
 
-- **GitHub REST** — repos + stars (user-owned only, fallback when no token)
-- **GitHub GraphQL** — repos + stars (including org repos), all-time commits across orgs. Requires `GH_USER_TOKEN`.
-- **ORCID** — publications and peer reviews
+- **GitHub REST** — owned non-fork repo count + approximate language distribution by primary-language field (fallback when no token)
+- **GitHub GraphQL** — owned repo count, all-repo language bytes aggregated globally into a donut chart, all-time commits. Requires `GH_USER_TOKEN`.
+- **ORCID** — publications (works count) and peer reviews (individual review count, not journal group count)
 - **Scholar** — citations, h-index, i10-index via SerpAPI (env `SERPAPI_KEY`) or direct scrape fallback
-- **Static metrics** — manually edited in `data/stats.json` under `static` (funding, first-author papers, mentees, invited talks)
+- **Static metrics** — manually edited in `data/stats.json` under `static` (funding, mentees, invited talks)
 
 Previous values are preserved when any source fails.
 
@@ -59,54 +59,61 @@ This repository contains the personal and professional portfolio for Yili Yang, 
 ## Design
 Use design.md for all front end design.
 
+Accessibility & Contrast: Always explicitly define both background and text colors for every container. Do not rely on inherited global text colors. If building a Dark Mode theme, ensure all surfaces use dark backgrounds (bg-gray-900, bg-black) with light text (text-white, text-gray-200). Do not mix light containers into a dark theme unless explicitly requested.
+
+for all logo clouds: apply a monochrome or greyscale filter (grayscale opacity-70 hover:opacity-100 hover:grayscale-0 transition-all in Tailwind， so it blend in the dark background. download latest logo images automatically.
+
 # content components
-1. The Hero Section (The 5-Second Hook)
-This needs to instantly communicate your value proposition without making the user scroll.
+## navigation bar link to the following sections
 
-Headline: Something impactful, e.g., "Yili Yang, PhD | AI & Machine Learning for Complex Global Systems."
+## The Hero Section
+- *pre-headline*: Geoscientist, Applied Full-stack Geospatial Data Scientist
 
-Sub-headline: A brief 1-2 sentence summary of your expertise (e.g., "Developing state-of-the-art multimodal deep learning models to process geospatial data and accelerate scientific discovery.")
+- *Headline*: impactful career summary, e.g., "Yili Yang | AI & Machine Learning for Complex Global Systems."
 
-Call-to-Action (CTA) Buttons: Primary button: "View Resume" (links to your PDF). Secondary button: "Contact Me" or "GitHub."
+- *Sub-headline*: summary keywords Pill Tags, in two columns, data science left, geoscience right, a crossover mark in the middle:
 
-Visual: A highly polished abstract geospatial graphic, or simply clean, bold typography if you chose a minimalist design system like Linear.
+left: Geoscience, PhD in Petrophysics, X-ray synchrotron µCT imaging, Remote Sensing, Geospatial Information Science, Digital Rocks, Scientific Image Processing
 
-2. The "Flagship Showcase" Block (The Interactive "Wow" Factor)
-Instead of a standard project grid, dedicate a full-width block to your absolute best visual work. This proves you are a full-stack data scientist.
+right: Machine learning, Deep Learning, Computer Vision, AI for Geoscience, Geospatial Data Science, time-series modelling
 
-Interactive Map / Slider: Use this space for the react-compare-slider or react-map-gl component we discussed. Show the raw satellite imagery of the Retrogressive Thaw Slumps on one side, and your model's segmentation on the other.
+Visual: A highly polished abstract geospatial graphic, or simply clean, bold typography if chose a minimalist design system like Linear.
 
-Metrics: Overlay brief, punchy stats next to the visual (e.g., "94% Accuracy", "Pan-Arctic Scale", "Processed 5TB+ Data").
+## The "Flagship Showcase" Block (The Interactive "Wow" Factor)
+Showcase project grid, leave blank for now， full width under the hero section
 
-3. Selected Projects & Datasets Grid
-A clean, 2-or-3-column grid of cards highlighting your other major achievements. Do not list everything; curate the top 3–4.
+------
 
-Example Cards: The ARTS Dataset, the Wildfire Mapping CNN, and the Multi-domain Timeseries Forecasting framework.
+## Skills (showcase my skills)
 
-Content per Card: Project title, a 2-sentence description, the tech stack used (e.g., "PyTorch, Vision Transformers, Sentinel-2"), and a link to the GitHub repo or publication.
+*Concepts (Pill Tags)*: Split them logically Use clean "pill" shaped tags.
 
-4. Experience & Education Timeline
-A sleek, vertical timeline component (very common and beautiful in Vercel/Linear design systems).
+"AI" (Semantic Segmentation, Transfer Learning, Object Detection, Vision Transformer, CNN, Vision Foundation Models, Geo Foundation Models, Time-series modelling, ),
 
-Keep the descriptions brief. Focus on impact rather than tasks, just like we discussed for your CV.
+"Engineering" (Agentic Coding, Harness Engineering, Claude Skills, Prompt/Context Engineering, GitHub Action). 
 
-Combine Woodwell, Faculty.ai, and your PhD research here.
+*Working Platforms (logo clouds)*: Claude code, VSCode, Git, GitHub, Google Colab, JupyterNotebook, Google Cloud Platform, Overleaf, Google Earth Engine, ArcGIS, Qgis， Pytorch, Docker, Linux
 
-5. Live Publications & Research Feed
-Since you have a script that automatically fetches data and writes to /data/publications.md, this section should just read that file and render it beautifully.
+- *total coding language pie chart*: access all github repos that I contributed to, calculate the percentage of all languages that i used, make a interactive pie chart to show.
 
-Layout: A minimalist list (not cards) of your journal papers and conferences.
+- *github stats* total contributions, repositories i contributed/owned
 
-Tags: Add small UI badges for "Journal," "Conference," or "Dataset."
+## Thoughts (showcase my ideas and projects)
+Example Cards to showcase: see show_repo.json
 
-Links: Provide direct DOI or PDF links.
+Content per Card: github repos,each with a link, a description, and a thumbnail image or gif
 
-6. Tech Stack & Domains (Logo Cloud or Pill Tags)
-A scannable section that hiring managers can use to check off their mental boxes.
+## Live stats (academic, no github)
+publications(union but deduplicated):
+google scholar stats
+ORCID stats
 
-Categories: Split them logically into "Machine Learning" (Deep Learning, Vision Transformers), "Geospatial" (QGIS, GEE, Remote Sensing), and "Engineering" (Python, Next.js, Docker). Use clean "pill" shaped tags.
-
-7. Minimalist Footer
+## Minimalist Footer
 Links to GitHub, LinkedIn, Google Scholar, ORCID, and a mailto: link for your email.
 
-"Last updated [Date]" (This shows the site is actively maintained).
+## logo cloud
+University of Edinburgh, Faculty.ai, Woodwell. 
+
+
+## timestamp*
+Last updated [Date]

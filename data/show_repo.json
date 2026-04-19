@@ -1,0 +1,22 @@
+[
+  {
+    "description": "Automated mapping of pan-Arctic abrupt thaw landscapes using deep learning and remote sensing imagery.",
+    "url": "https://github.com/whrc/RTSmapping_v2",
+    "image": "/assets/thoughts/rtsmapping-v2.jpg"
+  },
+  {
+    "description": "Arctic Retrogressive Thaw Slumps Data Set",
+    "url": "https://github.com/whrc/ARTS",
+    "image": "https://github.com/whrc/ARTS/blob/main/img/Yang_et_al_ARTS_points_Sept_2025_RTS_V6.0.0.jpg"
+  },
+  {
+    "description": "Interactive Geospatial Labeling Tool for Remote Sensing Imagery using the Segment Anything Model (SAM).",
+    "url": "https://github.com/whrc/interactive-sam2",
+    "image": null
+  },
+  {
+    "description": "Interactive Geospatial Labeling Tool for Remote Sensing Imagery using the Segment Anything Model (SAM).",
+    "url": "https://github.com/whrc/interactive-sam2",
+    "image": null
+  }
+]

@@ -1,3 +1,4 @@
+
 export async function initStats() {
   const container = document.getElementById('stats');
   if (!container) return;
@@ -5,37 +6,32 @@ export async function initStats() {
   try {
     const res = await fetch('data/stats.json');
     if (!res.ok) throw new Error(`Stats fetch: ${res.status}`);
-    const { profiles, orcid, github, scholar, static: manual, lastUpdated } = await res.json();
+    const { profiles, publications, orcid, scholar, static: hand, lastUpdated } =
+      await res.json();
 
     const scholarLink = `https://scholar.google.com/citations?user=${profiles.scholar}`;
-    const githubLink = `https://github.com/${profiles.github}`;
-    const orcidLink = `https://orcid.org/${profiles.orcid}`;
+    const orcidLink   = `https://orcid.org/${profiles.orcid}`;
+
+    const pubCount = publications?.count ?? orcid?.works ?? null;
 
     const items = [
-      { value: orcid.works, label: 'Publications', source: 'ORCID', link: orcidLink },
-      { value: scholar.citations, label: 'Citations', source: 'Scholar', link: scholarLink },
-      { value: scholar.hIndex, label: 'h-index', source: 'Scholar', link: scholarLink },
-      { value: scholar.i10Index, label: 'i10-index', source: 'Scholar', link: scholarLink },
-      { value: github.repos, label: 'Repositories', source: 'GitHub', link: githubLink },
-      { value: github.stars, label: 'Stars', source: 'GitHub', link: githubLink },
-      { value: github.commits, label: 'Commits', source: 'GitHub', link: githubLink },
-      { value: orcid.reviews, label: 'Peer Reviews', source: 'ORCID', link: orcidLink },
+      { value: pubCount,           label: 'Publications', source: 'ORCID',  link: orcidLink },
+      { value: scholar?.citations, label: 'Citations',    source: 'Scholar', link: scholarLink },
+      { value: scholar?.hIndex,    label: 'h-index',      source: 'Scholar', link: scholarLink },
+      { value: scholar?.i10Index,  label: 'i10-index',    source: 'Scholar', link: scholarLink },
+      { value: orcid?.reviews,     label: 'Peer Reviews', source: 'ORCID',   link: orcidLink },
     ];
 
-    // Static hand-maintained metrics
-    if (manual) {
-      if (manual.fundingAwarded) {
-        const f = manual.fundingAwarded;
-        items.push({ value: f.display ?? f.value, label: f.label ?? 'Funding', source: 'Manual' });
+    if (hand) {
+      if (hand.fundingAwarded) {
+        const f = hand.fundingAwarded;
+        items.push({ value: f.display ?? f.value, label: f.label ?? 'Funding' });
       }
-      if (manual.firstAuthorPapers != null) {
-        items.push({ value: manual.firstAuthorPapers, label: 'First-Author Papers', source: 'Manual' });
+      if (hand.menteesSupervised != null) {
+        items.push({ value: hand.menteesSupervised, label: 'Mentees' });
       }
-      if (manual.menteesSupervised != null) {
-        items.push({ value: manual.menteesSupervised, label: 'Mentees', source: 'Manual' });
-      }
-      if (manual.invitedTalks != null) {
-        items.push({ value: manual.invitedTalks, label: 'Invited Talks', source: 'Manual' });
+      if (hand.invitedTalks != null) {
+        items.push({ value: hand.invitedTalks, label: 'Invited Talks' });
       }
     }
 
@@ -51,19 +47,24 @@ export async function initStats() {
       card.innerHTML = `
         <span class="stat-value">${item.value}</span>
         <span class="stat-label">${item.label}</span>
-        <span class="stat-source">${item.source}</span>
+        ${item.source ? `<span class="stat-source">${item.source}</span>` : ''}
       `;
       container.appendChild(card);
     }
 
     if (lastUpdated) {
+      const date = new Date(lastUpdated);
+      const formatted = date.toLocaleDateString('en-GB', {
+        day: 'numeric', month: 'long', year: 'numeric'
+      });
+
       const footer = document.createElement('p');
       footer.className = 'stats-updated';
-      const date = new Date(lastUpdated);
-      footer.textContent = `Last updated: ${date.toLocaleDateString('en-GB', {
-        day: 'numeric', month: 'long', year: 'numeric'
-      })}`;
+      footer.textContent = `Last updated: ${formatted}`;
       container.appendChild(footer);
+
+      const footerUpdated = document.getElementById('footer-updated');
+      if (footerUpdated) footerUpdated.textContent = formatted;
     }
   } catch (err) {
     console.error('Failed to load stats:', err);

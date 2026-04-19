@@ -1,65 +1,71 @@
 :root {
-  /* Colors */
-  --color-bg: #ffffff;
-  --color-surface: #f5f5f5;
-  --color-surface-alt: #f6f6f6;
-  --color-warm-surface: rgba(245, 242, 239, 0.8);
-  --color-text: #000000;
-  --color-text-muted: #4e4e4e;
-  --color-text-muted-strong: #777169;
-  --color-primary: #000000;
-  --color-primary-soft: #111111;
-  --color-border: #e5e5e5;
-  --color-shadow-warm: rgba(78, 50, 23, 0.04);
-  --color-shadow-soft: rgba(0, 0, 0, 0.04);
-  --color-shadow-outline: rgba(0, 0, 0, 0.06);
+  /* === Background Surfaces === */
+  --color-bg:             #08090a;
+  --color-bg-panel:       #0f1011;
+  --color-surface:        #191a1b;
+  --color-surface-alt:    #28282c;
 
-  /* Typography */
-  --font-body: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  --font-heading: 'Waldenburg', 'Waldenburg Fallback', var(--font-body);
-  --font-heading-bold: 'WaldenburgFH', 'WaldenburgFH Fallback', var(--font-body);
-  --font-mono: 'Geist Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-  --font-size-xs: 0.75rem;
-  --font-size-sm: 0.875rem;
-  --font-size-base: 1rem;
-  --font-size-md: 1.125rem;
-  --font-size-lg: 1.25rem;
-  --font-size-xl: 1.5rem;
-  --font-size-2xl: 2rem;
-  --font-size-3xl: 3rem;
-  --font-size-4xl: 4rem;
+  /* === Text === */
+  --color-text:           #f7f8f8;
+  --color-text-secondary: #d0d6e0;
+  --color-text-muted:     #8a8f98;
+  --color-text-subtle:    #62666d;
 
-  /* Spacing */
-  --space-xxs: 0.25rem;
-  --space-xs: 0.5rem;
-  --space-sm: 0.75rem;
-  --space-md: 1.25rem;
-  --space-lg: 2rem;
-  --space-xl: 3rem;
-  --space-xxl: 4.5rem;
+  /* === Brand & Accent === */
+  --color-brand:          #5e6ad2;
+  --color-accent:         #7170ff;
+  --color-accent-hover:   #828fff;
 
-  /* Layout */
-  --max-width: 1180px;
+  /* === Status === */
+  --color-success:        #10b981;
 
-  /* Border radius */
-  --radius-sm: 8px;
-  --radius-md: 16px;
-  --radius-lg: 24px;
-  --radius-pill: 9999px;
+  /* === Borders === */
+  --color-border:         rgba(255, 255, 255, 0.08);
+  --color-border-subtle:  rgba(255, 255, 255, 0.05);
+  --color-border-solid:   #23252a;
 
-  /* Transitions */
-  --transition: 180ms ease;
-}
+  /* === Typography === */
+  --font-body: 'Inter Variable', 'Inter', 'SF Pro Display', -apple-system, system-ui,
+    'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  --font-mono: 'Berkeley Mono', ui-monospace, 'SF Mono', Menlo, Monaco, Consolas, monospace;
+  --font-features: 'cv01', 'ss03';
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --color-bg: #111111;
-    --color-surface: #1e1e1e;
-    --color-surface-alt: #232323;
-    --color-text: #e5e5e5;
-    --color-text-muted: #a3a3a3;
-    --color-text-muted-strong: #c7c7c7;
-    --color-primary: #ffffff;
-    --color-border: #2b2b2b;
-  }
+  /* Font sizes */
+  --font-size-xs:   0.75rem;    /* 12px */
+  --font-size-sm:   0.8125rem;  /* 13px */
+  --font-size-base: 1rem;       /* 16px */
+  --font-size-md:   1.0625rem;  /* 17px */
+  --font-size-lg:   1.125rem;   /* 18px */
+  --font-size-xl:   1.25rem;    /* 20px */
+  --font-size-2xl:  1.5rem;     /* 24px */
+  --font-size-3xl:  2rem;       /* 32px */
+  --font-size-4xl:  3rem;       /* 48px */
+  --font-size-5xl:  4rem;       /* 64px */
+  --font-size-6xl:  4.5rem;     /* 72px */
+
+  /* === Spacing (8px base) === */
+  --space-xxs: 0.25rem;   /* 4px */
+  --space-xs:  0.5rem;    /* 8px */
+  --space-sm:  0.75rem;   /* 12px */
+  --space-md:  1rem;      /* 16px */
+  --space-lg:  1.5rem;    /* 24px */
+  --space-xl:  2rem;      /* 32px */
+  --space-xxl: 3rem;      /* 48px */
+  --space-3xl: 5rem;      /* 80px */
+
+  /* === Layout === */
+  --max-width: 1200px;
+
+  /* === Border Radius === */
+  --radius-micro:  2px;
+  --radius-xs:     4px;
+  --radius-sm:     6px;
+  --radius-md:     8px;
+  --radius-lg:     12px;
+  --radius-xl:     22px;
+  --radius-pill:   9999px;
+  --radius-circle: 50%;
+
+  /* === Transitions === */
+  --transition: 150ms ease;
 }

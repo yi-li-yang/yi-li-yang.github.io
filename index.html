@@ -3,7 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Yili Yang | Geospatial AI & Climate Science</title>
+  <title>Yili Yang | Geospatial AI &amp; Climate Science</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/variables.css">
   <link rel="stylesheet" href="css/base.css">
   <link rel="stylesheet" href="css/components.css">
@@ -14,156 +17,223 @@
       <div class="container header-inner">
         <a class="brand" href="#">Yili Yang</a>
         <nav class="site-nav" id="site-nav">
-          <a href="#work">Featured</a>
-          <a href="#experience">Experience</a>
-          <a href="#publications">Publications</a>
-          <a href="#tech">Tech</a>
+          <a href="#showcase">Featured</a>
+          <a href="#skills">Skills</a>
+          <a href="#thoughts">Thoughts</a>
+          <a href="#stats-panel">Stats</a>
         </nav>
         <div class="header-actions">
           <a class="btn btn-secondary" href="https://github.com/yi-li-yang" target="_blank" rel="noopener noreferrer">GitHub</a>
-          <a class="btn btn-primary" href="#contact">Contact</a>
+          <a class="btn btn-primary" href="assets/cv.pdf" target="_blank" rel="noopener noreferrer">Resume</a>
         </div>
         <button class="btn btn-secondary nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav">Menu</button>
       </div>
     </header>
 
-    <main class="container">
-      <section class="section hero">
-        <div class="hero-copy">
-          <p class="hero-eyebrow">Geospatial AI for complex Earth systems</p>
-          <h1 class="hero-title">Yili Yang, PhD | AI & Machine Learning for Complex Global Systems.</h1>
-          <p>Developing state-of-the-art multimodal models to process geospatial data, quantify environmental change, and accelerate scientific discovery.</p>
-          <div class="hero-actions">
-            <a class="btn btn-primary" href="#work">View Resume</a>
-            <a class="btn btn-secondary" href="#contact">Contact Me</a>
+    <main>
+
+      <!-- ── Hero ───────────────────────────────── -->
+      <section class="section hero" id="hero">
+        <div class="container">
+          <div class="hero-inner">
+            <div class="hero-copy">
+              <p class="hero-eyebrow">Geoscientist &middot; Applied Full-stack Geospatial Data Scientist</p>
+              <h1 class="hero-title">Yili Yang | AI &amp; Machine Learning for Complex Global Systems.</h1>
+              <div class="hero-actions">
+                <a class="btn btn-primary" href="assets/cv.pdf" target="_blank" rel="noopener noreferrer">View Resume</a>
+                <a class="btn btn-secondary" href="#contact">Contact Me</a>
+              </div>
+            </div>
+
+            <div class="hero-pills-panel" aria-label="Expertise domains">
+              <div class="hero-pills-grid">
+                <div class="hero-pills-column">
+                  <p class="pills-column-label">Geoscience</p>
+                  <div class="pill-cluster">
+                    <span class="pill-tag">PhD in Petrophysics</span>
+                    <span class="pill-tag">X-ray Synchrotron &micro;CT</span>
+                    <span class="pill-tag">Remote Sensing</span>
+                    <span class="pill-tag">Geospatial Info Science</span>
+                    <span class="pill-tag">Digital Rocks</span>
+                    <span class="pill-tag">Scientific Image Processing</span>
+                  </div>
+                </div>
+                <div class="hero-pills-divider" aria-hidden="true">
+                  <span class="crossover-mark">&times;</span>
+                </div>
+                <div class="hero-pills-column">
+                  <p class="pills-column-label">Data Science</p>
+                  <div class="pill-cluster">
+                    <span class="pill-tag">Machine Learning</span>
+                    <span class="pill-tag">Deep Learning</span>
+                    <span class="pill-tag">Computer Vision</span>
+                    <span class="pill-tag">AI for Geoscience</span>
+                    <span class="pill-tag">Geospatial Data Science</span>
+                    <span class="pill-tag">Time-series Modelling</span>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
-
-        <section class="hero-visual" aria-label="Featured project and model showcase">
-          <div class="hero-visual-content">
-            <div class="visual-header">
-              <span>Flagship showcase</span>
-              <span>Pan-Arctic geospatial mapping</span>
-            </div>
-            <div class="visual-frame"></div>
-            <div class="showcase-metrics">
-              <span class="showcase-metric">94% accuracy</span>
-              <span class="showcase-metric">5TB imagery processed</span>
-              <span class="showcase-metric">Cross-domain segmentation</span>
-            </div>
-          </div>
-        </section>
       </section>
 
+      <!-- ── Flagship Showcase (placeholder) ───── -->
+      <section class="showcase-block" id="showcase">
+        <div class="showcase-inner">
+          <p class="showcase-label">Flagship Showcase &middot; Coming Soon</p>
+        </div>
+      </section>
+
+      <!-- ── Skills ─────────────────────────────── -->
+      <section class="section" id="skills">
+        <div class="container">
+          <div class="section-heading">Skills</div>
+
+          <!-- Concept Pill Tags -->
+          <div class="skills-concepts">
+            <div>
+              <h3>AI</h3>
+              <div class="tech-pill">
+                <span>Semantic Segmentation</span>
+                <span>Transfer Learning</span>
+                <span>Object Detection</span>
+                <span>Vision Transformer</span>
+                <span>CNN</span>
+                <span>Vision Foundation Models</span>
+                <span>Geo Foundation Models</span>
+                <span>Time-series Modelling</span>
+              </div>
+            </div>
+            <div>
+              <h3>Engineering</h3>
+              <div class="tech-pill">
+                <span>Agentic Coding</span>
+                <span>Harness Engineering</span>
+                <span>Claude Skills</span>
+                <span>Prompt &amp; Context Engineering</span>
+                <span>GitHub Actions</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Working Platforms Logo Cloud -->
+          <div class="skills-platforms-section">
+            <p class="skills-subsection-label">Working Platforms</p>
+            <div class="platforms-cloud">
+              <div class="platform-item">
+                <img src="https://cdn.simpleicons.org/anthropic" alt="Claude Code" class="platform-logo">
+                <span class="platform-name">Claude Code</span>
+              </div>
+              <div class="platform-item">
+                <img src="https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/visualstudiocode.svg" alt="VS Code" class="platform-logo">
+                <span class="platform-name">VS Code</span>
+              </div>
+              <div class="platform-item">
+                <img src="https://cdn.simpleicons.org/git" alt="Git" class="platform-logo">
+                <span class="platform-name">Git</span>
+              </div>
+              <div class="platform-item">
+                <img src="https://cdn.simpleicons.org/github" alt="GitHub" class="platform-logo">
+                <span class="platform-name">GitHub</span>
+              </div>
+              <div class="platform-item">
+                <img src="https://cdn.simpleicons.org/googlecolab" alt="Google Colab" class="platform-logo">
+                <span class="platform-name">Google Colab</span>
+              </div>
+              <div class="platform-item">
+                <img src="https://cdn.simpleicons.org/jupyter" alt="Jupyter Notebook" class="platform-logo">
+                <span class="platform-name">Jupyter</span>
+              </div>
+              <div class="platform-item">
+                <img src="https://cdn.simpleicons.org/googlecloud" alt="Google Cloud Platform" class="platform-logo">
+                <span class="platform-name">GCP</span>
+              </div>
+              <div class="platform-item">
+                <img src="https://cdn.simpleicons.org/overleaf" alt="Overleaf" class="platform-logo">
+                <span class="platform-name">Overleaf</span>
+              </div>
+              <div class="platform-item">
+                <img src="https://cdn.simpleicons.org/googleearth" alt="Google Earth Engine" class="platform-logo">
+                <span class="platform-name">Google Earth Engine</span>
+              </div>
+              <div class="platform-item">
+                <img src="https://cdn.simpleicons.org/esri" alt="ArcGIS" class="platform-logo">
+                <span class="platform-name">ArcGIS</span>
+              </div>
+              <div class="platform-item">
+                <img src="https://cdn.simpleicons.org/qgis" alt="QGIS" class="platform-logo">
+                <span class="platform-name">QGIS</span>
+              </div>
+              <div class="platform-item">
+                <img src="https://cdn.simpleicons.org/pytorch" alt="PyTorch" class="platform-logo">
+                <span class="platform-name">PyTorch</span>
+              </div>
+              <div class="platform-item">
+                <img src="https://cdn.simpleicons.org/docker" alt="Docker" class="platform-logo">
+                <span class="platform-name">Docker</span>
+              </div>
+              <div class="platform-item">
+                <img src="https://cdn.simpleicons.org/linux" alt="Linux" class="platform-logo">
+                <span class="platform-name">Linux</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- GitHub Stats + Interactive Language Chart (rendered by JS) -->
+          <div class="skills-github-section">
+            <div id="github-stats" class="github-stats-grid"></div>
+            <div id="lang-chart-skills"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ── Thoughts ────────────────────────────── -->
+      <section class="section" id="thoughts">
+        <div class="container">
+          <div class="section-heading">Thoughts &amp; projects</div>
+          <div class="thoughts-grid" id="thoughts-grid"></div>
+        </div>
+      </section>
+
+      <!-- ── Live Stats ─────────────────────────── -->
       <section class="section" id="stats-panel">
-        <div class="section-heading">Live research & engineering metrics</div>
-        <div id="stats"></div>
-      </section>
-
-      <section class="section" id="work">
-        <div class="section-heading">Selected projects & datasets</div>
-        <div class="feature-grid">
-          <article class="feature-card">
-            <span class="badge">Dataset</span>
-            <h3>ARTS Dataset</h3>
-            <p>Curated Arctic Remote Thaw Slump imagery and segmentation labels for reproducible geospatial model development.</p>
-          </article>
-          <article class="feature-card">
-            <span class="badge">Model</span>
-            <h3>Wildfire Mapping CNN</h3>
-            <p>High-resolution wildfire detection using multispectral remote sensing and end-to-end convolutional U-Net architectures.</p>
-          </article>
-          <article class="feature-card">
-            <span class="badge">Forecasting</span>
-            <h3>Multimodal Time Series Framework</h3>
-            <p>Architecture for integrating satellite, climate records, and sensor data into robust environmental forecasting workflows.</p>
-          </article>
+        <div class="container">
+          <div class="section-heading">Live academic metrics</div>
+          <div id="stats"></div>
         </div>
       </section>
 
-      <section class="section" id="experience">
-        <div class="section-heading">Experience & education</div>
-        <div class="timeline">
-          <article class="timeline-item">
-            <time>2024 – Present</time>
-            <h3>Research Scientist, Woodwell Research Center</h3>
-            <p>Building scalable geospatial ML pipelines for Arctic thaw slump detection and climate impact analysis.</p>
-          </article>
-          <article class="timeline-item">
-            <time>2022 – 2024</time>
-            <h3>Research Engineer, Faculty.ai</h3>
-            <p>Developed multimodal scientific discovery tooling and model evaluation infrastructure for research teams.</p>
-          </article>
-          <article class="timeline-item">
-            <time>2018 – 2022</time>
-            <h3>PhD in Environmental Science & ML</h3>
-            <p>Research focused on geospatial AI for complex Earth systems and remote sensing of environmental change.</p>
-          </article>
-        </div>
-      </section>
-
-      <section class="section" id="publications">
-        <div class="section-heading">Live publications & research feed</div>
-        <div class="publications-grid">
-          <article class="publication-card">
-            <h3>Live publication feed</h3>
-            <div class="publication-meta">
-              <span>Journal / Conference</span>
-              <span>DOI · PDF</span>
-            </div>
-            <p>This section is designed to render the latest publications automatically from your research data source.</p>
-          </article>
-          <article class="publication-card">
-            <h3>Data-driven environmental science</h3>
-            <div class="publication-meta">
-              <span>Dataset</span>
-              <span>ORCID / Scholar</span>
-            </div>
-            <p>Keep the publications feed live by connecting your `data/publications.md` file to this view.</p>
-          </article>
-        </div>
-      </section>
-
-      <section class="section" id="tech">
-        <div class="section-heading">Tech stack & domains</div>
-        <div class="tech-grid">
-          <div>
-            <h3>Machine Learning</h3>
-            <div class="tech-pill">
-              <span>PyTorch</span>
-              <span>Vision Transformers</span>
-              <span>Deep Learning</span>
-            </div>
-          </div>
-          <div>
-            <h3>Geospatial</h3>
-            <div class="tech-pill">
-              <span>Remote Sensing</span>
-              <span>Sentinel-2</span>
-              <span>GIS / GEE</span>
-            </div>
-          </div>
-          <div>
-            <h3>Engineering</h3>
-            <div class="tech-pill">
-              <span>Python</span>
-              <span>Next.js</span>
-              <span>Docker</span>
-            </div>
-          </div>
-        </div>
-      </section>
     </main>
+
+    <!-- ── Logo Cloud ─────────────────────────────── -->
+    <section class="logo-cloud">
+      <div class="container">
+        <p class="logo-cloud-label">Experience</p>
+        <div class="logo-cloud-items">
+          <a class="logo-item" href="https://www.ed.ac.uk" target="_blank" rel="noopener noreferrer" aria-label="University of Edinburgh">
+            <img src="https://logo.clearbit.com/ed.ac.uk" alt="University of Edinburgh" class="logo-img">
+          </a>
+          <a class="logo-item" href="https://faculty.ai" target="_blank" rel="noopener noreferrer" aria-label="Faculty.ai">
+            <img src="https://logo.clearbit.com/faculty.ai" alt="Faculty.ai" class="logo-img">
+          </a>
+          <a class="logo-item" href="https://www.woodwellclimate.org" target="_blank" rel="noopener noreferrer" aria-label="Woodwell Climate Research Center">
+            <img src="https://logo.clearbit.com/woodwellclimate.org" alt="Woodwell Climate Research Center" class="logo-img">
+          </a>
+        </div>
+        <p class="logo-cloud-updated">Last updated <span id="footer-updated">&mdash;</span></p>
+      </div>
+    </section>
 
     <footer class="site-footer">
       <div class="container site-footer-inner">
-        <p>Yili Yang · Geospatial AI & climate science.</p>
+        <p>Yili Yang &middot; Geospatial AI &amp; climate science.</p>
         <div class="footer-links" id="contact">
           <a href="https://github.com/yi-li-yang" target="_blank" rel="noopener noreferrer">GitHub</a>
           <a href="https://www.linkedin.com/in/yiliyang" target="_blank" rel="noopener noreferrer">LinkedIn</a>
           <a href="https://scholar.google.com/citations?user=8I00DowAAAAJ" target="_blank" rel="noopener noreferrer">Google Scholar</a>
           <a href="https://orcid.org/0000-0002-1791-3899" target="_blank" rel="noopener noreferrer">ORCID</a>
-          <a href="mailto:hi@yi-li-yang.com">Email</a>
+          <a href="mailto:yyl.eli@gmail.com">Email</a>
         </div>
       </div>
     </footer>

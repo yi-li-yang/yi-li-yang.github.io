@@ -1,265 +1,367 @@
-# Design System Inspired by ElevenLabs
+# Design System Inspired by Linear
 
 ## 1. Visual Theme & Atmosphere
 
-ElevenLabs' website is a study in restrained elegance — a near-white canvas (`#ffffff`, `#f5f5f5`) where typography and subtle shadows do all the heavy lifting. The design feels like a premium audio product brochure: clean, spacious, and confident enough to let the content speak (literally, given ElevenLabs makes voice AI). There's an almost Apple-like quality to the whitespace strategy, but warmer — the occasional warm stone tint (`#f5f2ef`, `#777169`) prevents the purity from feeling clinical.
+Linear's website is a masterclass in dark-mode-first product design — a near-black canvas (`#08090a`) where content emerges from darkness like starlight. The overall impression is one of extreme precision engineering: every element exists in a carefully calibrated hierarchy of luminance, from barely-visible borders (`rgba(255,255,255,0.05)`) to soft, luminous text (`#f7f8f8`). This is not a dark theme applied to a light design — it is darkness as the native medium, where information density is managed through subtle gradations of white opacity rather than color variation.
 
-The typography system is built on a fascinating duality: Waldenburg at weight 300 (light) for display headings creates ethereal, whisper-thin titles that feel like sound waves rendered in type — delicate, precise, and surprisingly impactful at large sizes. This light-weight display approach is the design's signature — where most sites use bold headings to grab attention, ElevenLabs uses lightness to create intrigue. Inter handles all body and UI text with workmanlike reliability, using slight positive letter-spacing (0.14px–0.18px) that gives body text an airy, well-spaced quality. WaldenburgFH appears as a bold uppercase variant for specific button labels.
+The typography system is built entirely on Inter Variable with OpenType features `"cv01"` and `"ss03"` enabled globally, giving the typeface a cleaner, more geometric character. Inter is used at a remarkable range of weights — from 300 (light body) through 510 (medium, Linear's signature weight) to 590 (semibold emphasis). The 510 weight is particularly distinctive: it sits between regular and medium, creating a subtle emphasis that doesn't shout. At display sizes (72px, 64px, 48px), Inter uses aggressive negative letter-spacing (-1.584px to -1.056px), creating compressed, authoritative headlines that feel engineered rather than designed. Berkeley Mono serves as the monospace companion for code and technical labels, with fallbacks to ui-monospace, SF Mono, and Menlo.
 
-What makes ElevenLabs distinctive is its multi-layered shadow system. Rather than simple box-shadows, elements use complex stacks: inset border-shadows (`rgba(0,0,0,0.075) 0px 0px 0px 0.5px inset`), outline shadows (`rgba(0,0,0,0.06) 0px 0px 0px 1px`), and soft elevation shadows (`rgba(0,0,0,0.04) 0px 4px 4px`) — all at remarkably low opacities. The result is a design where surfaces seem to barely exist, floating just above the page with the lightest possible touch. Pill-shaped buttons (9999px) with warm-tinted backgrounds (`rgba(245,242,239,0.8)`) and warm shadows (`rgba(78,50,23,0.04)`) add a tactile, physical quality.
+The color system is almost entirely achromatic — dark backgrounds with white/gray text — punctuated by a single brand accent: Linear's signature indigo-violet (`#5e6ad2` for backgrounds, `#7170ff` for interactive accents). This accent color is used sparingly and intentionally, appearing only on CTAs, active states, and brand elements. The border system uses ultra-thin, semi-transparent white borders (`rgba(255,255,255,0.05)` to `rgba(255,255,255,0.08)`) that create structure without visual noise, like wireframes drawn in moonlight.
 
 **Key Characteristics:**
-- Near-white canvas with warm undertones (`#f5f5f5`, `#f5f2ef`)
-- Waldenburg weight 300 (light) for display — ethereal, whisper-thin headings
-- Inter with positive letter-spacing (0.14–0.18px) for body — airy readability
-- Multi-layered shadow stacks at sub-0.1 opacity — surfaces barely exist
-- Pill buttons (9999px) with warm stone-tinted backgrounds
-- WaldenburgFH bold uppercase for specific CTA labels
-- Warm shadow tints: `rgba(78, 50, 23, 0.04)` — shadows have color, not just darkness
-- Geist Mono / ui-monospace for code snippets
+- Dark-mode-native: `#08090a` marketing background, `#0f1011` panel background, `#191a1b` elevated surfaces
+- Inter Variable with `"cv01", "ss03"` globally — geometric alternates for a cleaner aesthetic
+- Signature weight 510 (between regular and medium) for most UI text
+- Aggressive negative letter-spacing at display sizes (-1.584px at 72px, -1.056px at 48px)
+- Brand indigo-violet: `#5e6ad2` (bg) / `#7170ff` (accent) / `#828fff` (hover) — the only chromatic color in the system
+- Semi-transparent white borders throughout: `rgba(255,255,255,0.05)` to `rgba(255,255,255,0.08)`
+- Button backgrounds at near-zero opacity: `rgba(255,255,255,0.02)` to `rgba(255,255,255,0.05)`
+- Multi-layered shadows with inset variants for depth on dark surfaces
+- Radix UI primitives as the component foundation (6 detected primitives)
+- Success green (`#27a644`, `#10b981`) used only for status indicators
 
 ## 2. Color Palette & Roles
 
-### Primary
-- **Pure White** (`#ffffff`): Primary background, card surfaces, button backgrounds
-- **Light Gray** (`#f5f5f5`): Secondary surface, subtle section differentiation
-- **Warm Stone** (`#f5f2ef`): Button background (at 80% opacity) — the warm signature
-- **Black** (`#000000`): Primary text, headings, dark buttons
+### Background Surfaces
+- **Marketing Black** (`#010102` / `#08090a`): The deepest background — the canvas for hero sections and marketing pages. Near-pure black with an imperceptible blue-cool undertone.
+- **Panel Dark** (`#0f1011`): Sidebar and panel backgrounds. One step up from the marketing black.
+- **Level 3 Surface** (`#191a1b`): Elevated surface areas, card backgrounds, dropdowns.
+- **Secondary Surface** (`#28282c`): The lightest dark surface — used for hover states and slightly elevated components.
 
-### Neutral Scale
-- **Dark Gray** (`#4e4e4e`): Secondary text, descriptions
-- **Warm Gray** (`#777169`): Tertiary text, muted links, decorative underlines
-- **Near White** (`#f6f6f6`): Alternate light surface
+### Text & Content
+- **Primary Text** (`#f7f8f8`): Near-white with a barely-warm cast. The default text color — not pure white, preventing eye strain on dark backgrounds.
+- **Secondary Text** (`#d0d6e0`): Cool silver-gray for body text, descriptions, and secondary content.
+- **Tertiary Text** (`#8a8f98`): Muted gray for placeholders, metadata, and de-emphasized content.
+- **Quaternary Text** (`#62666d`): The most subdued text — timestamps, disabled states, subtle labels.
 
-### Interactive
-- **Grid Cyan** (`#7fffff`): `--grid-column-bg`, at 25% opacity — decorative grid overlay
-- **Ring Blue** (`rgb(147 197 253 / 0.5)`): `--tw-ring-color`, focus ring
-- **Border Light** (`#e5e5e5`): Explicit borders
-- **Border Subtle** (`rgba(0, 0, 0, 0.05)`): Ultra-subtle bottom borders
+### Brand & Accent
+- **Brand Indigo** (`#5e6ad2`): Primary brand color — used for CTA button backgrounds, brand marks, and key interactive surfaces.
+- **Accent Violet** (`#7170ff`): Brighter variant for interactive elements — links, active states, selected items.
+- **Accent Hover** (`#828fff`): Lighter, more saturated variant for hover states on accent elements.
+- **Security Lavender** (`#7a7fad`): Muted indigo used specifically for security-related UI elements.
 
-### Shadows
-- **Inset Border** (`rgba(0,0,0,0.075) 0px 0px 0px 0.5px inset`): Internal edge definition
-- **Inset Dark** (`rgba(0,0,0,0.1) 0px 0px 0px 0.5px inset`): Stronger inset variant
-- **Outline Ring** (`rgba(0,0,0,0.06) 0px 0px 0px 1px`): Shadow-as-border
-- **Soft Elevation** (`rgba(0,0,0,0.04) 0px 4px 4px`): Gentle lift
-- **Card Shadow** (`rgba(0,0,0,0.4) 0px 0px 1px, rgba(0,0,0,0.04) 0px 4px 4px`): Button/card elevation
-- **Warm Shadow** (`rgba(78,50,23,0.04) 0px 6px 16px`): Warm-tinted button shadow
-- **Edge Shadow** (`rgba(0,0,0,0.08) 0px 0px 0px 0.5px`): Subtle edge definition
-- **Inset Ring** (`rgba(0,0,0,0.1) 0px 0px 0px 1px inset`): Strong inset border
+### Status Colors
+- **Green** (`#27a644`): Primary success/active status. Used for "in progress" indicators.
+- **Emerald** (`#10b981`): Secondary success — pill badges, completion states.
+
+### Border & Divider
+- **Border Primary** (`#23252a`): Solid dark border for prominent separations.
+- **Border Secondary** (`#34343a`): Slightly lighter solid border.
+- **Border Tertiary** (`#3e3e44`): Lightest solid border variant.
+- **Border Subtle** (`rgba(255,255,255,0.05)`): Ultra-subtle semi-transparent border — the default.
+- **Border Standard** (`rgba(255,255,255,0.08)`): Standard semi-transparent border for cards, inputs, code blocks.
+- **Line Tint** (`#141516`): Nearly invisible line for the subtlest divisions.
+- **Line Tertiary** (`#18191a`): Slightly more visible divider line.
+
+### Light Mode Neutrals (for light theme contexts)
+- **Light Background** (`#f7f8f8`): Page background in light mode.
+- **Light Surface** (`#f3f4f5` / `#f5f6f7`): Subtle surface tinting.
+- **Light Border** (`#d0d6e0`): Visible border in light contexts.
+- **Light Border Alt** (`#e6e6e6`): Alternative lighter border.
+- **Pure White** (`#ffffff`): Card surfaces, highlights.
+
+### Overlay
+- **Overlay Primary** (`rgba(0,0,0,0.85)`): Modal/dialog backdrop — extremely dark for focus isolation.
 
 ## 3. Typography Rules
 
-### Font Families
-- **Display**: `Waldenburg`, fallback: `Waldenburg Fallback`
-- **Display Bold**: `WaldenburgFH`, fallback: `WaldenburgFH Fallback`
-- **Body / UI**: `Inter`, fallback: `Inter Fallback`
-- **Monospace**: `Geist Mono` or `ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas`
+### Font Family
+- **Primary**: `Inter Variable`, with fallbacks: `SF Pro Display, -apple-system, system-ui, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Open Sans, Helvetica Neue`
+- **Monospace**: `Berkeley Mono`, with fallbacks: `ui-monospace, SF Mono, Menlo`
+- **OpenType Features**: `"cv01", "ss03"` enabled globally — cv01 provides an alternate lowercase 'a' (single-story), ss03 adjusts specific letterforms for a cleaner geometric appearance.
 
 ### Hierarchy
 
 | Role | Font | Size | Weight | Line Height | Letter Spacing | Notes |
 |------|------|------|--------|-------------|----------------|-------|
-| Display Hero | Waldenburg | 48px (3.00rem) | 300 | 1.08 (tight) | -0.96px | Whisper-thin, ethereal |
-| Section Heading | Waldenburg | 36px (2.25rem) | 300 | 1.17 (tight) | normal | Light display |
-| Card Heading | Waldenburg | 32px (2.00rem) | 300 | 1.13 (tight) | normal | Light card titles |
-| Body Large | Inter | 20px (1.25rem) | 400 | 1.35 | normal | Introductions |
-| Body | Inter | 18px (1.13rem) | 400 | 1.44–1.60 | 0.18px | Standard reading text |
-| Body Standard | Inter | 16px (1.00rem) | 400 | 1.50 | 0.16px | UI text |
-| Body Medium | Inter | 16px (1.00rem) | 500 | 1.50 | 0.16px | Emphasized body |
-| Nav / UI | Inter | 15px (0.94rem) | 500 | 1.33–1.47 | 0.15px | Navigation links |
-| Button | Inter | 15px (0.94rem) | 500 | 1.47 | normal | Button labels |
-| Button Uppercase | WaldenburgFH | 14px (0.88rem) | 700 | 1.10 (tight) | 0.7px | `text-transform: uppercase` |
-| Caption | Inter | 14px (0.88rem) | 400–500 | 1.43–1.50 | 0.14px | Metadata |
-| Small | Inter | 13px (0.81rem) | 500 | 1.38 | normal | Tags, badges |
-| Code | Geist Mono | 13px (0.81rem) | 400 | 1.85 (relaxed) | normal | Code blocks |
-| Micro | Inter | 12px (0.75rem) | 500 | 1.33 | normal | Tiny labels |
-| Tiny | Inter | 10px (0.63rem) | 400 | 1.60 (relaxed) | normal | Fine print |
+| Display XL | Inter Variable | 72px (4.50rem) | 510 | 1.00 (tight) | -1.584px | Hero headlines, maximum impact |
+| Display Large | Inter Variable | 64px (4.00rem) | 510 | 1.00 (tight) | -1.408px | Secondary hero text |
+| Display | Inter Variable | 48px (3.00rem) | 510 | 1.00 (tight) | -1.056px | Section headlines |
+| Heading 1 | Inter Variable | 32px (2.00rem) | 400 | 1.13 (tight) | -0.704px | Major section titles |
+| Heading 2 | Inter Variable | 24px (1.50rem) | 400 | 1.33 | -0.288px | Sub-section headings |
+| Heading 3 | Inter Variable | 20px (1.25rem) | 590 | 1.33 | -0.24px | Feature titles, card headers |
+| Body Large | Inter Variable | 18px (1.13rem) | 400 | 1.60 (relaxed) | -0.165px | Introduction text, feature descriptions |
+| Body Emphasis | Inter Variable | 17px (1.06rem) | 590 | 1.60 (relaxed) | normal | Emphasized body, sub-headings in content |
+| Body | Inter Variable | 16px (1.00rem) | 400 | 1.50 | normal | Standard reading text |
+| Body Medium | Inter Variable | 16px (1.00rem) | 510 | 1.50 | normal | Navigation, labels |
+| Body Semibold | Inter Variable | 16px (1.00rem) | 590 | 1.50 | normal | Strong emphasis |
+| Small | Inter Variable | 15px (0.94rem) | 400 | 1.60 (relaxed) | -0.165px | Secondary body text |
+| Small Medium | Inter Variable | 15px (0.94rem) | 510 | 1.60 (relaxed) | -0.165px | Emphasized small text |
+| Small Semibold | Inter Variable | 15px (0.94rem) | 590 | 1.60 (relaxed) | -0.165px | Strong small text |
+| Small Light | Inter Variable | 15px (0.94rem) | 300 | 1.47 | -0.165px | De-emphasized body |
+| Caption Large | Inter Variable | 14px (0.88rem) | 510–590 | 1.50 | -0.182px | Sub-labels, category headers |
+| Caption | Inter Variable | 13px (0.81rem) | 400–510 | 1.50 | -0.13px | Metadata, timestamps |
+| Label | Inter Variable | 12px (0.75rem) | 400–590 | 1.40 | normal | Button text, small labels |
+| Micro | Inter Variable | 11px (0.69rem) | 510 | 1.40 | normal | Tiny labels |
+| Tiny | Inter Variable | 10px (0.63rem) | 400–510 | 1.50 | -0.15px | Overline text, sometimes uppercase |
+| Link Large | Inter Variable | 16px (1.00rem) | 400 | 1.50 | normal | Standard links |
+| Link Medium | Inter Variable | 15px (0.94rem) | 510 | 2.67 | normal | Spaced navigation links |
+| Link Small | Inter Variable | 14px (0.88rem) | 510 | 1.50 | normal | Compact links |
+| Link Caption | Inter Variable | 13px (0.81rem) | 400–510 | 1.50 | -0.13px | Footer, metadata links |
+| Mono Body | Berkeley Mono | 14px (0.88rem) | 400 | 1.50 | normal | Code blocks |
+| Mono Caption | Berkeley Mono | 13px (0.81rem) | 400 | 1.50 | normal | Code labels |
+| Mono Label | Berkeley Mono | 12px (0.75rem) | 400 | 1.40 | normal | Code metadata, sometimes uppercase |
 
 ### Principles
-- **Light as the hero weight**: Waldenburg at 300 is the defining typographic choice. Where other design systems use bold for impact, ElevenLabs uses lightness — thin strokes that feel like audio waveforms, creating intrigue through restraint.
-- **Positive letter-spacing on body**: Inter uses +0.14px to +0.18px tracking across body text, creating an airy, well-spaced reading rhythm that contrasts with the tight display tracking (-0.96px).
-- **WaldenburgFH for emphasis**: A bold (700) uppercase variant of Waldenburg appears only in specific CTA button labels with 0.7px letter-spacing — the one place where the type system gets loud.
-- **Monospace as ambient**: Geist Mono at relaxed line-height (1.85) for code blocks feels unhurried and readable.
+- **510 is the signature weight**: Linear uses Inter Variable's 510 weight (between regular 400 and medium 500) as its default emphasis weight. This creates a subtly bolded feel without the heaviness of traditional medium or semibold.
+- **Compression at scale**: Display sizes use progressively tighter letter-spacing — -1.584px at 72px, -1.408px at 64px, -1.056px at 48px, -0.704px at 32px. Below 24px, spacing relaxes toward normal.
+- **OpenType as identity**: `"cv01", "ss03"` aren't decorative — they transform Inter into Linear's distinctive typeface, giving it a more geometric, purposeful character.
+- **Three-tier weight system**: 400 (reading), 510 (emphasis/UI), 590 (strong emphasis). The 300 weight appears only in deliberately de-emphasized contexts.
 
 ## 4. Component Stylings
 
 ### Buttons
 
-**Primary Black Pill**
-- Background: `#000000`
+**Ghost Button (Default)**
+- Background: `rgba(255,255,255,0.02)`
+- Text: `#e2e4e7` (near-white)
+- Padding: comfortable
+- Radius: 6px
+- Border: `1px solid rgb(36, 40, 44)`
+- Outline: none
+- Focus shadow: `rgba(0,0,0,0.1) 0px 4px 12px`
+- Use: Standard actions, secondary CTAs
+
+**Subtle Button**
+- Background: `rgba(255,255,255,0.04)`
+- Text: `#d0d6e0` (silver-gray)
+- Padding: 0px 6px
+- Radius: 6px
+- Use: Toolbar actions, contextual buttons
+
+**Primary Brand Button (Inferred)**
+- Background: `#5e6ad2` (brand indigo)
 - Text: `#ffffff`
-- Padding: 0px 14px
-- Radius: 9999px (full pill)
-- Use: Primary CTA
+- Padding: 8px 16px
+- Radius: 6px
+- Hover: `#828fff` shift
+- Use: Primary CTAs ("Start building", "Sign up")
 
-**White Pill (Shadow-bordered)**
-- Background: `#ffffff`
-- Text: `#000000`
+**Icon Button (Circle)**
+- Background: `rgba(255,255,255,0.03)` or `rgba(255,255,255,0.05)`
+- Text: `#f7f8f8` or `#ffffff`
+- Radius: 50%
+- Border: `1px solid rgba(255,255,255,0.08)`
+- Use: Close, menu toggle, icon-only actions
+
+**Pill Button**
+- Background: transparent
+- Text: `#d0d6e0`
+- Padding: 0px 10px 0px 5px
 - Radius: 9999px
-- Shadow: `rgba(0,0,0,0.4) 0px 0px 1px, rgba(0,0,0,0.04) 0px 4px 4px`
-- Use: Secondary CTA on white
+- Border: `1px solid rgb(35, 37, 42)`
+- Use: Filter chips, tags, status indicators
 
-**Warm Stone Pill**
-- Background: `rgba(245, 242, 239, 0.8)` (warm translucent)
-- Text: `#000000`
-- Padding: 12px 20px 12px 14px (asymmetric)
-- Radius: 30px
-- Shadow: `rgba(78, 50, 23, 0.04) 0px 6px 16px` (warm-tinted)
-- Use: Featured CTA, hero action — the signature warm button
-
-**Uppercase Waldenburg Button**
-- Font: WaldenburgFH 14px weight 700
-- Text-transform: uppercase
-- Letter-spacing: 0.7px
-- Use: Specific bold CTA labels
+**Small Toolbar Button**
+- Background: `rgba(255,255,255,0.05)`
+- Text: `#62666d` (muted)
+- Radius: 2px
+- Border: `1px solid rgba(255,255,255,0.05)`
+- Shadow: `rgba(0,0,0,0.03) 0px 1.2px 0px 0px`
+- Font: 12px weight 510
+- Use: Toolbar actions, quick-access controls
 
 ### Cards & Containers
-- Background: `#ffffff`
-- Border: `1px solid #e5e5e5` or shadow-as-border
-- Radius: 16px–24px
-- Shadow: multi-layer stack (inset + outline + elevation)
-- Content: product screenshots, code examples, audio waveform previews
+- Background: `rgba(255,255,255,0.02)` to `rgba(255,255,255,0.05)` (never solid — always translucent)
+- Border: `1px solid rgba(255,255,255,0.08)` (standard) or `1px solid rgba(255,255,255,0.05)` (subtle)
+- Radius: 8px (standard), 12px (featured), 22px (large panels)
+- Shadow: `rgba(0,0,0,0.2) 0px 0px 0px 1px` or layered multi-shadow stacks
+- Hover: subtle background opacity increase
 
 ### Inputs & Forms
-- Textarea: padding 12px 20px, transparent text at default
-- Select: white background, standard styling
-- Radio: standard with tw-ring focus
-- Focus: `var(--tw-ring-offset-shadow)` ring system
+
+**Text Area**
+- Background: `rgba(255,255,255,0.02)`
+- Text: `#d0d6e0`
+- Border: `1px solid rgba(255,255,255,0.08)`
+- Padding: 12px 14px
+- Radius: 6px
+
+**Search Input**
+- Background: transparent
+- Text: `#f7f8f8`
+- Padding: 1px 32px (icon-aware)
+
+**Button-style Input**
+- Text: `#8a8f98`
+- Padding: 1px 6px
+- Radius: 5px
+- Focus shadow: multi-layer stack
+
+### Badges & Pills
+
+**Success Pill**
+- Background: `#10b981`
+- Text: `#f7f8f8`
+- Radius: 50% (circular)
+- Font: 10px weight 510
+- Use: Status dots, completion indicators
+
+**Neutral Pill**
+- Background: transparent
+- Text: `#d0d6e0`
+- Padding: 0px 10px 0px 5px
+- Radius: 9999px
+- Border: `1px solid rgb(35, 37, 42)`
+- Font: 12px weight 510
+- Use: Tags, filter chips, category labels
+
+**Subtle Badge**
+- Background: `rgba(255,255,255,0.05)`
+- Text: `#f7f8f8`
+- Padding: 0px 8px 0px 2px
+- Radius: 2px
+- Border: `1px solid rgba(255,255,255,0.05)`
+- Font: 10px weight 510
+- Use: Inline labels, version tags
 
 ### Navigation
-- Clean white sticky header
-- Inter 15px weight 500 for nav links
-- Pill CTAs right-aligned (black primary, white secondary)
-- Mobile: hamburger collapse at 1024px
+- Dark sticky header on near-black background
+- Linear logomark left-aligned (SVG icon)
+- Links: Inter Variable 13–14px weight 510, `#d0d6e0` text
+- Active/hover: text lightens to `#f7f8f8`
+- CTA: Brand indigo button or ghost button
+- Mobile: hamburger collapse
+- Search: command palette trigger (`/` or `Cmd+K`)
 
 ### Image Treatment
-- Product screenshots and audio waveform visualizations
-- Warm gradient backgrounds in feature sections
-- 20px–24px radius on image containers
-- Full-width sections alternating white and light gray
-
-### Distinctive Components
-
-**Audio Waveform Sections**
-- Colorful gradient backgrounds showcasing voice AI capabilities
-- Warm amber, blue, and green gradients behind product demos
-- Screenshots of the ElevenLabs product interface
-
-**Warm Stone CTA Block**
-- `rgba(245,242,239,0.8)` background with warm shadow
-- Asymmetric padding (more right padding)
-- Creates a physical, tactile quality unique to ElevenLabs
+- Product screenshots on dark backgrounds with subtle border (`rgba(255,255,255,0.08)`)
+- Top-rounded images: `12px 12px 0px 0px` radius
+- Dashboard/issue previews dominate feature sections
+- Subtle shadow beneath screenshots: `rgba(0,0,0,0.4) 0px 2px 4px`
 
 ## 5. Layout Principles
 
 ### Spacing System
 - Base unit: 8px
-- Scale: 1px, 3px, 4px, 8px, 9px, 10px, 11px, 12px, 16px, 18px, 20px, 24px, 28px, 32px, 40px
+- Scale: 1px, 4px, 7px, 8px, 11px, 12px, 16px, 19px, 20px, 22px, 24px, 28px, 32px, 35px
+- The 7px and 11px values suggest micro-adjustments for optical alignment
+- Primary rhythm: 8px, 16px, 24px, 32px (standard 8px grid)
 
 ### Grid & Container
-- Centered content with generous max-width
-- Single-column hero, expanding to feature grids
-- Full-width gradient sections for product showcases
-- White card grids on light gray backgrounds
+- Max content width: approximately 1200px
+- Hero: centered single-column with generous vertical padding
+- Feature sections: 2–3 column grids for feature cards
+- Full-width dark sections with internal max-width constraints
+- Changelog: single-column timeline layout
 
 ### Whitespace Philosophy
-- **Apple-like generosity**: Massive vertical spacing between sections creates a premium, unhurried pace. Each section is an exhibit.
-- **Warm emptiness**: The whitespace isn't cold — the warm stone undertones and warm shadows give empty space a tactile, physical quality.
-- **Typography-led rhythm**: The light-weight Waldenburg headings create visual "whispers" that draw the eye through vast white space.
+- **Darkness as space**: On Linear's dark canvas, empty space isn't white — it's absence. The near-black background IS the whitespace, and content emerges from it.
+- **Compressed headlines, expanded surroundings**: Display text at 72px with -1.584px tracking is dense and compressed, but sits within vast dark padding. The contrast between typographic density and spatial generosity creates tension.
+- **Section isolation**: Each feature section is separated by generous vertical padding (80px+) with no visible dividers — the dark background provides natural separation.
 
 ### Border Radius Scale
-- Minimal (2px): Small links, inline elements
-- Subtle (4px): Nav items, tab panels, tags
-- Standard (8px): Small containers
-- Comfortable (10px–12px): Medium cards, dropdowns
-- Card (16px): Standard cards, articles
-- Large (18px–20px): Featured cards, code panels
-- Section (24px): Large panels, section containers
-- Warm Button (30px): Warm stone CTA
-- Pill (9999px): Primary buttons, navigation pills
+- Micro (2px): Inline badges, toolbar buttons, subtle tags
+- Standard (4px): Small containers, list items
+- Comfortable (6px): Buttons, inputs, functional elements
+- Card (8px): Cards, dropdowns, popovers
+- Panel (12px): Panels, featured cards, section containers
+- Large (22px): Large panel elements
+- Full Pill (9999px): Chips, filter pills, status tags
+- Circle (50%): Icon buttons, avatars, status dots
 
 ## 6. Depth & Elevation
 
 | Level | Treatment | Use |
 |-------|-----------|-----|
-| Flat (Level 0) | No shadow | Page background, text blocks |
-| Inset Edge (Level 0.5) | `rgba(0,0,0,0.075) 0px 0px 0px 0.5px inset, #fff 0px 0px 0px 0px inset` | Internal border definition |
-| Outline Ring (Level 1) | `rgba(0,0,0,0.06) 0px 0px 0px 1px` + `rgba(0,0,0,0.04) 0px 1px 2px` + `rgba(0,0,0,0.04) 0px 2px 4px` | Shadow-as-border for cards |
-| Card (Level 2) | `rgba(0,0,0,0.4) 0px 0px 1px, rgba(0,0,0,0.04) 0px 4px 4px` | Button elevation, prominent cards |
-| Warm Lift (Level 3) | `rgba(78,50,23,0.04) 0px 6px 16px` | Featured CTAs — warm-tinted |
-| Focus (Accessibility) | `var(--tw-ring-offset-shadow)` blue ring | Keyboard focus |
+| Flat (Level 0) | No shadow, `#010102` bg | Page background, deepest canvas |
+| Subtle (Level 1) | `rgba(0,0,0,0.03) 0px 1.2px 0px` | Toolbar buttons, micro-elevation |
+| Surface (Level 2) | `rgba(255,255,255,0.05)` bg + `1px solid rgba(255,255,255,0.08)` border | Cards, input fields, containers |
+| Inset (Level 2b) | `rgba(0,0,0,0.2) 0px 0px 12px 0px inset` | Recessed panels, inner shadows |
+| Ring (Level 3) | `rgba(0,0,0,0.2) 0px 0px 0px 1px` | Border-as-shadow technique |
+| Elevated (Level 4) | `rgba(0,0,0,0.4) 0px 2px 4px` | Floating elements, dropdowns |
+| Dialog (Level 5) | Multi-layer stack: `rgba(0,0,0,0) 0px 8px 2px, rgba(0,0,0,0.01) 0px 5px 2px, rgba(0,0,0,0.04) 0px 3px 2px, rgba(0,0,0,0.07) 0px 1px 1px, rgba(0,0,0,0.08) 0px 0px 1px` | Popovers, command palette, modals |
+| Focus | `rgba(0,0,0,0.1) 0px 4px 12px` + additional layers | Keyboard focus on interactive elements |
 
-**Shadow Philosophy**: ElevenLabs uses the most refined shadow system of any design system analyzed. Every shadow is at sub-0.1 opacity, many include both outward cast AND inward inset components, and the warm CTA shadows use an actual warm color (`rgba(78,50,23,...)`) rather than neutral black. The inset half-pixel borders (`0px 0px 0px 0.5px inset`) create edges so subtle they're felt rather than seen — surfaces define themselves through the lightest possible touch.
+**Shadow Philosophy**: On dark surfaces, traditional shadows (dark on dark) are nearly invisible. Linear solves this by using semi-transparent white borders as the primary depth indicator. Elevation isn't communicated through shadow darkness but through background luminance steps — each level slightly increases the white opacity of the surface background (`0.02` → `0.04` → `0.05`), creating a subtle stacking effect. The inset shadow technique (`rgba(0,0,0,0.2) 0px 0px 12px 0px inset`) creates a unique "sunken" effect for recessed panels, adding dimensional depth that traditional dark themes lack.
 
 ## 7. Do's and Don'ts
 
 ### Do
-- Use Waldenburg weight 300 for all display headings — the lightness IS the brand
-- Apply multi-layer shadows (inset + outline + elevation) at sub-0.1 opacity
-- Use warm stone tints (`#f5f2ef`, `rgba(245,242,239,0.8)`) for featured elements
-- Apply positive letter-spacing (+0.14px to +0.18px) on Inter body text
-- Use 9999px radius for primary buttons — pill shape is standard
-- Use warm-tinted shadows (`rgba(78,50,23,0.04)`) on featured CTAs
-- Keep the page predominantly white with subtle gray section differentiation
-- Use WaldenburgFH bold uppercase ONLY for specific CTA button labels
+- Use Inter Variable with `"cv01", "ss03"` on ALL text — these features are fundamental to Linear's typeface identity
+- Use weight 510 as your default emphasis weight — it's Linear's signature between-weight
+- Apply aggressive negative letter-spacing at display sizes (-1.584px at 72px, -1.056px at 48px)
+- Build on near-black backgrounds: `#08090a` for marketing, `#0f1011` for panels, `#191a1b` for elevated surfaces
+- Use semi-transparent white borders (`rgba(255,255,255,0.05)` to `rgba(255,255,255,0.08)`) instead of solid dark borders
+- Keep button backgrounds nearly transparent: `rgba(255,255,255,0.02)` to `rgba(255,255,255,0.05)`
+- Reserve brand indigo (`#5e6ad2` / `#7170ff`) for primary CTAs and interactive accents only
+- Use `#f7f8f8` for primary text — not pure `#ffffff`, which would be too harsh
+- Apply the luminance stacking model: deeper = darker bg, elevated = slightly lighter bg
 
 ### Don't
-- Don't use bold (700) Waldenburg for headings — weight 300 is non-negotiable
-- Don't use heavy shadows (>0.1 opacity) — the ethereal quality requires whisper-level depth
-- Don't use cool gray borders — the system is warm-tinted throughout
-- Don't skip the inset shadow component — half-pixel inset borders define edges
-- Don't apply negative letter-spacing to body text — Inter uses positive tracking
-- Don't use sharp corners (<8px) on cards — the generous radius is structural
-- Don't introduce brand colors — the palette is intentionally achromatic with warm undertones
-- Don't make buttons opaque and heavy — the warm translucent stone treatment is the signature
+- Don't use pure white (`#ffffff`) as primary text — `#f7f8f8` prevents eye strain
+- Don't use solid colored backgrounds for buttons — transparency is the system (rgba white at 0.02–0.05)
+- Don't apply the brand indigo decoratively — it's reserved for interactive/CTA elements only
+- Don't use positive letter-spacing on display text — Inter at large sizes always runs negative
+- Don't use visible/opaque borders on dark backgrounds — borders should be whisper-thin semi-transparent white
+- Don't skip the OpenType features (`"cv01", "ss03"`) — without them, it's generic Inter, not Linear's Inter
+- Don't use weight 700 (bold) — Linear's maximum weight is 590, with 510 as the workhorse
+- Don't introduce warm colors into the UI chrome — the palette is cool gray with blue-violet accent only
+- Don't use drop shadows for elevation on dark surfaces — use background luminance stepping instead
 
 ## 8. Responsive Behavior
 
 ### Breakpoints
 | Name | Width | Key Changes |
 |------|-------|-------------|
-| Mobile | <1024px | Single column, hamburger nav, stacked sections |
-| Desktop | >1024px | Full layout, horizontal nav, multi-column grids |
+| Mobile Small | <600px | Single column, compact padding |
+| Mobile | 600–640px | Standard mobile layout |
+| Tablet | 640–768px | Two-column grids begin |
+| Desktop Small | 768–1024px | Full card grids, expanded padding |
+| Desktop | 1024–1280px | Standard desktop, full navigation |
+| Large Desktop | >1280px | Full layout, generous margins |
 
 ### Touch Targets
-- Pill buttons with generous padding (12px–20px)
-- Navigation links at 15px with adequate spacing
-- Select dropdowns maintain comfortable sizing
+- Buttons use comfortable padding with 6px radius minimum
+- Navigation links at 13–14px with adequate spacing
+- Pill tags have 10px horizontal padding for touch accessibility
+- Icon buttons at 50% radius ensure circular, easy-to-tap targets
+- Search trigger is prominently placed with generous hit area
 
 ### Collapsing Strategy
-- Navigation: horizontal → hamburger at 1024px
-- Feature grids: multi-column → stacked
-- Hero: maintains centered layout, font scales proportionally
-- Gradient sections: full-width maintained, content stacks
-- Spacing compresses proportionally
+- Hero: 72px → 48px → 32px display text, tracking adjusts proportionally
+- Navigation: horizontal links + CTAs → hamburger menu at 768px
+- Feature cards: 3-column → 2-column → single column stacked
+- Product screenshots: maintain aspect ratio, may reduce padding
+- Changelog: timeline maintains single-column through all sizes
+- Footer: multi-column → stacked single column
+- Section spacing: 80px+ → 48px on mobile
 
 ### Image Behavior
-- Product screenshots scale responsively
-- Gradient backgrounds simplify on mobile
-- Audio waveform previews maintain aspect ratio
-- Rounded corners maintained across breakpoints
+- Dashboard screenshots maintain border treatment at all sizes
+- Hero visuals simplify on mobile (fewer floating UI elements)
+- Product screenshots use responsive sizing with consistent radius
+- Dark background ensures screenshots blend naturally at any viewport
 
 ## 9. Agent Prompt Guide
 
 ### Quick Color Reference
-- Background: Pure White (`#ffffff`) or Light Gray (`#f5f5f5`)
-- Text: Black (`#000000`)
-- Secondary text: Dark Gray (`#4e4e4e`)
-- Muted text: Warm Gray (`#777169`)
-- Warm surface: Warm Stone (`rgba(245, 242, 239, 0.8)`)
-- Border: `#e5e5e5` or `rgba(0,0,0,0.05)`
+- Primary CTA: Brand Indigo (`#5e6ad2`)
+- Page Background: Marketing Black (`#08090a`)
+- Panel Background: Panel Dark (`#0f1011`)
+- Surface: Level 3 (`#191a1b`)
+- Heading text: Primary White (`#f7f8f8`)
+- Body text: Silver Gray (`#d0d6e0`)
+- Muted text: Tertiary Gray (`#8a8f98`)
+- Subtle text: Quaternary Gray (`#62666d`)
+- Accent: Violet (`#7170ff`)
+- Accent Hover: Light Violet (`#828fff`)
+- Border (default): `rgba(255,255,255,0.08)`
+- Border (subtle): `rgba(255,255,255,0.05)`
+- Focus ring: Multi-layer shadow stack
 
 ### Example Component Prompts
-- "Create a hero on white background. Headline at 48px Waldenburg weight 300, line-height 1.08, letter-spacing -0.96px, black text. Subtitle at 18px Inter weight 400, line-height 1.60, letter-spacing 0.18px, #4e4e4e text. Two pill buttons: black (9999px, 0px 14px padding) and warm stone (rgba(245,242,239,0.8), 30px radius, 12px 20px padding, warm shadow rgba(78,50,23,0.04) 0px 6px 16px)."
-- "Design a card: white background, 20px radius. Shadow: rgba(0,0,0,0.06) 0px 0px 0px 1px, rgba(0,0,0,0.04) 0px 1px 2px, rgba(0,0,0,0.04) 0px 2px 4px. Title at 32px Waldenburg weight 300, body at 16px Inter weight 400 letter-spacing 0.16px, #4e4e4e."
-- "Build a white pill button: white bg, 9999px radius. Shadow: rgba(0,0,0,0.4) 0px 0px 1px, rgba(0,0,0,0.04) 0px 4px 4px. Text at 15px Inter weight 500."
-- "Create an uppercase CTA label: 14px WaldenburgFH weight 700, text-transform uppercase, letter-spacing 0.7px."
-- "Design navigation: white sticky header. Inter 15px weight 500. Black pill CTA right-aligned. Border-bottom: rgba(0,0,0,0.05)."
+- "Create a hero section on `#08090a` background. Headline at 48px Inter Variable weight 510, line-height 1.00, letter-spacing -1.056px, color `#f7f8f8`, font-feature-settings `'cv01', 'ss03'`. Subtitle at 18px weight 400, line-height 1.60, color `#8a8f98`. Brand CTA button (`#5e6ad2`, 6px radius, 8px 16px padding) and ghost button (`rgba(255,255,255,0.02)` bg, `1px solid rgba(255,255,255,0.08)` border, 6px radius)."
+- "Design a card on dark background: `rgba(255,255,255,0.02)` background, `1px solid rgba(255,255,255,0.08)` border, 8px radius. Title at 20px Inter Variable weight 590, letter-spacing -0.24px, color `#f7f8f8`. Body at 15px weight 400, color `#8a8f98`, letter-spacing -0.165px."
+- "Build a pill badge: transparent background, `#d0d6e0` text, 9999px radius, 0px 10px padding, `1px solid #23252a` border, 12px Inter Variable weight 510."
+- "Create navigation: dark sticky header on `#0f1011`. Inter Variable 13px weight 510 for links, `#d0d6e0` text. Brand indigo CTA `#5e6ad2` right-aligned with 6px radius. Bottom border: `1px solid rgba(255,255,255,0.05)`."
+- "Design a command palette: `#191a1b` background, `1px solid rgba(255,255,255,0.08)` border, 12px radius, multi-layer shadow stack. Input at 16px Inter Variable weight 400, `#f7f8f8` text. Results list with 13px weight 510 labels in `#d0d6e0` and 12px metadata in `#62666d`."
 
 ### Iteration Guide
-1. Start with white — the warm undertone comes from shadows and stone surfaces, not backgrounds
-2. Waldenburg 300 for headings — never bold, the lightness is the identity
-3. Multi-layer shadows: always include inset + outline + elevation at sub-0.1 opacity
-4. Positive letter-spacing on Inter body (+0.14px to +0.18px) — the airy reading quality
-5. Warm stone CTA is the signature — `rgba(245,242,239,0.8)` with `rgba(78,50,23,0.04)` shadow
-6. Pill (9999px) for buttons, generous radius (16px–24px) for cards
+1. Always set font-feature-settings `"cv01", "ss03"` on all Inter text — this is non-negotiable for Linear's look
+2. Letter-spacing scales with font size: -1.584px at 72px, -1.056px at 48px, -0.704px at 32px, normal below 16px
+3. Three weights: 400 (read), 510 (emphasize/navigate), 590 (announce)
+4. Surface elevation via background opacity: `rgba(255,255,255, 0.02 → 0.04 → 0.05)` — never solid backgrounds on dark
+5. Brand indigo (`#5e6ad2` / `#7170ff`) is the only chromatic color — everything else is grayscale
+6. Borders are always semi-transparent white, never solid dark colors on dark backgrounds
+7. Berkeley Mono for any code or technical content, Inter Variable for everything else
