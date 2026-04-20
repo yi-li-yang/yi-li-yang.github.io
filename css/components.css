@@ -680,7 +680,22 @@
   margin-top: var(--space-xl);
 }
 
-/* ── Skills Section ──────────────────────────── */
+/* ── Capabilities / Skills Section ───────────── */
+
+.capabilities-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.4fr) minmax(320px, 1fr);
+  gap: var(--space-xxl);
+  align-items: start;
+  margin-bottom: var(--space-xxl);
+}
+
+.capabilities-left,
+.capabilities-right {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+}
 
 .skills-concepts {
   display: grid;
@@ -826,6 +841,14 @@
     height: 1px;
     width: auto;
     flex: 1;
+  }
+
+  .capabilities-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .capabilities-right {
+    order: -1;
   }
 }
 

@@ -1,0 +1,1 @@
+1. the skills and subsections take about 40 of the width, and the timeline take 60 of the width, dont use cards, use a continuous design, with a vertical line and finer,shorter line horizontally pointing to each period. Use logo besides the name of each institution and 

@@ -1,0 +1,55 @@
+{
+  "hero": {
+    "geoscience": [
+      "Petrophysics",
+      "X-ray Synchrotron µCT",
+      "Remote Sensing",
+      "Geospatial Info Science",
+      "Digital Rocks",
+      "Scientific Image/Data Processing"
+    ],
+    "dataScience": [
+      "Machine Learning",
+      "Deep Learning",
+      "Computer Vision",
+      "AI for Geoscience",
+      "Geospatial Data Science",
+      "Time-series Modelling"
+    ]
+  },
+  "skillSections": [
+    {
+      "title": "AI",
+      "tags": [
+        "Semantic Segmentation",
+        "Transfer Learning",
+        "Object Detection",
+        "Vision Transformer",
+        "CNN",
+        "Vision Foundation Models",
+        "Geo Foundation Models",
+        "Time-series Modelling",
+        "Extreme Data Imbalance"
+      ]
+    },
+    {
+      "title": "Geoscience",
+      "tags": [
+        "Geoscience skill 1",
+        "Geoscience skill 2",
+        "Geoscience skill 3"
+      ]
+    },
+    {
+      "title": "Engineering",
+      "tags": [
+        "Agentic Coding",
+        "Harness Engineering",
+        "Claude Skills",
+        "Prompt & Context Engineering",
+        "GitHub Actions",
+        "Containerization"
+      ]
+    }
+  ]
+}

@@ -33,6 +33,49 @@ function donutPath(cx, cy, outerR, innerR, a0, a1) {
   ].join(' ');
 }
 
+function renderPillCluster(container, tags) {
+  if (!container || !Array.isArray(tags)) return;
+  container.innerHTML = '';
+  for (const tag of tags) {
+    const pill = document.createElement('span');
+    pill.className = 'pill-tag';
+    pill.textContent = tag;
+    container.appendChild(pill);
+  }
+}
+
+function renderPillCategories(container, categories) {
+  if (!container || !Array.isArray(categories)) return;
+  container.innerHTML = categories.map(category => {
+    const pills = Array.isArray(category.tags)
+      ? category.tags.map(tag => `<span class="pill-tag">${tag}</span>`).join('')
+      : '';
+    return `
+      <div>
+        <h3>${category.title}</h3>
+        <div class="tech-pill">${pills}</div>
+      </div>`;
+  }).join('');
+}
+
+async function fetchPillTags() {
+  try {
+    const res = await fetch('data/pill-tags.json');
+    if (!res.ok) throw new Error(`pill tags fetch: ${res.status}`);
+    return await res.json();
+  } catch (err) {
+    console.warn('Could not load pill tags:', err.message);
+    return null;
+  }
+}
+
+function renderPillTags(tagData) {
+  if (!tagData) return;
+  renderPillCluster(document.getElementById('hero-pills-geoscience'), tagData.hero?.geoscience);
+  renderPillCluster(document.getElementById('hero-pills-data-science'), tagData.hero?.dataScience);
+  renderPillCategories(document.getElementById('capabilities-skills'), tagData.skillSections);
+}
+
 function renderInteractiveLangChart(container, languages) {
   if (!languages?.length) return;
 
@@ -118,38 +161,48 @@ function renderInteractiveLangChart(container, languages) {
 export async function initSkills() {
   const githubEl = document.getElementById('github-stats');
   const langEl   = document.getElementById('lang-chart-skills');
-  if (!githubEl && !langEl) return;
+  const pillEl   = document.getElementById('skills-concepts');
+  if (!githubEl && !langEl && !pillEl) return;
 
   try {
-    const res = await fetch('data/stats.json');
-    if (!res.ok) throw new Error(`stats fetch: ${res.status}`);
-    const { profiles, github } = await res.json();
+    const [statsRes, pillData] = await Promise.all([
+      fetch('data/stats.json'),
+      fetchPillTags()
+    ]);
 
-    if (githubEl && github) {
-      const githubLink = `https://github.com/${profiles.github}`;
-      const items = [
-        { value: github.repos,   label: 'Repositories',    source: 'GitHub' },
-        { value: github.commits, label: 'All-time Commits', source: 'GitHub' },
-      ];
-      for (const item of items) {
-        if (item.value == null) continue;
-        const card = document.createElement('a');
-        card.className = 'stat-card';
-        card.href = githubLink;
-        card.target = '_blank';
-        card.rel = 'noopener noreferrer';
-        card.innerHTML = `
-          <span class="stat-value">${item.value}</span>
-          <span class="stat-label">${item.label}</span>
-          <span class="stat-source">${item.source}</span>
-        `;
-        githubEl.appendChild(card);
+    if (statsRes.ok) {
+      const { profiles, github } = await statsRes.json();
+
+      if (githubEl && github) {
+        const githubLink = `https://github.com/${profiles.github}`;
+        const items = [
+          { value: github.repos,   label: 'Repositories',    source: 'GitHub' },
+          { value: github.commits, label: 'All-time Commits', source: 'GitHub' },
+        ];
+        for (const item of items) {
+          if (item.value == null) continue;
+          const card = document.createElement('a');
+          card.className = 'stat-card';
+          card.href = githubLink;
+          card.target = '_blank';
+          card.rel = 'noopener noreferrer';
+          card.innerHTML = `
+            <span class="stat-value">${item.value}</span>
+            <span class="stat-label">${item.label}</span>
+            <span class="stat-source">${item.source}</span>
+          `;
+          githubEl.appendChild(card);
+        }
       }
+
+      if (langEl) {
+        renderInteractiveLangChart(langEl, github?.languages);
+      }
+    } else {
+      console.warn(`Stats fetch failed: ${statsRes.status}`);
     }
 
-    if (langEl) {
-      renderInteractiveLangChart(langEl, github?.languages);
-    }
+    renderPillTags(pillData);
   } catch (err) {
     console.error('Failed to load skills data:', err);
   }

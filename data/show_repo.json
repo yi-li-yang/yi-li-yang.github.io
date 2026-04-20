@@ -2,7 +2,7 @@
   {
     "description": "Automated mapping of pan-Arctic abrupt thaw landscapes using deep learning and remote sensing imagery.",
     "url": "https://github.com/whrc/RTSmapping_v2",
-    "image": "/assets/thoughts/rtsmapping-v2.jpg"
+    "image": "https://images.zapnito.com/cdn-cgi/image/metadata=copyright,fit=scale-down,format=auto,quality=95/https://images.zapnito.com/uploads/5Ks0zqhStRYlwWduuMcw_slump%20graphics%20-%20slidedeck-sized_pages-to-jpg-0001.jpg"
   },
   {
     "description": "Arctic Retrogressive Thaw Slumps Data Set",
@@ -19,9 +19,14 @@
     "url": "https://github.com/yi-li-yang/Bookkeeping-auto",
     "image": "https://github.com/yi-li-yang/Bookkeeping-auto/blob/main/thumbnail.png"
   },
-    {
+  {
     "description": "Daily Octopus Agile Energy Rate Email Push with GitHub Actions",
     "url": "https://github.com/yi-li-yang/Octopus-agile-price-push-notification",
     "image": "https://raw.githubusercontent.com/yi-li-yang/Octopus-agile-price-push-notification/main/thumb.png"
+  },
+  {
+    "description": "Flight log mapped on an interactive map",
+    "url": "https://github.com/yi-li-yang/travel-map",
+    "image": "https://raw.githubusercontent.com/yi-li-yang/travel-map/main/thumb.gif"
   }
 ]

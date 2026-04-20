@@ -86,8 +86,8 @@ async function fetchGitHub() {
       percent: Math.round((count / total) * 1000) / 10
     }));
 
-  console.log(`  Repos (owned, non-fork): ${owned.length}`);
-  return { repos: owned.length, languages };
+  console.log(`  Repos (public total): ${allRepos.length}`);
+  return { repos: allRepos.length, languages };
 }
 
 // ── GitHub GraphQL (language bytes across all repos + all-time commits) ──
@@ -128,11 +128,11 @@ async function fetchGitHubGraphQL() {
             first: 100
             after: $after
             ownerAffiliations: [OWNER]
-            isFork: false
           ) {
             totalCount
             pageInfo { hasNextPage endCursor }
             nodes {
+              isFork
               languages(first: 10, orderBy: { field: SIZE, direction: DESC }) {
                 edges { size node { name } }
               }
@@ -147,6 +147,7 @@ async function fetchGitHubGraphQL() {
     repos = conn.totalCount;
 
     for (const repo of conn.nodes) {
+      if (repo.isFork) continue;
       for (const edge of repo.languages.edges) {
         langBytes[edge.node.name] = (langBytes[edge.node.name] ?? 0) + edge.size;
       }
