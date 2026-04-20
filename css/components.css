@@ -356,6 +356,7 @@
 /* ── Language donut chart ────────────────────── */
 
 .lang-chart {
+  position: relative;
   margin-top: var(--space-md);
   padding: var(--space-xl);
   background: rgba(255, 255, 255, 0.02);
@@ -657,13 +658,13 @@
   height: 36px;
   width: auto;
   max-width: 180px;
-  filter: grayscale(1) brightness(2.5);
-  opacity: 0.55;
+  filter: grayscale(1);
+  opacity: 0.6;
   transition: opacity var(--transition), filter var(--transition);
 }
 
 .logo-item:hover .logo-img {
-  filter: grayscale(0) brightness(1);
+  filter: none;
   opacity: 1;
 }
 
@@ -725,13 +726,13 @@
   width: 32px;
   height: 32px;
   object-fit: contain;
-  filter: grayscale(1) brightness(3);
-  opacity: 0.55;
-  transition: filter var(--transition), opacity var(--transition);
+  filter: brightness(0) invert(1);
+  opacity: 0.45;
+  transition: opacity var(--transition), filter var(--transition);
 }
 
 .platform-item:hover .platform-logo {
-  filter: grayscale(0) brightness(1);
+  filter: none;
   opacity: 1;
 }
 

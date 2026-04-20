@@ -17,9 +17,9 @@ export async function initStats() {
     const items = [
       { value: pubCount,           label: 'Publications', source: 'ORCID',  link: orcidLink },
       { value: scholar?.citations, label: 'Citations',    source: 'Scholar', link: scholarLink },
-      { value: scholar?.hIndex,    label: 'h-index',      source: 'Scholar', link: scholarLink },
-      { value: scholar?.i10Index,  label: 'i10-index',    source: 'Scholar', link: scholarLink },
-      { value: orcid?.reviews,     label: 'Peer Reviews', source: 'ORCID',   link: orcidLink },
+      { value: scholar?.hIndex,    label: 'h-index',      source: 'Scholar' },
+      { value: scholar?.i10Index,  label: 'i10-index',    source: 'Scholar' },
+      { value: orcid?.reviews,     label: 'Peer Reviews', source: 'ORCID' },
     ];
 
     if (hand) {
