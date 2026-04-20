@@ -64,7 +64,8 @@ Accessibility & Contrast: Always explicitly define both background and text colo
 for all logo clouds: apply a monochrome or greyscale filter (grayscale opacity-70 hover:opacity-100 hover:grayscale-0 transition-all in Tailwind， so it blend in the dark background. download latest logo images automatically.
 
 # content components
-## navigation bar link to the following sections
+## Minimalist navigation bar 
+Links to GitHub, LinkedIn, Google Scholar, ORCID, and a mailto: link for email yyl.eli@gmail.com
 
 ## The Hero Section
 - *pre-headline*: Geoscientist, Applied Full-stack Geospatial Data Scientist
@@ -108,12 +109,10 @@ publications(union but deduplicated):
 google scholar stats
 ORCID stats
 
-## Minimalist Footer
-Links to GitHub, LinkedIn, Google Scholar, ORCID, and a mailto: link for your email.
 
 ## logo cloud
-University of Edinburgh, Faculty.ai, Woodwell. 
-
+Experience: University of Edinburgh, Faculty.ai, Woodwell. 
+Collaboration: Petrobras, Google, Esri
 
 ## timestamp*
 Last updated [Date]

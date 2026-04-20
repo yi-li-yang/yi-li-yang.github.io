@@ -336,16 +336,16 @@ The color system is almost entirely achromatic — dark backgrounds with white/g
 ## 9. Agent Prompt Guide
 
 ### Quick Color Reference
-- Primary CTA: Brand Indigo (`#5e6ad2`)
-- Page Background: Marketing Black (`#08090a`)
-- Panel Background: Panel Dark (`#0f1011`)
-- Surface: Level 3 (`#191a1b`)
-- Heading text: Primary White (`#f7f8f8`)
-- Body text: Silver Gray (`#d0d6e0`)
-- Muted text: Tertiary Gray (`#8a8f98`)
-- Subtle text: Quaternary Gray (`#62666d`)
-- Accent: Violet (`#7170ff`)
-- Accent Hover: Light Violet (`#828fff`)
+- Primary CTA: Brand Indigo (` #5e6ad2`)
+- Page Background: Marketing Black (` #08090a`)
+- Panel Background: Panel Dark (` #0f1011`)
+- Surface: Level 3 (` #191a1b`)
+- Heading text: Primary White (` #f7f8f8`)
+- Body text: Silver Gray (` #d0d6e0`)
+- Muted text: Tertiary Gray (` #8a8f98`)
+- Subtle text: Quaternary Gray (` #62666d`)
+- Accent: Violet (` #7170ff`)
+- Accent Hover: Light Violet (` #828fff`)
 - Border (default): `rgba(255,255,255,0.08)`
 - Border (subtle): `rgba(255,255,255,0.05)`
 - Focus ring: Multi-layer shadow stack
