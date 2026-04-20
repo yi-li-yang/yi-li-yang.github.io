@@ -117,15 +117,6 @@ a:hover {
   text-decoration: none;
 }
 
-.nav-toggle {
-  display: none;
-}
-
-.header-actions {
-  display: flex;
-  gap: var(--space-xs);
-  align-items: center;
-}
 
 /* ── Hero ────────────────────────────────────── */
 
@@ -236,26 +227,6 @@ a:hover {
 }
 
 @media (max-width: 760px) {
-  .header-inner {
-    align-items: flex-start;
-  }
-
-  .site-nav {
-    display: none;
-    flex-direction: column;
-    width: 100%;
-    gap: var(--space-xs);
-    margin-top: var(--space-sm);
-  }
-
-  .site-nav.open {
-    display: flex;
-  }
-
-  .nav-toggle {
-    display: inline-flex;
-  }
-
   .section {
     padding: var(--space-xxl) 0;
   }

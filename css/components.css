@@ -82,7 +82,7 @@
   font-weight: 510;
   line-height: 1;
   letter-spacing: -0.704px;
-  color: var(--color-text);
+  color: var(--color-brand);
   font-feature-settings: var(--font-features);
 }
 
@@ -105,7 +105,7 @@
   grid-column: 1 / -1;
   text-align: right;
   font-size: 0.6875rem;
-  color: var(--color-text-subtle);
+  color: var(--color-text);
   font-family: var(--font-mono);
 }
 
@@ -640,6 +640,10 @@
   font-feature-settings: var(--font-features);
 }
 
+.logo-cloud-label-second {
+  margin-top: var(--space-xxl);
+}
+
 .logo-cloud-items {
   display: flex;
   align-items: center;
@@ -658,8 +662,8 @@
   height: 36px;
   width: auto;
   max-width: 180px;
-  filter: grayscale(1);
-  opacity: 0.6;
+  filter: brightness(0) invert(1);
+  opacity: 0.45;
   transition: opacity var(--transition), filter var(--transition);
 }
 
@@ -672,7 +676,7 @@
   text-align: center;
   font-family: var(--font-mono);
   font-size: 0.6875rem;
-  color: var(--color-text-subtle);
+  color: var(--color-text);
   margin-top: var(--space-xl);
 }
 
@@ -826,10 +830,6 @@
 }
 
 @media (max-width: 720px) {
-  .header-actions {
-    justify-content: center;
-  }
-
   .thoughts-grid {
     grid-template-columns: 1fr;
   }
