@@ -345,12 +345,17 @@
   color: var(--color-text-secondary);
   line-height: 1.75rem;
   font-feature-settings: var(--font-features);
-  transition: border-color var(--transition), color var(--transition);
+  transition: border-color 500ms ease-out, color 500ms ease-out,
+              background 500ms ease-out, box-shadow 500ms ease-out;
 }
 
 .tech-pill span:hover {
-  border-color: rgba(255, 255, 255, 0.12);
+  border-color: rgba(113, 112, 255, 0.45);
   color: var(--color-text);
+  background: rgba(94, 106, 210, 0.1);
+  box-shadow: 0 0 8px rgba(113, 112, 255, 0.2);
+  transition: border-color 60ms ease-in, color 60ms ease-in,
+              background 60ms ease-in, box-shadow 60ms ease-in;
 }
 
 /* ── Language donut chart ────────────────────── */
@@ -477,6 +482,17 @@
   font-feature-settings: var(--font-features);
   line-height: 1.4;
   white-space: nowrap;
+  transition: background 500ms ease-out, border-color 500ms ease-out,
+              color 500ms ease-out, box-shadow 500ms ease-out;
+}
+
+.pill-tag:hover {
+  background: rgba(94, 106, 210, 0.12);
+  border-color: rgba(113, 112, 255, 0.45);
+  color: var(--color-text);
+  box-shadow: 0 0 8px rgba(113, 112, 255, 0.2);
+  transition: background 60ms ease-in, border-color 60ms ease-in,
+              color 60ms ease-in, box-shadow 60ms ease-in;
 }
 
 .hero-pills-divider {
@@ -664,12 +680,13 @@
   max-width: 180px;
   filter: brightness(0) invert(1);
   opacity: 0.45;
-  transition: opacity var(--transition), filter var(--transition);
+  transition: opacity 500ms ease-out, filter 500ms ease-out;
 }
 
 .logo-item:hover .logo-img {
   filter: none;
   opacity: 1;
+  transition: opacity 60ms ease-in, filter 60ms ease-in;
 }
 
 .logo-cloud-updated {
@@ -699,7 +716,7 @@
 
 .skills-concepts {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: var(--space-xl);
   margin-bottom: var(--space-xxl);
 }
@@ -747,12 +764,13 @@
   object-fit: contain;
   filter: brightness(0) invert(1);
   opacity: 0.45;
-  transition: opacity var(--transition), filter var(--transition);
+  transition: opacity 500ms ease-out, filter 500ms ease-out;
 }
 
 .platform-item:hover .platform-logo {
   filter: none;
   opacity: 1;
+  transition: opacity 60ms ease-in, filter 60ms ease-in;
 }
 
 .platform-text-logo {
@@ -769,13 +787,14 @@
   border: 1px solid var(--color-border-subtle);
   border-radius: var(--radius-xs);
   opacity: 0.5;
-  transition: opacity var(--transition), border-color var(--transition), color var(--transition);
+  transition: opacity 500ms ease-out, border-color 500ms ease-out, color 500ms ease-out;
 }
 
 .platform-item:hover .platform-text-logo {
   opacity: 1;
   border-color: rgba(255, 255, 255, 0.12);
   color: var(--color-text);
+  transition: opacity 60ms ease-in, border-color 60ms ease-in, color 60ms ease-in;
 }
 
 .platform-name {

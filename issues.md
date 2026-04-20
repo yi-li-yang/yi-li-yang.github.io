@@ -1,1 +1,2 @@
-1. the skills and subsections take about 40 of the width, and the timeline take 60 of the width, dont use cards, use a continuous design, with a vertical line and finer,shorter line horizontally pointing to each period. Use logo besides the name of each institution and 
+1. remove the timeline entirely, use three columns for the skills(ai, engineering, geosciece.)
+2. when mouse move across pilltags and logoclouds, it ignites(brighten), I want the effect last longer, a bit more obvious when trigger, and trigger easier (if i quickly strock the mouse across a few elements, they should all ignite)
