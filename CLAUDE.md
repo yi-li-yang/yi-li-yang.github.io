@@ -102,7 +102,7 @@ Showcase project grid, leave blank for now， full width under the hero section
 ## Thoughts (showcase my ideas and projects)
 Example Cards to showcase: see show_repo.json
 
-Content per Card: github repos,each with a link, a description, and a thumbnail image or gif
+Content per Card: github repos,each with a link, a description, and a thumbnail image or gif (From github repo README.md)
 
 ## Live stats (academic, no github)
 publications(union but deduplicated):

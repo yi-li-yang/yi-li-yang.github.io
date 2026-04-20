@@ -10,15 +10,48 @@
   },
   "orcid": {
     "works": 20,
-    "reviews": 7
+    "reviews": 5
   },
   "github": {
-    "repos": 81,
+    "repos": 16,
     "commits": 346,
-    "languages": []
+    "languages": [
+      {
+        "name": "TeX",
+        "percent": 25
+      },
+      {
+        "name": "Jupyter Notebook",
+        "percent": 25
+      },
+      {
+        "name": "TypeScript",
+        "percent": 8.3
+      },
+      {
+        "name": "HTML",
+        "percent": 8.3
+      },
+      {
+        "name": "Python",
+        "percent": 8.3
+      },
+      {
+        "name": "Makefile",
+        "percent": 8.3
+      },
+      {
+        "name": "JavaScript",
+        "percent": 8.3
+      },
+      {
+        "name": "CSS",
+        "percent": 8.3
+      }
+    ]
   },
   "scholar": {
-    "citations": 241,
+    "citations": 247,
     "hIndex": 7,
     "i10Index": 6
   },
@@ -31,5 +64,5 @@
     "menteesSupervised": 9,
     "invitedTalks": 17
   },
-  "lastUpdated": "2026-04-19T00:00:00.000Z"
+  "lastUpdated": "2026-04-20T12:06:35.328Z"
 }

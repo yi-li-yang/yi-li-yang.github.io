@@ -12,11 +12,16 @@
   {
     "description": "Interactive Geospatial Labeling Tool for Remote Sensing Imagery using the Segment Anything Model (SAM).",
     "url": "https://github.com/whrc/interactive-sam2",
-    "image": null
+    "image": "https://github.com/whrc/interactive-sam2/blob/main/thumb.gif"
   },
   {
-    "description": "Interactive Geospatial Labeling Tool for Remote Sensing Imagery using the Segment Anything Model (SAM).",
-    "url": "https://github.com/whrc/interactive-sam2",
-    "image": null
+    "description": "LLM-Enhanced Automatic bookkeeping and personal finance dashboard",
+    "url": "https://github.com/yi-li-yang/Bookkeeping-auto",
+    "image": "https://github.com/yi-li-yang/Bookkeeping-auto/blob/main/thumbnail.png"
+  },
+    {
+    "description": "Daily Octopus Agile Energy Rate Email Push with GitHub Actions",
+    "url": "https://github.com/yi-li-yang/Octopus-agile-price-push-notification",
+    "image": "https://raw.githubusercontent.com/yi-li-yang/Octopus-agile-price-push-notification/main/thumb.png"
   }
 ]
