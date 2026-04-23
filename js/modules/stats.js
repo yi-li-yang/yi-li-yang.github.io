@@ -33,6 +33,9 @@ export async function initStats() {
       if (hand.invitedTalks != null) {
         items.push({ value: hand.invitedTalks, label: 'Invited Talks' });
       }
+      if (hand['NSFProposal Reviews'] != null) {
+        items.push({ value: hand['NSFProposal Reviews'], label: 'NSF Proposal Reviews' });
+      }
     }
 
     for (const item of items) {
