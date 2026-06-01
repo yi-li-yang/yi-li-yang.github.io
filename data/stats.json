@@ -13,8 +13,8 @@
     "reviews": 5
   },
   "github": {
-    "repos": 19,
-    "commits": 384,
+    "repos": 20,
+    "commits": 390,
     "languages": [
       {
         "name": "Jupyter Notebook",
@@ -64,8 +64,8 @@
     ]
   },
   "scholar": {
-    "citations": 251,
-    "hIndex": 7,
+    "citations": 268,
+    "hIndex": 8,
     "i10Index": 7
   },
   "static": {
@@ -77,5 +77,5 @@
     "menteesSupervised": 9,
     "invitedTalks": 17
   },
-  "lastUpdated": "2026-05-01T02:02:25.439Z"
+  "lastUpdated": "2026-06-01T02:40:29.081Z"
 }
