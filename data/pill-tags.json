@@ -13,8 +13,7 @@
       "Deep Learning",
       "Computer Vision",
       "AI for Geoscience",
-      "Geospatial Data Science",
-      "Time-series Modelling"
+      "Geospatial Data Science"
     ]
   },
   "skillSections": [
@@ -36,8 +35,12 @@
       "title": "Geoscience",
       "tags": [
         "Multiphase Fluid Flow",
-        "Pore-scale Modelling"
-        
+        "Pore-scale Modelling",
+        "Porous Medium",
+        "Retrogressive Thaw Slumps",
+        "Permafrost",
+        "TEM Emulator",
+        "PINN"
       ]
     },
     {
