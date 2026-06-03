@@ -76,6 +76,20 @@ function renderPillTags(tagData) {
   renderPillCategories(document.getElementById('capabilities-skills'), tagData.skillSections);
 }
 
+function normalizeLangs(languages) {
+  if (!languages?.length) return languages;
+  const merged = languages.reduce((acc, lang) => {
+    const key = lang.name === 'Jupyter Notebook' ? 'Python' : lang.name;
+    if (!acc[key]) acc[key] = { name: key, bytes: 0 };
+    acc[key].bytes += lang.bytes;
+    return acc;
+  }, {});
+  const total = Object.values(merged).reduce((s, l) => s + l.bytes, 0);
+  return Object.values(merged)
+    .map(l => ({ ...l, percent: (l.bytes / total) * 100 }))
+    .sort((a, b) => b.bytes - a.bytes);
+}
+
 function renderInteractiveLangChart(container, languages) {
   if (!languages?.length) return;
 
@@ -196,7 +210,7 @@ export async function initSkills() {
       }
 
       if (langEl) {
-        renderInteractiveLangChart(langEl, github?.languages);
+        renderInteractiveLangChart(langEl, normalizeLangs(github?.languages));
       }
     } else {
       console.warn(`Stats fetch failed: ${statsRes.status}`);
