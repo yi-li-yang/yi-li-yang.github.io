@@ -1,0 +1,198 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Medium Length Professional CV
+% LaTeX Template
+% Version 2.0 (8/5/13)
+%
+% This template has been downloaded from:
+% http://www.LaTeXTemplates.com
+%
+% Original author:
+% Rishi Shah 
+%
+% Important note:
+% This template requires the resume.cls file to be in the same directory as the
+% .tex file. The resume.cls file provides the resume style used for structuring the
+% document.
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%----------------------------------------------------------------------------------------
+%	PACKAGES AND OTHER DOCUMENT CONFIGURATIONS
+%----------------------------------------------------------------------------------------
+\renewcommand{\baselinestretch}{0.99}
+\documentclass{resume} % Use the custom resume.cls style
+
+\newenvironment{indentpar}[1]%
+  {\begin{list}{}%
+          {\setlength{\leftmargin}{#1}}%
+          \item[]%
+  }
+  {\end{list}}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{mathptmx}
+\usepackage[]{natbib}
+\usepackage[left=1in,top=1in,right=1in,bottom=1in]{geometry} % Document margins
+\usepackage{datetime2}
+
+\linespread{1}
+\fontsize{12}{13.5}
+\newcommand{\tab}[1]{\hspace{.25\textwidth}\rlap{#1}}
+\newcommand{\itab}[1]{\hspace{0em}\rlap{#1}}
+\renewcommand{\bibsection}{}
+
+% Date command
+\usepackage[absolute]{textpos}
+\usepackage[UKenglish]{isodate}
+\setlength{\TPHorizModule}{1mm}
+\setlength{\TPVertModule}{1mm}
+\newcommand{\lastupdated}{\begin{textblock}{60}(155,5)
+\fontsize{8pt}{10pt}\selectfont 
+Last Updated \today
+\end{textblock}}
+
+%%===================================================================================================
+%%===================================================================================================
+
+\name{YILI YANG} % Your name
+\address{+44 7490334233\textbar\textbar yyang@woodwellclimate.org\textbar\textbar ORCID 0000-0002-1791-3899} % Your phone number and email
+
+%-------------------------------------------------------------
+%====================================================
+\begin{document}
+% Derived metrics generated from data/stats.json + cv/publications.bib by
+% scripts/emit-metrics-tex.js. Do not hardcode these numbers — edit the source data.
+\input{generated/metrics.tex}
+\lastupdated
+\begin{rSection}{Research SCOPE}
+My research develops/applies advanced AI methodologies to solve complex scientific problems, especially in geoscience, environmental and climate sciences. I create data/AI-driven approaches that accelerate scientific discovery, improve predictions, and transform our understanding of our changing planet through interdisciplinary collaborations.
+
+\end{rSection}
+%====================================================
+\begin{rSection}{Education}
+{\bf University of Edinburgh, UK} 
+
+\begin{indentpar}{0.5cm}
+\textbf{PhD in Petrophysics} \hfill {Oct 2016 - Apr 2021}
+
+\textbf{MSc (Research) in Geology, Distinction} \hfill {August 2015 - August 2016}
+
+\textbf{BSc Geology} \hfill {Sep 2011 - May 2015} 
+\end{indentpar}
+
+\end{rSection}
+%====================================================
+\begin{rSection}{Experience}
+% Experience entries are single-sourced from data/experience.json and rendered by
+% scripts/render-cv.js (templates/biosketch-experience.tex.njk). Edit the data, not here.
+\input{generated/experience.tex}
+\end{rSection}
+%===============================================================
+\begin{rSection}{PUBLICATIONS, CONFERENCES AND DATA SETS}
+\nocite{yang2026keeping}
+\nocite{virkkala2026data}
+\nocite{perera2025panarctic}
+\nocite{potter2026burned}
+\nocite{clelland2025machine}
+\nocite{li2025multiscale}
+\nocite{yang2025collaborative}
+\nocite{yang2024arctic}
+\nocite{gu4762408multi}
+\nocite{li2024segment}
+\nocite{rodenhizer2024comparison}
+\nocite{yang2024arts}
+\nocite{rogers2023permafrost}
+\nocite{yang2023mappingb}
+\nocite{potter2023mapping}
+\nocite{potter4803815mapping}
+\nocite{rodenhizer2023comparison}
+\nocite{li2023geoai}
+\nocite{yang2023mappinga}
+\nocite{mullen2023using}
+\nocite{singh2022mapping}
+\nocite{yang2022fast}
+\nocite{marti2021time}
+\nocite{marti2020chemical}
+\nocite{yang2018immiscible}
+\bibliographystyle{unsrtnat}
+\bibliography{../publications}
+\end{rSection}
+%=====================================================
+\begin{rSection}{RESEARCH FUNDINGS}
+
+Funding for Climate Solutions: A Generic Climate AI Framework for Multi-domain Time Series Prediction, Woodwell Climate Research Center, \$\funding
+    
+Overall Objectives: This project will attempt to develop a generic climate AI framework that will unify and accelerate time-series inferences across Woodwell Climate Research Center's diverse research domains, from Arctic carbon fluxes to tropical forest dynamics.
+
+Pending/ongoing/submitted funding applications with NASA, NSF, Google.org and the Bezos Foundation
+    
+\end{rSection}
+%=====================================================
+\begin{rSection}{PARTICIPATED RESEARCH INITIATIVES}
+
+\textbf{Permafrost Discovery Gateways} Funded by Google.org and NSF, the Gateway is making information of permafrost conditions available throughout the Arctic by providing access to big geospatial products and tools to allow exploration and discovery for researchers, educators, and the public at large. This includes providing automated monthly monitoring of permafrost thaw during the snow-free season from satellite imagery.
+
+\textbf{Permafrost Pathways} Funded through the TED Audacious Project — a collaborative funding initiative catalyzing big, bold solutions to the world’s most urgent challenges. Through a joint effort between Woodwell Climate Research Center, the Arctic Initiative at Harvard Kennedy School, and the Alaska Institute for Justice, Permafrost Pathways brings together leading experts in climate science, policy action, and environmental justice to inform and develop adaptation and mitigation strategies to address permafrost thaw.
+
+\textbf{GeoAI Challenge} Cooperate with the Cyberinfrastructure and Computational Intelligence Lab and Prof. Wenwen Li at Arizona State University to host an NSF-funded AI challenge (Cyber2A  Arctic Challenge) using remote sensing imagery to detect permafrost thaw.
+
+\end{rSection}
+%=====================================================
+\begin{rSection}{Mentorship}
+Multi-domain Timeseries Forecasting 
+\begin{indentpar}{0.5cm}
+Sandeep Poudel \hfill2026\\
+Dogukan Teber \hfill2025
+\end{indentpar}
+
+Satellite Image Labelling Workflow and Training Image Generation
+\begin{indentpar}{0.5cm}
+Robb Young \hfill2025\\
+Marly Bartkus \hfill2025
+\end{indentpar}
+
+Deep Learning label data curation for ESRI-Woodwell Collaboration
+\begin{indentpar}{0.5cm}
+Marly Bartkus \hfill2025
+\end{indentpar}
+
+Automatic Improvement of Geospatial Digitisation using Segment Anything Model
+\begin{indentpar}{0.5cm}
+Arav Agarwal \hfill2025\\
+Milagros Becerra \hfill2025
+\end{indentpar}
+
+Estimation of the Volumetric Loss of Retrogressive Thaw Slumps using DEM
+\begin{indentpar}{0.5cm}
+Margo Moceyunas \hfill2024
+\end{indentpar}
+
+Using Vision-Transformer to segment Retrogressive Thaw Slumps on Remote Sensing Imagery
+\begin{indentpar}{0.5cm}
+Ridhima Singh  \hfill2023
+\end{indentpar}
+\end{rSection}
+%=====================================================
+\begin{rSection}{ACADEMIC SERVICES, CONFERENCES AND TALKS}
+\begin{itemize}
+    \item Manuscripts review: \peerreviews
+    \item NSF Proposal review: \nsfreviews
+    \item Accelerating Climate Progress with AI: From Science to Action Workshop, The National Academies, US \hfill 2024
+    \item Invited talk at the Arctic Carbon Flux Upscaling Workshop, Sweden \hfill 2024
+    \item Invited panel talk at the Esri UC Spatial Analytics Summit, US \hfill 2024
+    \item Invited talk at the Cyber2A Workshop, US \hfill 2024
+    \item European Geophysical Union Annual Conference, EU \hfill 2022, 2023, 2024
+    \item Google Geo-for-Good Summit, US/Singapore \hfill 2022, 2023, 2025
+    \item Tri-Polar Remote Sensing Conference, China \hfill 2023, 2024
+    \item RTSInTrain Workshop, EU \hfill 2023
+    \item NASA Arctic-Boreal Vulnerability Experiment workshop, US \hfill 2022
+    \item Invited Permafrost Discovery Gateway Webinar \hfill 2022
+    \item Invited webinar at the Royal Meteorological Society: Machine Learning for Atmospheric Sciences: Values and Controversies, UK \hfill 2022
+    \item American Geophysical Union annual conference, US \hfill 2018
+\end{itemize}
+
+
+\end{rSection}
+%=====================================================
+\end{document}

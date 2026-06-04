@@ -1,0 +1,1161 @@
+{
+  "generatedBy": "scripts/bib-to-json.js",
+  "generatedAt": "2026-06-04T15:22:23.788Z",
+  "counts": {
+    "journalPapers": 13,
+    "conferences": 8,
+    "datasets": 1,
+    "total": 25
+  },
+  "publications": [
+    {
+      "key": "clelland2025machine",
+      "type": "misc",
+      "title": "Machine learning projections of fire occurrence in the arctic-boreal zone for 2025-2100 under different SSP scenarios",
+      "authors": [
+        {
+          "name": "Andrew A. Clelland",
+          "isOwner": false
+        },
+        {
+          "name": "Gareth J. Marshall",
+          "isOwner": false
+        },
+        {
+          "name": "Robert Baxter",
+          "isOwner": false
+        },
+        {
+          "name": "Stefano Hosking",
+          "isOwner": false
+        },
+        {
+          "name": "Yili Yang",
+          "isOwner": true
+        },
+        {
+          "name": "Anna C. Talucci",
+          "isOwner": false
+        },
+        {
+          "name": "Joshua M. Rady",
+          "isOwner": false
+        },
+        {
+          "name": "Hélène Genet",
+          "isOwner": false
+        },
+        {
+          "name": "Brendan M. Rogers",
+          "isOwner": false
+        }
+      ],
+      "venue": "In preparation",
+      "year": null,
+      "doi": "",
+      "url": "",
+      "dataset": false
+    },
+    {
+      "key": "virkkala2026data",
+      "type": "misc",
+      "title": "Data-driven modeling of carbon dioxide and methane fluxes across the Arctic-boreal region: recent achievements and future opportunities",
+      "authors": [
+        {
+          "name": "Anna-Maria Virkkala...",
+          "isOwner": false
+        }
+      ],
+      "venue": "submitted to Global Change Biology",
+      "year": null,
+      "doi": "",
+      "url": "",
+      "dataset": false
+    },
+    {
+      "key": "potter2026burned",
+      "type": "article",
+      "title": "Burned area mapping across the Arctic-boreal zone with Landsat and Sentinel-2 imagery",
+      "authors": [
+        {
+          "name": "Stefano Potter",
+          "isOwner": false
+        },
+        {
+          "name": "Yili Yang",
+          "isOwner": true
+        },
+        {
+          "name": "Arden Burrell",
+          "isOwner": false
+        },
+        {
+          "name": "Anna Talucci",
+          "isOwner": false
+        },
+        {
+          "name": "Andrew A Clelland",
+          "isOwner": false
+        },
+        {
+          "name": "Sander Veraverbeke",
+          "isOwner": false
+        },
+        {
+          "name": "James T Randerson",
+          "isOwner": false
+        },
+        {
+          "name": "Scott J Goetz",
+          "isOwner": false
+        },
+        {
+          "name": "Logan T Berner",
+          "isOwner": false
+        },
+        {
+          "name": "Michelle C Mack",
+          "isOwner": false
+        },
+        {
+          "name": "et al.",
+          "isOwner": false,
+          "etAl": true
+        }
+      ],
+      "venue": "International Journal of Remote Sensing",
+      "year": 2026,
+      "doi": "",
+      "url": "",
+      "dataset": false
+    },
+    {
+      "key": "perera2025panarctic",
+      "type": "misc",
+      "title": "Pan-arctic permafrost landform and human-built infrastructure feature detection with vision transformers and location embeddings",
+      "authors": [
+        {
+          "name": "Amal S. Perera",
+          "isOwner": false
+        },
+        {
+          "name": "David Fernandez",
+          "isOwner": false
+        },
+        {
+          "name": "Chandi Witharana",
+          "isOwner": false
+        },
+        {
+          "name": "Elias Manos",
+          "isOwner": false
+        },
+        {
+          "name": "Michael Pimenta",
+          "isOwner": false
+        },
+        {
+          "name": "Anna K. Liljedahl",
+          "isOwner": false
+        },
+        {
+          "name": "Ingmar Nitze",
+          "isOwner": false
+        },
+        {
+          "name": "Yili Yang",
+          "isOwner": true
+        },
+        {
+          "name": "Todd Nicholson",
+          "isOwner": false
+        },
+        {
+          "name": "Wenwen Li",
+          "isOwner": false
+        },
+        {
+          "name": "Chia-Yu Hsu",
+          "isOwner": false
+        }
+      ],
+      "venue": "IEEE Journal of Selected Topics in Applied Earth Observations and Remote Sensing",
+      "year": 2026,
+      "doi": "10.1109/JSTARS.2025.3648673",
+      "url": "https://doi.org/10.1109/JSTARS.2025.3648673",
+      "dataset": false
+    },
+    {
+      "key": "yang2026keeping",
+      "type": "article",
+      "title": "Keeping pace with a changing planet: An interactive segmentation framework for refining delineations of dynamic Earth features with the Segment Anything Model",
+      "authors": [
+        {
+          "name": "Yili Yang",
+          "isOwner": true
+        },
+        {
+          "name": "Arav Agarwal",
+          "isOwner": false
+        },
+        {
+          "name": "Marlena Bartkus",
+          "isOwner": false
+        },
+        {
+          "name": "Heidi Rodenhizer",
+          "isOwner": false
+        },
+        {
+          "name": "Wenwen Li",
+          "isOwner": false
+        },
+        {
+          "name": "Hyunho Lee",
+          "isOwner": false
+        },
+        {
+          "name": "Chia-Yu Hsu",
+          "isOwner": false
+        },
+        {
+          "name": "Greg Fiske",
+          "isOwner": false
+        },
+        {
+          "name": "Stefano Potter",
+          "isOwner": false
+        },
+        {
+          "name": "Anna Liljedahl",
+          "isOwner": false
+        },
+        {
+          "name": "et al.",
+          "isOwner": false,
+          "etAl": true
+        }
+      ],
+      "venue": "International Journal of Applied Earth Observation and Geoinformation",
+      "year": 2026,
+      "doi": "",
+      "url": "",
+      "dataset": false
+    },
+    {
+      "key": "yang2025collaborative",
+      "type": "article",
+      "title": "A collaborative and scalable geospatial data set for arctic retrogressive thaw slumps with data standards",
+      "authors": [
+        {
+          "name": "Yili Yang",
+          "isOwner": true
+        },
+        {
+          "name": "Heidi Rodenhizer",
+          "isOwner": false
+        },
+        {
+          "name": "Brendan M Rogers",
+          "isOwner": false
+        },
+        {
+          "name": "Jacqueline Dean",
+          "isOwner": false
+        },
+        {
+          "name": "Ridhima Singh",
+          "isOwner": false
+        },
+        {
+          "name": "Tiffany Windholz",
+          "isOwner": false
+        },
+        {
+          "name": "Amanda Poston",
+          "isOwner": false
+        },
+        {
+          "name": "Stefano Potter",
+          "isOwner": false
+        },
+        {
+          "name": "Scott Zolkos",
+          "isOwner": false
+        },
+        {
+          "name": "Greg Fiske",
+          "isOwner": false
+        },
+        {
+          "name": "et al.",
+          "isOwner": false,
+          "etAl": true
+        }
+      ],
+      "venue": "Scientific Data",
+      "year": 2025,
+      "doi": "",
+      "url": "",
+      "dataset": false
+    },
+    {
+      "key": "li2025multiscale",
+      "type": "article",
+      "title": "A multi-scale vision transformer-based multimodal GeoAI model for mapping arctic permafrost thaw",
+      "authors": [
+        {
+          "name": "Wenwen Li",
+          "isOwner": false
+        },
+        {
+          "name": "Chia-Yu Hsu",
+          "isOwner": false
+        },
+        {
+          "name": "Sizhe Wang",
+          "isOwner": false
+        },
+        {
+          "name": "Zhining Gu",
+          "isOwner": false
+        },
+        {
+          "name": "Yili Yang",
+          "isOwner": true
+        },
+        {
+          "name": "Brendan M. Rogers",
+          "isOwner": false
+        },
+        {
+          "name": "Anna Liljedahl",
+          "isOwner": false
+        }
+      ],
+      "venue": "IEEE Journal of Selected Topics in Applied Earth Observations and Remote Sensing",
+      "year": 2025,
+      "doi": "10.1109/JSTARS.2025.3564310",
+      "url": "https://doi.org/10.1109/JSTARS.2025.3564310",
+      "dataset": false
+    },
+    {
+      "key": "li2024segment",
+      "type": "article",
+      "title": "Segment anything model can not segment anything: Assessing ai foundation model’s generalizability in permafrost mapping",
+      "authors": [
+        {
+          "name": "Wenwen Li",
+          "isOwner": false
+        },
+        {
+          "name": "Chia-Yu Hsu",
+          "isOwner": false
+        },
+        {
+          "name": "Sizhe Wang",
+          "isOwner": false
+        },
+        {
+          "name": "Yezhou Yang",
+          "isOwner": false
+        },
+        {
+          "name": "Hyunho Lee",
+          "isOwner": false
+        },
+        {
+          "name": "Anna Liljedahl",
+          "isOwner": false
+        },
+        {
+          "name": "Chandi Witharana",
+          "isOwner": false
+        },
+        {
+          "name": "Yili Yang",
+          "isOwner": true
+        },
+        {
+          "name": "Brendan M Rogers",
+          "isOwner": false
+        },
+        {
+          "name": "Samantha T Arundel",
+          "isOwner": false
+        },
+        {
+          "name": "et al.",
+          "isOwner": false,
+          "etAl": true
+        }
+      ],
+      "venue": "Remote Sensing",
+      "year": 2024,
+      "doi": "",
+      "url": "",
+      "dataset": false
+    },
+    {
+      "key": "yang2024arts",
+      "type": "inproceedings",
+      "title": "Arts: a scalable data set for arctic retrogressive thaw slumps",
+      "authors": [
+        {
+          "name": "Yili Yang",
+          "isOwner": true
+        },
+        {
+          "name": "Heidi Rodenhizer",
+          "isOwner": false
+        },
+        {
+          "name": "Brendan M Rogers",
+          "isOwner": false
+        },
+        {
+          "name": "Jacqueline Dean",
+          "isOwner": false
+        },
+        {
+          "name": "Ridhima Singh",
+          "isOwner": false
+        },
+        {
+          "name": "Tiffany Windholz",
+          "isOwner": false
+        },
+        {
+          "name": "Amanda Poston",
+          "isOwner": false
+        },
+        {
+          "name": "Stefano Potter",
+          "isOwner": false
+        },
+        {
+          "name": "Scott Zolkos",
+          "isOwner": false
+        },
+        {
+          "name": "Greg Fiske",
+          "isOwner": false
+        },
+        {
+          "name": "et al.",
+          "isOwner": false,
+          "etAl": true
+        }
+      ],
+      "venue": "EGU general assembly conference abstracts",
+      "year": 2024,
+      "doi": "",
+      "url": "",
+      "dataset": false
+    },
+    {
+      "key": "gu4762408multi",
+      "type": "article",
+      "title": "A multi-scale vision transformer-based multimodal geoai model for mapping arctic permafrost thaw",
+      "authors": [
+        {
+          "name": "Zhining Gu",
+          "isOwner": false
+        },
+        {
+          "name": "Wenwen Li",
+          "isOwner": false
+        },
+        {
+          "name": "Chia-Yu Hsu",
+          "isOwner": false
+        },
+        {
+          "name": "Sizhe Wang",
+          "isOwner": false
+        },
+        {
+          "name": "Yili Yang",
+          "isOwner": true
+        },
+        {
+          "name": "Brendan M Rogers",
+          "isOwner": false
+        },
+        {
+          "name": "Anna Liljedahl",
+          "isOwner": false
+        }
+      ],
+      "venue": "Available at SSRN 4762408",
+      "year": 2024,
+      "doi": "",
+      "url": "",
+      "dataset": false
+    },
+    {
+      "key": "potter4803815mapping",
+      "type": "article",
+      "title": "Mapping arctic-boreal burned area in north america using a convolutional neural network with landsat and sentinel-2 imagery",
+      "authors": [
+        {
+          "name": "Stefano Potter",
+          "isOwner": false
+        },
+        {
+          "name": "Yili Yang",
+          "isOwner": true
+        },
+        {
+          "name": "Arden Burrell",
+          "isOwner": false
+        },
+        {
+          "name": "Anna Talucci",
+          "isOwner": false
+        },
+        {
+          "name": "Sander Veraverbeke",
+          "isOwner": false
+        },
+        {
+          "name": "James T Randerson",
+          "isOwner": false
+        },
+        {
+          "name": "Scott Goetz",
+          "isOwner": false
+        },
+        {
+          "name": "Logan Berner",
+          "isOwner": false
+        },
+        {
+          "name": "Michelle Mack",
+          "isOwner": false
+        },
+        {
+          "name": "Xanthe Walker",
+          "isOwner": false
+        },
+        {
+          "name": "et al.",
+          "isOwner": false,
+          "etAl": true
+        }
+      ],
+      "venue": "Available at SSRN 4803815",
+      "year": 2024,
+      "doi": "",
+      "url": "",
+      "dataset": false
+    },
+    {
+      "key": "rodenhizer2024comparison",
+      "type": "article",
+      "title": "A comparison of satellite imagery sources for automated detection of retrogressive thaw slumps",
+      "authors": [
+        {
+          "name": "Heidi Rodenhizer",
+          "isOwner": false
+        },
+        {
+          "name": "Yili Yang",
+          "isOwner": true
+        },
+        {
+          "name": "Greg Fiske",
+          "isOwner": false
+        },
+        {
+          "name": "Stefano Potter",
+          "isOwner": false
+        },
+        {
+          "name": "Tiffany Windholz",
+          "isOwner": false
+        },
+        {
+          "name": "Andrew Mullen",
+          "isOwner": false
+        },
+        {
+          "name": "Jennifer D Watts",
+          "isOwner": false
+        },
+        {
+          "name": "Brendan M Rogers",
+          "isOwner": false
+        }
+      ],
+      "venue": "Remote Sensing",
+      "year": 2024,
+      "doi": "",
+      "url": "",
+      "dataset": false
+    },
+    {
+      "key": "yang2024arctic",
+      "type": "misc",
+      "title": "Arctic retrogressive thaw slumps (ARTS): digitisations of pan-arctic retrogressive thaw slumps, 1985-2021",
+      "authors": [
+        {
+          "name": "Yili Yang",
+          "isOwner": true
+        },
+        {
+          "name": "H Rodenhizer",
+          "isOwner": false
+        },
+        {
+          "name": "J Dean",
+          "isOwner": false
+        }
+      ],
+      "venue": "Arctic Data Center",
+      "year": 2024,
+      "doi": "10.18739/A2PK0738B",
+      "url": "https://doi.org/10.18739/A2PK0738B",
+      "dataset": true
+    },
+    {
+      "key": "yang2023mappingb",
+      "type": "article",
+      "title": "Mapping retrogressive thaw slumps using deep neural networks",
+      "authors": [
+        {
+          "name": "Yili Yang",
+          "isOwner": true
+        },
+        {
+          "name": "Brendan M Rogers",
+          "isOwner": false
+        },
+        {
+          "name": "Greg Fiske",
+          "isOwner": false
+        },
+        {
+          "name": "Jennifer Watts",
+          "isOwner": false
+        },
+        {
+          "name": "Stefano Potter",
+          "isOwner": false
+        },
+        {
+          "name": "Tiffany Windholz",
+          "isOwner": false
+        },
+        {
+          "name": "Andrew Mullen",
+          "isOwner": false
+        },
+        {
+          "name": "Ingmar Nitze",
+          "isOwner": false
+        },
+        {
+          "name": "Susan M Natali",
+          "isOwner": false
+        }
+      ],
+      "venue": "Remote Sensing of Environment",
+      "year": 2023,
+      "doi": "",
+      "url": "",
+      "dataset": false
+    },
+    {
+      "key": "potter2023mapping",
+      "type": "inproceedings",
+      "title": "Mapping alaskan and canadian wildfires using convolutional neural networks",
+      "authors": [
+        {
+          "name": "Stefano Potter",
+          "isOwner": false
+        },
+        {
+          "name": "Arden Llewellyn Burrell",
+          "isOwner": false
+        },
+        {
+          "name": "Anna Talucci",
+          "isOwner": false
+        },
+        {
+          "name": "Yili Yang",
+          "isOwner": true
+        },
+        {
+          "name": "Logan T Berner",
+          "isOwner": false
+        },
+        {
+          "name": "Scott J Goetz",
+          "isOwner": false
+        },
+        {
+          "name": "Sander Veraverbeke",
+          "isOwner": false
+        },
+        {
+          "name": "James T Randerson",
+          "isOwner": false
+        },
+        {
+          "name": "Susan Natali",
+          "isOwner": false
+        },
+        {
+          "name": "Brendan M Rogers",
+          "isOwner": false
+        }
+      ],
+      "venue": "AGU fall meeting abstracts",
+      "year": 2023,
+      "doi": "",
+      "url": "",
+      "dataset": false
+    },
+    {
+      "key": "mullen2023using",
+      "type": "article",
+      "title": "Using high-resolution satellite imagery and deep learning to track dynamic seasonality in small water bodies",
+      "authors": [
+        {
+          "name": "Andrew L Mullen",
+          "isOwner": false
+        },
+        {
+          "name": "Jennifer D Watts",
+          "isOwner": false
+        },
+        {
+          "name": "Brendan M Rogers",
+          "isOwner": false
+        },
+        {
+          "name": "Mark L Carroll",
+          "isOwner": false
+        },
+        {
+          "name": "Clayton D Elder",
+          "isOwner": false
+        },
+        {
+          "name": "Jonas Noomah",
+          "isOwner": false
+        },
+        {
+          "name": "Zachary Williams",
+          "isOwner": false
+        },
+        {
+          "name": "Jordan A Caraballo-Vega",
+          "isOwner": false
+        },
+        {
+          "name": "Allison Bredder",
+          "isOwner": false
+        },
+        {
+          "name": "Eliza Rickenbaugh",
+          "isOwner": false
+        },
+        {
+          "name": "et al.",
+          "isOwner": false,
+          "etAl": true
+        }
+      ],
+      "venue": "Geophysical Research Letters",
+      "year": 2023,
+      "doi": "",
+      "url": "",
+      "dataset": false
+    },
+    {
+      "key": "yang2023mappinga",
+      "type": "inproceedings",
+      "title": "Mapping retrogressive thaw slumps using satellite data with deep learning",
+      "authors": [
+        {
+          "name": "Yili Yang",
+          "isOwner": true
+        },
+        {
+          "name": "Brendan M Rogers",
+          "isOwner": false
+        },
+        {
+          "name": "Greg Fiske",
+          "isOwner": false
+        },
+        {
+          "name": "Jennifer Watts",
+          "isOwner": false
+        },
+        {
+          "name": "Stefano Potter",
+          "isOwner": false
+        },
+        {
+          "name": "Tiffany Windholz",
+          "isOwner": false
+        },
+        {
+          "name": "Andrew Mullen",
+          "isOwner": false
+        },
+        {
+          "name": "Ingmar Nitze",
+          "isOwner": false
+        },
+        {
+          "name": "Sue Natali",
+          "isOwner": false
+        }
+      ],
+      "venue": "EGU general assembly conference abstracts",
+      "year": 2023,
+      "doi": "",
+      "url": "",
+      "dataset": false
+    },
+    {
+      "key": "rogers2023permafrost",
+      "type": "inproceedings",
+      "title": "Permafrost Pathways: Connecting science, people, and policy to advance understanding of the local to global impacts of permafrost thaw and develop just and equitable responses",
+      "authors": [
+        {
+          "name": "Brendan M Rogers",
+          "isOwner": false
+        },
+        {
+          "name": "Susan Natali",
+          "isOwner": false
+        },
+        {
+          "name": "Robin Bronen",
+          "isOwner": false
+        },
+        {
+          "name": "John P Holdren",
+          "isOwner": false
+        },
+        {
+          "name": "Patricia Cochran",
+          "isOwner": false
+        },
+        {
+          "name": "Kyle Andreas Arndt",
+          "isOwner": false
+        },
+        {
+          "name": "Elchin E Jafarov",
+          "isOwner": false
+        },
+        {
+          "name": "Melissa Shapiro",
+          "isOwner": false
+        },
+        {
+          "name": "Anna Virkalla",
+          "isOwner": false
+        },
+        {
+          "name": "Yili Yang",
+          "isOwner": true
+        },
+        {
+          "name": "et al.",
+          "isOwner": false,
+          "etAl": true
+        }
+      ],
+      "venue": "AGU fall meeting abstracts",
+      "year": 2023,
+      "doi": "",
+      "url": "",
+      "dataset": false
+    },
+    {
+      "key": "rodenhizer2023comparison",
+      "type": "inproceedings",
+      "title": "Comparison of three different imagery sources for retrogressive thaw slump detection using a unet3+ deep learning model",
+      "authors": [
+        {
+          "name": "Heidi Rodenhizer",
+          "isOwner": false
+        },
+        {
+          "name": "Yili Yang",
+          "isOwner": true
+        },
+        {
+          "name": "Greg Fiske",
+          "isOwner": false
+        },
+        {
+          "name": "Stefano Potter",
+          "isOwner": false
+        },
+        {
+          "name": "Tiffany Windholz",
+          "isOwner": false
+        },
+        {
+          "name": "Andrew Mullen",
+          "isOwner": false
+        },
+        {
+          "name": "Jennifer Watts",
+          "isOwner": false
+        },
+        {
+          "name": "Brendan M Rogers",
+          "isOwner": false
+        }
+      ],
+      "venue": "AGU fall meeting abstracts",
+      "year": 2023,
+      "doi": "",
+      "url": "",
+      "dataset": false
+    },
+    {
+      "key": "li2023geoai",
+      "type": "article",
+      "title": "GeoAI foundation models for vision: a view from AI augmented environmental mapping",
+      "authors": [
+        {
+          "name": "Wenwen Li",
+          "isOwner": false
+        },
+        {
+          "name": "Chia-Yu Hsu",
+          "isOwner": false
+        },
+        {
+          "name": "Sizhe Wang",
+          "isOwner": false
+        },
+        {
+          "name": "Yezhou Yang",
+          "isOwner": false
+        },
+        {
+          "name": "Anna K Liljedahl",
+          "isOwner": false
+        },
+        {
+          "name": "Hyunho Lee",
+          "isOwner": false
+        },
+        {
+          "name": "Chandi Witharana",
+          "isOwner": false
+        },
+        {
+          "name": "Yili Yang",
+          "isOwner": true
+        },
+        {
+          "name": "Brendan M Rogers",
+          "isOwner": false
+        },
+        {
+          "name": "Samantha T Arundel",
+          "isOwner": false
+        },
+        {
+          "name": "et al.",
+          "isOwner": false,
+          "etAl": true
+        }
+      ],
+      "venue": "AGU23",
+      "year": 2023,
+      "doi": "",
+      "url": "",
+      "dataset": false
+    },
+    {
+      "key": "yang2022fast",
+      "type": "article",
+      "title": "Fast segmentation of 4D microtomography volumes from core-flooding experiments in porous rock using convolutional neural network",
+      "authors": [
+        {
+          "name": "Yili Yang",
+          "isOwner": true
+        },
+        {
+          "name": "Sohan Seth",
+          "isOwner": false
+        },
+        {
+          "name": "Ian B Butler",
+          "isOwner": false
+        },
+        {
+          "name": "Florian Fusseis",
+          "isOwner": false
+        }
+      ],
+      "venue": "Authorea Preprints",
+      "year": 2022,
+      "doi": "",
+      "url": "",
+      "dataset": false
+    },
+    {
+      "key": "singh2022mapping",
+      "type": "inproceedings",
+      "title": "Mapping retrogressive thaw sumps (RTS) using transformer-based neural networks",
+      "authors": [
+        {
+          "name": "Ridhima Singh",
+          "isOwner": false
+        },
+        {
+          "name": "Yili Yang",
+          "isOwner": true
+        },
+        {
+          "name": "Brendan M Rogers",
+          "isOwner": false
+        }
+      ],
+      "venue": "AGU fall meeting abstracts",
+      "year": 2022,
+      "doi": "",
+      "url": "",
+      "dataset": false
+    },
+    {
+      "key": "marti2021time",
+      "type": "article",
+      "title": "Time-resolved grain-scale 3D imaging of hydrofracturing in halite layers induced by gypsum dehydration and pore fluid pressure buildup",
+      "authors": [
+        {
+          "name": "S Marti",
+          "isOwner": false
+        },
+        {
+          "name": "F Fusseis",
+          "isOwner": false
+        },
+        {
+          "name": "IB Butler",
+          "isOwner": false
+        },
+        {
+          "name": "C Schlepütz",
+          "isOwner": false
+        },
+        {
+          "name": "F Marone",
+          "isOwner": false
+        },
+        {
+          "name": "J Gilgannon",
+          "isOwner": false
+        },
+        {
+          "name": "R Kilian",
+          "isOwner": false
+        },
+        {
+          "name": "Yili Yang",
+          "isOwner": true
+        }
+      ],
+      "venue": "Earth and Planetary Science Letters",
+      "year": 2021,
+      "doi": "",
+      "url": "",
+      "dataset": false
+    },
+    {
+      "key": "marti2020chemical",
+      "type": "inproceedings",
+      "title": "Chemical-mechanical-hydraulic coupling in deforming, dehydrating halite-gypsum rocks-implications for basal detachments in thin-skinned tectonics",
+      "authors": [
+        {
+          "name": "Sina Marti",
+          "isOwner": false
+        },
+        {
+          "name": "Florian Fusseis",
+          "isOwner": false
+        },
+        {
+          "name": "Ian B Butler",
+          "isOwner": false
+        },
+        {
+          "name": "Christian Schlepütz",
+          "isOwner": false
+        },
+        {
+          "name": "Federica Marone Welford",
+          "isOwner": false
+        },
+        {
+          "name": "James Gilgannon",
+          "isOwner": false
+        },
+        {
+          "name": "Rüdiger Kilian",
+          "isOwner": false
+        },
+        {
+          "name": "Yili Yang",
+          "isOwner": true
+        }
+      ],
+      "venue": "EGU general assembly conference abstracts",
+      "year": 2020,
+      "doi": "",
+      "url": "",
+      "dataset": false
+    },
+    {
+      "key": "yang2018immiscible",
+      "type": "inproceedings",
+      "title": "Immiscible fluid displacement and trapping during a drainage-imbibition cycle in porous carbonate rock imaged by synchrotron X-ray micro-tomography",
+      "authors": [
+        {
+          "name": "Yili Yang",
+          "isOwner": true
+        },
+        {
+          "name": "Ian B Butler",
+          "isOwner": false
+        },
+        {
+          "name": "Florian Fusseis",
+          "isOwner": false
+        },
+        {
+          "name": "Rink Dijke",
+          "isOwner": false
+        },
+        {
+          "name": "Sebastian Geiger",
+          "isOwner": false
+        },
+        {
+          "name": "Xianghui Xiao",
+          "isOwner": false
+        }
+      ],
+      "venue": "AGU fall meeting abstracts",
+      "year": 2018,
+      "doi": "",
+      "url": "",
+      "dataset": false
+    }
+  ]
+}

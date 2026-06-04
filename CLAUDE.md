@@ -1,118 +1,148 @@
-# yi-li-yang.github.io
+# CLAUDE.md
 
-Personal portfolio site for Yili Yang.
+Always-loaded context for Claude Code in the `yi-li-yang.github.io` repo.
+**This supersedes the previous CLAUDE.md.(deleted)** See "What changed and why" at the bottom.
+Reference docs: `docs/`. Executable stages: `tasks/`.
 
-## Stats Pipeline
+---
 
-`scripts/update-stats.js` fetches metrics from ORCID, GitHub, and Google Scholar, writing to `data/stats.json`. Runs monthly via `.github/workflows/update-stats.yml`.
+## What this project is
 
-- **GitHub REST** — owned non-fork repo count + approximate language distribution by primary-language field (fallback when no token)
-- **GitHub GraphQL** — owned repo count, all-repo language bytes aggregated globally into a donut chart, all-time commits. Requires `GH_USER_TOKEN`.
-- **ORCID** — publications (works count) and peer reviews (individual review count, not journal group count)
-- **Scholar** — citations, h-index, i10-index via SerpAPI (env `SERPAPI_KEY`) or direct scrape fallback
-- **Static metrics** — manually edited in `data/stats.json` under `static` (funding, mentees, invited talks)
+A **single-source-of-truth (SSOT)** system for one person's career materials.
+One body of facts produces **two PDF CVs** and **this website**.
+Owner: **Yili Yang, PhD** — geoscientist / geospatial data scientist.
+Purpose: career **records**, **career exploration**, **visualisation**, **demonstration**
 
-Previous values are preserved when any source fails.
+Today there are **two separate repos**:
+- **this repo** — the website (vanilla static site) + a working stats pipeline,
+- a **separate Overleaf-synced LaTeX repo** — `ONE-PAGE.tex`, `BIOSKETCH.tex`, their `.cls`, and `my_publication.bib`.
 
-## Repo Secrets
+The goal is to bring the LaTeX into *this* repo (flat, no submodule) so both outputs
+derive from one set of facts. The CV's numbers stop being hand-typed; logging happens once.
 
-- `GH_PAT` — GitHub PAT with `read:user`, `read:org`, `public_repo` scopes (passed as `GH_USER_TOKEN`)
-- `SERPAPI_KEY` — SerpAPI key for reliable Scholar fetching in CI
+---
 
-# Project Scaffolding: Yili Yang Portfolio Site
+## ⚠️ Ground truth about the ACTUAL stack (read before doing anything)
 
-## 1. Project Overview
-This repository contains the personal and professional portfolio for Yili Yang, a Data Scientist specializing in Geospatial AI, Climate Science, and Multimodal Learning. The site highlights academic publications, interactive geospatial datasets (like the ARTS dataset), and machine learning projects. 
+The real, implemented site is **vanilla**:
+- `index.html` at root, `css/variables.css` + `base.css` + `components.css`,
+- ES modules: `js/main.js` → `js/modules/{stats,thoughts,skills}.js`,
+- data fetched at runtime from `data/*.json`,
+- design system in `design.md` (Linear-inspired, dark, Inter Variable).
 
-**Key Mechanism:** The site utilizes an automated pipeline to fetch live data (e.g., publication lists, citations, or GitHub stats) from online sources, which is then dynamically rendered on the frontend.
+There is **no** Next.js, React, Tailwind, or map library in this repo, despite what the
+old CLAUDE.md's "Project Scaffolding" section claimed. **Do not introduce them.** Treat
+that prior section as aspirational fiction; this file replaces it. If a framework is ever
+wanted, it's a separate explicit decision — never an incidental scaffolding step.
 
-## 2. Tech Stack
-* **Frontend Framework:** Next.js (React)
-* **Styling:** Tailwind CSS
-* **Geospatial Visualization:** [Insert Map library here, e.g., `react-map-gl` / Mapbox / `react-leaflet`]
-* **Deployment:** GitHub Pages / Vercel
-* **Automation:** GitHub Actions (for scheduled data fetching)
+---
 
-## 3. Directory Structure
-* `/components`: Reusable UI elements (Buttons, Cards, Image Sliders).
-    * `/components/maps`: Specialized interactive map components.
-    * `/components/sections`: Larger page blocks (Hero, Publications, Experience).
-* `/pages` (or `/app` if using Next.js App Router): Primary page routes (`index.js`, `projects.js`, `publications.js`).
-* `/public`: Static assets (images, raw CV pdf, icons).
-* `/data`: Auto-generated JSON or Markdown files containing the fetched data. **(Note: Agents should not manually edit these files as they are routinely overwritten by scripts).**
-* `/scripts`: Python or Node.js scripts used by GitHub Actions to scrape or fetch external API data (e.g., ORCID, Google Scholar).
-* `/styles`: Global CSS files, primarily containing Tailwind directives.
+## The one idea
 
-## 4. Automated Data Fetching Pipeline
-* **Source:** Scripts in the `/scripts` folder pull data from external APIs.
-* **Execution:** A GitHub Action runs on a cron schedule to execute these scripts.
-* **Storage:** The output is saved into the `/data` directory as structured formats (JSON/YAML/MD).
-* **Rendering:** The frontend uses static site generation (`getStaticProps` or React Server Components) to read the `/data` files at build time and render them into the UI.
+Facts flow one direction: `data → outputs`. Nothing flows back. Every output is derived;
+no output contains a hand-typed fact (the CV's "20 journal papers" becomes a value read
+from data, not a literal).
 
-## 5. Development Rules for Claude Code
-* **Do not modify auto-generated data:** Never manually edit the files inside `/data`. If data formatting needs changing, alter the fetch logic in `/scripts` or the parsing logic in the frontend components.
-* **Component Modularity:** Keep React components small and modular. Abstract complex map rendering or slider logic into their own dedicated files.
-* **Styling:** Strictly use Tailwind CSS utility classes. Avoid creating custom CSS modules unless absolutely necessary for complex map overlays.
-* **Performance:** Optimize image loading using the Next.js `<Image />` component, especially for heavy satellite imagery. Ensure heavy geospatial libraries are loaded dynamically so they do not impact the initial page load speed.
-* **Responsive Design:** Ensure all map components, data tables, and grids degrade gracefully on mobile screens. Focus on scannability for hiring managers.
+---
 
-## Design
-Use design.md for all front end design.
+## Invariants — never violate
 
-Accessibility & Contrast: Always explicitly define both background and text colors for every container. Do not rely on inherited global text colors. If building a Dark Mode theme, ensure all surfaces use dark backgrounds (bg-gray-900, bg-black) with light text (text-white, text-gray-200). Do not mix light containers into a dark theme unless explicitly requested.
+1. **One authoritative location per fact.** Nothing is typed in two places.
+2. **Disjoint writers.** Script-written files are never hand-edited; human-written files are
+   never script-written. No byte has two authors. (Your repo already half-does this:
+   `data/stats.json` is script-written — `js`/agents must not hand-edit it.)
+3. **Ingest is the only impure (networked) step; rendering is pure/offline.** Rendering must
+   still work when a fetch fails.
+4. **Outputs are 100% derived.** A hand-typed fact in an output is a bug.
+5. **Ingest fails safe.** On fetch error, keep last-known-good; never write a zero/null over a
+   good value. (`update-stats.js` already does this — preserve that behavior.)
+6. **The LLM never writes to the data layer.** It selects/rephrases verified facts into a
+   tailored output, or *proposes* a `.bib` entry for human acceptance. Never mints facts.
 
-for all logo clouds: apply a monochrome or greyscale filter (grayscale opacity-70 hover:opacity-100 hover:grayscale-0 transition-all in Tailwind， so it blend in the dark background. download latest logo images automatically.
+---
 
-# content components
-## Minimalist navigation bar 
-Links to GitHub, LinkedIn, Google Scholar, ORCID, and a mailto: link for email yyl.eli@gmail.com
+## Decisions already made — do not re-litigate
 
-## The Hero Section
-- *pre-headline*: Geoscientist, Applied Full-stack Geospatial Data Scientist
+- **Node is the engine.** Do not add Python. Reuse/extend `scripts/update-stats.js`. For LaTeX
+  templating use **Nunjucks** with LaTeX-safe delimiters. NOTE: the originally-planned
+  `\VAR{}`/`\BLOCK{}` recipe is **Jinja2-only and does not work in Nunjucks** (Nunjucks cannot use
+  `}` as a tag terminator). The implementation uses `<< >>` for variables and `<% %>` for blocks
+  (see `scripts/render-cv.js`) — same intent, working tool. Do not revert to `\VAR{}`.
+- **Flat single repo, NO git submodules.** The LaTeX folders become plain directories here.
+- **Overleaf is unplugged from git** — an optional, unsynced scratchpad for eyeballing layout,
+  not part of the pipeline. Canonical compile is `latexmk` in CI or locally.
+- **Keep the `data/` directory and the existing JSON contract.** The site already reads it; do
+  not relocate to `web/data/` or rename keys without updating `js/modules/*`.
 
-- *Headline*: impactful career summary, e.g., "Yili Yang | AI & Machine Learning for Complex Global Systems."
+---
 
-- *Sub-headline*: summary keywords Pill Tags, in two columns, data science left, geoscience right, a crossover mark in the middle:
+## Current vs. target layout
 
-left: Geoscience, PhD in Petrophysics, X-ray synchrotron µCT imaging, Remote Sensing, Geospatial Information Science, Digital Rocks, Scientific Image Processing
+```
+yi-li-yang.github.io/                 CURRENT (keep)
+├── index.html  css/  js/modules/     vanilla site
+├── data/ stats.json pill-tags.json show_repo.json   (stats.json = script-written; other two = hand-written)
+├── scripts/update-stats.js           working ingest (ORCID/GitHub/Scholar, fail-safe)
+├── .github/workflows/update-stats.yml monthly cron
+├── design.md  issues.md  CLAUDE.md
+│
+│                                     TARGET ADDITIONS
+├── cv/                               ← LaTeX moved in from the Overleaf repo (flat)
+│   ├── onepage/  ONE-PAGE.tex  deedy-resume-openfont.cls  generated/
+│   ├── biosketch/ BIOSKETCH.tex  resume.cls  generated/
+│   └── publications.bib              ← SSOT for publications (was Biosketch/my_publication.bib)
+├── scripts/
+│   ├── update-stats.js               (existing)
+│   ├── emit-metrics-tex.js           data/stats.json + bib → cv/**/generated/metrics.tex
+│   ├── bib-to-json.js                publications.bib → data/publications.json (for the site)
+│   └── render-cv.js                  data + Nunjucks templates → cv/**/generated/*.tex
+├── templates/ onepage.tex.njk  biosketch.tex.njk
+└── .github/workflows/build-cv.yml    compile PDFs → assets/, deploy
+```
 
-right: Machine learning, Deep Learning, Computer Vision, AI for Geoscience, Geospatial Data Science, time-series modelling
+---
 
-Visual: A highly polished abstract geospatial graphic, or simply clean, bold typography if chose a minimalist design system like Linear.
+## Identifiers (already in `data/stats.json.profiles`)
 
-## The "Flagship Showcase" Block (The Interactive "Wow" Factor)
-Showcase project grid, leave blank for now， full width under the hero section
+ORCID `0000-0002-1791-3899` · GitHub `yi-li-yang` · Scholar `8I00DowAAAAJ` · LinkedIn `yiliyang`.
+CI secrets already in use: `GH_PAT` (as `GH_USER_TOKEN`), `SERPAPI_KEY`.
 
-------
+---
 
-## Skills (showcase my skills)
+## Build stages (see tasks/)
 
-*Concepts (Pill Tags)*: Split them logically Use clean "pill" shaped tags.
+The ingest arm ("fetch metrics") is **already done** — do not rebuild it.
 
-"AI" (Semantic Segmentation, Transfer Learning, Object Detection, Vision Transformer, CNN, Vision Foundation Models, Geo Foundation Models, Time-series modelling, ),
+**STATUS: Phases A, B, C are IMPLEMENTED.** Phase D is not started.
 
-"Engineering" (Agentic Coding, Harness Engineering, Claude Skills, Prompt/Context Engineering, GitHub Action). 
+- **Phase A** ✅ — Overleaf LaTeX merged into `cv/` (flat, no submodule). `cv/onepage/`,
+  `cv/biosketch/`, shared `cv/publications.bib`; biosketch bib path is `\bibliography{../publications}`.
+- **Phase B** ✅ — `scripts/emit-metrics-tex.js` derives counts (by `.bib` entry type) + service/
+  funding figures into `cv/**/generated/metrics.tex`; the `.tex` shells `\input` it. No hardcoded
+  numbers remain. PDFs publish to `assets/cv.pdf` / `assets/biosketch.pdf` (hero links updated).
+- **Phase C** ✅ — `scripts/bib-to-json.js` → `data/publications.json` (LaTeX-free, owner flagged
+  per-author); `js/modules/publications.js` renders it on the site. Experience is single-sourced in
+  `data/experience.json`, rendered by `scripts/render-cv.js` (Nunjucks, `<< >>`/`<% %>` tags) into
+  `cv/**/generated/experience.tex`, which both shells `\input`. Shared keystone loader:
+  `scripts/lib/data.js`. Build all: `npm run build`. CI: `.github/workflows/build-cv.yml`.
+- **Phase D** *(optional, not started)* — LLM tailoring over the data, select-and-rephrase, human-gated.
 
-*Working Platforms (logo clouds)*: Claude code, VSCode, Git, GitHub, Google Colab, JupyterNotebook, Google Cloud Platform, Overleaf, Google Earth Engine, ArcGIS, Qgis， Pytorch, Docker, Linux
+Script-written (never hand-edit): `data/stats.json`, `data/publications.json`, `cv/**/generated/*`,
+`assets/*.pdf`. Hand-authored (never script-write): `data/pill-tags.json`, `data/show_repo.json`,
+`data/experience.json`, `cv/publications.bib`, the `.tex` shells, `templates/*.njk`. The `static`
+block inside `data/stats.json` is the one hand-authored island in a script-written file (funding,
+mentees, talks, peer/NSF reviews) — `update-stats.js` preserves it across runs.
 
-- *total coding language pie chart*: access all github repos that I contributed to, calculate the percentage of all languages that i used, make a interactive pie chart to show.
+Verification after any stage: the site still renders, both PDFs compile, and every shown fact
+traces back to the data layer.
 
-- *github stats* total contributions, repositories i contributed/owned
+---
 
-## Thoughts (showcase my ideas and projects)
-Example Cards to showcase: see show_repo.json
+## What changed and why (vs. the previous CLAUDE.md)
 
-Content per Card: github repos,each with a link, a description, and a thumbnail image or gif (From github repo README.md)
-
-## Live stats (academic, no github)
-publications(union but deduplicated):
-google scholar stats
-ORCID stats
-
-
-## logo cloud
-Experience: University of Edinburgh, Faculty.ai, Woodwell. 
-Collaboration: Petrobras, Google, Esri
-
-## timestamp*
-Last updated [Date]
+- **Removed the Next.js/React/Tailwind "Project Scaffolding" section** — it described an app
+  that doesn't exist and would mislead an agent into scaffolding the wrong stack.
+- **Kept and elevated the Stats Pipeline docs** — they're accurate; that pipeline is the
+  ingest arm of this SSOT design.
+- **Added the SSOT architecture, invariants, and the LaTeX-merge plan** — the actual goal of
+  unifying the CV and the website around one set of facts.

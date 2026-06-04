@@ -1,0 +1,79 @@
+name: Build CV
+
+# Regenerates the derived layer (publications.json, metrics.tex, experience.tex) and
+# compiles both PDFs whenever a source of truth changes. This is the PURE/offline render
+# arm of the SSOT pipeline — it makes no network calls; it only reads files already on disk
+# (data/* written by Update Stats, cv/publications.bib + data/experience.json hand-curated).
+
+on:
+  push:
+    paths:
+      - 'cv/**'
+      - 'templates/**'
+      - 'data/**'
+      - 'scripts/lib/**'
+      - 'scripts/render-cv.js'
+      - 'scripts/emit-metrics-tex.js'
+      - 'scripts/bib-to-json.js'
+      - 'package.json'
+      - 'package-lock.json'
+      - '.github/workflows/build-cv.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - run: npm ci
+
+      # Pure render: bib -> publications.json, stats+bib -> metrics.tex, data -> experience.tex
+      - name: Generate derived artifacts
+        run: npm run build
+
+      # One-pager: XeLaTeX + fontspec with the local Lato/Raleway fonts. Compile from the
+      # onepage directory so the class's relative `Path = fonts/...` and \input{generated/...}
+      # resolve.
+      - name: Compile one-pager (XeLaTeX)
+        uses: xu-cheng/latex-action@v3
+        with:
+          root_file: ONE-PAGE.tex
+          working_directory: cv/onepage
+          latexmk_use_xelatex: true
+
+      # Biosketch: pdfLaTeX + bibtex. \bibliography{../publications} reaches the shared bib one
+      # level up, so allow bibtex to read the parent dir (openin_any) and add it to BIBINPUTS.
+      - name: Compile biosketch (pdfLaTeX + bibtex)
+        uses: xu-cheng/latex-action@v3
+        with:
+          root_file: BIOSKETCH.tex
+          working_directory: cv/biosketch
+        env:
+          openin_any: a
+          openout_any: a
+          BIBINPUTS: '.:..:'
+
+      - name: Publish PDFs to assets/ under stable names
+        run: |
+          mkdir -p assets
+          cp cv/onepage/ONE-PAGE.pdf assets/cv.pdf
+          cp cv/biosketch/BIOSKETCH.pdf assets/biosketch.pdf
+
+      - name: Commit regenerated artifacts if changed
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/publications.json \
+                  cv/onepage/generated cv/biosketch/generated \
+                  assets/cv.pdf assets/biosketch.pdf
+          # [skip ci] so this automated commit does not retrigger this workflow.
+          git diff --cached --quiet || git commit -m "build: regenerate CV + PDFs [automated] [skip ci]"
+          git push

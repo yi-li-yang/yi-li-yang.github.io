@@ -278,11 +278,17 @@ async function main() {
     languages: githubGql?.languages ?? githubRest?.languages ?? prevGithub.languages ?? []
   };
 
+  // `static` is the hand-authored island inside this script-written file: values the
+  // APIs can't supply (funding, mentees, talks, peer/NSF reviews). The ingest never
+  // mints these — it only carries forward whatever the human last wrote. Spread
+  // prevStatic so ALL hand-authored keys survive a run; default the well-known ones
+  // to null only when absent so the shape stays predictable for consumers.
   const prevStatic = previous.static ?? {};
   const staticData = {
     fundingAwarded:    prevStatic.fundingAwarded    ?? null,
     menteesSupervised: prevStatic.menteesSupervised ?? null,
-    invitedTalks:      prevStatic.invitedTalks      ?? null
+    invitedTalks:      prevStatic.invitedTalks      ?? null,
+    ...prevStatic
   };
 
   const stats = {

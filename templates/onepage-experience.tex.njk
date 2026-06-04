@@ -1,0 +1,17 @@
+<% for job in experience %>
+\runsubsection{<< job.role >>}
+\descript{<< job.onepage.descript >>}
+<% for loc in job.onepage.location %>
+\location{<< loc >>}
+<% endfor %>
+<% if loop.first %>
+\sectionsep
+<% endif %>
+\begin{tightemize}
+<% for b in job.onepage.bullets %>
+    \item <% if b.label %>\textbf{<< b.label >>}: <% endif %><< b.text >>
+<% endfor %>
+\end{tightemize}
+\sectionsep
+
+<% endfor %>

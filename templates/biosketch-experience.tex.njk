@@ -1,0 +1,10 @@
+<% for job in experience %>
+{\bf << job.biosketch.heading >>} \hfill {<< job.biosketch.dates >>}
+
+\begin{itemize}
+<% for b in job.biosketch.bullets %>
+    \item << b >>
+<% endfor %>
+\end{itemize}
+
+<% endfor %>

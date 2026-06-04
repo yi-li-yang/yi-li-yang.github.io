@@ -134,3 +134,14 @@ dist
 .yarn/build-state.yml
 .yarn/install-state.gz
 .pnp.*
+
+# LaTeX build artifacts (PDFs are published to assets/, not committed here)
+cv/**/build/
+*.aux
+*.bbl
+*.blg
+*.fls
+*.fdb_latexmk
+*.out
+*.synctex.gz
+*.xdv

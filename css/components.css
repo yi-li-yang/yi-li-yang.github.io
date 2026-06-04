@@ -305,8 +305,37 @@
   color: var(--color-text-subtle);
   font-family: var(--font-mono);
   font-size: 0.6875rem;
-  margin: var(--space-xs) 0 var(--space-sm);
+  margin: var(--space-xs) 0 0;
   letter-spacing: 0.04em;
+}
+
+.publication-card h3 {
+  margin-bottom: var(--space-xs);
+}
+
+.publication-card h3 a {
+  color: inherit;
+  transition: color var(--transition);
+}
+
+.publication-card h3 a:hover {
+  color: var(--color-accent);
+  text-decoration: none;
+}
+
+.publication-authors {
+  font-size: 0.875rem !important;
+  line-height: 1.5 !important;
+  color: var(--color-text-muted);
+}
+
+.pub-owner {
+  color: var(--color-text);
+  font-weight: 590;
+}
+
+.pub-etal {
+  font-style: italic;
 }
 
 /* ── Tech Stack ──────────────────────────────── */

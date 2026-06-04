@@ -1,0 +1,21 @@
+{
+  "name": "yi-li-yang.github.io",
+  "version": "1.0.0",
+  "description": "Single-source-of-truth career materials: one data layer renders the website and two PDF CVs.",
+  "type": "module",
+  "private": true,
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "ingest": "node scripts/update-stats.js",
+    "bib": "node scripts/bib-to-json.js",
+    "metrics": "node scripts/emit-metrics-tex.js",
+    "render": "node scripts/render-cv.js",
+    "build": "node scripts/bib-to-json.js && node scripts/emit-metrics-tex.js && node scripts/render-cv.js"
+  },
+  "dependencies": {
+    "@retorquere/bibtex-parser": "^9.0.20",
+    "nunjucks": "^3.2.4"
+  }
+}

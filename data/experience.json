@@ -1,0 +1,82 @@
+[
+  {
+    "id": "woodwell",
+    "role": "Data Scientist",
+    "org": "Woodwell Climate Research Center",
+    "onepage": {
+      "descript": "| Woodwell Climate Research Center",
+      "location": ["Jan 2022 - Present | Falmouth, MA, USA"],
+      "bullets": [
+        { "label": "Project Lead", "text": "Thaw slumps detection using deep learning and remote sensing" },
+        { "label": "Project Lead", "text": "Multi-domain climate time-series prediction" },
+        { "label": "Collaboration", "text": "Computer vision wild fire detection" },
+        { "label": "Collaboration", "text": "Machine learning wild fire prediction" },
+        { "label": "Collaboration", "text": "Carbon Flux time-series data imputation" },
+        { "label": "Collaboration", "text": "Prediction of thaw slump initialisation" },
+        { "label": "Collaboration", "text": "Satellite image segmentation with Location Embedding" },
+        { "label": "Collaboration", "text": "Permafrost thaw and Carbon Emission" },
+        { "label": "Workshops", "text": "Annual Workshop for Machine Learning" }
+      ]
+    },
+    "biosketch": {
+      "heading": "Data Scientist, Woodwell Climate Research Center, MA, USA (remote)",
+      "dates": "Jan 2022 - ",
+      "bullets": [
+        "Project Lead: the pan-Arctic Retrogressive Thaw Slumps (RTS) mapping initiative, applying state-of-the-art deep learning techniques to satellite imagery for detecting and quantifying permafrost thaw features, directly contributing to climate feedback modelling and carbon cycle research",
+        "Designed and built the ARTS scientific dataset, establishing a benchmark training resource for deep learning applications in environmental monitoring",
+        "Developed innovative machine learning workflows for multimodal data integration, combining various satellite imagery types and field observations to enhance feature detection accuracy",
+        "Developed A Zero-shot, interactive segmentation workflow for satellite image labelling using the Segment Anything Model (SAM)",
+        "Collaborated with UCONN in using Location Embeddings to improve satellite image segmentation with vision foundation models.",
+        "Collaborated with ASU in using big geospatial data to produce pan-Arctic statistics.",
+        "Collaborated with UIUC in optimising the workflow of the Deep Learning model inference in big geospatial data (Arctic-scale) in GCP.",
+        "Collaborated with ASU in modelling abrupt thaw initialisation with remote sensing and deep neural networks.",
+        "Collaborated in two wildfire projects using deep learning for wildfire mapping on satellite imagery and using environmental variables to predict wildfire using machine learning",
+        "Collaborated in carbon flux time series imputation using machine learning",
+        "Lead annual machine learning workshop series for Woodwell researchers, providing training in advanced AI techniques for environmental science applications including image processing and time-series forecasting. Designing progressive curriculum materials and adapting teaching methods for diverse learner backgrounds.",
+        "Mentored interns and research assistants, created training materials for interns and research assistants. Mentee Works were presented at the AGU annual conference."
+      ]
+    }
+  },
+  {
+    "id": "faculty",
+    "role": "Data Science Fellow",
+    "org": "Faculty.ai",
+    "onepage": {
+      "descript": "| Faculty.AI",
+      "location": ["Sep 2021 - Dec 2021 | London, UK"],
+      "bullets": [
+        { "text": "Technical and commercial training for professional data scientist followed by work placement on a client project" }
+      ]
+    },
+    "biosketch": {
+      "heading": "Data Science Fellow, Faculty.ai, London, UK",
+      "dates": "Sep 2021 - Dec 2021",
+      "bullets": [
+        "Completed intensive fellowship in Machine Learning and Artificial Intelligence, focusing on developing practical AI solutions for complex data challenges. Include trainings and courses for professional data scientist and an industry placement."
+      ]
+    }
+  },
+  {
+    "id": "iccr",
+    "role": "Doctoral Researcher",
+    "org": "International Centre for Carbonate Reservoirs",
+    "onepage": {
+      "descript": "|ICCR",
+      "location": ["International Centre for Carbonate Reservoirs", "Sep 2016 - Apr 2021 | Edinburgh, UK"],
+      "bullets": [
+        { "text": "Petrophysical calculation and simulation algorithm development" },
+        { "text": "Deep learning image segmentation for digital rocks" },
+        { "text": "Synchrotron X-ray $\\mu$-CT multiphase fluid experiments" }
+      ]
+    },
+    "biosketch": {
+      "heading": "PhD Researcher, International Centre for Carbonate Reservoirs, Edinburgh, UK",
+      "dates": "Sep 2017 - Sep 2020",
+      "bullets": [
+        "Funded by PetroBras, petrophysics and digital rock experimental study.",
+        "Conducted doctoral research on multiphase fluid flow in porous media, developing novel computational methods for analyzing complex flow dynamics, funded by Petróleo Brasileiro",
+        "Parcipitated in petrophysical experiments at the Diamond Light Source UK, the Advanced Photon Source Argonne National Laboratory, US and the Swiss Light Source Paul Scherrer Institute, CH"
+      ]
+    }
+  }
+]
