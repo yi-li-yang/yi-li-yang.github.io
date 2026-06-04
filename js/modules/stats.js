@@ -19,7 +19,9 @@ export async function initStats() {
       { value: scholar?.citations, label: 'Citations',    source: 'Scholar', link: scholarLink },
       { value: scholar?.hIndex,    label: 'h-index',      source: 'Scholar' },
       { value: scholar?.i10Index,  label: 'i10-index',    source: 'Scholar' },
-      { value: orcid?.reviews,     label: 'Peer Reviews', source: 'ORCID' },
+      // Curated total: ORCID tracks 5; 2 more reviews aren't ORCID-registered. The true
+      // count (7) lives in the hand-authored `static` block; fall back to ORCID if absent.
+      { value: hand?.peerReviews ?? orcid?.reviews, label: 'Peer Reviews', source: 'Curated' },
     ];
 
     if (hand) {

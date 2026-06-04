@@ -67,6 +67,16 @@ jobs:
           cp cv/onepage/ONE-PAGE.pdf assets/cv.pdf
           cp cv/biosketch/BIOSKETCH.pdf assets/biosketch.pdf
 
+      # Downloadable from the Actions run summary, so the PDFs can be reviewed before the
+      # commit lands (and even if a later step fails).
+      - name: Upload PDFs as artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: cv-pdfs
+          path: |
+            assets/cv.pdf
+            assets/biosketch.pdf
+
       - name: Commit regenerated artifacts if changed
         run: |
           git config user.name "github-actions[bot]"

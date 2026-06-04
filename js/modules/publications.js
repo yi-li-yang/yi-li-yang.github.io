@@ -22,13 +22,21 @@ function renderAuthors(authors) {
     .join(', ');
 }
 
+// Every title should be clickable. When the .bib carries a real DOI/URL we link straight
+// to it; otherwise we fall back to a Google Scholar title search so the paper is still
+// findable (honest — it's a search, not a fabricated DOI). Add DOIs to the .bib to upgrade
+// any of these to a direct link.
+function linkFor(pub) {
+  if (pub.url) return pub.url;
+  return `https://scholar.google.com/scholar?q=${encodeURIComponent(pub.title)}`;
+}
+
 function renderCard(pub) {
   const card = document.createElement('article');
   card.className = 'publication-card';
 
-  const titleHtml = pub.url
-    ? `<a href="${escapeHtml(pub.url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(pub.title)}</a>`
-    : escapeHtml(pub.title);
+  const href = linkFor(pub);
+  const titleHtml = `<a href="${escapeHtml(href)}" target="_blank" rel="noopener noreferrer">${escapeHtml(pub.title)}</a>`;
 
   const metaParts = [];
   if (pub.venue) metaParts.push(`<span>${escapeHtml(pub.venue)}</span>`);
