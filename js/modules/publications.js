@@ -42,6 +42,9 @@ function renderCard(pub) {
   return card;
 }
 
+// How many publications to show before the list collapses behind a "Show all" toggle.
+const COLLAPSE_AFTER = 6;
+
 export async function initPublications() {
   const container = document.getElementById('publications-grid');
   if (!container) return;
@@ -52,9 +55,36 @@ export async function initPublications() {
     const data = await res.json();
     const pubs = data.publications ?? [];
 
+    const cards = pubs.map(renderCard);
     const frag = document.createDocumentFragment();
-    for (const pub of pubs) frag.appendChild(renderCard(pub));
+    for (const c of cards) frag.appendChild(c);
     container.appendChild(frag);
+
+    // Collapse long lists so the section doesn't dominate the page: hide the cards beyond
+    // COLLAPSE_AFTER until the reader opts in. Pure JS so it stays correct regardless of how
+    // many columns the grid wraps into.
+    if (pubs.length > COLLAPSE_AFTER) {
+      const overflow = cards.slice(COLLAPSE_AFTER);
+      let collapsed = true;
+      const apply = () => {
+        for (const c of overflow) c.style.display = collapsed ? 'none' : '';
+      };
+      apply();
+
+      const toggle = document.createElement('button');
+      toggle.type = 'button';
+      toggle.className = 'btn btn-secondary publications-toggle';
+      const setLabel = () => {
+        toggle.textContent = collapsed ? `Show all ${pubs.length} publications` : 'Show fewer';
+      };
+      setLabel();
+      toggle.addEventListener('click', () => {
+        collapsed = !collapsed;
+        apply();
+        setLabel();
+      });
+      container.insertAdjacentElement('afterend', toggle);
+    }
   } catch (err) {
     console.error('Failed to load publications:', err);
     container.innerHTML =
