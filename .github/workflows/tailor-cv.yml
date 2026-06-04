@@ -1,0 +1,52 @@
+name: Tailor CV
+
+# Phase D: compile job-tailored one-pagers from applications/*.json. Each manifest only
+# SELECTS/REPHRASES facts already in data/experience.json (Invariant 6). The PDFs are
+# uploaded as downloadable artifacts for review — they are NOT committed (a tailored CV is
+# an ephemeral, per-application output, not a source of truth).
+
+on:
+  push:
+    paths:
+      - 'applications/**'
+      - 'scripts/render-cv.js'
+      - '.github/workflows/tailor-cv.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  tailor:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - run: npm ci
+
+      # Needed by the variant shells (\input{generated/metrics.tex}).
+      - name: Generate metrics
+        run: node scripts/emit-metrics-tex.js
+
+      # Render the application manifest into its tailored variant shell + experience.
+      - name: Render tailored variant
+        run: APP=applications/technify-geospatial-data-scientist.json node scripts/render-cv.js
+
+      # Compile with the same proven action build-cv uses (XeLaTeX + local fonts).
+      - name: Compile tailored one-pager (XeLaTeX)
+        uses: xu-cheng/latex-action@v3
+        with:
+          root_file: tailored-technify-geospatial-data-scientist.tex
+          working_directory: cv/onepage
+          latexmk_use_xelatex: true
+
+      - name: Upload tailored PDF
+        uses: actions/upload-artifact@v4
+        with:
+          name: tailored-cv-pdfs
+          path: cv/onepage/tailored-technify-geospatial-data-scientist.pdf
+          if-no-files-found: warn

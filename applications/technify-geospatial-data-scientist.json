@@ -1,0 +1,47 @@
+{
+  "meta": {
+    "company": "Technify Talent",
+    "role": "Geospatial Data Scientist",
+    "source": "https://www.linkedin.com/jobs/view/4423912672/",
+    "note": "PROPOSED tailoring (Phase D). Every bullet is a selection/rephrasing of a fact already in data/experience.json — no new facts minted. Review and accept before compiling. Job emphasis: spatial data fusion, multi-sensor data, ML classification/regression/tracking, large-scale geospatial data, Python geo stack, production deployment."
+  },
+  "experience": [
+    {
+      "role": "Data Scientist",
+      "onepage": {
+        "descript": "| Woodwell Climate Research Center",
+        "location": ["Jan 2022 - Present | Falmouth, MA, USA"],
+        "bullets": [
+          { "label": "Project Lead", "text": "Pan-Arctic thaw-slump mapping --- deep learning on multi-source satellite imagery to detect and quantify features at continental scale" },
+          { "label": "Sensor fusion", "text": "Integrated multiple satellite imagery types with field observations into ML workflows, improving feature-detection accuracy" },
+          { "label": "Production scale", "text": "Optimised deep-learning model inference over Arctic-scale geospatial data on Google Cloud Platform" },
+          { "label": "Geospatial analytics", "text": "Produced pan-Arctic statistics from large-scale geospatial datasets" },
+          { "label": "ML modelling", "text": "Computer-vision wildfire mapping and machine-learning wildfire prediction from environmental variables (classification \\& regression)" },
+          { "label": "Time-series", "text": "Carbon-flux time-series imputation and multi-domain climate time-series prediction" },
+          { "label": "Foundation models", "text": "Applied vision foundation models (SAM, location embeddings) to satellite image segmentation" }
+        ]
+      }
+    },
+    {
+      "role": "Data Science Fellow",
+      "onepage": {
+        "descript": "| Faculty.AI",
+        "location": ["Sep 2021 - Dec 2021 | London, UK"],
+        "bullets": [
+          { "text": "Professional data-science fellowship in machine learning and AI with an industry client placement" }
+        ]
+      }
+    },
+    {
+      "role": "Doctoral Researcher",
+      "onepage": {
+        "descript": "|ICCR",
+        "location": ["International Centre for Carbonate Reservoirs", "Sep 2016 - Apr 2021 | Edinburgh, UK"],
+        "bullets": [
+          { "text": "Computational methods for multiphase fluid flow; deep-learning image segmentation for digital rocks" },
+          { "text": "Synchrotron X-ray $\\mu$-CT imaging and analysis" }
+        ]
+      }
+    }
+  ]
+}
