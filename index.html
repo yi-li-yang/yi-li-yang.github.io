@@ -17,7 +17,7 @@
       <div class="container header-inner">
         <a class="brand" href="#">Home</a>
         <nav class="site-nav" id="site-nav">
-          <a href="#showcase">Featured</a>
+          <a href="#showcase">Flagship</a>
           <a href="#skills">Skills</a>
           <a href="#thoughts">Projects</a>
           <a href="#publications">Publications</a>
@@ -60,10 +60,48 @@
         </div>
       </section>
 
-      <!-- ── Flagship Showcase (placeholder) ───── -->
-      <section class="showcase-block" id="showcase">
-        <div class="showcase-inner">
-          <p class="showcase-label">Flagship Showcase &middot; Coming Soon</p>
+      <!-- ── Flagship Showcase ───────────────────── -->
+      <section class="section" id="showcase">
+        <div class="container">
+          <div class="section-heading">Flagship</div>
+          <div class="showcase-feature">
+            <div class="hero-visual">
+              <div class="visual-header">
+                <span>Pan-Arctic Permafrost Thaw Mapping</span>
+                <span>ARTS &middot; Woodwell</span>
+              </div>
+              <div class="visual-frame">
+                <img class="showcase-img" src="assets/showcase/arts-panarctic.jpg"
+                     alt="Pan-Arctic map of abrupt permafrost thaw features across Alaska, Canada and Siberia" loading="lazy">
+              </div>
+              <figure class="showcase-inset">
+                <img src="assets/showcase/rts-detection.png"
+                     alt="Deep-learning detection: satellite imagery, mask overlay, and generated segmentation mask" loading="lazy">
+                <figcaption>Model output: satellite tile &rarr; overlay &rarr; segmentation mask</figcaption>
+              </figure>
+            </div>
+            <div class="showcase-copy">
+              <span class="badge">Flagship project</span>
+              <h2 class="showcase-title">Detecting abrupt permafrost thaw across the Arctic with deep learning</h2>
+              <p class="showcase-desc">
+                Project lead for the pan-Arctic Retrogressive Thaw Slumps initiative &mdash; deep-learning
+                detection on multi-source satellite imagery, and the open <strong>ARTS</strong> benchmark
+                dataset of thaw-slump digitisations (1985&ndash;2021) underpinning climate-feedback and
+                carbon-cycle research.
+              </p>
+              <div class="showcase-metrics">
+                <span class="showcase-metric">Pan-Arctic</span>
+                <span class="showcase-metric">1985&ndash;2021</span>
+                <span class="showcase-metric">RSE &middot; Sci. Data</span>
+              </div>
+              <div class="showcase-links">
+                <a class="btn btn-primary" href="https://scholar.google.com/scholar?q=Mapping+retrogressive+thaw+slumps+using+deep+neural+networks" target="_blank" rel="noopener noreferrer">Paper</a>
+                <a class="btn btn-secondary" href="https://doi.org/10.18739/A2PK0738B" target="_blank" rel="noopener noreferrer">Dataset</a>
+                <a class="btn btn-secondary" href="https://github.com/whrc/RTSmapping_v2" target="_blank" rel="noopener noreferrer">Code</a>
+                <a class="btn btn-secondary" href="https://github.com/whrc/interactive-sam2" target="_blank" rel="noopener noreferrer">Demo</a>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
