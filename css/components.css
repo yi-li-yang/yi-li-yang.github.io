@@ -579,8 +579,7 @@
   display: grid;
   grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
   gap: var(--space-xxl);
-  align-items: center;
-  margin-top: var(--space-lg);
+  align-items: stretch;
 }
 
 .showcase-img {
@@ -590,11 +589,19 @@
   object-fit: cover;
 }
 
+/* Right column matches the figure's height; content centred vertically within it. */
 .showcase-copy {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+  justify-content: center;
   gap: var(--space-md);
+}
+
+.showcase-copy .badge {
+  font-size: var(--font-size-sm);
+  padding: 3px 12px;
+  margin-bottom: 0;
 }
 
 .showcase-title {
