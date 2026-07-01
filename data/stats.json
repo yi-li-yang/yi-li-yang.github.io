@@ -13,23 +13,23 @@
     "reviews": 5
   },
   "github": {
-    "repos": 20,
-    "commits": 390,
+    "repos": 21,
+    "commits": 503,
     "languages": [
       {
         "name": "Jupyter Notebook",
         "bytes": 58880512,
-        "percent": 95.7
+        "percent": 95.5
       },
       {
         "name": "HTML",
-        "bytes": 1306903,
+        "bytes": 1309395,
         "percent": 2.1
       },
       {
         "name": "TeX",
-        "bytes": 791442,
-        "percent": 1.3
+        "bytes": 881304,
+        "percent": 1.4
       },
       {
         "name": "Python",
@@ -43,12 +43,12 @@
       },
       {
         "name": "JavaScript",
-        "bytes": 72405,
+        "bytes": 90320,
         "percent": 0.1
       },
       {
         "name": "CSS",
-        "bytes": 28199,
+        "bytes": 29906,
         "percent": 0
       },
       {
@@ -58,13 +58,13 @@
       },
       {
         "name": "Other",
-        "bytes": 1470,
+        "bytes": 2077,
         "percent": 0
       }
     ]
   },
   "scholar": {
-    "citations": 268,
+    "citations": 284,
     "hIndex": 8,
     "i10Index": 7
   },
@@ -79,5 +79,5 @@
     "peerReviews": 7,
     "NSFProposal Reviews": 1
   },
-  "lastUpdated": "2026-06-01T02:40:29.081Z"
+  "lastUpdated": "2026-07-01T02:32:48.234Z"
 }
