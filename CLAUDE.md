@@ -10,7 +10,7 @@ Reference docs: `docs/`. Executable stages: `tasks/`.
 
 A **single-source-of-truth (SSOT)** system for one person's career materials.
 One body of facts produces **two PDF CVs** and **this website**.
-Owner: **Yili Yang, PhD** — geoscientist / geospatial data scientist.
+Owner: **Yili Yang, PhD** — AI Scientist, Geospatial & Remote Sensing.
 Purpose: career **records**, **career exploration**, **visualisation**, **demonstration**
 
 Today there are **two separate repos**:
