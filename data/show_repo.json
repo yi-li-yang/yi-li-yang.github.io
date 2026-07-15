@@ -30,6 +30,11 @@
     "image": "https://raw.githubusercontent.com/yi-li-yang/travel-map/main/thumb.gif"
   },
   {
+    "description": "A frosted-glass desktop widget (Tauri v2 + Rust) showing live Claude Code usage — session and weekly quota with reset countdowns.",
+    "url": "https://github.com/yi-li-yang/desktop-dashboard",
+    "image": "https://raw.githubusercontent.com/yi-li-yang/desktop-dashboard/main/docs/screenshot.png"
+  },
+  {
     "description": "A personal document. It describes how I want a machine to think with me, and in doing so, describes what I believe good thinking looks like.It is not a product, or methodology nor fix for current models, most of what is written here will become default behavior in time, and that will be a success, not an obsolescence.What I am writing down is not the gap between models and ideal behavior. That gap will close. What I am writing down is my own clarity about what kind of conversation I want to have with a thinking machine, kept as a record I can return to and recognize.",
     "url": "https://github.com/yi-li-yang/prompt-to-think",
     "image": ""
