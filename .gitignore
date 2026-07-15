@@ -140,6 +140,9 @@ dist
 cv/onepage/tailored-*.tex
 cv/onepage/generated/tailored-*.tex
 
+# Claude Code local project settings (permission allowlists)
+.claude/
+
 # LaTeX build artifacts (PDFs are published to assets/, not committed here)
 cv/**/build/
 *.aux
