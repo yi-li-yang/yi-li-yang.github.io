@@ -63,39 +63,95 @@
       <!-- ── Featured Showcase ───────────────────── -->
       <section class="section" id="showcase">
         <div class="container">
-          <div class="showcase-feature">
-            <div class="hero-visual">
-              <div class="visual-header">
-                <span>Pan-Arctic Permafrost Thaw Mapping</span>
-                <span>ARTS &middot; Woodwell</span>
-              </div>
-              <div class="visual-frame">
-                <img class="showcase-img" src="assets/showcase/arts-panarctic.jpg"
-                     alt="Pan-Arctic map of abrupt permafrost thaw features across Alaska, Canada and Siberia" loading="lazy">
-              </div>
+
+          <div class="showcase-head">
+            <span class="badge">Featured project</span>
+            <h2 class="showcase-title">A pan-Arctic thaw-slump survey, built end to end by one scientist</h2>
+            <p class="showcase-desc">
+              <strong>RTSmapping v2</strong> detects retrogressive thaw slumps &mdash; the most dramatic form of
+              abrupt permafrost thaw &mdash; in 3&#8202;m PlanetScope imagery. One scientist designed the dataset,
+              trained and audited the models, benchmarked them against 6.7B-parameter foundation encoders,
+              and deployed a 32-GPU fleet that swept the southern Arctic &mdash; delivering an open map of
+              10,984 active thaw slumps.
+            </p>
+            <div class="showcase-links">
+              <a class="btn btn-primary" href="https://scholar.google.com/scholar?q=Mapping+retrogressive+thaw+slumps+using+deep+neural+networks" target="_blank" rel="noopener noreferrer">Paper</a>
+              <a class="btn btn-secondary" href="https://doi.org/10.18739/A2PK0738B" target="_blank" rel="noopener noreferrer">Dataset</a>
+              <a class="btn btn-secondary" href="https://github.com/whrc/RTSmapping_v2" target="_blank" rel="noopener noreferrer">Code</a>
+              <a class="btn btn-secondary" href="https://github.com/whrc/interactive-sam2" target="_blank" rel="noopener noreferrer">Demo</a>
             </div>
-            <div class="showcase-copy">
-              <span class="badge">Featured project</span>
-              <h2 class="showcase-title">Detecting abrupt permafrost thaw across the Arctic with deep learning</h2>
-              <p class="showcase-desc">
-                Project lead for the pan-Arctic Retrogressive Thaw Slumps initiative &mdash; deep-learning
-                detection on multi-source satellite imagery, and the open <strong>ARTS</strong> benchmark
-                dataset of thaw-slump digitisations (1985&ndash;2021) underpinning climate-feedback and
-                carbon-cycle research.
-              </p>
-              <div class="showcase-metrics">
-                <span class="showcase-metric">Pan-Arctic</span>
-                <span class="showcase-metric">1985&ndash;2021</span>
-                <span class="showcase-metric">RSE &middot; Sci. Data</span>
+          </div>
+
+          <div class="hero-visual showcase-hero">
+            <div class="visual-header">
+              <span>Circumpolar training data &middot; 1,819 RTS labels &middot; 60&ndash;74&deg;N</span>
+              <span>RTSmapping v2</span>
+            </div>
+            <div class="showcase-hero-body">
+              <div class="visual-frame showcase-figure">
+                <img class="showcase-map" src="assets/showcase/rts-training-map.png"
+                     alt="Circumpolar hexbin map of the RTSmapping v2 training data: 1,819 thaw-slump labels and 13,695 negative tiles distributed across the Arctic" loading="lazy">
               </div>
-              <div class="showcase-links">
-                <a class="btn btn-primary" href="https://scholar.google.com/scholar?q=Mapping+retrogressive+thaw+slumps+using+deep+neural+networks" target="_blank" rel="noopener noreferrer">Paper</a>
-                <a class="btn btn-secondary" href="https://doi.org/10.18739/A2PK0738B" target="_blank" rel="noopener noreferrer">Dataset</a>
-                <a class="btn btn-secondary" href="https://github.com/whrc/RTSmapping_v2" target="_blank" rel="noopener noreferrer">Code</a>
-                <a class="btn btn-secondary" href="https://github.com/whrc/interactive-sam2" target="_blank" rel="noopener noreferrer">Demo</a>
+              <div class="showcase-statgrid">
+                <div class="showcase-stat">
+                  <span class="showcase-stat-value">41.6M</span>
+                  <span class="showcase-stat-label">satellite tiles inferenced &middot; southern pan-Arctic</span>
+                </div>
+                <div class="showcase-stat">
+                  <span class="showcase-stat-value">0.94</span>
+                  <span class="showcase-stat-label">PR-AUC &middot; 3-seed ensemble, validation</span>
+                </div>
+                <div class="showcase-stat">
+                  <span class="showcase-stat-value">40 GPUs</span>
+                  <span class="showcase-stat-label">32&times; L4 inference fleet + 8&times; A100 training</span>
+                </div>
+                <div class="showcase-stat">
+                  <span class="showcase-stat-value">10,984</span>
+                  <span class="showcase-stat-label">thaw slumps mapped &middot; 238 km&sup2;</span>
+                </div>
               </div>
             </div>
           </div>
+
+          <div class="showcase-panels">
+            <article class="showcase-panel">
+              <p class="showcase-panel-kicker">01 &middot; Science</p>
+              <h3 class="showcase-panel-title">Referee-proof by design</h3>
+              <p class="showcase-panel-body">
+                Leakage-free spatial splits, three-seed ensembles, object metrics corrected to the minimum
+                mapping unit, and a full pre-launch audit. Benchmarked head-to-head against SAM2 and satellite
+                foundation models up to 6.7B parameters &mdash; the purpose-built 30M-parameter UNet++ wins
+                at a fraction of the compute.
+              </p>
+              <p class="showcase-panel-foot">PR-AUC &mdash; UNet++ 0.92 &middot; ViT-L 0.92 &middot; 7B frozen 0.76 &middot; SAM2 0.56</p>
+            </article>
+            <article class="showcase-panel">
+              <p class="showcase-panel-kicker">02 &middot; Engineering</p>
+              <h3 class="showcase-panel-title">Planetary-scale inference</h3>
+              <p class="showcase-panel-body">
+                An atomic shard-claim queue on cloud storage drove a self-healing fleet of 32 L4 GPUs through
+                41,567,572 tiles with exactly-once reconciliation &mdash; every tile accounted for.
+                Docker-reproducible end to end, with a 338-test suite guarding the pipeline.
+              </p>
+              <p class="showcase-panel-foot">2,079 shards &middot; 0 tiles lost &middot; 338 tests green</p>
+            </article>
+            <article class="showcase-panel showcase-panel-product">
+              <p class="showcase-panel-kicker">03 &middot; Product</p>
+              <h3 class="showcase-panel-title">From pixels to open maps</h3>
+              <a class="showcase-panel-figure" href="assets/showcase/rts-prob-example.jpg" target="_blank" rel="noopener noreferrer">
+                <img src="assets/showcase/rts-prob-example.jpg"
+                     alt="Example model output: PlanetScope RGB tile beside the same tile with the model's thaw-slump probability heatmap and decision-threshold contours overlaid" loading="lazy">
+              </a>
+              <p class="showcase-panel-caption">Model output on 2025 imagery &mdash; Northwest Territories, Canada</p>
+              <p class="showcase-panel-body">
+                10,984 thaw-slump polygons across 238 km&sup2;, released as open GeoPackage and
+                cloud-optimized rasters. Builds on the open <strong>ARTS</strong> benchmark
+                (<em>Scientific Data</em>) and deep-learning mapping in <em>RSE</em>.
+              </p>
+              <p class="showcase-panel-foot">GeoPackage &middot; cloud-optimized GeoTIFF &middot; open access</p>
+            </article>
+          </div>
+
         </div>
       </section>
 
