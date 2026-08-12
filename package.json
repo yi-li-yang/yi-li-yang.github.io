@@ -13,7 +13,6 @@
     "tailor": "node scripts/tailor.js",
     "app:status": "node scripts/app-status.js",
     "verify:app": "node scripts/verify-application.js",
-    "pdfs": "node scripts/fetch-pdfs.js",
     "clean": "node -e \"require('node:fs').rmSync('build',{recursive:true,force:true});console.log('removed build/')\"",
     "ingest": "node scripts/update-stats.js",
     "bib": "node scripts/bib-to-json.js",

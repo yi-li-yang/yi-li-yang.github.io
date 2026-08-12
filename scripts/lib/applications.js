@@ -75,6 +75,10 @@ export function listApplications() {
         dir: join(ROOT, rel),
         meta,
         hasLetter: existsSync(join(ROOT, rel, 'letter.json')),
+        // CI compiles these and commits them back here, so their presence answers "has this
+        // actually been built, or is it still just a manifest?" — the question you have when
+        // you are about to send something.
+        hasPdf: existsSync(join(ROOT, rel, 'cv.pdf')),
       });
     }
   }

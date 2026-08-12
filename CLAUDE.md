@@ -94,7 +94,8 @@ yi-li-yang.github.io/                 CURRENT (keep)
 │   └── publications.bib              SSOT for publications
 ├── applications/                     ③ TAILORED — status IS the directory
 │   └── {drafting,submitted,closed}/<slug>/  job.md manifest.json letter.json
-├── build/<slug>/                     ALL tailored output. gitignored, self-contained
+├── build/<slug>/                     tailored compile context. gitignored, self-contained
+│                                     (CI commits the resulting PDFs back into applications/)
 ├── scripts/
 │   ├── lib/  data.js  render.js  applications.js
 │   ├── update-stats.js  bib-to-json.js  emit-metrics-tex.js  render-cv.js

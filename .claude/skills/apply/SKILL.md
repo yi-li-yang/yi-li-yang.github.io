@@ -102,8 +102,11 @@ Show the user:
 - the **gap report** — what the posting wants that the data cannot support,
 - any **smell-test warnings**.
 
-Then stop. **Never commit.** The user accepts or rejects per item; PDFs are compiled by CI
-after they push (`.github/workflows/tailor-cv.yml`).
+Then stop. **Never commit.** The user accepts or rejects per item.
+
+After they commit and push, CI compiles the documents and commits them back into the application's
+own folder as `cv.pdf`, `letter.pdf` and `letter.txt` — so one directory holds the posting, the
+selection made from it, and exactly what was sent. Those three are DERIVED: never hand-edit them.
 
 ## Do not
 

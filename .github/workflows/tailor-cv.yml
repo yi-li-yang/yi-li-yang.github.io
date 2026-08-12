@@ -1,14 +1,16 @@
 name: Tailor CV
 
-# Compiles job-tailored one-pagers and cover letters from applications/<status>/<slug>/.
+# Compiles job-tailored one-pagers and cover letters from applications/<status>/<slug>/, then
+# COMMITS THE DOCUMENTS BACK BESIDE THEIR APPLICATION.
 #
-# Each application is a SELECTION over the data layer: every claim carries a `src` citation
-# resolved by scripts/verify-application.js. That verifier runs here, in --strict mode, BEFORE
-# anything compiles — the firewall has to hold in CI, not just on a laptop, or an unsourced
-# claim ships with a green tick beside it.
+# Output lives with input on purpose: an application folder is the complete record of one job —
+# the posting, the selection made from it, and the documents that went out. CI artifacts expire
+# after 90 days, and a rebuild months later would not reproduce them anyway, because the
+# citation counts in data/stats.json move underneath. So the PDF is committed.
 #
-# The PDFs are uploaded as artifacts, never committed: a tailored CV is an ephemeral
-# per-application output. The manifest and letter.json are the sources of truth.
+# Every claim carries a `src` citation resolved by scripts/verify-application.js, which runs
+# here in --strict mode BEFORE anything compiles — the firewall has to hold in CI, not just on
+# a laptop, or an unsourced claim ships with a green tick beside it.
 
 on:
   push:
@@ -25,8 +27,13 @@ on:
         required: false
         type: string
 
+# Two runs committing to the same branch would race. Make the newer one wait, not fail.
+concurrency:
+  group: tailor-cv
+  cancel-in-progress: false
+
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   # Status is the directory: applications/{drafting,submitted,closed}/<slug>/.
@@ -128,22 +135,61 @@ jobs:
             exit 1
           fi
 
-      - name: Collect artifacts under stable names
+      # Staged under the application's own path, so the commit job can place the files without
+      # rediscovering which status folder each slug lives in.
+      - name: Stage the documents for commit
         run: |
-          mkdir -p out
-          cp "build/${{ matrix.slug }}/cv.pdf" "out/cv_${{ matrix.slug }}.pdf"
+          appdir=$(dirname "$(find applications -mindepth 3 -maxdepth 3 -name manifest.json \
+                              -path "*/${{ matrix.slug }}/*" | head -1)")
+          echo "application dir: $appdir"
+          mkdir -p "out/$appdir"
+          cp "build/${{ matrix.slug }}/cv.pdf" "out/$appdir/cv.pdf"
           if [ "${{ steps.letter.outputs.exists }}" = "true" ]; then
-            cp "build/${{ matrix.slug }}/letter.pdf" "out/coverletter_${{ matrix.slug }}.pdf"
-            cp "build/${{ matrix.slug }}/letter.txt" "out/coverletter_${{ matrix.slug }}.txt"
+            cp "build/${{ matrix.slug }}/letter.pdf" "out/$appdir/letter.pdf"
+            cp "build/${{ matrix.slug }}/letter.txt" "out/$appdir/letter.txt"
           fi
-          # The posting this was aimed at travels with the outputs, so a downloaded bundle is
-          # self-explanatory months later.
-          find applications -name job.md -path "*/${{ matrix.slug }}/*" \
-            -exec cp {} "out/job_${{ matrix.slug }}.md" \; || true
 
-      - name: Upload application bundle
+      - name: Upload documents
         uses: actions/upload-artifact@v4
         with:
-          name: application-${{ matrix.slug }}
+          name: documents-${{ matrix.slug }}
           path: out/
           if-no-files-found: error
+          retention-days: 1 # a handoff to the commit job, not the record
+
+  # ONE job commits, after every application has built. Committing inside the matrix would have
+  # parallel jobs pushing to the same branch and clobbering each other.
+  commit:
+    needs: [discover, tailor]
+    if: needs.discover.outputs.count != '0'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download every application's documents
+        uses: actions/download-artifact@v4
+        with:
+          pattern: documents-*
+          merge-multiple: true # they share the applications/<status>/<slug>/ path layout
+          path: incoming
+
+      - name: Place documents beside their applications
+        run: |
+          cp -r incoming/applications/. applications/
+          rm -rf incoming
+          find applications \( -name '*.pdf' -o -name 'letter.txt' \) | sort
+
+      - name: Commit if changed
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add applications
+          # [skip ci] so this automated commit does not retrigger the workflow.
+          if git diff --cached --quiet; then
+            echo "documents unchanged — nothing to commit"
+          else
+            git commit -m "build: tailored CV + cover letter [automated] [skip ci]"
+            # Another push may have landed while this run compiled.
+            git pull --rebase --autostash origin "${GITHUB_REF_NAME}"
+            git push origin "HEAD:${GITHUB_REF_NAME}"
+          fi

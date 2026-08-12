@@ -156,5 +156,6 @@ cv/**/build/
 *.synctex.gz
 *.xdv
 
-# Locally downloaded CI artifacts (npm run pdfs) — ephemeral, never committed.
-_artifacts/
+# Compiled application documents are COMMITTED beside their application
+# (applications/<status>/<slug>/cv.pdf, letter.pdf, letter.txt) — CI writes them.
+# The build directory that produces them is not.

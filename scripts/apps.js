@@ -40,11 +40,13 @@ for (const status of STATUSES) {
 
   console.log(`  ${LABEL[status].trim()}  (${group.length})`);
   for (const a of group) {
+    // `pdf` means CI has compiled and committed the documents into the application folder;
+    // its absence means this is still only a manifest.
     console.log(
       `    ${pad(trunc(a.meta.company, w.company), w.company)}  ` +
         `${pad(trunc(a.meta.role, w.role), w.role)}  ` +
         `${pad(a.meta.date ?? '', 10)}  ` +
-        `${a.hasLetter ? '+letter' : '       '}  ` +
+        `${a.hasPdf ? 'pdf' : '   '} ${a.hasLetter ? '+letter' : '       '}  ` +
         `${a.slug}`,
     );
   }
@@ -52,6 +54,7 @@ for (const status of STATUSES) {
 }
 
 const counts = STATUSES.map((s) => `${apps.filter((a) => a.status === s).length} ${s}`).join(' · ');
-console.log(`  ${apps.length} total — ${counts}`);
-console.log(`  build one:  npm run tailor -- <slug>`);
+const built = apps.filter((a) => a.hasPdf).length;
+console.log(`  ${apps.length} total — ${counts} · ${built} with committed documents`);
+console.log(`  build one:  npm run tailor -- <slug>   (then push; CI commits the PDFs back)`);
 console.log(`  move one:   npm run app:status -- <slug> <${STATUSES.join('|')}>\n`);

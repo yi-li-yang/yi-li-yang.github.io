@@ -43,7 +43,6 @@ npm run app:status -- goldman-sachs-applied-ai-researcher submitted
 ```bash
 npm run verify:app -- <slug>            # the firewall's report, without rendering
 npm run verify:app -- <slug> --strict   # warnings become failures (what CI runs)
-npm run pdfs [-- <slug>]                # download the compiled PDFs from the last CI run
 npm run clean                           # wipe build/
 npm run ingest                          # refresh stats from ORCID / GitHub / Scholar (network)
 npm run bib | metrics | render          # the individual stages `build` chains together
@@ -80,15 +79,19 @@ git push  →  GitHub Actions  →  xu-cheng/latex-action (a full TeX Live conta
           →  latexmk  →  PDF uploaded as a run artifact
 ```
 
-`.github/workflows/build-cv.yml` compiles the two canonical PDFs and commits them to `assets/`.
-`.github/workflows/tailor-cv.yml` compiles one tailored CV and cover letter per application, and
-asserts the one-pager is still exactly one page — the Deedy template overflows silently.
+`build-cv.yml` compiles the two canonical PDFs and commits them to `assets/`.
+`tailor-cv.yml` compiles one tailored CV and cover letter per application, asserts the one-pager
+is still exactly one page (the Deedy template overflows silently), and **commits the documents
+back into the application's own folder**:
 
-GitHub serves artifacts only as zip bundles behind the Actions run page, so to actually read one:
-
-```bash
-npm run pdfs        # → _artifacts/, with the paths printed
+```text
+applications/drafting/<slug>/
+  job.md  manifest.json  letter.json    ← yours
+  cv.pdf  letter.pdf  letter.txt        ← CI writes these
 ```
+
+So the workflow is: `npm run tailor -- <slug>` → review → commit → push → `git pull`, and the PDF
+is sitting next to the posting it was written for. One folder holds the whole record of one job.
 
 ---
 

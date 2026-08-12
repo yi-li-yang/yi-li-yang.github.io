@@ -12,11 +12,13 @@ applications/<status>/<slug>/          status is the DIRECTORY
         ├─ npm run verify:app -- <slug>    firewall + provenance + gap report
         └─ npm run tailor     -- <slug>    verifies, THEN renders
                  │
-                 build/<slug>/       self-contained compile context
-                   cv.tex  ← compile this      letter.tex  letter.txt
-                   *.tex partials              .cls + fonts/ (copied in)
+                 build/<slug>/       self-contained compile context (gitignored)
+                   cv.tex  letter.tex  letter.txt
+                   *.tex partials      .cls + fonts/ (copied in)
                           │
-                  push → tailor-cv.yml → PDF + txt artifacts → npm run pdfs
+                  push → tailor-cv.yml → compiles, then COMMITS BACK:
+                          │
+                 applications/<status>/<slug>/cv.pdf  letter.pdf  letter.txt
 ```
 
 ## Lifecycle
@@ -34,17 +36,32 @@ No command ever takes a status. Everything resolves an application by **slug**
 about how you build it. CI skips `closed/` — a closed application never needs rebuilding, which
 is what keeps build time flat as the directory grows.
 
-## The PDFs are ephemeral — the manifest is the record
+## The documents live with the application
 
-Tailored PDFs are CI artifacts and GitHub deletes them after 90 days. They are deliberately not
-committed. **Rebuilding a closed application later produces a similar but not identical
-document**, because the citation counts in `data/stats.json` move underneath it.
+CI compiles the PDFs and **commits them back into the application's own folder**:
 
-So: the durable record of what you sent is `manifest.json` + `letter.json` + `job.md`. If you need
-the exact bytes an employer received, download the artifact while it exists and keep it yourself.
+```text
+applications/drafting/goldman-sachs-applied-ai-researcher/
+  job.md  manifest.json  letter.json     ← SOURCE, yours
+  cv.pdf  letter.pdf  letter.txt         ← DERIVED, written by CI
+```
 
-Nothing here is committed except the three inputs. Tailored `.tex` and PDFs are ephemeral —
-the manifest is the source of truth, and it can always regenerate them.
+So one folder is the complete record of one job: what was asked for, what you selected from your
+data in response, and the exact documents that went out.
+
+This matters because a rebuild is **not** reproducible. Regenerate a year-old application and you
+get a similar but different document — the citation counts in `data/stats.json` have moved
+underneath it. The committed PDF is the only thing that records what an employer actually
+received. CI artifacts would have expired after 90 days.
+
+The trade-off accepted here is repo size: roughly 80 KB per application per rebuild, in git
+history forever. At a few dozen applications that is negligible; it is worth knowing anyway.
+
+**Do not hand-edit `cv.pdf`, `letter.pdf` or `letter.txt`** — they are derived, and the next CI
+run overwrites them. Change the manifest and let it rebuild.
+
+The intermediate LaTeX in `build/` stays out of git — it is a compile context, reproducible from
+the manifest at any time. Only the inputs and the finished documents are committed.
 
 ---
 
@@ -172,13 +189,15 @@ Gaps are **never** auto-filled. Address them openly in the letter, or don't appl
 ## Commands
 
 ```bash
-npm run apps                            # every application, grouped by status
+npm run apps                            # every application, status, and whether it has a PDF
 npm run tailor     -- <slug>            # VERIFIES, then renders into build/<slug>/
 npm run app:status -- <slug> submitted  # move between status folders
 npm run verify:app -- <slug>            # the report on its own, without rendering
 npm run verify:app -- <slug> --strict   # warnings become failures — what CI runs
-npm run pdfs       -- <slug>            # fetch the compiled PDFs from the last CI run
 ```
+
+To get a PDF: commit and push. CI compiles it and commits it back into the application folder;
+`git pull` and it is there. LaTeX never runs locally.
 
 Verification is folded into `tailor`, so the firewall cannot be skipped by forgetting a step —
 only by choosing to (`--skip-verify`, which CI uses because it runs the strict check itself).
