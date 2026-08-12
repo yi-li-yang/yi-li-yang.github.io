@@ -1,0 +1,15 @@
+<# Selected publications for the one-pager. EMPTY by default — the untailored CV shows counts
+   (\journalpapers etc.) rather than a list, and the page has no room for both. An application
+   manifest selects 3-5 bib keys; the entries themselves come from cv/publications.bib, so the
+   only tailoring lever here is WHICH, never WHAT.
+
+   Titles/venues are .bib-derived, not LaTeX, so they go through `texesc`. #>
+<% if publications.length %>
+\section{Selected Publications}
+\begin{tightemize}
+<% for p in publications %>
+    \item << p.title | texesc >><% if p.venue %> --- \textit{<< p.venue | texesc >>}<% endif %><% if p.year %>, << p.year >><% endif %>.
+<% endfor %>
+\end{tightemize}
+\sectionsep
+<% endif %>

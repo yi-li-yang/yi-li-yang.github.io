@@ -1,0 +1,20 @@
+<# Skills block for the Deedy one-pager. Consumes data/skills.json (or an application's
+   tailored subset of it). `after` on each line drives the LaTeX separator:
+   break -> \\ ; par -> blank line ; parbreak -> \\ then blank ; omitted -> nothing. #>
+<% for g in skills.groups %>
+\subsection{<< g.title >>}
+<% for line in g.lines %>
+<< line.items | join("|", "label") >>
+<% if line.after == "break" %>
+\\
+<% elif line.after == "parbreak" %>
+\\
+
+<% elif line.after == "par" %>
+
+<% endif %>
+<% endfor %>
+
+\sectionsep
+
+<% endfor %>

@@ -1,0 +1,44 @@
+{
+  "_comment": [
+    "HAND-AUTHORED. Never script-written. Extracted from cv/onepage/ONE-PAGE.tex L218-231.",
+    "",
+    "`industry` renders as \\subsection{partners} + a one-line description.",
+    "`academic` is a list of LINES (each a list of institutions joined with '|') because the",
+    "grouping is a deliberate line-wrap, not a semantic grouping — keeping it explicit lets a",
+    "tailored CV drop an institution without the remaining ones reflowing unpredictably.",
+    "",
+    "Ids are referenced as `collab:<id>` from an application manifest."
+  ],
+  "industry": [
+    {
+      "id": "petrobras-edinburgh",
+      "partners": "PetroBras $\\times$ U of Edinburgh",
+      "text": "Understanding how oil and water flow in rocks"
+    },
+    {
+      "id": "google-woodwell",
+      "partners": "Google $\\times$ Woodwell",
+      "text": "Understanding Permafrosts, AlphaEarth and Satellite Embedding"
+    },
+    {
+      "id": "esri-woodwell",
+      "partners": "Esri $\\times$ Woodwell",
+      "text": "Understanding Permafrosts and Indigenous Communities"
+    }
+  ],
+  "academic": [
+    [
+      { "id": "cuhk", "label": "The Chinese University of Hong Kong" },
+      { "id": "uconn", "label": "University of Connecticut" }
+    ],
+    [
+      { "id": "uaf", "label": "University of Alaska Fairbanks" },
+      { "id": "asu", "label": "Arizona State University" }
+    ],
+    [
+      { "id": "uiuc", "label": "University of Illinois" },
+      { "id": "awi", "label": "Alfred Wegener Institute" },
+      { "id": "hks", "label": "Harvard Kennedy School" }
+    ]
+  ]
+}
