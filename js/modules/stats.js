@@ -1,13 +1,21 @@
+// SOURCE — you own this file. Edit freely, by hand or by agent.
 
 export async function initStats() {
   const container = document.getElementById('stats');
   if (!container) return;
 
   try {
-    const res = await fetch('data/stats.json');
+    // Two sources: stats.json is machine-written by the ingest, service.json is maintained
+    // by hand. They used to be one file with a hand-authored island inside it; splitting
+    // them means neither has two writers. service.json is optional — if it fails to load,
+    // the ingest-derived cards still render.
+    const [res, serviceRes] = await Promise.all([
+      fetch('data/stats.json'),
+      fetch('data/service.json').catch(() => null),
+    ]);
     if (!res.ok) throw new Error(`Stats fetch: ${res.status}`);
-    const { profiles, publications, orcid, scholar, static: hand, lastUpdated } =
-      await res.json();
+    const { profiles, publications, orcid, scholar, lastUpdated } = await res.json();
+    const hand = serviceRes?.ok ? await serviceRes.json() : null;
 
     const scholarLink = `https://scholar.google.com/citations?user=${profiles.scholar}`;
     const orcidLink   = `https://orcid.org/${profiles.orcid}`;
@@ -19,8 +27,8 @@ export async function initStats() {
       { value: scholar?.citations, label: 'Citations',    source: 'Scholar', link: scholarLink },
       { value: scholar?.hIndex,    label: 'h-index',      source: 'Scholar' },
       { value: scholar?.i10Index,  label: 'i10-index',    source: 'Scholar' },
-      // Curated total: ORCID tracks 5; 2 more reviews aren't ORCID-registered. The true
-      // count (7) lives in the hand-authored `static` block; fall back to ORCID if absent.
+      // Curated total: ORCID tracks fewer, because some reviews aren't ORCID-registered.
+      // The true count lives in data/service.json; fall back to ORCID if it didn't load.
       { value: hand?.peerReviews ?? orcid?.reviews, label: 'Peer Reviews', source: 'Curated' },
     ];
 
@@ -35,8 +43,8 @@ export async function initStats() {
       if (hand.invitedTalks != null) {
         items.push({ value: hand.invitedTalks, label: 'Invited Talks' });
       }
-      if (hand['NSFProposal Reviews'] != null) {
-        items.push({ value: hand['NSFProposal Reviews'], label: 'NSF Proposal Reviews' });
+      if (hand.nsfProposalReviews != null) {
+        items.push({ value: hand.nsfProposalReviews, label: 'NSF Proposal Reviews' });
       }
     }
 

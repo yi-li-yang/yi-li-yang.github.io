@@ -28,7 +28,7 @@ The real, implemented site is **vanilla**:
 - `index.html` at root, `css/variables.css` + `base.css` + `components.css`,
 - ES modules: `js/main.js` → `js/modules/{stats,thoughts,skills}.js`,
 - data fetched at runtime from `data/*.json`,
-- design system in `design.md` (Linear-inspired, dark, Inter Variable).
+- design system in `docs/DESIGN.md` (Linear-inspired, dark, Inter Variable).
 
 There is **no** Next.js, React, Tailwind, or map library in this repo, despite what the
 old CLAUDE.md's "Project Scaffolding" section claimed. **Do not introduce them.** Treat
@@ -84,20 +84,22 @@ yi-li-yang.github.io/                 CURRENT (keep)
 ├── data/ stats.json pill-tags.json show_repo.json   (stats.json = script-written; other two = hand-written)
 ├── scripts/update-stats.js           working ingest (ORCID/GitHub/Scholar, fail-safe)
 ├── .github/workflows/update-stats.yml monthly cron
-├── design.md  issues.md  CLAUDE.md
+├── docs/  CLAUDE.md  README.md
 │
 │                                     TARGET ADDITIONS
-├── cv/                               ← LaTeX moved in from the Overleaf repo (flat)
-│   ├── onepage/  ONE-PAGE.tex  deedy-resume-openfont.cls  generated/
+├── cv/                               ② CV GENERATOR — the general CV only
+│   ├── templates/*.njk               data → LaTeX (incl. coverletter.{tex,txt}.njk)
+│   ├── onepage/  ONE-PAGE.tex  deedy-resume-openfont.cls  fonts/  generated/
 │   ├── biosketch/ BIOSKETCH.tex  resume.cls  generated/
-│   └── publications.bib              ← SSOT for publications (was Biosketch/my_publication.bib)
+│   └── publications.bib              SSOT for publications
+├── applications/                     ③ TAILORED — status IS the directory
+│   └── {drafting,submitted,closed}/<slug>/  job.md manifest.json letter.json
+├── build/<slug>/                     ALL tailored output. gitignored, self-contained
 ├── scripts/
-│   ├── update-stats.js               (existing)
-│   ├── emit-metrics-tex.js           data/stats.json + bib → cv/**/generated/metrics.tex
-│   ├── bib-to-json.js                publications.bib → data/publications.json (for the site)
-│   └── render-cv.js                  data + Nunjucks templates → cv/**/generated/*.tex
-├── templates/ onepage.tex.njk  biosketch.tex.njk
-└── .github/workflows/build-cv.yml    compile PDFs → assets/, deploy
+│   ├── lib/  data.js  render.js  applications.js
+│   ├── update-stats.js  bib-to-json.js  emit-metrics-tex.js  render-cv.js
+│   └── tailor.js  verify-application.js  apps.js  app-status.js  fetch-pdfs.js
+└── .github/workflows/  build-cv.yml  tailor-cv.yml  update-stats.yml
 ```
 
 ---
@@ -125,7 +127,7 @@ The ingest arm ("fetch metrics") is **already done** — do not rebuild it.
   `data/experience.json`, rendered by `scripts/render-cv.js` (Nunjucks, `<< >>`/`<% %>` tags) into
   `cv/**/generated/experience.tex`, which both shells `\input`. Shared keystone loader:
   `scripts/lib/data.js`. Build all: `npm run build`. CI: `.github/workflows/build-cv.yml`.
-- **Phase D** ✅ — job applications. `applications/<slug>/{job.md,manifest.json,letter.json}` →
+- **Phase D** ✅ — job applications. `applications/<status>/<slug>/{job.md,manifest.json,letter.json}` →
   tailored one-pager + cover letter (PDF **and** paste-ready `.txt`). The remaining hardcoded
   prose in `ONE-PAGE.tex` (skills, awards, collaborations) moved to `data/`, so every block is
   now both derived and tailorable; `data/taglines.json` is new. Every claim carries a `src`
@@ -136,13 +138,16 @@ The ingest arm ("fetch metrics") is **already done** — do not rebuild it.
   <slug>`. CI: `.github/workflows/tailor-cv.yml` (matrix, `--strict` gate, one-page assertion).
   Reference: **`docs/APPLICATIONS.md`**.
 
-Script-written (never hand-edit): `data/stats.json`, `data/publications.json`, `cv/**/generated/*`,
-`cv/coverletter/generated/*`, `assets/*.pdf`. Hand-authored (never script-write):
-`data/pill-tags.json`, `data/show_repo.json`, `data/experience.json`, `data/skills.json`,
-`data/awards.json`, `data/collaborations.json`, `data/taglines.json`, `cv/publications.bib`,
-`applications/*/*`, the `.tex` shells, `templates/*.njk`. The `static` block inside
-`data/stats.json` is the one hand-authored island in a script-written file (funding, mentees,
-talks, peer/NSF reviews) — `update-stats.js` preserves it across runs.
+**Ownership is declared in each file's first line, not in a list here.** Every file opens with
+`SOURCE` (you own it — edit freely, by hand or by agent) or `DERIVED` (the build owns it — never
+edit, by hand *or* by agent; the next build reverts you, and derived markers name the command that
+regenerates them). `grep -rl DERIVED data/ cv/ scripts/` enumerates the untouchable set.
+
+A list in this file would rot the first time something moved; the marker travels with the file.
+
+There is no longer a hand-authored island inside a script-written file: the old `static` block of
+`data/stats.json` now lives in `data/service.json`, which you own outright. `stats.json` is 100%
+machine-written, with no exception to remember.
 
 Verification after any stage: the site still renders, both PDFs compile, and every shown fact
 traces back to the data layer.

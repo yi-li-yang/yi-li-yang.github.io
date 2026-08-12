@@ -1,3 +1,5 @@
+// SOURCE — you own this file. Edit freely, by hand or by agent.
+//
 // scripts/render-cv.js
 //
 // PURE, OFFLINE. Renders the DEFAULT (untailored) CVs: every prose block on the one-pager

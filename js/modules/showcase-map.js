@@ -1,3 +1,4 @@
+// SOURCE — you own this file. Edit freely, by hand or by agent.
 /* Featured showcase — click-to-load Google Earth Engine map.
  *
  * The markup ships a plain anchor that opens the app in a new tab, so the card

@@ -1,3 +1,5 @@
+// SOURCE — you own this file. Edit freely, by hand or by agent.
+//
 // scripts/emit-metrics-tex.js
 //
 // PURE, OFFLINE. Derives every numeric fact the CVs used to hardcode and writes them as
@@ -12,10 +14,10 @@ import { writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { loadData, pubCounts, ROOT } from './lib/data.js';
 
-const { stats, publications } = loadData();
+const { stats, service, publications } = loadData();
 const counts = pubCounts(publications);
 
-const funding = stats.static?.fundingAwarded?.value ?? 0;
+const funding = service.fundingAwarded?.value ?? 0;
 
 // LaTeX macro name -> value. Keep names letters-only (TeX requirement).
 const macros = {
@@ -32,11 +34,11 @@ const macros = {
   // GitHub
   commits: stats.github?.commits ?? 0,
   repos: stats.github?.repos ?? 0,
-  // hand-authored service / mentoring facts (static island of stats.json)
-  invitedtalks: stats.static?.invitedTalks ?? 0,
-  peerreviews: stats.static?.peerReviews ?? stats.orcid?.reviews ?? 0,
-  nsfreviews: stats.static?.['NSFProposal Reviews'] ?? 0,
-  mentees: stats.static?.menteesSupervised ?? 0,
+  // service / mentoring facts you maintain by hand in data/service.json
+  invitedtalks: service.invitedTalks ?? 0,
+  peerreviews: service.peerReviews ?? stats.orcid?.reviews ?? 0,
+  nsfreviews: service.nsfProposalReviews ?? 0,
+  mentees: service.menteesSupervised ?? 0,
   // funding, formatted with thousands separators (no leading $ — the .tex supplies it)
   funding: funding.toLocaleString('en-US'),
 };

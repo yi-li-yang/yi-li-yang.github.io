@@ -135,11 +135,10 @@ dist
 .yarn/install-state.gz
 .pnp.*
 
-# Job-tailored variants — derived from applications/<slug>/, rebuilt on demand and published
-# as CI artifacts (not committed; the manifest + letter.json are the source of truth).
-cv/onepage/app-*.tex
-cv/onepage/generated/app-*/
-cv/coverletter/generated/
+# DERIVED. All job-tailored output — one self-contained compile context per application,
+# rebuilt on demand (`npm run tailor -- <slug>`) and compiled by CI. Never committed: the
+# manifest + letter.json under applications/ are the source of truth, not the PDF.
+build/
 
 # Claude Code local settings (permission allowlists) stay local, but the /apply skill is part
 # of the workflow and must travel with the repo.

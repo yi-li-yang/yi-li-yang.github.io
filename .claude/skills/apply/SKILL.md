@@ -5,7 +5,7 @@ description: Turn a pasted job description into a tailored one-page CV and cover
 
 # Applying for a job
 
-Turn a job posting into `applications/<slug>/` — a tailored one-pager and a cover letter, both
+Turn a job posting into `applications/drafting/<slug>/` — a tailored one-pager and a cover letter, both
 built by **selecting** facts that already exist in this repo.
 
 ## The one rule
@@ -31,9 +31,12 @@ Derive `<slug>` as `<company>-<role>`, lowercase, hyphenated
 
 ### 2. Archive it verbatim
 
-Write `applications/<slug>/job.md`: a short front-matter block (company, role, source, capture
-date), then the posting **exactly as pasted**, under markdown headings that preserve its own
-section structure — `## Required Qualifications`, `## Responsibilities`, and so on.
+Write `applications/drafting/<slug>/job.md`: a short front-matter block (company, role, source,
+capture date), then the posting **exactly as pasted**, under markdown headings that preserve its
+own section structure — `## Required Qualifications`, `## Responsibilities`, and so on.
+
+New applications always start in `drafting/`. Status is the directory; `npm run app:status --
+<slug> submitted` moves it later. Never write into `submitted/` or `closed/` directly.
 
 The headings are not cosmetic: `verify-application.js` only scans requirement-bearing sections
 for gaps, so a posting dumped as one undifferentiated blob produces a useless gap report.
@@ -85,8 +88,12 @@ something that merely sounds adjacent.
 npm run tailor -- <slug>
 ```
 
-Writes the tailored partials, the variant shell `cv/onepage/app-<slug>.tex`, and the cover
-letter as both `.tex` and paste-ready `.txt` under `cv/coverletter/generated/`.
+Writes everything into `build/<slug>/`: the partials, the shell `cv.tex`, and the cover letter as
+both `letter.tex` and paste-ready `letter.txt`. That directory is self-contained (the `.cls` and
+`fonts/` are copied in) and gitignored — the manifest is the record, not the output.
+
+`tailor` runs the verifier itself, so step 6 and step 7 are one command in practice. Running
+`verify:app` separately is for reading the report without rendering.
 
 ### 8. Stop and hand back
 
@@ -102,6 +109,8 @@ after they push (`.github/workflows/tailor-cv.yml`).
 
 - Do not write to `data/**` or `cv/publications.bib` to make a claim true. If a fact is
   genuinely missing from the record, tell the user it is missing and let them add it.
+- Do not edit any file whose first line says `DERIVED`. Editing `SOURCE` files is normal and
+  expected; editing a derived one is silently undone by the next build.
 - Do not auto-apply rephrasings without showing the diff.
 - Do not compile or commit on the user's behalf.
 - Do not soften the gap report. Its whole value is that it is uncomfortable.

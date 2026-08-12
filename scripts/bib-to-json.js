@@ -1,3 +1,5 @@
+// SOURCE — you own this file. Edit freely, by hand or by agent.
+//
 // scripts/bib-to-json.js
 //
 // PURE, OFFLINE. Renders cv/publications.bib (the human-curated publications SSOT) into
@@ -18,6 +20,10 @@ const { publications } = loadData();
 const sorted = [...publications].sort((a, b) => (b.year ?? Infinity) - (a.year ?? Infinity));
 
 const out = {
+  // Emitted, not hand-added: a "never edit me" marker that a regeneration would strip is
+  // worse than none at all. Edit cv/publications.bib instead — that is the source.
+  _edit:
+    'DERIVED — written by scripts/bib-to-json.js (npm run bib). Never edit; the next build reverts you. Edit cv/publications.bib instead.',
   generatedBy: 'scripts/bib-to-json.js',
   generatedAt: new Date().toISOString(),
   counts: pubCounts(publications),

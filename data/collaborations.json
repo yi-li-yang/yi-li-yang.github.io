@@ -1,4 +1,5 @@
 {
+  "_edit": "SOURCE — you own this file. Edit freely, by hand or by agent.",
   "_comment": [
     "HAND-AUTHORED. Never script-written. Extracted from cv/onepage/ONE-PAGE.tex L218-231.",
     "",
@@ -28,17 +29,38 @@
   ],
   "academic": [
     [
-      { "id": "cuhk", "label": "The Chinese University of Hong Kong" },
-      { "id": "uconn", "label": "University of Connecticut" }
+      {
+        "id": "cuhk",
+        "label": "The Chinese University of Hong Kong"
+      },
+      {
+        "id": "uconn",
+        "label": "University of Connecticut"
+      }
     ],
     [
-      { "id": "uaf", "label": "University of Alaska Fairbanks" },
-      { "id": "asu", "label": "Arizona State University" }
+      {
+        "id": "uaf",
+        "label": "University of Alaska Fairbanks"
+      },
+      {
+        "id": "asu",
+        "label": "Arizona State University"
+      }
     ],
     [
-      { "id": "uiuc", "label": "University of Illinois" },
-      { "id": "awi", "label": "Alfred Wegener Institute" },
-      { "id": "hks", "label": "Harvard Kennedy School" }
+      {
+        "id": "uiuc",
+        "label": "University of Illinois"
+      },
+      {
+        "id": "awi",
+        "label": "Alfred Wegener Institute"
+      },
+      {
+        "id": "hks",
+        "label": "Harvard Kennedy School"
+      }
     ]
   ]
 }

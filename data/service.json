@@ -1,0 +1,26 @@
+{
+  "_edit": "SOURCE — you own this file. Edit freely, by hand or by agent.",
+  "_comment": [
+    "Figures no API can supply: money awarded, people mentored, talks given, reviews done.",
+    "",
+    "These used to live in a `static` block inside data/stats.json, which made that file",
+    "half script-written and half yours — the one place the 'never edit generated files'",
+    "rule needed an exception. Splitting them out removes the exception: stats.json is now",
+    "entirely machine-written, and this file is entirely yours.",
+    "",
+    "Read by scripts/emit-metrics-tex.js (into CV macros), js/modules/stats.js (the website's",
+    "Stats cards), and citable from an application as `service:<key>`.",
+    "",
+    "Update these by hand when the numbers change. Nothing will do it for you."
+  ],
+
+  "fundingAwarded": {
+    "value": 99749,
+    "label": "USD Funding",
+    "display": "~$100K"
+  },
+  "menteesSupervised": 9,
+  "invitedTalks": 17,
+  "peerReviews": 8,
+  "nsfProposalReviews": 1
+}

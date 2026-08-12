@@ -1,2 +1,0 @@
-1. remove the timeline entirely, use three columns for the skills(ai, engineering, geosciece.)
-2. when mouse move across pilltags and logoclouds, it ignites(brighten), I want the effect last longer, a bit more obvious when trigger, and trigger easier (if i quickly strock the mouse across a few elements, they should all ignite)

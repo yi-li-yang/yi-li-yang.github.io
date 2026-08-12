@@ -8,14 +8,17 @@
     "node": ">=20"
   },
   "scripts": {
+    "build": "node scripts/bib-to-json.js && node scripts/emit-metrics-tex.js && node scripts/render-cv.js",
+    "apps": "node scripts/apps.js",
+    "tailor": "node scripts/tailor.js",
+    "app:status": "node scripts/app-status.js",
+    "verify:app": "node scripts/verify-application.js",
+    "pdfs": "node scripts/fetch-pdfs.js",
+    "clean": "node -e \"require('node:fs').rmSync('build',{recursive:true,force:true});console.log('removed build/')\"",
     "ingest": "node scripts/update-stats.js",
     "bib": "node scripts/bib-to-json.js",
     "metrics": "node scripts/emit-metrics-tex.js",
-    "render": "node scripts/render-cv.js",
-    "build": "node scripts/bib-to-json.js && node scripts/emit-metrics-tex.js && node scripts/render-cv.js",
-    "tailor": "node scripts/tailor.js",
-    "verify:app": "node scripts/verify-application.js",
-    "pdfs": "gh run download $(gh run list --workflow \"Tailor CV\" --limit 1 --json databaseId -q \".[0].databaseId\") -D _artifacts"
+    "render": "node scripts/render-cv.js"
   },
   "dependencies": {
     "@retorquere/bibtex-parser": "^9.0.20",

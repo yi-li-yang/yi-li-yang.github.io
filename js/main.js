@@ -1,3 +1,4 @@
+// SOURCE — you own this file. Edit freely, by hand or by agent.
 import { initStats } from './modules/stats.js';
 import { initThoughts } from './modules/thoughts.js';
 import { initSkills } from './modules/skills.js';

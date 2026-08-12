@@ -1,39 +1,34 @@
-# TASKS — execution map
+# INDEX — how this repo is organised
 
-Run in order. Each phase is independently shippable. The **ingest arm is already built**
-(`scripts/update-stats.js`) — do not rebuild it.
+One body of facts in `data/` and `cv/publications.bib`. Three things derived from it.
 
-| Phase | File | Outcome | New deps |
-|-------|------|---------|----------|
-| — | *(done)* | ORCID/GitHub/Scholar → `data/stats.json`, fail-safe | — |
-| A | `phase-A-merge-latex.md` | Move the Overleaf LaTeX repo into `cv/` (flat, no submodule). | — |
-| B | `phase-B-metrics-tex.md` | CV numbers derive from `data/stats.json` + `.bib`. Kills hardcoded `20/9/1`. | bibtex parser |
-| C | `phase-C-shared-content.md` | Experience + publications single-sourced; CV via Nunjucks, site reads same data. | nunjucks (+ js-yaml optional) |
-| D | `phase-D-tailoring.md` *(done)* | Job-tailored CV + cover letter; select-and-rephrase, cited and human-gated. See `docs/APPLICATIONS.md`. | Claude Code |
+| | Concern | Lives in | Produces |
+|---|---------|----------|----------|
+| ① | **Website** | `index.html`, `css/`, `js/`, `assets/` | the public site, served from the repo root |
+| ② | **CV generator** | `cv/` (templates, `.tex` shells, fonts) | `assets/cv.pdf`, `assets/biosketch.pdf` |
+| ③ | **Tailored CVs** | `applications/` → `build/` | one CV + cover letter per job applied to |
 
-## Rules for every phase
+`data/` is shared: ① fetches it over HTTP at runtime, ② and ③ read it from disk at build time.
 
-1. Re-read `CLAUDE.md` invariants and the **ground-truth stack** note first. Vanilla site —
-   no Next.js/React/Tailwind.
-2. Node only. Reuse `update-stats.js`; don't port to Python.
-3. Never hand-edit a script-written file (`data/stats.json`, `data/publications.json`,
-   `cv/**/generated/*`, `cv/coverletter/generated/*`, `assets/*.pdf`). Never let a script write
-   a hand-authored file.
-4. Keep the `data/*.json` contract the site's `js/modules/*` already depends on; if you change
-   a key, update the consuming module in the same change.
-5. After each phase: site still renders, both PDFs compile, every shown fact traces to data.
-6. If a step needs a decision not specified here, stop and ask the owner.
+## Where to read next
 
-## Migration notes
+| Document | For |
+|----------|-----|
+| [../README.md](../README.md) | start here — the commands, and which files you may edit |
+| [APPLICATIONS.md](APPLICATIONS.md) | ③ in detail: schemas, citation tokens, the firewall, the gap report |
+| [ARCHITECTURE.md](ARCHITECTURE.md) | why the pipeline is shaped this way, and the invariants it protects |
+| [BUILD_AND_RUN.md](BUILD_AND_RUN.md) | build stages, and the Nunjucks-vs-LaTeX delimiter gotcha |
+| [DESIGN.md](DESIGN.md) | ① the website's design system |
 
-- `data/pill-tags.json` and `data/show_repo.json` are **hand-authored web data** — already the
-  manual SSOT for the site. Phase C may unify some of their content with the CV's experience
-  data, but don't delete them until a generated equivalent demonstrably matches.
-- `my_publication.bib` moves from the LaTeX repo to `cv/publications.bib` and becomes the
-  publications SSOT for both outputs.
+## Rules for any change
 
-## Phase D reference
-
-`docs/APPLICATIONS.md` is the working reference for job applications: the citation-token
-table, the `manifest.json` / `letter.json` schemas, what counts as a rephrasing, and how the
-gap report reads. `.claude/skills/apply/` drives the sequence interactively.
+1. **Ownership is in the file.** Every file's first line says `SOURCE` (yours) or `DERIVED` (the
+   build's). Never edit a `DERIVED` file — by hand or by agent. It names what to run instead.
+2. **Node only.** No Python in the pipeline; reuse `scripts/lib/`.
+3. **Vanilla site.** No Next.js, React, or Tailwind. See the ground-truth note in `CLAUDE.md`.
+4. **Ingest is the only networked step.** Rendering is pure and must work offline; on a fetch
+   failure the ingest keeps last-known-good rather than writing a zero.
+5. **The data contract is shared with the site.** Change a key in `data/*.json` and update the
+   consuming module in `js/modules/` in the same commit.
+6. **After any change:** `npm run build`, the site still renders, both PDFs compile, and every
+   shown fact traces back to the data layer.

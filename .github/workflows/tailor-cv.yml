@@ -1,6 +1,6 @@
 name: Tailor CV
 
-# Compiles job-tailored one-pagers and cover letters from applications/<slug>/.
+# Compiles job-tailored one-pagers and cover letters from applications/<status>/<slug>/.
 #
 # Each application is a SELECTION over the data layer: every claim carries a `src` citation
 # resolved by scripts/verify-application.js. That verifier runs here, in --strict mode, BEFORE
@@ -15,14 +15,13 @@ on:
     paths:
       - 'applications/**'
       - 'data/**'
-      - 'templates/**'
+      - 'cv/**'
       - 'scripts/**'
-      - 'cv/onepage/**'
       - '.github/workflows/tailor-cv.yml'
   workflow_dispatch:
     inputs:
       slug:
-        description: 'Build only this application slug (blank = all)'
+        description: 'Build only this application slug (blank = all buildable)'
         required: false
         type: string
 
@@ -30,8 +29,9 @@ permissions:
   contents: read
 
 jobs:
-  # Discover the applications to build. Replaces the previously hardcoded single slug, which
-  # meant a second application silently built nothing.
+  # Status is the directory: applications/{drafting,submitted,closed}/<slug>/.
+  # `closed` is skipped — a closed application never needs rebuilding, and skipping it is what
+  # keeps CI time flat as the directory grows.
   discover:
     runs-on: ubuntu-latest
     outputs:
@@ -41,18 +41,21 @@ jobs:
       - uses: actions/checkout@v4
 
       - id: find
-        name: Find application manifests
+        name: Find buildable applications
         run: |
           if [ -n "${{ inputs.slug }}" ]; then
             slugs=$(printf '%s\n' "${{ inputs.slug }}" | jq -R . | jq -sc .)
           else
-            slugs=$(find applications -mindepth 2 -maxdepth 2 -name manifest.json \
-                    | sed 's|^applications/||; s|/manifest.json$||' \
-                    | sort | jq -R . | jq -sc .)
+            # applications/<status>/<slug>/manifest.json -> field 3 is the slug
+            slugs=$(find applications/drafting applications/submitted \
+                      -mindepth 2 -maxdepth 2 -name manifest.json 2>/dev/null \
+                    | awk -F/ '{print $3}' | sort -u | jq -R . | jq -sc .)
           fi
           echo "slugs=$slugs" >> "$GITHUB_OUTPUT"
           echo "count=$(echo "$slugs" | jq 'length')" >> "$GITHUB_OUTPUT"
           echo "Building: $slugs"
+          closed=$(find applications/closed -mindepth 2 -maxdepth 2 -name manifest.json 2>/dev/null | wc -l)
+          [ "$closed" -gt 0 ] && echo "::notice::Skipping $closed closed application(s)." || true
 
   tailor:
     needs: discover
@@ -71,31 +74,33 @@ jobs:
 
       - run: npm ci
 
-      # Needed by every variant shell (\input{generated/metrics.tex}).
+      # The variant shell \inputs metrics.tex, which tailor.js copies into build/<slug>/.
       - name: Generate metrics
         run: node scripts/emit-metrics-tex.js
 
-      # THE GATE. --strict promotes smell-test warnings (unsourced numbers, unknown proper
-      # nouns) to failures, because nobody reads a warning in a CI log.
+      # THE GATE, then the render. `tailor` runs the verifier itself, but --strict lives here:
+      # locally the smell-test warnings are advisory because a human is reading them; in CI
+      # nobody reads a warning, so they become failures.
       - name: Verify every claim traces to the data layer
         run: node scripts/verify-application.js "${{ matrix.slug }}" --strict
 
       - name: Render tailored CV and cover letter
-        run: node scripts/tailor.js "${{ matrix.slug }}"
+        run: node scripts/tailor.js "${{ matrix.slug }}" --skip-verify
 
+      # build/<slug>/ is self-contained — tailor.js copied the .cls and fonts/ in, because
+      # the class resolves `Path = fonts/lato/` against the working directory.
       - name: Compile tailored one-pager (XeLaTeX)
         uses: xu-cheng/latex-action@v3
         with:
-          root_file: app-${{ matrix.slug }}.tex
-          working_directory: cv/onepage
+          root_file: cv.tex
+          working_directory: build/${{ matrix.slug }}
           latexmk_use_xelatex: true
 
-      # letter.json is optional — an application may be CV-only. Without this gate the compile
-      # step looks for a .tex that was never rendered and fails the whole application.
+      # letter.json is optional — an application may be CV-only.
       - id: letter
         name: Is there a cover letter?
         run: |
-          if [ -f "cv/coverletter/generated/${{ matrix.slug }}.tex" ]; then
+          if [ -f "build/${{ matrix.slug }}/letter.tex" ]; then
             echo "exists=true" >> "$GITHUB_OUTPUT"
           else
             echo "exists=false" >> "$GITHUB_OUTPUT"
@@ -106,8 +111,8 @@ jobs:
         if: steps.letter.outputs.exists == 'true'
         uses: xu-cheng/latex-action@v3
         with:
-          root_file: ${{ matrix.slug }}.tex
-          working_directory: cv/coverletter/generated
+          root_file: letter.tex
+          working_directory: build/${{ matrix.slug }}
           latexmk_use_xelatex: true
 
       # The Deedy template overflows to a second page silently, and a tailored variant adds a
@@ -116,7 +121,7 @@ jobs:
       - name: Assert the one-pager is one page
         run: |
           sudo apt-get update -qq && sudo apt-get install -y -qq poppler-utils
-          pages=$(pdfinfo "cv/onepage/app-${{ matrix.slug }}.pdf" | awk '/^Pages:/ {print $2}')
+          pages=$(pdfinfo "build/${{ matrix.slug }}/cv.pdf" | awk '/^Pages:/ {print $2}')
           echo "one-pager pages: $pages"
           if [ "$pages" -ne 1 ]; then
             echo "::error::Tailored one-pager is $pages pages. Trim the manifest (fewer bullets, fewer skill lines, fewer publications)."
@@ -126,14 +131,15 @@ jobs:
       - name: Collect artifacts under stable names
         run: |
           mkdir -p out
-          cp "cv/onepage/app-${{ matrix.slug }}.pdf" "out/cv_${{ matrix.slug }}.pdf"
+          cp "build/${{ matrix.slug }}/cv.pdf" "out/cv_${{ matrix.slug }}.pdf"
           if [ "${{ steps.letter.outputs.exists }}" = "true" ]; then
-            cp "cv/coverletter/generated/${{ matrix.slug }}.pdf" "out/coverletter_${{ matrix.slug }}.pdf"
-            cp "cv/coverletter/generated/${{ matrix.slug }}.txt" "out/coverletter_${{ matrix.slug }}.txt"
+            cp "build/${{ matrix.slug }}/letter.pdf" "out/coverletter_${{ matrix.slug }}.pdf"
+            cp "build/${{ matrix.slug }}/letter.txt" "out/coverletter_${{ matrix.slug }}.txt"
           fi
           # The posting this was aimed at travels with the outputs, so a downloaded bundle is
           # self-explanatory months later.
-          cp "applications/${{ matrix.slug }}/job.md"           "out/job_${{ matrix.slug }}.md" || true
+          find applications -name job.md -path "*/${{ matrix.slug }}/*" \
+            -exec cp {} "out/job_${{ matrix.slug }}.md" \; || true
 
       - name: Upload application bundle
         uses: actions/upload-artifact@v4

@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+// SOURCE — you own this file. Edit freely, by hand or by agent.
 
 /**
  * Fetches stats from ORCID, GitHub, and Google Scholar,
@@ -278,26 +279,19 @@ async function main() {
     languages: githubGql?.languages ?? githubRest?.languages ?? prevGithub.languages ?? []
   };
 
-  // `static` is the hand-authored island inside this script-written file: values the
-  // APIs can't supply (funding, mentees, talks, peer/NSF reviews). The ingest never
-  // mints these — it only carries forward whatever the human last wrote. Spread
-  // prevStatic so ALL hand-authored keys survive a run; default the well-known ones
-  // to null only when absent so the shape stays predictable for consumers.
-  const prevStatic = previous.static ?? {};
-  const staticData = {
-    fundingAwarded:    prevStatic.fundingAwarded    ?? null,
-    menteesSupervised: prevStatic.menteesSupervised ?? null,
-    invitedTalks:      prevStatic.invitedTalks      ?? null,
-    ...prevStatic
-  };
-
+  // NOTE: this file no longer carries a hand-authored `static` block. The figures no API
+  // can supply (funding, mentees, talks, peer/NSF reviews) now live in data/service.json,
+  // which you own outright. That split is why this output can be 100% machine-written:
+  // one file, one writer, no exception to reason about before editing.
   const stats = {
+    // The marker is emitted, not hand-added — a generated file that announces itself only
+    // until someone regenerates it would be worse than no marker at all.
+    _edit: 'DERIVED — written by scripts/update-stats.js (npm run ingest). Never edit; the next run reverts you. Hand-authored service figures live in data/service.json.',
     profiles: PROFILES,
     publications,
     orcid:   orcid   ?? previous.orcid   ?? { works: null, reviews: null },
     github,
     scholar: scholar ?? previous.scholar ?? { citations: null, hIndex: null, i10Index: null },
-    static:  staticData,
     lastUpdated: new Date().toISOString()
   };
 

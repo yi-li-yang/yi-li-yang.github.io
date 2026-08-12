@@ -3,20 +3,45 @@
 Phase D of the SSOT pipeline. A job posting goes in; a tailored one-pager and a cover letter
 come out, both assembled **only** from facts already in the data layer.
 
-```
-applications/<slug>/
-  job.md         pasted posting, verbatim          (hand-owned evidence)
+```text
+applications/<status>/<slug>/          status is the DIRECTORY
+  job.md         pasted posting, verbatim          (evidence; never edited to match the CV)
   manifest.json  CV tailoring: selection + cited rephrasings
   letter.json    cover letter: paragraphs, each cited
         │
         ├─ npm run verify:app -- <slug>    firewall + provenance + gap report
-        └─ npm run tailor     -- <slug>    render
-                 ├─ cv/onepage/generated/app-<slug>/*.tex
-                 ├─ cv/onepage/app-<slug>.tex          ← compile this
-                 └─ cv/coverletter/generated/<slug>.{tex,txt}
+        └─ npm run tailor     -- <slug>    verifies, THEN renders
+                 │
+                 build/<slug>/       self-contained compile context
+                   cv.tex  ← compile this      letter.tex  letter.txt
+                   *.tex partials              .cls + fonts/ (copied in)
                           │
-                  push → tailor-cv.yml → PDF + txt artifacts
+                  push → tailor-cv.yml → PDF + txt artifacts → npm run pdfs
 ```
+
+## Lifecycle
+
+An application's **status is the folder it sits in** — `drafting`, `submitted`, or `closed`.
+The tree is the record; there is no index file that could disagree with it.
+
+```bash
+npm run apps                                   # see everything, grouped by status
+npm run app:status -- <slug> submitted         # git mv between folders
+```
+
+No command ever takes a status. Everything resolves an application by **slug**
+(`scripts/lib/applications.js`), so promoting one from drafting to submitted changes nothing
+about how you build it. CI skips `closed/` — a closed application never needs rebuilding, which
+is what keeps build time flat as the directory grows.
+
+## The PDFs are ephemeral — the manifest is the record
+
+Tailored PDFs are CI artifacts and GitHub deletes them after 90 days. They are deliberately not
+committed. **Rebuilding a closed application later produces a similar but not identical
+document**, because the citation counts in `data/stats.json` move underneath it.
+
+So: the durable record of what you sent is `manifest.json` + `letter.json` + `job.md`. If you need
+the exact bytes an employer received, download the artifact while it exists and keep it yourself.
 
 Nothing here is committed except the three inputs. Tailored `.tex` and PDFs are ephemeral —
 the manifest is the source of truth, and it can always regenerate them.
@@ -49,7 +74,8 @@ So the design removes the opportunity rather than relying on vigilance:
 | `award:<id>` | `data/awards.json` |
 | `collab:<id>` | `data/collaborations.json` |
 | `tagline:<id>` | `data/taglines.json` |
-| `stats.<dotted.path>` | `data/stats.json` — e.g. `stats.static.invitedTalks` |
+| `stats.<dotted.path>` | `data/stats.json` — machine-written ingest figures |
+| `service.<key>` | `data/service.json` — funding, mentees, talks, reviews (was `stats.static.*`) |
 | `job:<field>` | `job.md` — naming the company or role you are applying to is not a claim about yourself |
 | `none` | connective or motivational prose asserting no fact; triggers the smell test |
 
@@ -146,10 +172,16 @@ Gaps are **never** auto-filled. Address them openly in the letter, or don't appl
 ## Commands
 
 ```bash
-npm run verify:app -- <slug>            # firewall + provenance + gaps (warnings advisory)
+npm run apps                            # every application, grouped by status
+npm run tailor     -- <slug>            # VERIFIES, then renders into build/<slug>/
+npm run app:status -- <slug> submitted  # move between status folders
+npm run verify:app -- <slug>            # the report on its own, without rendering
 npm run verify:app -- <slug> --strict   # warnings become failures — what CI runs
-npm run tailor     -- <slug>            # render CV + cover letter
+npm run pdfs       -- <slug>            # fetch the compiled PDFs from the last CI run
 ```
+
+Verification is folded into `tailor`, so the firewall cannot be skipped by forgetting a step —
+only by choosing to (`--skip-verify`, which CI uses because it runs the strict check itself).
 
 `/apply` (`.claude/skills/apply/`) drives the whole sequence interactively and stops for review.
 

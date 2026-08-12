@@ -1,3 +1,4 @@
+// SOURCE — you own this file. Edit freely, by hand or by agent.
 // js/modules/publications.js
 //
 // Renders the publication list from data/publications.json (generated from the .bib SSOT

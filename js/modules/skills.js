@@ -1,3 +1,4 @@
+// SOURCE — you own this file. Edit freely, by hand or by agent.
 const LANG_COLORS = {
   Python:             '#3572A5',
   JavaScript:         '#f1e05a',

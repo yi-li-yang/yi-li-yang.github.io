@@ -1,4 +1,5 @@
 {
+  "_edit": "SOURCE — you own this file. Edit freely, by hand or by agent.",
   "_comment": [
     "HAND-AUTHORED. Never script-written. Extracted from the hardcoded Skills block that",
     "used to live in cv/onepage/ONE-PAGE.tex L96-138 (a violation of invariant 4).",
@@ -21,57 +22,103 @@
         {
           "id": "d-gis",
           "after": "break",
-          "items": [{ "id": "geospatial-info-science", "label": "Geospatial Information Science" }]
+          "items": [
+            {
+              "id": "geospatial-info-science",
+              "label": "Geospatial Information Science"
+            }
+          ]
         },
         {
           "id": "d-rs",
           "after": "break",
           "items": [
-            { "id": "remote-sensing", "label": "Remote Sensing" },
-            { "id": "geosciences", "label": "Geosciences" }
+            {
+              "id": "remote-sensing",
+              "label": "Remote Sensing"
+            },
+            {
+              "id": "geosciences",
+              "label": "Geosciences"
+            }
           ]
         },
         {
           "id": "d-rocks",
           "after": "break",
           "items": [
-            { "id": "digital-rocks", "label": "Digital Rocks" },
-            { "id": "ai-for-science", "label": "AI for Science" }
+            {
+              "id": "digital-rocks",
+              "label": "Digital Rocks"
+            },
+            {
+              "id": "ai-for-science",
+              "label": "AI for Science"
+            }
           ]
         },
         {
           "id": "d-sci-data",
           "after": "parbreak",
           "items": [
-            { "id": "scientific-data-image-processing", "label": "Scientific Data \\& Image Processing" }
+            {
+              "id": "scientific-data-image-processing",
+              "label": "Scientific Data \\& Image Processing"
+            }
           ]
         },
         {
           "id": "d-ml",
           "after": "break",
-          "items": [{ "id": "machine-learning", "label": "Machine Learning \\& Deep Learning" }]
+          "items": [
+            {
+              "id": "machine-learning",
+              "label": "Machine Learning \\& Deep Learning"
+            }
+          ]
         },
         {
           "id": "d-multimodal",
           "after": "break",
-          "items": [{ "id": "multimodal-learning", "label": "Multimodal Learning" }]
+          "items": [
+            {
+              "id": "multimodal-learning",
+              "label": "Multimodal Learning"
+            }
+          ]
         },
         {
           "id": "d-vision",
           "after": "break",
           "items": [
-            { "id": "image-segmentation", "label": "Image Segmentation" },
-            { "id": "object-detection", "label": "Object Detection" }
+            {
+              "id": "image-segmentation",
+              "label": "Image Segmentation"
+            },
+            {
+              "id": "object-detection",
+              "label": "Object Detection"
+            }
           ]
         },
         {
           "id": "d-timeseries",
           "after": "break",
-          "items": [{ "id": "time-series-modelling", "label": "Time-series modelling" }]
+          "items": [
+            {
+              "id": "time-series-modelling",
+              "label": "Time-series modelling"
+            }
+          ]
         },
         {
           "id": "d-foundation",
-          "items": [{ "id": "earth-foundation-models", "label": "Earth Foundation Models" }]
+          "items": [
+            {
+              "id": "earth-foundation-models",
+              "label": "Earth Foundation Models"
+            }
+          ]
         }
       ]
     },
@@ -83,24 +130,45 @@
           "id": "t-geo",
           "after": "par",
           "items": [
-            { "id": "google-earth-engine", "label": "Google Earth Engine" },
-            { "id": "qgis", "label": "QGIS" }
+            {
+              "id": "google-earth-engine",
+              "label": "Google Earth Engine"
+            },
+            {
+              "id": "qgis",
+              "label": "QGIS"
+            }
           ]
         },
         {
           "id": "t-cloud",
           "after": "par",
           "items": [
-            { "id": "gcp", "label": "Google Cloud Platform" },
-            { "id": "arcgis-pro", "label": "ArcGIS Pro" }
+            {
+              "id": "gcp",
+              "label": "Google Cloud Platform"
+            },
+            {
+              "id": "arcgis-pro",
+              "label": "ArcGIS Pro"
+            }
           ]
         },
         {
           "id": "t-ml",
           "items": [
-            { "id": "python", "label": "Python" },
-            { "id": "pytorch", "label": "PyTorch" },
-            { "id": "scikit-learn", "label": "Scikit-learn" }
+            {
+              "id": "python",
+              "label": "Python"
+            },
+            {
+              "id": "pytorch",
+              "label": "PyTorch"
+            },
+            {
+              "id": "scikit-learn",
+              "label": "Scikit-learn"
+            }
           ]
         }
       ]
@@ -113,33 +181,63 @@
           "id": "e-agentic",
           "after": "par",
           "items": [
-            { "id": "agentic-coding", "label": "Agentic Coding" },
-            { "id": "docker", "label": "Docker" },
-            { "id": "github-actions", "label": "GitHub Actions" }
+            {
+              "id": "agentic-coding",
+              "label": "Agentic Coding"
+            },
+            {
+              "id": "docker",
+              "label": "Docker"
+            },
+            {
+              "id": "github-actions",
+              "label": "GitHub Actions"
+            }
           ]
         },
         {
           "id": "e-harness",
           "after": "par",
           "items": [
-            { "id": "harness-engineering", "label": "Harness Engineering" },
-            { "id": "claude-code-skills", "label": "Claude Code/skills" }
+            {
+              "id": "harness-engineering",
+              "label": "Harness Engineering"
+            },
+            {
+              "id": "claude-code-skills",
+              "label": "Claude Code/skills"
+            }
           ]
         },
         {
           "id": "e-prompting",
           "after": "par",
           "items": [
-            { "id": "prompt-context-engineering", "label": "Prompt and Context Engineering" }
+            {
+              "id": "prompt-context-engineering",
+              "label": "Prompt and Context Engineering"
+            }
           ]
         },
         {
           "id": "e-tooling",
           "items": [
-            { "id": "git", "label": "Git" },
-            { "id": "github", "label": "GitHub" },
-            { "id": "google-colab", "label": "Google Colab" },
-            { "id": "vscode", "label": "VScode" }
+            {
+              "id": "git",
+              "label": "Git"
+            },
+            {
+              "id": "github",
+              "label": "GitHub"
+            },
+            {
+              "id": "google-colab",
+              "label": "Google Colab"
+            },
+            {
+              "id": "vscode",
+              "label": "VScode"
+            }
           ]
         }
       ]

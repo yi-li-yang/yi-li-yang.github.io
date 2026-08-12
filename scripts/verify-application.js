@@ -1,3 +1,5 @@
+// SOURCE — you own this file. Edit freely, by hand or by agent.
+//
 // scripts/verify-application.js
 //
 // THE FIREWALL. Invariant 6 says the model never mints facts. This script is what makes that
@@ -28,8 +30,8 @@ import {
   indexExperienceBullets,
   indexCollaborations,
   resolveStatsPath,
-  ROOT,
 } from './lib/data.js';
+import { requireApplication } from './lib/applications.js';
 
 const args = process.argv.slice(2);
 // --strict promotes smell-test warnings to hard failures. Locally the warnings are advisory:
@@ -42,15 +44,21 @@ if (!slug) {
   process.exit(2);
 }
 
-const appDir = join(ROOT, 'applications', slug);
+// Resolved by slug, never by path: an application's status folder is free to change without
+// this command (or your muscle memory) changing with it.
+const app = requireApplication(slug, 'npm run verify:app -- <slug> [--strict]');
+// Line endings are normalised on read. .gitattributes sets `* text=auto`, so on Windows these
+// files check out CRLF while CI sees LF — and JS `.` does not match `\r`, which silently broke
+// every `^#…$` match in the gap report. A checker that quietly no-ops is worse than no checker,
+// so this is fixed at the boundary rather than in each regex.
 const read = (name) => {
-  const p = join(appDir, name);
-  return existsSync(p) ? readFileSync(p, 'utf8') : null;
+  const p = join(app.dir, name);
+  return existsSync(p) ? readFileSync(p, 'utf8').replace(/\r\n?/g, '\n') : null;
 };
 
 const manifestRaw = read('manifest.json');
 if (!manifestRaw) {
-  console.error(`no applications/${slug}/manifest.json`);
+  console.error(`no ${app.rel}/manifest.json`);
   process.exit(2);
 }
 const manifest = JSON.parse(manifestRaw);
@@ -112,13 +120,24 @@ function resolveToken(token) {
       const v = resolveStatsPath(data.stats, arg);
       return v === undefined ? null : { text: `${arg} = ${JSON.stringify(v)}`, kind: 'stats' };
     }
+    case 'service': {
+      // Funding, mentees, talks, reviews — the figures you maintain by hand. Previously
+      // reachable as `stats.static.*`; that path no longer exists.
+      const v = resolveStatsPath(data.service, arg);
+      return v === undefined ? null : { text: `${arg} = ${JSON.stringify(v)}`, kind: 'service' };
+    }
     default:
       return null;
   }
 }
 
-// `stats.foo.bar` is written without a second colon, so normalise it to the scheme form.
-const normalise = (t) => (t.startsWith('stats.') ? `stats:${t.slice('stats.'.length)}` : t);
+// `stats.foo.bar` / `service.foo` are written without a second colon; normalise to scheme form.
+const normalise = (t) =>
+  t.startsWith('stats.')
+    ? `stats:${t.slice('stats.'.length)}`
+    : t.startsWith('service.')
+      ? `service:${t.slice('service.'.length)}`
+      : t;
 
 // ── The smell test ───────────────────────────────────────────────────────────
 // An unsourced sentence that carries a number, a percentage, or a capitalised term the data
@@ -280,7 +299,13 @@ const stems = (t) => {
   return [...out];
 };
 
+// How many requirement lines the last gapReport() actually examined. Reported alongside the
+// result so "no gaps" can never be confused with "nothing was read" — the failure mode that
+// hid a CRLF parsing bug behind a reassuring green message.
+let gapLinesScanned = 0;
+
 function gapReport() {
+  gapLinesScanned = 0;
   if (!jobText) return [];
 
   const corpus = [
@@ -325,6 +350,7 @@ function gapReport() {
 
     const line = raw.replace(/^[\s*+-]+/, '').trim();
     if (line.length < 25 || line.length > 400) continue;
+    gapLinesScanned++;
 
     const terms = [
       ...new Set(
@@ -351,7 +377,7 @@ function gapReport() {
 
 // ── Report ───────────────────────────────────────────────────────────────────
 const bar = (c = '─') => c.repeat(78);
-console.log(`\n${bar('═')}\n  APPLICATION: ${slug}`);
+console.log(`\n${bar('═')}\n  APPLICATION: ${slug}   [${app.status}]`);
 if (manifest.meta) {
   console.log(`  ${manifest.meta.company ?? '?'} — ${manifest.meta.role ?? '?'}`);
 }
@@ -369,8 +395,20 @@ if (!provenance.length) console.log('\n  (nothing with prose to trace)');
 
 const gaps = gapReport();
 console.log(`\n\nGAPS — what the posting asks for that your data cannot support\n${bar()}`);
-if (!gaps.length) {
-  console.log('\n  None detected. (Absence of a detected gap is not proof of a fit.)');
+if (!jobText) {
+  console.log('\n  ! No job.md — nothing to check against. Archive the posting to enable this.');
+} else if (!gapLinesScanned) {
+  // Distinguishing "found nothing" from "read nothing" is the whole point: the second is a
+  // bug wearing the first one's clothes.
+  console.log(
+    '\n  ! job.md has no requirement-bearing sections that could be scanned.\n' +
+      '    Give it headings like "## Required Qualifications" / "## Responsibilities".',
+  );
+} else if (!gaps.length) {
+  console.log(
+    `\n  None detected across ${gapLinesScanned} requirement lines.` +
+      '\n  (Absence of a detected gap is not proof of a fit.)',
+  );
 } else {
   for (const g of gaps) {
     console.log(`\n  ! [${g.section}]`);

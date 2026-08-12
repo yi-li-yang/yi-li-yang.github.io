@@ -9,7 +9,6 @@ on:
   push:
     paths:
       - 'cv/**'
-      - 'templates/**'
       - 'data/**'
       - 'scripts/lib/**'
       - 'scripts/render-cv.js'

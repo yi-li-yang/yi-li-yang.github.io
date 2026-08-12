@@ -1,9 +1,10 @@
+<# SOURCE — you own this file. Edit freely, by hand or by agent. #>
 <# Cover letter — the WHOLE document, not a partial. There is no hand-authored shell in
    cv/coverletter/ because every field (recipient, company, body) varies per application, so
    there would be nothing stable to hand-author.
 
-   Fonts: the same Lato the one-pager uses. This file is written to cv/coverletter/generated/
-   and compiled from that directory, so the font path climbs two levels, not one.
+   Fonts: the same Lato the one-pager uses. This renders into build/<slug>/, where tailor.js
+   has already copied fonts/ beside it, so the path is local and identical to the CV's.
    Compile with XeLaTeX (fontspec).
 
    Every paragraph in `letter` carries `src` citations, checked by scripts/verify-application.js
@@ -17,7 +18,7 @@
 \usepackage[colorlinks=true,urlcolor=black,linkcolor=black]{hyperref}
 
 \setmainfont[
-  Path = ../../onepage/fonts/lato/,
+  Path = fonts/lato/,
   Extension = .ttf,
   UprightFont = *-Reg,
   BoldFont = *-Bol,

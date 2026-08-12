@@ -70,7 +70,7 @@ export const env = new nunjucks.Environment(
     }});
 ```
 
-Templates are the Deedy body with literals swapped (`templates/onepage-experience.tex.njk`):
+Templates are the Deedy body with literals swapped (`cv/templates/onepage-experience.tex.njk`):
 
 ```latex
 <% for job in experience %>

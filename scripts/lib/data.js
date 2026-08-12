@@ -1,3 +1,5 @@
+// SOURCE — you own this file. Edit freely, by hand or by agent.
+//
 // scripts/lib/data.js
 //
 // The keystone "single load step" (CLAUDE.md / ARCHITECTURE.md): one place assembles
@@ -115,7 +117,13 @@ export function loadData() {
   const publications = parsed.entries.map(normalizeEntry);
 
   // Hand-authored prose sources (Phase C). Optional so Phase B works before they exist.
-  const experience = readJsonIfExists('data/experience.json') ?? [];
+  // experience.json is wrapped in an object so it can carry its own `_edit` marker; a bare
+  // top-level array has nowhere to put one.
+  const experience = readJsonIfExists('data/experience.json')?.jobs ?? [];
+
+  // Figures no API can supply. Split out of stats.json's old `static` block so that file
+  // could become 100% machine-written — see data/service.json.
+  const service = readJsonIfExists('data/service.json') ?? {};
 
   // Phase E: the remaining prose blocks, lifted out of ONE-PAGE.tex so no output holds a
   // hand-typed fact (invariant 4) and every block becomes selectable per application.
@@ -126,7 +134,7 @@ export function loadData() {
     readJsonIfExists('data/collaborations.json') ?? { industry: [], academic: [] };
   const taglines = readJsonIfExists('data/taglines.json') ?? { default: null, options: [] };
 
-  return { stats, publications, experience, skills, awards, collaborations, taglines };
+  return { stats, service, publications, experience, skills, awards, collaborations, taglines };
 }
 
 // ── Id lookup, for the application firewall ──────────────────────────────────
