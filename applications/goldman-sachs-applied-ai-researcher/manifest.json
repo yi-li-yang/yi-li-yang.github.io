@@ -33,13 +33,13 @@
     }
   ],
 
-  "publications": ["li2024segment", "li2023geoai", "virkkala2026data", "yang2025collaborative"],
+  "publications": ["li2024segment", "virkkala2026data", "yang2025collaborative"],
 
   "awards": ["fcs-2025"],
 
   "collaborations": {
     "industry": ["google-woodwell"],
-    "academic": ["uconn", "uiuc", "asu"]
+    "academic": []
   },
 
   "experience": [
@@ -75,14 +75,9 @@
             "text": "Built a zero-shot interactive segmentation workflow on the Segment Anything Model"
           },
           {
-            "src": ["exp:woodwell.b5", "exp:woodwell.b6", "exp:woodwell.b8"],
-            "label": "Cross-team",
-            "text": "Ran concurrent modelling collaborations with three university research groups"
-          },
-          {
-            "src": ["exp:woodwell.b11", "exp:woodwell.b12"],
+            "src": ["exp:woodwell.b5", "exp:woodwell.b6", "exp:woodwell.b8", "exp:woodwell.b11"],
             "label": "Leadership",
-            "text": "Lead the annual machine-learning workshop series and mentor interns and research assistants"
+            "text": "Ran concurrent modelling collaborations with three university research groups; lead the annual machine-learning workshop series"
           }
         ]
       }

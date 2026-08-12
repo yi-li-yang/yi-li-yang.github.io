@@ -90,7 +90,20 @@ jobs:
           working_directory: cv/onepage
           latexmk_use_xelatex: true
 
+      # letter.json is optional — an application may be CV-only. Without this gate the compile
+      # step looks for a .tex that was never rendered and fails the whole application.
+      - id: letter
+        name: Is there a cover letter?
+        run: |
+          if [ -f "cv/coverletter/generated/${{ matrix.slug }}.tex" ]; then
+            echo "exists=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "exists=false" >> "$GITHUB_OUTPUT"
+            echo "::notice::No letter.json for ${{ matrix.slug }} — building the CV only."
+          fi
+
       - name: Compile cover letter (XeLaTeX)
+        if: steps.letter.outputs.exists == 'true'
         uses: xu-cheng/latex-action@v3
         with:
           root_file: ${{ matrix.slug }}.tex
@@ -113,9 +126,11 @@ jobs:
       - name: Collect artifacts under stable names
         run: |
           mkdir -p out
-          cp "cv/onepage/app-${{ matrix.slug }}.pdf"            "out/cv_${{ matrix.slug }}.pdf"
-          cp "cv/coverletter/generated/${{ matrix.slug }}.pdf"  "out/coverletter_${{ matrix.slug }}.pdf"
-          cp "cv/coverletter/generated/${{ matrix.slug }}.txt"  "out/coverletter_${{ matrix.slug }}.txt"
+          cp "cv/onepage/app-${{ matrix.slug }}.pdf" "out/cv_${{ matrix.slug }}.pdf"
+          if [ "${{ steps.letter.outputs.exists }}" = "true" ]; then
+            cp "cv/coverletter/generated/${{ matrix.slug }}.pdf" "out/coverletter_${{ matrix.slug }}.pdf"
+            cp "cv/coverletter/generated/${{ matrix.slug }}.txt" "out/coverletter_${{ matrix.slug }}.txt"
+          fi
           # The posting this was aimed at travels with the outputs, so a downloaded bundle is
           # self-explanatory months later.
           cp "applications/${{ matrix.slug }}/job.md"           "out/job_${{ matrix.slug }}.md" || true
