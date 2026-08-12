@@ -1,0 +1,87 @@
+{
+  "_edit": "SOURCE — you own this file. Edit freely, by hand or by agent.",
+  "_comment": [
+    "Every paragraph carries `src`. scripts/verify-application.js resolves each token against",
+    "the data layer and fails the build on a dangling one. `src: [\"none\"]` marks connective or",
+    "motivational prose that asserts no fact about the applicant — those get the smell test.",
+    "",
+    "This is a CO-FOUNDER application and the data layer contains no founding, fundraising,",
+    "go-to-market, IP or customer-validation experience. Paragraph 6 names that outright rather",
+    "than steering around it, and explicitly declines to claim a route to the programme's",
+    "10 Mt CO2e/yr figure, which nothing here supports."
+  ],
+  "sender": {
+    "name": "Yili Yang, PhD",
+    "contact": "yyleli@gmail.com \\textbar{} +44 7490334233 \\textbar{} London, UK"
+  },
+  "recipient": {
+    "name": "",
+    "title": "Venture Builder Admissions",
+    "company": "Carbon13",
+    "address": ""
+  },
+  "date": "12 August 2026",
+  "letter": {
+    "salutation": "Dear Carbon13 Team,",
+    "paragraphs": [
+      {
+        "src": [
+          "job:role",
+          "job:company"
+        ],
+        "text": "I am applying to the Carbon13 Venture Builder as a technical co-founder — the data and code half of the pairing you describe."
+      },
+      {
+        "src": [
+          "exp:woodwell.b1",
+          "exp:woodwell.b10",
+          "exp:woodwell.o8"
+        ],
+        "text": "For the past four years my work has been climate research and nothing else. I lead a pan-Arctic programme that applies deep learning to satellite imagery to detect and quantify permafrost thaw features, contributing directly to climate feedback modelling and carbon-cycle research, and I have built machine-learning models for carbon-flux time-series imputation and for the link between permafrost thaw and carbon emission. Measuring carbon honestly — knowing what an observation actually supports and what it does not — is the problem I have spent my career inside."
+      },
+      {
+        "src": [
+          "exp:woodwell.b7",
+          "exp:woodwell.b2",
+          "exp:woodwell.b4"
+        ],
+        "text": "Your posting says data and code are the core factors that move the needle. Concretely, that means for me: deep-learning inference optimised to run over Arctic-scale geospatial data on Google Cloud Platform rather than over a convenient sample; a benchmark training dataset designed and built as a shared resource for deep-learning research; and a zero-shot interactive segmentation workflow for satellite image labelling built on the Segment Anything Model. The pattern is consistent — I build the thing other people can pick up and run, not only the result."
+      },
+      {
+        "src": [
+          "exp:iccr.b2",
+          "exp:iccr.b3",
+          "job:from-food-to-construction-to-energy-to-new-materials-to-carbon-capture"
+        ],
+        "text": "You tailor support to science-based, deeptech and hardware ventures, which is the register I am used to working in. My doctorate was industry-funded research on multiphase fluid flow in porous media, including experiments at three national synchrotron facilities in the United Kingdom, the United States and Switzerland. That is subsurface flow and imaging hardware, and it is also several years of learning how slowly a physical experiment gives up a number you can trust."
+      },
+      {
+        "src": [
+          "exp:woodwell.b5",
+          "exp:woodwell.b6",
+          "exp:woodwell.b8",
+          "exp:woodwell.b11",
+          "exp:woodwell.b12",
+          "collab:google-woodwell",
+          "collab:esri-woodwell"
+        ],
+        "text": "On the co-founder question: most of what I do already happens with people who are not me. I run concurrent modelling collaborations with three university research groups, work in partnerships with Google and with Esri on permafrost, lead an annual machine-learning workshop series for researchers who are not machine-learning specialists, and mentor interns whose work has gone on to be presented at a major conference. Being taken out of my comfort zone by commercial founders, as one of your alumni puts it, reads to me less as a risk than as the missing half."
+      },
+      {
+        "src": [
+          "exp:faculty.b1",
+          "job:who-we-look-for",
+          "job:working-on-a-climate-tech-idea-already"
+        ],
+        "text": "I should be straight about what I do not have. I have never founded a company. I have no fundraising, go-to-market, intellectual property or customer-validation experience, and I have never taken a commercial product to market; my only commercial exposure is a data-science fellowship that included an industry client placement. I also do not arrive with a validated venture idea, and I am not going to assert a credible route to ten million tonnes a year when nothing in my record yet supports one — learning to assess that number properly is a large part of why I am applying. What I can bring a commercial co-founder is the scientific and technical half done properly, and the habit of saying plainly when a figure is not yet earned."
+      },
+      {
+        "src": [
+          "none"
+        ],
+        "text": "Thank you for reading. I would welcome the chance to talk about which emitting industries my background could most usefully be pointed at."
+      }
+    ],
+    "closing": "Yours sincerely,"
+  }
+}

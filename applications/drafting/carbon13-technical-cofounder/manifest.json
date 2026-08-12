@@ -1,0 +1,193 @@
+{
+  "_edit": "SOURCE — you own this file. Edit freely, by hand or by agent.",
+  "meta": {
+    "company": "Carbon13",
+    "role": "Technical Co-founder (data / AI-ML specialist)",
+    "source": "applications/drafting/carbon13-technical-cofounder/job.md",
+    "date": "2026-08-12",
+    "note": "Not an employer application — a venture-builder cohort application. Selection is weighted to what Carbon13 says it screens for: climate as the only subject, deeptech/science-based credibility, data-and-code as the core lever, and evidence of working alongside people from other disciplines. KNOWN GAP: the posting is for a CO-FOUNDER, and nothing in the data layer shows company founding, fundraising, go-to-market, IP, or commercial validation experience; no line here implies any. The Faculty.ai fellowship is the only commercial exposure in the record and is presented as exactly that. Also unclaimed: the 10 Mt CO2e/yr mitigation figure — the data supports carbon measurement and modelling, not abatement at that scale."
+  },
+  "tagline": "ml-earth-scale",
+  "skills": [
+    {
+      "group": "domains",
+      "lines": [
+        [
+          "machine-learning",
+          "time-series-modelling"
+        ],
+        [
+          "remote-sensing",
+          "geospatial-info-science"
+        ],
+        [
+          "earth-foundation-models",
+          "multimodal-learning"
+        ],
+        [
+          "ai-for-science",
+          "scientific-data-image-processing"
+        ]
+      ]
+    },
+    {
+      "group": "tech-stack",
+      "lines": [
+        [
+          "python",
+          "pytorch",
+          "scikit-learn"
+        ],
+        [
+          "gcp",
+          "google-earth-engine"
+        ]
+      ]
+    },
+    {
+      "group": "engineering",
+      "lines": [
+        [
+          "docker",
+          "github-actions"
+        ],
+        [
+          "agentic-coding",
+          "prompt-context-engineering"
+        ],
+        [
+          "git",
+          "github"
+        ]
+      ]
+    }
+  ],
+  "publications": [
+    "yang2023mappingb",
+    "virkkala2026data",
+    "yang2025collaborative"
+  ],
+  "awards": [
+    "fcs-2025"
+  ],
+  "collaborations": {
+    "industry": [
+      "google-woodwell",
+      "esri-woodwell"
+    ],
+    "academic": [
+      "asu",
+      "uiuc",
+      "awi"
+    ]
+  },
+  "experience": [
+    {
+      "role": "Data Scientist",
+      "onepage": {
+        "descript": "| Woodwell Climate Research Center",
+        "location": [
+          "Jan 2022 - Present | Falmouth, MA, USA"
+        ],
+        "bullets": [
+          {
+            "src": [
+              "exp:woodwell.b1"
+            ],
+            "label": "Project lead",
+            "text": "Pan-Arctic deep-learning programme detecting and quantifying permafrost thaw features from satellite imagery, feeding climate feedback and carbon-cycle research"
+          },
+          {
+            "src": [
+              "exp:woodwell.b10",
+              "exp:woodwell.o5",
+              "exp:woodwell.o8"
+            ],
+            "label": "Carbon",
+            "text": "Machine-learning imputation of carbon-flux time series; collaboration on permafrost thaw and carbon emission"
+          },
+          {
+            "src": [
+              "exp:woodwell.b7"
+            ],
+            "label": "Scale",
+            "text": "Optimised deep-learning inference over Arctic-scale geospatial data on Google Cloud Platform"
+          },
+          {
+            "src": [
+              "exp:woodwell.b2",
+              "exp:woodwell.b4"
+            ],
+            "label": "Building for others",
+            "text": "Built a benchmark training dataset now used as a shared resource, and a zero-shot interactive segmentation workflow on the Segment Anything Model"
+          },
+          {
+            "src": [
+              "exp:woodwell.b9"
+            ],
+            "label": "Wildfire",
+            "text": "Deep-learning wildfire mapping from satellite imagery and machine-learning wildfire prediction from environmental variables"
+          },
+          {
+            "src": [
+              "exp:woodwell.b5",
+              "exp:woodwell.b6",
+              "exp:woodwell.b8",
+              "exp:woodwell.b11",
+              "exp:woodwell.b12"
+            ],
+            "label": "Working with others",
+            "text": "Ran concurrent modelling collaborations with three university research groups; lead the annual machine-learning workshop series and mentor interns"
+          }
+        ]
+      }
+    },
+    {
+      "role": "Data Science Fellow",
+      "onepage": {
+        "descript": "| Faculty.AI",
+        "location": [
+          "Sep 2021 - Dec 2021 | London, UK"
+        ],
+        "bullets": [
+          {
+            "src": [
+              "exp:faculty.b1"
+            ],
+            "text": "Commercial data-science fellowship in machine learning and AI, including an industry client placement"
+          }
+        ]
+      }
+    },
+    {
+      "role": "Doctoral Researcher",
+      "onepage": {
+        "descript": "|ICCR",
+        "location": [
+          "International Centre for Carbonate Reservoirs",
+          "Sep 2016 - Apr 2021 | Edinburgh, UK"
+        ],
+        "bullets": [
+          {
+            "src": [
+              "exp:iccr.b2"
+            ],
+            "text": "Industry-funded PhD developing computational methods for multiphase fluid flow in porous media"
+          },
+          {
+            "src": [
+              "exp:iccr.b3"
+            ],
+            "text": "Ran experiments at three national synchrotron facilities in the UK, US and Switzerland"
+          },
+          {
+            "src": [
+              "exp:iccr.o2"
+            ],
+            "text": "Deep-learning image segmentation for digital rocks"
+          }
+        ]
+      }
+    }
+  ]
+}
