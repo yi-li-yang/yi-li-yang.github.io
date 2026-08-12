@@ -156,3 +156,6 @@ cv/**/build/
 *.out
 *.synctex.gz
 *.xdv
+
+# Locally downloaded CI artifacts (npm run pdfs) — ephemeral, never committed.
+_artifacts/
