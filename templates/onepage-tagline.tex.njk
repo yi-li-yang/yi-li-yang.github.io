@@ -1,0 +1,7 @@
+<# Positioning line under the name. Renders NOTHING when no tagline is selected, which is the
+   default (data/taglines.json sets `default: null`) — so the untailored one-pager is unchanged.
+   A tailored CV picks one by id; the wording is never generated. #>
+<% if tagline %>
+<< tagline.text >>
+\sectionsep
+<% endif %>

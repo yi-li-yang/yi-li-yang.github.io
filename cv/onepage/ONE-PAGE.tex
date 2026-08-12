@@ -78,6 +78,10 @@
 +44 7490334233 | \faMapMarker London, UK
 \sectionsep
 
+% Optional positioning line, selected by id from data/taglines.json. Empty on the canonical
+% CV; a job-tailored variant picks one. Never write a tagline here.
+\input{generated/tagline.tex}
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
 %     COLUMN ONE
@@ -94,48 +98,9 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \section{Skills}
-\subsection{Domains}
-
-Geospatial Information Science
-\\
-Remote Sensing | Geosciences
-\\
-Digital Rocks | AI for Science
-\\
-Scientific Data \& Image Processing
-\\
-
-Machine Learning \& Deep Learning 
-\\
-Multimodal Learning
-\\
-Image Segmentation|Object Detection
-\\
-Time-series modelling
-\\
-Earth Foundation Models
-
-\sectionsep
-
-\subsection{Tech Stack}
-Google Earth Engine|QGIS
-
-Google Cloud Platform|ArcGIS Pro
-
-PyTorch|Scikit-learn
-
-\sectionsep
-
-\subsection{Engineering}
-Agentic Coding|Docker|GitHub Actions
-
-Harness Engineering|Claude Code/skills
-
-Prompt and Context Engineering|
-
-Git|GitHub|Google Colab|VScode
-
-\sectionsep
+% Single-sourced from data/skills.json (templates/onepage-skills.tex.njk). Each skill has a
+% stable id so an application manifest can select and reorder them. Edit the data, not here.
+\input{generated/skills.tex}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %     EDUCATION
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -200,37 +165,30 @@ Mentees: \mentees
 % scripts/render-cv.js (templates/onepage-experience.tex.njk). Edit the data, not here.
 \input{generated/experience.tex}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%     selected publications
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Empty on the canonical CV — the Stats column already reports publication counts and the
+% page has no room for both. A job-tailored variant selects a few bib keys.
+\input{generated/publications.tex}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %     awards
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\section{Awards \& Grants} 
-\subsection{Funding for Climate Solutions}
-\location{Funding for Climate Solutions, Woodwell Climate Reserach Center}
+\section{Awards \& Grants}
+% Single-sourced from data/awards.json. The figure itself comes from \funding
+% (generated/metrics.tex), so no amount is typed anywhere in this file.
+\input{generated/awards.tex}
 
-\$\funding | 2025-2026 | A Generic Climate AI Framework for Multi-domain Time Series Pre-diction
-\sectionsep
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %     collaborations
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Single-sourced from data/collaborations.json. Carries its own \section headers, since it
+% spans two sections and a tailored CV may drop either.
+\input{generated/collaborations.tex}
 
-\section{Multidisciplinary collaborations}
-\subsection{PetroBras $\times$ U of Edinburgh}
-Understanding how oil and water flow in rocks
-\subsection{Google $\times$ Woodwell}
-Understanding Permafrosts, AlphaEarth and Satellite Embedding
-\subsection{Esri $\times$ Woodwell}
-Understanding Permafrosts and Indigenous Communities
-
-\section{Academic Collaborations}
-The Chinese University of Hong Kong | University of Connecticut
-
-University of Alaska Fairbanks | Arizona State University
-
-University of Illinois | Alfred Wegener Institute | Harvard Kennedy School
-
-% \renewcommand\refname{\vskip -1.5em} 
+% \renewcommand\refname{\vskip -1.5em}
 
 \end{minipage} 
 \end{document}  \documentclass[]{article}

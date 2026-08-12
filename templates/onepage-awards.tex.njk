@@ -1,0 +1,10 @@
+<# Awards & Grants for the one-pager. The monetary figure is NOT written here: `amountMacro`
+   names a \newcommand emitted by scripts/emit-metrics-tex.js from data/stats.json, so the
+   number stays derived (invariant 4). #>
+<% for a in awards %>
+\subsection{<< a.title >>}
+\location{<< a.location >>}
+
+\$\<< a.amountMacro >> | << a.period >> | << a.project >>
+\sectionsep
+<% endfor %>

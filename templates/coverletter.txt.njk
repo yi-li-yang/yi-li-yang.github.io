@@ -1,0 +1,30 @@
+<# Plain-text twin of the cover letter, for pasting into application forms and email bodies.
+   Same letter.json, same paragraphs, same order — only the markup differs. If these two ever
+   say different things, the .json is not the single source and something has gone wrong.
+
+   `untex` unwinds the LaTeX that hand-authored data legitimately contains ($\mu$, \&, ---). #>
+<< sender.name >>
+<< sender.contact | untex >>
+
+<< date >>
+
+<% if recipient.name %>
+<< recipient.name >>
+<% endif %>
+<% if recipient.title %>
+<< recipient.title >>
+<% endif %>
+<< recipient.company >>
+<% if recipient.address %>
+<< recipient.address | untex >>
+<% endif %>
+
+<< letter.salutation | untex >>
+
+<% for p in letter.paragraphs %>
+<< p.text | untex >>
+
+<% endfor %>
+<< letter.closing | untex >>
+
+<< sender.name >>

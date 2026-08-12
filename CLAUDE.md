@@ -113,7 +113,7 @@ CI secrets already in use: `GH_PAT` (as `GH_USER_TOKEN`), `SERPAPI_KEY`.
 
 The ingest arm ("fetch metrics") is **already done** — do not rebuild it.
 
-**STATUS: Phases A, B, C are IMPLEMENTED.** Phase D is not started.
+**STATUS: Phases A, B, C, D are IMPLEMENTED.**
 
 - **Phase A** ✅ — Overleaf LaTeX merged into `cv/` (flat, no submodule). `cv/onepage/`,
   `cv/biosketch/`, shared `cv/publications.bib`; biosketch bib path is `\bibliography{../publications}`.
@@ -125,13 +125,24 @@ The ingest arm ("fetch metrics") is **already done** — do not rebuild it.
   `data/experience.json`, rendered by `scripts/render-cv.js` (Nunjucks, `<< >>`/`<% %>` tags) into
   `cv/**/generated/experience.tex`, which both shells `\input`. Shared keystone loader:
   `scripts/lib/data.js`. Build all: `npm run build`. CI: `.github/workflows/build-cv.yml`.
-- **Phase D** *(optional, not started)* — LLM tailoring over the data, select-and-rephrase, human-gated.
+- **Phase D** ✅ — job applications. `applications/<slug>/{job.md,manifest.json,letter.json}` →
+  tailored one-pager + cover letter (PDF **and** paste-ready `.txt`). The remaining hardcoded
+  prose in `ONE-PAGE.tex` (skills, awards, collaborations) moved to `data/`, so every block is
+  now both derived and tailorable; `data/taglines.json` is new. Every claim carries a `src`
+  citation checked by `scripts/verify-application.js` — dangling token = build failure — which
+  also prints a provenance report (each generated sentence beside its source), a smell test for
+  unsourced numbers/proper nouns, and a **gap report** naming requirements the data cannot
+  support. Front door: `/apply`. Commands: `npm run verify:app -- <slug>`, `npm run tailor --
+  <slug>`. CI: `.github/workflows/tailor-cv.yml` (matrix, `--strict` gate, one-page assertion).
+  Reference: **`docs/APPLICATIONS.md`**.
 
 Script-written (never hand-edit): `data/stats.json`, `data/publications.json`, `cv/**/generated/*`,
-`assets/*.pdf`. Hand-authored (never script-write): `data/pill-tags.json`, `data/show_repo.json`,
-`data/experience.json`, `cv/publications.bib`, the `.tex` shells, `templates/*.njk`. The `static`
-block inside `data/stats.json` is the one hand-authored island in a script-written file (funding,
-mentees, talks, peer/NSF reviews) — `update-stats.js` preserves it across runs.
+`cv/coverletter/generated/*`, `assets/*.pdf`. Hand-authored (never script-write):
+`data/pill-tags.json`, `data/show_repo.json`, `data/experience.json`, `data/skills.json`,
+`data/awards.json`, `data/collaborations.json`, `data/taglines.json`, `cv/publications.bib`,
+`applications/*/*`, the `.tex` shells, `templates/*.njk`. The `static` block inside
+`data/stats.json` is the one hand-authored island in a script-written file (funding, mentees,
+talks, peer/NSF reviews) — `update-stats.js` preserves it across runs.
 
 Verification after any stage: the site still renders, both PDFs compile, and every shown fact
 traces back to the data layer.

@@ -29,7 +29,12 @@ npm install                       # add: nunjucks, @retorquere/bibtex-parser (or
 node scripts/update-stats.js      # refresh metrics (network) — optional; render uses cached values
 node scripts/bib-to-json.js       # publications.bib → data/publications.json
 node scripts/emit-metrics-tex.js  # → cv/**/generated/metrics.tex
-node scripts/render-cv.js         # → cv/**/generated/*.tex
+node scripts/render-cv.js         # → cv/**/generated/*.tex (all prose blocks)
+
+# job applications (Phase D) — see docs/APPLICATIONS.md
+npm run verify:app -- <slug>          # firewall: every claim must cite a source
+npm run verify:app -- <slug> --strict # warnings become failures (what CI runs)
+npm run tailor     -- <slug>          # → tailored one-pager + cover letter (.tex and .txt)
 
 # compile (needs local TeXLive w/ XeLaTeX + Lato/Raleway fonts; MacTeX or texlive-full)
 latexmk -xelatex -interaction=nonstopmode -outdir=cv/onepage/build  cv/onepage/ONE-PAGE.tex
@@ -44,33 +49,44 @@ any static server — it just fetches `data/*.json`.
 
 ## The render gotcha — Nunjucks vs LaTeX braces
 
-Jinja's `{{ }}` and Nunjucks' default `{{ }}`/`{% %}` collide with LaTeX. Reconfigure tags in
-`render-cv.js` so templates use `\VAR{}` / `\BLOCK{}`:
+Jinja's `{{ }}` and Nunjucks' default `{{ }}`/`{% %}` collide with LaTeX.
+
+> **Correction.** This doc used to prescribe `\VAR{}` / `\BLOCK{}`. That recipe is **Jinja2-only
+> and does not work in Nunjucks**, which cannot use `}` as a tag terminator — it can't tell a
+> tag-closing `}` from a LaTeX one. The implementation uses `<< >>` and `<% %>` instead. Do not
+> revert to `\VAR{}`.
+
+The environment lives in `scripts/lib/render.js` (shared by `render-cv.js` and `tailor.js`):
 
 ```js
-const nunjucks = require('nunjucks');
-const env = new nunjucks.Environment(
-  new nunjucks.FileSystemLoader('templates'),
-  { autoescape: false,
+import nunjucks from 'nunjucks';
+export const env = new nunjucks.Environment(
+  new nunjucks.FileSystemLoader(join(ROOT, 'templates')),
+  { autoescape: false, trimBlocks: true, lstripBlocks: true,
     tags: {
-      variableStart: '\\VAR{', variableEnd: '}',
-      blockStart: '\\BLOCK{',  blockEnd: '}',
-      commentStart: '\\#{',    commentEnd: '}',
+      variableStart: '<<', variableEnd: '>>',
+      blockStart:    '<%', blockEnd:    '%>',
+      commentStart:  '<#', commentEnd:  '#>',
     }});
 ```
 
-Template (`templates/onepage.tex.njk`) is your existing Deedy body with literals swapped:
+Templates are the Deedy body with literals swapped (`templates/onepage-experience.tex.njk`):
 
 ```latex
-\BLOCK{ for j in experience }
-\runsubsection{\VAR{ j.role }} \descript{| \VAR{ j.org }}
+<% for job in experience %>
+\runsubsection{<< job.role >>}
+\descript{<< job.onepage.descript >>}
 \begin{tightemize}
-\BLOCK{ for b in j.bullets if 'onepage' in b.targets }
-    \item \VAR{ b.text }
-\BLOCK{ endfor }
+<% for b in job.onepage.bullets %>
+    \item <% if b.label %>\textbf{<< b.label >>}: <% endif %><< b.text >>
+<% endfor %>
 \end{tightemize}
-\BLOCK{ endfor }
+<% endfor %>
 ```
+
+Two filters are registered: `texesc` (escape text arriving from the `.bib`, which is not
+LaTeX) and `untex` (unwind LaTeX for the cover letter's plain-text twin). Hand-authored
+`data/*.json` prose is **never** passed through `texesc` — it deliberately contains LaTeX.
 
 `emit-metrics-tex.js` writes plain `\newcommand`s — no templating needed:
 

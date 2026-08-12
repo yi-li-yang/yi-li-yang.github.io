@@ -81,6 +81,9 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
+          # cv/onepage/generated now holds a partial per prose block (tagline, skills,
+          # publications, awards, collaborations) alongside experience/metrics. Tailored
+          # app-*/ subdirectories are gitignored and never land here.
           git add data/publications.json \
                   cv/onepage/generated cv/biosketch/generated \
                   assets/cv.pdf assets/biosketch.pdf

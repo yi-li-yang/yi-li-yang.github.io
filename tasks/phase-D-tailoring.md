@@ -1,4 +1,14 @@
-# Phase D — LLM tailoring (optional)
+# Phase D — LLM tailoring  ✅ IMPLEMENTED
+
+> Built. Working reference: **`docs/APPLICATIONS.md`**.
+> Front door: `/apply` (`.claude/skills/apply/`). Commands: `npm run verify:app -- <slug>`,
+> `npm run tailor -- <slug>`. CI: `.github/workflows/tailor-cv.yml`.
+>
+> What shipped beyond the original sketch: per-claim `src` citations checked by
+> `scripts/verify-application.js` (dangling token = build failure), a provenance report that
+> prints each generated sentence beside its source, a smell test for unsourced numbers and
+> unknown proper nouns (`--strict` in CI), a gap report naming requirements the data layer
+> cannot support, and a cover letter rendered as both PDF and a paste-ready `.txt`.
 
 **Goal:** given a job description, produce a tailored one-off CV by *selecting and rephrasing
 verified facts from the data layer* — never inventing facts. Revives role-variants on demand

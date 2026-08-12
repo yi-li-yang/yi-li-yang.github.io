@@ -1,0 +1,74 @@
+<# Cover letter — the WHOLE document, not a partial. There is no hand-authored shell in
+   cv/coverletter/ because every field (recipient, company, body) varies per application, so
+   there would be nothing stable to hand-author.
+
+   Fonts: the same Lato the one-pager uses. This file is written to cv/coverletter/generated/
+   and compiled from that directory, so the font path climbs two levels, not one.
+   Compile with XeLaTeX (fontspec).
+
+   Every paragraph in `letter` carries `src` citations, checked by scripts/verify-application.js
+   BEFORE this renders. The template does not validate — it only lays out what the firewall
+   already approved. #>
+\documentclass[11pt,a4paper]{article}
+
+\usepackage{fontspec}
+\usepackage[left=1in,top=1in,right=1in,bottom=1in]{geometry}
+\usepackage{parskip}
+\usepackage[colorlinks=true,urlcolor=black,linkcolor=black]{hyperref}
+
+\setmainfont[
+  Path = ../../onepage/fonts/lato/,
+  Extension = .ttf,
+  UprightFont = *-Reg,
+  BoldFont = *-Bol,
+  ItalicFont = *-RegIta,
+  BoldItalicFont = *-BolIta
+]{Lato}
+
+\setlength{\parindent}{0pt}
+\linespread{1.05}
+\pagestyle{empty}
+
+\begin{document}
+
+<# ── Sender ──────────────────────────────────────────────────────────────── #>
+{\Large \textbf{<< sender.name >>}}\\
+<< sender.contact >>
+
+\vspace{1.2em}
+
+<< date >>
+
+\vspace{1.2em}
+
+<# ── Recipient ───────────────────────────────────────────────────────────── #>
+<% if recipient.name %>
+<< recipient.name >>\\
+<% endif %>
+<% if recipient.title %>
+<< recipient.title >>\\
+<% endif %>
+<< recipient.company >>
+<% if recipient.address %>
+\\<< recipient.address >>
+<% endif %>
+
+\vspace{1.2em}
+
+<< letter.salutation >>
+
+\vspace{0.6em}
+
+<# ── Body ────────────────────────────────────────────────────────────────── #>
+<% for p in letter.paragraphs %>
+<< p.text >>
+
+<% endfor %>
+\vspace{0.6em}
+
+<< letter.closing >>\\
+\vspace{1.5em}
+
+\textbf{<< sender.name >>}
+
+\end{document}

@@ -117,7 +117,59 @@ export function loadData() {
   // Hand-authored prose sources (Phase C). Optional so Phase B works before they exist.
   const experience = readJsonIfExists('data/experience.json') ?? [];
 
-  return { stats, publications, experience };
+  // Phase E: the remaining prose blocks, lifted out of ONE-PAGE.tex so no output holds a
+  // hand-typed fact (invariant 4) and every block becomes selectable per application.
+  // Same optional-with-default pattern as `experience` above.
+  const skills = readJsonIfExists('data/skills.json') ?? { groups: [] };
+  const awards = readJsonIfExists('data/awards.json') ?? { awards: [] };
+  const collaborations =
+    readJsonIfExists('data/collaborations.json') ?? { industry: [], academic: [] };
+  const taglines = readJsonIfExists('data/taglines.json') ?? { default: null, options: [] };
+
+  return { stats, publications, experience, skills, awards, collaborations, taglines };
+}
+
+// ── Id lookup, for the application firewall ──────────────────────────────────
+// scripts/verify-application.js resolves citation tokens (`skill:pytorch`,
+// `exp:woodwell.b3`, …) against these. Built here rather than in the verifier so the
+// index and the loader can never disagree about what an id means.
+
+export function indexSkills(skills) {
+  const byId = new Map();
+  for (const g of skills.groups ?? []) {
+    for (const line of g.lines ?? []) {
+      for (const item of line.items ?? []) byId.set(item.id, { ...item, group: g.id });
+    }
+  }
+  return byId;
+}
+
+export function indexExperienceBullets(experience) {
+  const byId = new Map();
+  for (const job of experience) {
+    for (const target of ['onepage', 'biosketch']) {
+      for (const b of job[target]?.bullets ?? []) {
+        // `exp:<jobId>.<bulletId>` — unique because onepage ids are o*, biosketch b*.
+        byId.set(`${job.id}.${b.id}`, { ...b, job: job.id, target });
+      }
+    }
+  }
+  return byId;
+}
+
+export function indexCollaborations(collaborations) {
+  const byId = new Map();
+  for (const c of collaborations.industry ?? []) byId.set(c.id, { ...c, kind: 'industry' });
+  for (const line of collaborations.academic ?? []) {
+    for (const c of line) byId.set(c.id, { ...c, kind: 'academic' });
+  }
+  return byId;
+}
+
+// Dotted path into data/stats.json, e.g. `static.fundingAwarded.value`.
+// Returns undefined when any segment is missing — the caller reports the dangling token.
+export function resolveStatsPath(stats, path) {
+  return path.split('.').reduce((node, key) => (node == null ? undefined : node[key]), stats);
 }
 
 // Counts derived BY BIB TYPE (the chosen rule): each number means exactly what its label

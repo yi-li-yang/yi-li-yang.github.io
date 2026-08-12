@@ -9,7 +9,7 @@ Run in order. Each phase is independently shippable. The **ingest arm is already
 | A | `phase-A-merge-latex.md` | Move the Overleaf LaTeX repo into `cv/` (flat, no submodule). | — |
 | B | `phase-B-metrics-tex.md` | CV numbers derive from `data/stats.json` + `.bib`. Kills hardcoded `20/9/1`. | bibtex parser |
 | C | `phase-C-shared-content.md` | Experience + publications single-sourced; CV via Nunjucks, site reads same data. | nunjucks (+ js-yaml optional) |
-| D | `phase-D-tailoring.md` *(optional)* | LLM tailoring over the data; select-and-rephrase, human-gated. | Claude Code |
+| D | `phase-D-tailoring.md` *(done)* | Job-tailored CV + cover letter; select-and-rephrase, cited and human-gated. See `docs/APPLICATIONS.md`. | Claude Code |
 
 ## Rules for every phase
 
@@ -17,7 +17,8 @@ Run in order. Each phase is independently shippable. The **ingest arm is already
    no Next.js/React/Tailwind.
 2. Node only. Reuse `update-stats.js`; don't port to Python.
 3. Never hand-edit a script-written file (`data/stats.json`, `data/publications.json`,
-   `cv/**/generated/*`, `assets/*.pdf`). Never let a script write a hand-authored file.
+   `cv/**/generated/*`, `cv/coverletter/generated/*`, `assets/*.pdf`). Never let a script write
+   a hand-authored file.
 4. Keep the `data/*.json` contract the site's `js/modules/*` already depends on; if you change
    a key, update the consuming module in the same change.
 5. After each phase: site still renders, both PDFs compile, every shown fact traces to data.
@@ -30,3 +31,9 @@ Run in order. Each phase is independently shippable. The **ingest arm is already
   data, but don't delete them until a generated equivalent demonstrably matches.
 - `my_publication.bib` moves from the LaTeX repo to `cv/publications.bib` and becomes the
   publications SSOT for both outputs.
+
+## Phase D reference
+
+`docs/APPLICATIONS.md` is the working reference for job applications: the citation-token
+table, the `manifest.json` / `letter.json` schemas, what counts as a rephrasing, and how the
+gap report reads. `.claude/skills/apply/` drives the sequence interactively.

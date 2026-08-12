@@ -1,0 +1,21 @@
+{
+  "_comment": [
+    "HAND-AUTHORED. Never script-written. Extracted from cv/onepage/ONE-PAGE.tex L208-213.",
+    "",
+    "`amountMacro` names a LaTeX macro emitted by scripts/emit-metrics-tex.js — the figure",
+    "itself stays derived from data/stats.json.static.fundingAwarded, so the amount is never",
+    "typed here. Ids are referenced as `award:<id>` from an application manifest.",
+    "",
+    "Typos corrected during extraction: 'Reserach' -> 'Research', 'Pre-diction' -> 'Prediction'."
+  ],
+  "awards": [
+    {
+      "id": "fcs-2025",
+      "title": "Funding for Climate Solutions",
+      "location": "Funding for Climate Solutions, Woodwell Climate Research Center",
+      "amountMacro": "funding",
+      "period": "2025-2026",
+      "project": "A Generic Climate AI Framework for Multi-domain Time Series Prediction"
+    }
+  ]
+}

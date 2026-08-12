@@ -1,0 +1,19 @@
+<# Both collaboration sections. Unlike the other partials this one carries its own \section
+   headers, because it spans two of them and a tailored CV may drop either entirely. #>
+<% if collaborations.industry.length %>
+\section{Multidisciplinary collaborations}
+<% for c in collaborations.industry %>
+\subsection{<< c.partners >>}
+<< c.text >>
+<% endfor %>
+<% endif %>
+<% if collaborations.academic.length %>
+
+\section{Academic Collaborations}
+<% for line in collaborations.academic %>
+<< line | join(" | ", "label") >>
+<% if not loop.last %>
+
+<% endif %>
+<% endfor %>
+<% endif %>

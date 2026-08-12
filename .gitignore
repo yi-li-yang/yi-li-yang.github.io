@@ -135,13 +135,16 @@ dist
 .yarn/install-state.gz
 .pnp.*
 
-# Phase D tailored one-pager variants — derived from applications/*.json, rebuilt on
-# demand and published as CI artifacts (not committed; the manifest is the source).
-cv/onepage/tailored-*.tex
-cv/onepage/generated/tailored-*.tex
+# Job-tailored variants — derived from applications/<slug>/, rebuilt on demand and published
+# as CI artifacts (not committed; the manifest + letter.json are the source of truth).
+cv/onepage/app-*.tex
+cv/onepage/generated/app-*/
+cv/coverletter/generated/
 
-# Claude Code local project settings (permission allowlists)
-.claude/
+# Claude Code local settings (permission allowlists) stay local, but the /apply skill is part
+# of the workflow and must travel with the repo.
+.claude/*
+!.claude/skills/
 
 # LaTeX build artifacts (PDFs are published to assets/, not committed here)
 cv/**/build/

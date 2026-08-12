@@ -1,24 +1,67 @@
 name: Tailor CV
 
-# Phase D: compile job-tailored one-pagers from applications/*.json. Each manifest only
-# SELECTS/REPHRASES facts already in data/experience.json (Invariant 6). The PDFs are
-# uploaded as downloadable artifacts for review — they are NOT committed (a tailored CV is
-# an ephemeral, per-application output, not a source of truth).
+# Compiles job-tailored one-pagers and cover letters from applications/<slug>/.
+#
+# Each application is a SELECTION over the data layer: every claim carries a `src` citation
+# resolved by scripts/verify-application.js. That verifier runs here, in --strict mode, BEFORE
+# anything compiles — the firewall has to hold in CI, not just on a laptop, or an unsourced
+# claim ships with a green tick beside it.
+#
+# The PDFs are uploaded as artifacts, never committed: a tailored CV is an ephemeral
+# per-application output. The manifest and letter.json are the sources of truth.
 
 on:
   push:
     paths:
       - 'applications/**'
-      - 'scripts/render-cv.js'
+      - 'data/**'
+      - 'templates/**'
+      - 'scripts/**'
+      - 'cv/onepage/**'
       - '.github/workflows/tailor-cv.yml'
   workflow_dispatch:
+    inputs:
+      slug:
+        description: 'Build only this application slug (blank = all)'
+        required: false
+        type: string
 
 permissions:
   contents: read
 
 jobs:
-  tailor:
+  # Discover the applications to build. Replaces the previously hardcoded single slug, which
+  # meant a second application silently built nothing.
+  discover:
     runs-on: ubuntu-latest
+    outputs:
+      slugs: ${{ steps.find.outputs.slugs }}
+      count: ${{ steps.find.outputs.count }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - id: find
+        name: Find application manifests
+        run: |
+          if [ -n "${{ inputs.slug }}" ]; then
+            slugs=$(printf '%s\n' "${{ inputs.slug }}" | jq -R . | jq -sc .)
+          else
+            slugs=$(find applications -mindepth 2 -maxdepth 2 -name manifest.json \
+                    | sed 's|^applications/||; s|/manifest.json$||' \
+                    | sort | jq -R . | jq -sc .)
+          fi
+          echo "slugs=$slugs" >> "$GITHUB_OUTPUT"
+          echo "count=$(echo "$slugs" | jq 'length')" >> "$GITHUB_OUTPUT"
+          echo "Building: $slugs"
+
+  tailor:
+    needs: discover
+    if: needs.discover.outputs.count != '0'
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false # one bad application must not hide the others' results
+      matrix:
+        slug: ${{ fromJson(needs.discover.outputs.slugs) }}
     steps:
       - uses: actions/checkout@v4
 
@@ -28,25 +71,58 @@ jobs:
 
       - run: npm ci
 
-      # Needed by the variant shells (\input{generated/metrics.tex}).
+      # Needed by every variant shell (\input{generated/metrics.tex}).
       - name: Generate metrics
         run: node scripts/emit-metrics-tex.js
 
-      # Render the application manifest into its tailored variant shell + experience.
-      - name: Render tailored variant
-        run: APP=applications/technify-geospatial-data-scientist.json node scripts/render-cv.js
+      # THE GATE. --strict promotes smell-test warnings (unsourced numbers, unknown proper
+      # nouns) to failures, because nobody reads a warning in a CI log.
+      - name: Verify every claim traces to the data layer
+        run: node scripts/verify-application.js "${{ matrix.slug }}" --strict
 
-      # Compile with the same proven action build-cv uses (XeLaTeX + local fonts).
+      - name: Render tailored CV and cover letter
+        run: node scripts/tailor.js "${{ matrix.slug }}"
+
       - name: Compile tailored one-pager (XeLaTeX)
         uses: xu-cheng/latex-action@v3
         with:
-          root_file: tailored-technify-geospatial-data-scientist.tex
+          root_file: app-${{ matrix.slug }}.tex
           working_directory: cv/onepage
           latexmk_use_xelatex: true
 
-      - name: Upload tailored PDF
+      - name: Compile cover letter (XeLaTeX)
+        uses: xu-cheng/latex-action@v3
+        with:
+          root_file: ${{ matrix.slug }}.tex
+          working_directory: cv/coverletter/generated
+          latexmk_use_xelatex: true
+
+      # The Deedy template overflows to a second page silently, and a tailored variant adds a
+      # publications block to an already-full page. A two-page "one-pager" is the most likely
+      # way this goes wrong unnoticed, so assert it rather than trusting a glance.
+      - name: Assert the one-pager is one page
+        run: |
+          sudo apt-get update -qq && sudo apt-get install -y -qq poppler-utils
+          pages=$(pdfinfo "cv/onepage/app-${{ matrix.slug }}.pdf" | awk '/^Pages:/ {print $2}')
+          echo "one-pager pages: $pages"
+          if [ "$pages" -ne 1 ]; then
+            echo "::error::Tailored one-pager is $pages pages. Trim the manifest (fewer bullets, fewer skill lines, fewer publications)."
+            exit 1
+          fi
+
+      - name: Collect artifacts under stable names
+        run: |
+          mkdir -p out
+          cp "cv/onepage/app-${{ matrix.slug }}.pdf"            "out/cv_${{ matrix.slug }}.pdf"
+          cp "cv/coverletter/generated/${{ matrix.slug }}.pdf"  "out/coverletter_${{ matrix.slug }}.pdf"
+          cp "cv/coverletter/generated/${{ matrix.slug }}.txt"  "out/coverletter_${{ matrix.slug }}.txt"
+          # The posting this was aimed at travels with the outputs, so a downloaded bundle is
+          # self-explanatory months later.
+          cp "applications/${{ matrix.slug }}/job.md"           "out/job_${{ matrix.slug }}.md" || true
+
+      - name: Upload application bundle
         uses: actions/upload-artifact@v4
         with:
-          name: tailored-cv-pdfs
-          path: cv/onepage/tailored-technify-geospatial-data-scientist.pdf
-          if-no-files-found: warn
+          name: application-${{ matrix.slug }}
+          path: out/
+          if-no-files-found: error

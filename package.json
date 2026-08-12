@@ -12,7 +12,9 @@
     "bib": "node scripts/bib-to-json.js",
     "metrics": "node scripts/emit-metrics-tex.js",
     "render": "node scripts/render-cv.js",
-    "build": "node scripts/bib-to-json.js && node scripts/emit-metrics-tex.js && node scripts/render-cv.js"
+    "build": "node scripts/bib-to-json.js && node scripts/emit-metrics-tex.js && node scripts/render-cv.js",
+    "tailor": "node scripts/tailor.js",
+    "verify:app": "node scripts/verify-application.js"
   },
   "dependencies": {
     "@retorquere/bibtex-parser": "^9.0.20",

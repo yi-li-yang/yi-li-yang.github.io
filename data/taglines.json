@@ -1,0 +1,37 @@
+{
+  "_comment": [
+    "HAND-AUTHORED. Never script-written. A bank of PRE-APPROVED positioning lines that sit",
+    "under the name on the one-pager.",
+    "",
+    "This file exists so a tailored CV SELECTS a tagline by id — it never writes a fresh one.",
+    "A positioning line is the easiest place for a generated CV to drift into a claim the data",
+    "cannot support, so the wording is fixed here, by hand, in advance. Every option below must",
+    "be defensible from data/experience.json + cv/publications.bib alone.",
+    "",
+    "`default: null` means the untailored ONE-PAGE.tex renders no tagline, exactly as before.",
+    "Referenced as `tagline:<id>` from an application manifest."
+  ],
+  "default": null,
+  "options": [
+    {
+      "id": "geospatial-ai",
+      "text": "AI Scientist \\textbar{} Geospatial \\& Remote Sensing"
+    },
+    {
+      "id": "applied-ai-research",
+      "text": "Applied AI Researcher \\textbar{} Deep Learning, Time Series, Production ML"
+    },
+    {
+      "id": "ml-earth-scale",
+      "text": "Machine Learning for Earth Observation at Continental Scale"
+    },
+    {
+      "id": "ai-for-science",
+      "text": "AI for Science \\textbar{} Turning Scientific Data into Predictive Models"
+    },
+    {
+      "id": "research-engineer",
+      "text": "Research Engineer \\textbar{} Large-scale Python, Cloud ML Pipelines, Computer Vision"
+    }
+  ]
+}
