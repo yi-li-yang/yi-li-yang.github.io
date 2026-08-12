@@ -49,6 +49,14 @@ applications/drafting/goldman-sachs-applied-ai-researcher/
 So one folder is the complete record of one job: what was asked for, what you selected from your
 data in response, and the exact documents that went out.
 
+It also means the documents **move with the application**. `npm run app:status -- <slug> submitted`
+is a `git mv` of the whole directory, so the PDFs travel with the posting and the manifest as one
+unit. Nothing has to be re-associated afterwards, and nothing can be left behind in the old status.
+
+The CV carries a `Last Updated` stamp in its top-right corner. Because a rebuild picks up whatever
+the data layer says at that moment, that stamp is what tells two builds of the same application
+apart — CI asserts it is present on every compile.
+
 This matters because a rebuild is **not** reproducible. Regenerate a year-old application and you
 get a similar but different document — the citation counts in `data/stats.json` have moved
 underneath it. The committed PDF is the only thing that records what an employer actually

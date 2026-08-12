@@ -125,7 +125,7 @@ jobs:
       # The Deedy template overflows to a second page silently, and a tailored variant adds a
       # publications block to an already-full page. A two-page "one-pager" is the most likely
       # way this goes wrong unnoticed, so assert it rather than trusting a glance.
-      - name: Assert the one-pager is one page
+      - name: Assert one page, and a dated edge stamp
         run: |
           sudo apt-get update -qq && sudo apt-get install -y -qq poppler-utils
           pages=$(pdfinfo "build/${{ matrix.slug }}/cv.pdf" | awk '/^Pages:/ {print $2}')
@@ -134,6 +134,16 @@ jobs:
             echo "::error::Tailored one-pager is $pages pages. Trim the manifest (fewer bullets, fewer skill lines, fewer publications)."
             exit 1
           fi
+
+          # The CV is rebuilt whenever the data layer moves, so several PDFs of the same
+          # application can exist over time. The "Last Updated" stamp in the top-right corner
+          # (\lastupdated in deedy-resume-openfont.cls) is the only thing that tells them apart.
+          # If it ever silently disappeared you could not tell which build you were holding.
+          if ! pdftotext "build/${{ matrix.slug }}/cv.pdf" - | grep -qi "Last Updated"; then
+            echo "::error::No 'Last Updated' stamp on the CV. \\lastupdated is missing from the shell or the class."
+            exit 1
+          fi
+          echo "edge stamp: $(pdftotext "build/${{ matrix.slug }}/cv.pdf" - | grep -i 'Last Updated' | head -1)"
 
       # Staged under the application's own path, so the commit job can place the files without
       # rediscovering which status folder each slug lives in.
