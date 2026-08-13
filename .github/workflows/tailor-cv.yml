@@ -111,16 +111,27 @@ jobs:
             done
             picked="$kept"
 
-            # Say plainly which drafts a shared-input change did NOT refresh, so "nothing built"
-            # is never mistaken for "everything is current".
-            if printf '%s\n' "$changed" \
-               | grep -qE '^(data|cv|scripts)/|^\.github/workflows/tailor-cv\.yml$'; then
-              stale=$(comm -23 <(drafting) <(printf '%s' "$picked" | grep -v '^$' | sort -u) \
-                      | paste -sd' ' - || true)
-              if [ -n "$stale" ]; then
-                echo "::notice::Shared inputs changed; these drafts were left alone: ${stale}." \
-                     "Run this workflow manually with a blank slug to refresh them."
-              fi
+            # A SHARED input — the data layer, a template, the render scripts — feeds every
+            # application. Change one and every draft really is stale, so every draft rebuilds.
+            # This is the single-sourcing working: a typesetting fix in cv/templates/ has to
+            # reach the tailored CVs, or they quietly keep the old rendering forever.
+            #
+            # `submitted/` and `closed/` still do NOT rebuild. That is the distinction that
+            # matters: drafts track the data layer, sent documents are a frozen record.
+            #
+            # Only SOURCE counts as a shared input. assets/, cv/*/generated/ and
+            # data/publications.json are written by the build itself and committed back, so
+            # treating them as inputs would make every bot commit trigger a full rebuild on
+            # the next push — a rebuild whose only effect is a new date stamp on every PDF.
+            # (Their real sources — cv/publications.bib, the templates — are still watched.)
+            derived='^assets/|^cv/[^/]+/generated/|^data/publications\.json$'
+            shared=$(printf '%s\n' "$changed" | { grep -vE "$derived" || true; } \
+                     | { grep -E '^(data|cv|scripts)/|^\.github/workflows/tailor-cv\.yml$' \
+                         || true; })
+            if [ -n "$shared" ]; then
+              picked=$(drafting)
+              echo "::notice::Shared input changed ($(printf '%s' "$shared" | head -1)) —" \
+                   "rebuilding every drafting application."
             fi
           fi
 

@@ -35,18 +35,27 @@ No **command** ever takes a status. Everything resolves an application by **slug
 (`scripts/lib/applications.js`), so `npm run tailor -- <slug>` behaves identically wherever the
 application sits.
 
-**CI is the exception, and deliberately so.** A push builds only the `drafting/` applications
-whose own `job.md`, `manifest.json` or `letter.json` it changed:
+**CI is the exception, and deliberately so.** A push rebuilds `drafting/` applications, scoped
+to what it actually changed:
 
 | What changed in the push | What CI builds |
 |---|---|
-| One drafting application's source files | That application, alone |
-| `data/`, `cv/`, `scripts/` | Nothing — the affected drafts are named in a run notice |
-| Only committed PDFs (the bot's own output) | Nothing |
+| One drafting application's `job.md` / `manifest.json` / `letter.json` | That application, alone |
+| A shared **source** input — `data/`, `cv/`, `scripts/` | Every drafting application |
+| Derived output — `assets/`, `cv/*/generated/`, `data/publications.json` | Nothing |
 | Anything, for an application in `submitted/` or `closed/` | Nothing — those are frozen |
 
-So promoting an application **freezes its documents**, which is the point of promoting it: the
-committed PDF stops moving the moment it becomes the record of something you sent.
+The second row is the single-sourcing working: fix a template and the fix has to reach the
+tailored CVs, or they quietly keep rendering the old way forever.
+
+The third row is what stops that becoming a treadmill. CI commits its own output back into the
+repo, so counting those files as inputs would make every bot commit trigger another full
+rebuild on the next push — one whose only effect is a fresh date stamp on every PDF. Their real
+sources (`cv/publications.bib`, the templates) are still watched, so nothing is missed.
+
+The fourth row is the one that matters most: promoting an application **freezes its documents**,
+which is the point of promoting it. The committed PDF stops moving the moment it becomes the
+record of something you sent.
 
 To rebuild on purpose, run the workflow manually — blank slug rebuilds every draft, an explicit
 slug reaches any application in any status.
@@ -219,8 +228,21 @@ npm run verify:app -- <slug>            # the report on its own, without renderi
 npm run verify:app -- <slug> --strict   # warnings become failures — what CI runs
 ```
 
-To get a PDF: commit and push. CI compiles it and commits it back into the application folder;
-`git pull` and it is there. LaTeX never runs locally.
+To get a PDF: commit and push. CI compiles it and commits it back into the application folder.
+LaTeX never runs locally.
+
+You do not have to watch for it. `npm run hooks` (once per clone) installs a `pre-push` hook
+that starts a background watcher; when CI finishes, it fast-forwards your branch and the PDFs
+appear on their own. It only ever fast-forwards, and only when the working tree is clean.
+
+```bash
+npm run pdfs        # foreground: prints each run's status, pulls when they finish
+tail -f .git/pdf-watch.log   # what the background watcher from the last push is doing
+gh run list --commit "$(git rev-parse HEAD)"   # raw, no waiting
+```
+
+`npm run pdfs` is also the answer when the hook was skipped (`git push --no-verify`) or when
+you pushed from a client that bypasses hooks.
 
 Verification is folded into `tailor`, so the firewall cannot be skipped by forgetting a step —
 only by choosing to (`--skip-verify`, which CI uses because it runs the strict check itself).
