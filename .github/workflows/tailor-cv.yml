@@ -251,9 +251,15 @@ jobs:
 
   # ONE job commits, after every application has built. Committing inside the matrix would have
   # parallel jobs pushing to the same branch and clobbering each other.
+  #
+  # `always()` is what makes `fail-fast: false` above actually mean something. Without it, one
+  # application failing its one-page assertion marks the whole `tailor` job failed, this job is
+  # skipped, and the OTHER applications' PDFs — which compiled perfectly — are thrown away. One
+  # over-long manifest would silently block every other document from ever reaching the repo.
+  # So: commit whatever compiled, and let the failed leg stay red on its own.
   commit:
     needs: [discover, tailor]
-    if: needs.discover.outputs.count != '0'
+    if: always() && needs.discover.outputs.count != '0'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -264,9 +270,14 @@ jobs:
           pattern: documents-*
           merge-multiple: true # they share the applications/<status>/<slug>/ path layout
           path: incoming
+        continue-on-error: true # no artifacts at all is a normal outcome when every leg failed
 
       - name: Place documents beside their applications
         run: |
+          if [ ! -d incoming/applications ]; then
+            echo "::warning::No documents were produced — every application failed to build."
+            exit 0
+          fi
           cp -r incoming/applications/. applications/
           rm -rf incoming
           find applications \( -name '*.pdf' -o -name 'letter.txt' \) | sort

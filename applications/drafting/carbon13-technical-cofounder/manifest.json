@@ -75,11 +75,7 @@
       "google-woodwell",
       "esri-woodwell"
     ],
-    "academic": [
-      "asu",
-      "uiuc",
-      "awi"
-    ]
+    "academic": []
   },
   "experience": [
     {
@@ -179,12 +175,6 @@
               "exp:iccr.b3"
             ],
             "text": "Ran experiments at three national synchrotron facilities in the UK, US and Switzerland"
-          },
-          {
-            "src": [
-              "exp:iccr.o2"
-            ],
-            "text": "Deep-learning image segmentation for digital rocks"
           }
         ]
       }
