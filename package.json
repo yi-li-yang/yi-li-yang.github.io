@@ -12,6 +12,7 @@
     "apps": "node scripts/apps.js",
     "tailor": "node scripts/tailor.js",
     "app:status": "node scripts/app-status.js",
+    "pdf": "node scripts/preview-pdf.js",
     "pdfs": "node scripts/fetch-pdfs.js",
     "hooks": "git config core.hooksPath .githooks && node -e \"console.log('pre-push hook enabled: CI PDFs will be pulled automatically')\"",
     "verify:app": "node scripts/verify-application.js",

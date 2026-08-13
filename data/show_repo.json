@@ -48,6 +48,11 @@
       "description": "A decision router that does the legwork — all of it. Its job is to take the research → compare → find loop a person re-runs every time they buy something non-trivial and run that loop for them, so they never have to be the researcher.",
       "url": "https://github.com/yi-li-yang/research-before-buy",
       "image": ""
+    },
+    {
+      "description": "This site, and the single-source-of-truth pipeline behind it. One data layer renders the website and both PDF CVs, then tailors a one-pager and cover letter to a job posting — where every generated sentence must cite the fact it came from, or the build fails. No number on the CV is typed twice.",
+      "url": "https://github.com/yi-li-yang/yi-li-yang.github.io",
+      "image": ""
     }
   ]
 }

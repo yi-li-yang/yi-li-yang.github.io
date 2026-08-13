@@ -16,8 +16,12 @@ import { ROOT } from './data.js';
 
 export const STATUSES = ['drafting', 'submitted', 'closed'];
 
-// `closed` is skipped by CI: a closed application never needs rebuilding, and skipping it is
-// what keeps build time flat as the directory grows.
+// What `npm run tailor -- <slug>` will render locally. `closed` is excluded: a closed
+// application is finished, and rebuilding it is almost always a mistake.
+//
+// CI is stricter still — it rebuilds only `drafting`, because a submitted application's PDFs
+// are the record of what was actually sent and must stop moving. See .github/workflows/
+// tailor-cv.yml. Local and CI scope differ on purpose; this constant is the local one.
 export const BUILDABLE = ['drafting', 'submitted'];
 
 const APPS = join(ROOT, 'applications');

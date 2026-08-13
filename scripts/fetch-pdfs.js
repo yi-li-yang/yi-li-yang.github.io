@@ -62,15 +62,21 @@ function say(msg) {
   console.log(line);
 }
 
+// windowsHide stops a console window flashing on screen for every child process. It matters
+// here more than usual: the watcher runs detached, so it has no console of its own to lend
+// them, and Windows gives each child a brand-new one. At one `gh` poll every 15 seconds for
+// the length of a CI run, that is a window blinking on the desktop dozens of times.
+const QUIET = { encoding: 'utf8', windowsHide: true };
+
 function git(...a) {
-  return execFileSync('git', a, { encoding: 'utf8' }).trim();
+  return execFileSync('git', a, QUIET).trim();
 }
 
 // gh exits non-zero for "no runs found" as readily as for "not authenticated", so every call
 // goes through here and the caller decides what an empty result means.
 function gh(...a) {
   try {
-    return { ok: true, out: execFileSync('gh', a, { encoding: 'utf8' }).trim() };
+    return { ok: true, out: execFileSync('gh', a, QUIET).trim() };
   } catch (e) {
     return { ok: false, out: String(e.stdout ?? '') + String(e.stderr ?? '') };
   }
@@ -85,6 +91,7 @@ if (detached) {
   const child = spawn(process.execPath, [self, ...rest, '--log-to', '.git/pdf-watch.log'], {
     detached: true,
     stdio: 'ignore',
+    windowsHide: true, // no console window for the watcher itself
     cwd: process.cwd(),
   });
   child.unref();
@@ -161,7 +168,10 @@ if (local === remote) {
 // fast-forward would be a lie. Say so and stop.
 let canFF = true;
 try {
-  execFileSync('git', ['merge-base', '--is-ancestor', local, remote], { stdio: 'ignore' });
+  execFileSync('git', ['merge-base', '--is-ancestor', local, remote], {
+    stdio: 'ignore',
+    windowsHide: true,
+  });
 } catch {
   canFF = false;
 }

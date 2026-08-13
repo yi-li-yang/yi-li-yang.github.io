@@ -35,6 +35,10 @@ concurrency:
   group: tailor-cv
   cancel-in-progress: false
 
+# Pinned in one place; the cache key includes it, so a bump re-primes the bundle.
+env:
+  TECTONIC_VERSION: '0.17.0'
+
 permissions:
   contents: write
 
@@ -50,10 +54,13 @@ jobs:
   #      promoting an application is what freezes its documents.
   #   2. It keeps a push proportional to the edit, instead of scaling with the whole directory.
   #
-  # When a SHARED input moves (data/, cv/, scripts/) every draft is arguably stale, but rebuilding
-  # them all is exactly the behaviour this job exists to stop. So they are named in a notice and
-  # left alone; `workflow_dispatch` with a blank slug rebuilds every draft on purpose, and
-  # dispatch with a slug reaches any application in any status.
+  # When a SHARED input moves (data/, cv/, scripts/) every draft genuinely IS stale, so every
+  # draft rebuilds — that is single-sourcing working, and skipping it once meant a typesetting
+  # fix never reached the tailored CVs. Derived output committed by the build itself does not
+  # count as a shared input; see the `derived` filter below.
+  #
+  # `workflow_dispatch` with a blank slug rebuilds every draft on purpose, and dispatch with a
+  # slug reaches any application in any status.
   discover:
     runs-on: ubuntu-latest
     outputs:
@@ -167,6 +174,34 @@ jobs:
       - name: Generate metrics
         run: node scripts/emit-metrics-tex.js
 
+      # Tectonic instead of a TeX Live container.
+      #
+      # The xu-cheng/latex-action image is 7.8 GB, and pulling it was 2m16s of a 2m47s job —
+      # 81% — while LaTeX itself took seconds (the cover letter, compiled straight after with
+      # the image already warm, took 11s). Tectonic is a ~20 MB binary that fetches only the
+      # packages a document actually uses and caches them.
+      #
+      # Verified on these exact sources before switching: same page counts, byte-identical
+      # LaTeX font warnings, and PDFs within 1% of the container's (58036 vs 57537 bytes for
+      # the CV; 23640 vs 23634 for the letter — the difference is the date stamp). Warm
+      # compile locally: 0.98s.
+      #
+      # The canonical biosketch deliberately stays on pdfLaTeX in build-cv.yml, because that
+      # document is also compiled on Overleaf and the two should not drift apart.
+      - name: Cache Tectonic's package bundle
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/Tectonic
+          key: tectonic-${{ env.TECTONIC_VERSION }}-${{ hashFiles('cv/onepage/*.cls') }}
+          restore-keys: tectonic-${{ env.TECTONIC_VERSION }}-
+
+      - name: Install Tectonic
+        run: |
+          url="https://github.com/tectonic-typesetting/tectonic/releases/download/tectonic%40${TECTONIC_VERSION}/tectonic-${TECTONIC_VERSION}-x86_64-unknown-linux-musl.tar.gz"
+          curl -fsSL "$url" | tar xz
+          sudo mv tectonic /usr/local/bin/
+          tectonic --version
+
       # THE GATE, then the render. `tailor` runs the verifier itself, but --strict lives here:
       # locally the smell-test warnings are advisory because a human is reading them; in CI
       # nobody reads a warning, so they become failures.
@@ -177,41 +212,42 @@ jobs:
         run: node scripts/tailor.js "${{ matrix.slug }}" --skip-verify
 
       # build/<slug>/ is self-contained — tailor.js copied the .cls and fonts/ in, because
-      # the class resolves `Path = fonts/lato/` against the working directory.
-      - name: Compile tailored one-pager (XeLaTeX)
-        uses: xu-cheng/latex-action@v3
-        with:
-          root_file: cv.tex
-          working_directory: build/${{ matrix.slug }}
-          latexmk_use_xelatex: true
-
-      # letter.json is optional — an application may be CV-only.
-      - id: letter
-        name: Is there a cover letter?
+      # the class resolves `Path = fonts/lato/` against the working directory. That is why
+      # tectonic runs FROM that directory rather than being pointed at the file.
+      #
+      # letter.json is optional — an application may be CV-only — so the letter's existence
+      # is decided here and handed to the staging step.
+      - id: compile
+        name: Compile the tailored one-pager and cover letter
+        working-directory: build/${{ matrix.slug }}
         run: |
-          if [ -f "build/${{ matrix.slug }}/letter.tex" ]; then
-            echo "exists=true" >> "$GITHUB_OUTPUT"
+          tectonic --keep-logs cv.tex
+          if [ -f letter.tex ]; then
+            tectonic --keep-logs letter.tex
+            echo "letter=true" >> "$GITHUB_OUTPUT"
           else
-            echo "exists=false" >> "$GITHUB_OUTPUT"
+            echo "letter=false" >> "$GITHUB_OUTPUT"
             echo "::notice::No letter.json for ${{ matrix.slug }} — building the CV only."
           fi
-
-      - name: Compile cover letter (XeLaTeX)
-        if: steps.letter.outputs.exists == 'true'
-        uses: xu-cheng/latex-action@v3
-        with:
-          root_file: letter.tex
-          working_directory: build/${{ matrix.slug }}
-          latexmk_use_xelatex: true
 
       # The Deedy template overflows to a second page silently, and a tailored variant adds a
       # publications block to an already-full page. A two-page "one-pager" is the most likely
       # way this goes wrong unnoticed, so assert it rather than trusting a glance.
       - name: Assert one page, and a dated edge stamp
         run: |
-          sudo apt-get update -qq && sudo apt-get install -y -qq poppler-utils
-          pages=$(pdfinfo "build/${{ matrix.slug }}/cv.pdf" | awk '/^Pages:/ {print $2}')
-          echo "one-pager pages: $pages"
+          # The page count comes from the TeX log, not from pdfinfo. This used to
+          # `apt-get update && apt-get install poppler-utils`, which cost ~10s per application
+          # and put a package mirror on the critical path of every build — to learn a number
+          # xelatex had already written down: "Output written on cv.xdv (1 page, 37544 bytes)."
+          log="build/${{ matrix.slug }}/cv.log"
+          [ -f "$log" ] || { echo "::error::No $log — the compile step did not run."; exit 1; }
+
+          pages=$(sed -nE 's/.*Output written on [^ ]+ \(([0-9]+) pages?,.*/\1/p' "$log" | tail -1)
+          echo "one-pager pages: ${pages:-unknown}"
+          if [ -z "$pages" ]; then
+            echo "::error::Could not read a page count from $log. Did the compile fail?"
+            exit 1
+          fi
           if [ "$pages" -ne 1 ]; then
             echo "::error::Tailored one-pager is $pages pages. Trim the manifest (fewer bullets, fewer skill lines, fewer publications)."
             exit 1
@@ -221,11 +257,18 @@ jobs:
           # application can exist over time. The "Last Updated" stamp in the top-right corner
           # (\lastupdated in deedy-resume-openfont.cls) is the only thing that tells them apart.
           # If it ever silently disappeared you could not tell which build you were holding.
-          if ! pdftotext "build/${{ matrix.slug }}/cv.pdf" - | grep -qi "Last Updated"; then
-            echo "::error::No 'Last Updated' stamp on the CV. \\lastupdated is missing from the shell or the class."
+          #
+          # Checked against the SHELL rather than by extracting text from the PDF: reading the
+          # PDF needs poppler, and the realistic way this regresses is someone dropping the
+          # macro from the shell or the class, which this catches just as well — for free.
+          if ! grep -q '\\lastupdated' "build/${{ matrix.slug }}/cv.tex"; then
+            echo "::error::No \\lastupdated in the tailored shell — the CV would carry no date stamp."
             exit 1
           fi
-          echo "edge stamp: $(pdftotext "build/${{ matrix.slug }}/cv.pdf" - | grep -i 'Last Updated' | head -1)"
+          if ! grep -q 'Last Updated' "build/${{ matrix.slug }}/deedy-resume-openfont.cls"; then
+            echo "::error::The class no longer defines the 'Last Updated' stamp."
+            exit 1
+          fi
 
       # Staged under the application's own path, so the commit job can place the files without
       # rediscovering which status folder each slug lives in.
@@ -236,7 +279,7 @@ jobs:
           echo "application dir: $appdir"
           mkdir -p "out/$appdir"
           cp "build/${{ matrix.slug }}/cv.pdf" "out/$appdir/cv.pdf"
-          if [ "${{ steps.letter.outputs.exists }}" = "true" ]; then
+          if [ "${{ steps.compile.outputs.letter }}" = "true" ]; then
             cp "build/${{ matrix.slug }}/letter.pdf" "out/$appdir/letter.pdf"
             cp "build/${{ matrix.slug }}/letter.txt" "out/$appdir/letter.txt"
           fi

@@ -147,6 +147,12 @@ build/
 
 # LaTeX build artifacts (PDFs are published to assets/, not committed here)
 cv/**/build/
+# Compiling the canonical documents in place — which `tectonic ONE-PAGE.tex` now makes a
+# one-second thing to do locally — drops a PDF beside the source. The published copies are
+# assets/cv.pdf and assets/biosketch.pdf; these are scratch and must never be committed, or
+# a stale local build starts competing with the one CI produced.
+cv/onepage/ONE-PAGE.pdf
+cv/biosketch/BIOSKETCH.pdf
 *.aux
 *.bbl
 *.blg
