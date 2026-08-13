@@ -31,10 +31,25 @@ npm run apps                                   # see everything, grouped by stat
 npm run app:status -- <slug> submitted         # git mv between folders
 ```
 
-No command ever takes a status. Everything resolves an application by **slug**
-(`scripts/lib/applications.js`), so promoting one from drafting to submitted changes nothing
-about how you build it. CI skips `closed/` — a closed application never needs rebuilding, which
-is what keeps build time flat as the directory grows.
+No **command** ever takes a status. Everything resolves an application by **slug**
+(`scripts/lib/applications.js`), so `npm run tailor -- <slug>` behaves identically wherever the
+application sits.
+
+**CI is the exception, and deliberately so.** A push builds only the `drafting/` applications
+whose own `job.md`, `manifest.json` or `letter.json` it changed:
+
+| What changed in the push | What CI builds |
+|---|---|
+| One drafting application's source files | That application, alone |
+| `data/`, `cv/`, `scripts/` | Nothing — the affected drafts are named in a run notice |
+| Only committed PDFs (the bot's own output) | Nothing |
+| Anything, for an application in `submitted/` or `closed/` | Nothing — those are frozen |
+
+So promoting an application **freezes its documents**, which is the point of promoting it: the
+committed PDF stops moving the moment it becomes the record of something you sent.
+
+To rebuild on purpose, run the workflow manually — blank slug rebuilds every draft, an explicit
+slug reaches any application in any status.
 
 ## The documents live with the application
 

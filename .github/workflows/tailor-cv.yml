@@ -11,6 +11,9 @@ name: Tailor CV
 # Every claim carries a `src` citation resolved by scripts/verify-application.js, which runs
 # here in --strict mode BEFORE anything compiles — the firewall has to hold in CI, not just on
 # a laptop, or an unsourced claim ships with a green tick beside it.
+#
+# A push builds ONLY the drafting applications it actually touched. See the `discover` job for
+# why, and for what happens when a shared input (data/, cv/, scripts/) moves instead.
 
 on:
   push:
@@ -23,7 +26,7 @@ on:
   workflow_dispatch:
     inputs:
       slug:
-        description: 'Build only this application slug (blank = all buildable)'
+        description: 'Build this application slug, any status (blank = every drafting application)'
         required: false
         type: string
 
@@ -37,8 +40,20 @@ permissions:
 
 jobs:
   # Status is the directory: applications/{drafting,submitted,closed}/<slug>/.
-  # `closed` is skipped — a closed application never needs rebuilding, and skipping it is what
-  # keeps CI time flat as the directory grows.
+  #
+  # A push builds only the DRAFTING applications whose own directory it changed. Two reasons:
+  #
+  #   1. The edge stamp is \today (deedy-resume-openfont.cls). Rebuilding an untouched
+  #      application on a later day produces different PDF bytes, so the commit job rewrites a
+  #      document nobody asked to change — and, once an application is submitted, overwrites the
+  #      only record of what was actually sent. `submitted/` therefore never builds automatically:
+  #      promoting an application is what freezes its documents.
+  #   2. It keeps a push proportional to the edit, instead of scaling with the whole directory.
+  #
+  # When a SHARED input moves (data/, cv/, scripts/) every draft is arguably stale, but rebuilding
+  # them all is exactly the behaviour this job exists to stop. So they are named in a notice and
+  # left alone; `workflow_dispatch` with a blank slug rebuilds every draft on purpose, and
+  # dispatch with a slug reaches any application in any status.
   discover:
     runs-on: ubuntu-latest
     outputs:
@@ -46,23 +61,79 @@ jobs:
       count: ${{ steps.find.outputs.count }}
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # need the pushed range to tell which applications changed
 
       - id: find
-        name: Find buildable applications
+        name: Find applications this push touched
+        env:
+          BEFORE: ${{ github.event.before }}
+          AFTER: ${{ github.sha }}
+          EVENT: ${{ github.event_name }}
+          INPUT_SLUG: ${{ inputs.slug }}
         run: |
-          if [ -n "${{ inputs.slug }}" ]; then
-            slugs=$(printf '%s\n' "${{ inputs.slug }}" | jq -R . | jq -sc .)
+          set -euo pipefail
+
+          # applications/<status>/<slug>/manifest.json -> field 3 is the slug.
+          # `|| true` because pipefail turns find's "no such directory" into a step failure.
+          drafting() {
+            { find applications/drafting -mindepth 2 -maxdepth 2 -name manifest.json 2>/dev/null \
+              || true; } | awk -F/ '{print $3}' | sort -u
+          }
+
+          if [ "$EVENT" = "workflow_dispatch" ] && [ -n "$INPUT_SLUG" ]; then
+            picked=$(printf '%s\n' "$INPUT_SLUG")
+            echo "::notice::Dispatch: building '$INPUT_SLUG' only."
+          elif [ "$EVENT" = "workflow_dispatch" ]; then
+            picked=$(drafting)
+            echo "::notice::Dispatch with no slug: rebuilding every drafting application."
+          elif [ -z "$BEFORE" ] || [ "$BEFORE" = "0000000000000000000000000000000000000000" ] \
+               || ! git cat-file -e "${BEFORE}^{commit}" 2>/dev/null; then
+            # First push to a branch, or a force-push that orphaned the old tip: no usable base.
+            picked=$(drafting)
+            echo "::notice::No diff base for this push — falling back to every drafting application."
           else
-            # applications/<status>/<slug>/manifest.json -> field 3 is the slug
-            slugs=$(find applications/drafting applications/submitted \
-                      -mindepth 2 -maxdepth 2 -name manifest.json 2>/dev/null \
-                    | awk -F/ '{print $3}' | sort -u | jq -R . | jq -sc .)
+            changed=$(git diff --name-only "$BEFORE" "$AFTER")
+
+            # Only the SOURCE files count. cv.pdf/letter.pdf/letter.txt are this workflow's own
+            # output, and the commit job writes them back into the application folder — so a push
+            # landing after a build would otherwise "see" them and rebuild what the bot touched.
+            src='^applications/drafting/[^/]+/(manifest\.json|letter\.json|job\.md)$'
+            picked=$(printf '%s\n' "$changed" | { grep -E "$src" || true; } \
+                     | awk -F/ '{print $3}' | sort -u)
+
+            # Deleting or promoting an application leaves its slug in the diff with no manifest.
+            kept=''
+            for s in $picked; do
+              if [ -f "applications/drafting/$s/manifest.json" ]; then
+                kept="${kept}${s}"$'\n'
+              fi
+            done
+            picked="$kept"
+
+            # Say plainly which drafts a shared-input change did NOT refresh, so "nothing built"
+            # is never mistaken for "everything is current".
+            if printf '%s\n' "$changed" \
+               | grep -qE '^(data|cv|scripts)/|^\.github/workflows/tailor-cv\.yml$'; then
+              stale=$(comm -23 <(drafting) <(printf '%s' "$picked" | grep -v '^$' | sort -u) \
+                      | paste -sd' ' - || true)
+              if [ -n "$stale" ]; then
+                echo "::notice::Shared inputs changed; these drafts were left alone: ${stale}." \
+                     "Run this workflow manually with a blank slug to refresh them."
+              fi
+            fi
           fi
+
+          slugs=$(printf '%s' "$picked" | { grep -v '^$' || true; } | sort -u | jq -R . | jq -sc .)
           echo "slugs=$slugs" >> "$GITHUB_OUTPUT"
           echo "count=$(echo "$slugs" | jq 'length')" >> "$GITHUB_OUTPUT"
           echo "Building: $slugs"
-          closed=$(find applications/closed -mindepth 2 -maxdepth 2 -name manifest.json 2>/dev/null | wc -l)
-          [ "$closed" -gt 0 ] && echo "::notice::Skipping $closed closed application(s)." || true
+
+          frozen=$({ find applications/submitted applications/closed \
+                       -mindepth 2 -maxdepth 2 -name manifest.json 2>/dev/null || true; } | wc -l)
+          if [ "$frozen" -gt 0 ]; then
+            echo "::notice::$frozen submitted/closed application(s) left frozen."
+          fi
 
   tailor:
     needs: discover
