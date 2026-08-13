@@ -2,10 +2,20 @@
 <# Skills block for the Deedy one-pager. Consumes data/skills.json (or an application's
    tailored subset of it). `after` on each line drives the LaTeX separator:
    break -> \\ ; par -> blank line ; parbreak -> \\ then blank ; omitted -> nothing. #>
+<# TYPESETTING. This block sits in a 0.33\textwidth column. Set justified with hyphenation —
+   TeX's default — it broke skill names mid-word ("Earth Foundation Mod-els", "Google Earth
+   En-gine") and at their own hyphens ("Time-" / "series modelling"). So: ragged right, and
+   each label an unbreakable \mbox with the only break offered after "|" (the `skillline`
+   filter in scripts/lib/render.js).
+
+   The \par before the closing brace is load-bearing. \raggedright sets \rightskip, and a
+   paragraph's shape is fixed when the paragraph ENDS — so the last paragraph has to end
+   inside the group, or it silently comes out justified again. #>
+{\raggedright
 <% for g in skills.groups %>
 \subsection{<< g.title >>}
 <% for line in g.lines %>
-<< line.items | join("|", "label") >>
+<< line.items | skillline >>
 <% if line.after == "break" %>
 \\
 <% elif line.after == "parbreak" %>
@@ -19,3 +29,4 @@
 \sectionsep
 
 <% endfor %>
+\par}

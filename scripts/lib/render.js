@@ -55,6 +55,30 @@ env.addFilter('texesc', (s) =>
   String(s ?? '').replace(/[&%$#_{}~^\\]/g, (c) => TEX_ESCAPES[c]),
 );
 
+// One line of the Skills column, e.g.
+//   \mbox{Remote Sensing}\discretionary{}{}{|}\mbox{Geosciences}
+//
+// That column is 0.33\textwidth — narrow enough that TeX's defaults made a mess of it:
+// automatic hyphenation split labels mid-word ("Earth Foundation Mod-els", "Google Earth
+// En-gine") and labels containing a hyphen broke at it ("Time-" / "series modelling"). Both
+// read as typos rather than as line breaks.
+//
+// So each label is an \mbox — unbreakable, whatever is inside it — and the only break TeX is
+// offered is at the separator, which is where a reader already sees a boundary.
+//
+// The separator is a \discretionary rather than a literal "|": it prints when the line holds
+// together and vanishes when the break is taken, so no line ends on a stranded pipe. The three
+// arguments are {before-break}{after-break}{unbroken} — all three matter, and leaving the
+// first two empty is what makes the pipe disappear at a line end.
+//
+// The failure mode this trades into: a single label wider than the column can no longer be
+// broken, so it overflows instead of wrapping. Measured against the real class, the column is
+// 179.2pt and the longest label today is "Machine Learning & Deep Learning" at 148.9pt, so
+// there is ~30pt of headroom. A label longer than that needs splitting in data/skills.json.
+env.addFilter('skillline', (items) =>
+  (items ?? []).map((i) => `\\mbox{${i.label}}`).join('\\discretionary{}{}{|}'),
+);
+
 // Strip LaTeX back to readable plain text, for the cover letter's .txt twin.
 env.addFilter('untex', (s) =>
   String(s ?? '')

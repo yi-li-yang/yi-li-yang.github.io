@@ -1,0 +1,26 @@
+#!/bin/sh
+# SOURCE — you own this file. Edit freely, by hand or by agent.
+#
+# CI compiles the CVs and commits the PDFs back into applications/<status>/<slug>/. That
+# happens minutes after the push, so without this the files exist on the remote and not on
+# your disk until you remember to pull.
+#
+# This hook starts a background watcher and returns immediately. It must not block: git is
+# holding the push open, and CI takes a couple of minutes. The watcher only ever
+# fast-forwards, and only when the working tree is clean — see scripts/fetch-pdfs.js.
+#
+# Enable with `npm run hooks` (sets core.hooksPath). Hooks are not cloned, so a fresh clone
+# needs that once. Skip a single push with `git push --no-verify`.
+
+# stdin: <local ref> <local sha> <remote ref> <remote sha>, one line per ref being pushed.
+while read -r _local_ref local_sha _remote_ref _remote_sha; do
+  case "$local_sha" in
+    # All-zero sha means the ref is being DELETED. Nothing will be built for it.
+    '' | 0000000000000000000000000000000000000000) continue ;;
+  esac
+  node scripts/fetch-pdfs.js --detach --sha "$local_sha" || true
+  break # one watcher is enough however many refs go up
+done
+
+# Never fail the push. This hook is a convenience; a broken watcher must not block your work.
+exit 0
