@@ -79,7 +79,17 @@ env.addFilter('skillline', (items) =>
   (items ?? []).map((i) => `\\mbox{${i.label}}`).join('\\discretionary{}{}{|}'),
 );
 
-// Strip LaTeX back to readable plain text, for the cover letter's .txt twin.
+// Strip LaTeX back to readable plain text, for the cover letter's .txt and .md twins.
+//
+// Order matters, and one step is subtler than it looks. The final `$`-strip removes leftover
+// MATH delimiters ($\mu$ having already been handled, $^2$ and friends have not). But an
+// escaped literal dollar — `\$99,749` in a cover letter naming an award — unescapes to a bare
+// `$`, which that same strip then ate, silently turning "$99,749" into "99,749". A missing
+// currency symbol in a letter about money is not a cosmetic defect.
+//
+// So escaped dollars are parked on a sentinel that cannot appear in LaTeX source, and restored
+// after the math strip has run. NUL is used precisely because no template can produce one.
+const DOLLAR = '\u0000';
 env.addFilter('untex', (s) =>
   String(s ?? '')
     .replace(/\\textbar\{\}/g, '|')
@@ -88,11 +98,12 @@ env.addFilter('untex', (s) =>
     .replace(/\\times/g, 'x')
     .replace(/\\&/g, '&')
     .replace(/\\%/g, '%')
-    .replace(/\\\$/g, '$')
+    .replace(/\\\$/g, DOLLAR)
     .replace(/\\_/g, '_')
     .replace(/\\#/g, '#')
     .replace(/---/g, '—')
     .replace(/\$/g, '')
+    .split(DOLLAR).join(String.fromCharCode(36))
     .trim(),
 );
 

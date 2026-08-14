@@ -1,0 +1,152 @@
+{
+  "_edit": "SOURCE — you own this file. Edit freely, by hand or by agent.",
+  "_comment": [
+    "INTERNAL PROMOTION, not an external application. Two things follow from that.",
+    "",
+    "First, the package contains BOTH CVs. The biosketch (assets/biosketch.pdf) is the complete",
+    "scientific record and is never tailored — docs/APPLICATIONS.md, and it is the document a",
+    "promotion committee actually reads. This manifest produces the SECOND document: a one-page",
+    "digest whose bullets are labelled by the §9B criterion each one answers, so the committee",
+    "can map the record onto the policy without doing the mapping themselves.",
+    "",
+    "Second, everything here is scoped to the Woodwell period (Jan 2022 onward). The five",
+    "publications selected are all Woodwell-era; four are first-author. Career-total figures —",
+    "20 publications, 291 citations, 17 invited talks — are NOT used anywhere, because they",
+    "include pre-Woodwell work and a promotion argues performance in the current position.",
+    "",
+    "KNOWN GAP: Section 5's organizational engagement metrics (timecards, expense reports,",
+    "KnowBe4, subordinate performance reviews) have no support in the data layer and nothing",
+    "here claims them. Named openly in letter.json ¶8."
+  ],
+
+  "meta": {
+    "company": "Woodwell Climate Research Center",
+    "role": "Research Scientist II",
+    "source": "applications/drafting/woodwell-research-scientist-ii/job.md",
+    "date": "2026-08-14",
+    "note": "Internal promotion, Research Scientist I → II, under the Research Staff Promotion Policy (eff. 15 Apr 2026), §9B criteria. Cycle/deadline unresolved — the policy's deadline table did not survive the paste; see job.md archive note 1."
+  },
+
+  "tagline": "geospatial-ai",
+
+  "skills": [
+    {
+      "group": "domains",
+      "lines": [
+        ["remote-sensing", "geospatial-info-science"],
+        ["machine-learning", "multimodal-learning"],
+        ["image-segmentation", "object-detection"],
+        ["time-series-modelling", "earth-foundation-models"]
+      ]
+    },
+    {
+      "group": "tech-stack",
+      "lines": [
+        ["python", "pytorch"],
+        ["gcp", "google-earth-engine"]
+      ]
+    },
+    {
+      "group": "engineering",
+      "lines": [
+        ["docker", "github-actions"],
+        ["git", "github"]
+      ]
+    }
+  ],
+
+  "_comment_publications": [
+    "Three first-author journal articles, deliberately. yang2026circumpolar (the Arctic Data",
+    "Center release) is NOT listed here even though it is the flagship output — its title runs",
+    "to ~230 characters, roughly three lines of the right-hand column, and the same claim is",
+    "already made by the 'Create Knowledge' experience bullet. Nothing is lost but the space.",
+    "",
+    "The right column is a minipage and CANNOT break across pages, so every character here is",
+    "taken from Experience, Awards or Collaborations. The canonical one-pager carries no",
+    "publications block at all; this variant adds one, and has to pay for it elsewhere."
+  ],
+  "publications": ["yang2023mappingb", "yang2025collaborative", "yang2026keeping"],
+
+  "awards": ["fcs-2025"],
+
+  "collaborations": {
+    "industry": ["microsoft-woodwell", "google-woodwell", "esri-woodwell"],
+    "academic": []
+  },
+
+  "experience": [
+    {
+      "role": "AI Scientist -- Geospatial \\& Remote Sensing",
+      "onepage": {
+        "descript": "| Woodwell Climate Research Center",
+        "location": ["Jan 2022 - Present | Falmouth, MA, USA"],
+        "bullets": [
+          {
+            "src": ["exp:woodwell.b1"],
+            "label": "Leadership",
+            "text": "Project lead, pan-Arctic thaw slump mapping with deep learning"
+          },
+          {
+            "src": ["exp:woodwell.b13", "exp:woodwell.b2"],
+            "label": "Create Knowledge",
+            "text": "First circumpolar thaw slump map (19,068 polygons, open at the NSF Arctic Data Center) and the ARTS benchmark dataset"
+          },
+          {
+            "src": ["award:fcs-2025", "service.proposalsLed", "service.proposalsCollaborated"],
+            "label": "Proposals",
+            "text": "Led 8 proposals, contributed to 2; PI on Funding for Climate Solutions 2025-26"
+          },
+          {
+            "src": ["exp:woodwell.b11", "exp:woodwell.b12", "service.menteesSupervised"],
+            "label": "Share Knowledge",
+            "text": "Machine learning workshop series 2022-2023; 9 mentees, work presented at AGU"
+          },
+          {
+            "src": [
+              "collab:microsoft-woodwell",
+              "exp:woodwell.b5",
+              "exp:woodwell.b6",
+              "exp:woodwell.b8"
+            ],
+            "label": "Partnerships",
+            "text": "Facilitated the Microsoft Planetary Computer partnership (early stage); modelling collaborations with UCONN and ASU"
+          },
+          {
+            "src": ["exp:woodwell.b4", "exp:woodwell.b7"],
+            "label": "Technical Skills",
+            "text": "Zero-shot segmentation on SAM; Arctic-scale inference optimised on GCP"
+          }
+        ]
+      }
+    },
+    {
+      "role": "Data Science Fellow",
+      "onepage": {
+        "descript": "| Faculty.AI",
+        "location": ["Sep 2021 - Dec 2021 | London, UK"],
+        "bullets": [
+          {
+            "src": ["exp:faculty.b1"],
+            "text": "Commercial data-science fellowship, with an industry client placement"
+          }
+        ]
+      }
+    },
+    {
+      "role": "Doctoral Researcher",
+      "onepage": {
+        "descript": "|ICCR",
+        "location": [
+          "International Centre for Carbonate Reservoirs",
+          "Sep 2016 - Apr 2021 | Edinburgh, UK"
+        ],
+        "bullets": [
+          {
+            "src": ["exp:iccr.b2", "exp:iccr.o2"],
+            "text": "PhD in multiphase flow in porous media; deep-learning segmentation for digital rocks"
+          }
+        ]
+      }
+    }
+  ]
+}

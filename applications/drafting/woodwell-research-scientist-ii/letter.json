@@ -1,0 +1,130 @@
+{
+  "_edit": "SOURCE — you own this file. Edit freely, by hand or by agent.",
+  "_comment": [
+    "Cover letter for the internal promotion package, Research Scientist I → II. The policy",
+    "(§9B) asks the candidate to address six named criteria IN THE COVER LETTER, so the letter",
+    "is organised as one paragraph per criterion, in the policy's own order. `criterion` names",
+    "which one each paragraph answers; it is rendered only into the review notes at the bottom",
+    "of letter.md, never into the letter itself.",
+    "",
+    "Three things this letter deliberately does NOT do:",
+    "",
+    "1. NO CAREER-TOTAL FIGURES. Not 20 publications, not 291 citations, not 17 invited talks.",
+    "   All three span the whole career including pre-Woodwell work, and a promotion argues",
+    "   performance in the current position. ¶2 names the Woodwell-period work by publication",
+    "   key instead, so 'three first-author journal articles' is a count of the cited sources",
+    "   and is checkable in the provenance report rather than asserted.",
+    "",
+    "2. NO CLAIM OF FACILITATING GOOGLE OR ESRI. ¶5 says the Microsoft Planetary Computer",
+    "   partnership was facilitated by the candidate and is at an early stage — no result is",
+    "   claimed from it — and that the Google and Esri collaborations were participation. The",
+    "   distinction is recorded in data/collaborations.json (`role`), not invented here.",
+    "",
+    "3. NO PAPERING OVER §5. The organizational engagement metrics have no support anywhere in",
+    "   the data layer, and documented policy engagement and advisory work is thin. ¶8 says so",
+    "   plainly rather than steering around it.",
+    "",
+    "The invited-talk count is absent on purpose: data/service.json records a career total of 17",
+    "with no year data to split it, and the since-2022 key does not exist yet. ¶3 cites dated",
+    "conference presentations by publication key instead."
+  ],
+
+  "sender": {
+    "name": "Yili Yang, PhD",
+    "contact": "yyl.eli@gmail.com \\textbar{} +44 7490334233 \\textbar{} London, UK"
+  },
+  "recipient": {
+    "name": "",
+    "title": "Promotion Committee \\textbar{} VPs of Science and VP of People \\& Culture",
+    "company": "Woodwell Climate Research Center",
+    "address": ""
+  },
+  "date": "14 August 2026",
+
+  "letter": {
+    "salutation": "Dear Promotion Committee,",
+    "paragraphs": [
+      {
+        "criterion": "Intent",
+        "src": ["job:role", "job:company"],
+        "text": "I am writing to request promotion to Research Scientist II at Woodwell Climate Research Center. I have set out below how my work since joining has contributed to the Center's mission against each of the six criteria in Section 9B of the promotion policy, and I have been explicit at the end about where my record is thin."
+      },
+      {
+        "criterion": "9B — Create Knowledge",
+        "src": [
+          "exp:woodwell.b1",
+          "exp:woodwell.b13",
+          "pub:yang2023mappingb",
+          "pub:yang2025collaborative",
+          "pub:yang2026keeping",
+          "pub:yang2026circumpolar"
+        ],
+        "text": "Since joining I have led the pan-Arctic retrogressive thaw slump mapping initiative and published three first-author journal articles from it: the original deep neural network mapping method in Remote Sensing of Environment, the ARTS data descriptor in Scientific Data, and an interactive segmentation framework for refining delineations in the International Journal of Applied Earth Observation and Geoinformation. The largest single output is the first circumpolar thaw slump probability map and polygon inventory, produced by a 41.5-million-tile inference sweep of PlanetScope imagery and yielding 19,068 quality-controlled polygons covering 529.7 square kilometres, released openly through the NSF Arctic Data Center rather than held back. I am also a co-author on further peer-reviewed work in wildfire mapping, permafrost feature detection and imagery-source comparison."
+      },
+      {
+        "criterion": "9B — Apply Knowledge",
+        "src": [
+          "pub:yang2024arts",
+          "pub:yang2023mappinga",
+          "pub:potter2023mapping",
+          "pub:rogers2023permafrost",
+          "service.peerReviews",
+          "service.nsfProposalReviews"
+        ],
+        "text": "I have presented this work at the major conferences in the field, including the EGU General Assembly and the AGU Fall Meeting in successive years, and contributed to the Permafrost Pathways presentation connecting the science to people and policy. I serve the wider community as a reviewer, with eight peer reviews completed and one NSF proposal review. I should be straight with the committee that this is the criterion where my record is most uneven: the conference and review side is solid, but formal policy engagement and advisory appointments are not something I can currently evidence, and I would like that to be part of what the next level asks of me."
+      },
+      {
+        "criterion": "9B — Share Knowledge",
+        "src": ["exp:woodwell.b11", "exp:woodwell.b12", "service.menteesSupervised"],
+        "text": "I led the Woodwell machine learning workshop series in 2022 and 2023, designing progressive curriculum materials in image processing and time-series forecasting and adapting how I taught them for colleagues arriving from very different backgrounds. That series was the main route by which machine learning methods reached researchers here who would not otherwise have picked them up. Alongside it I have mentored nine interns and research assistants and built the training materials they work from, and their work has been presented at the AGU annual meeting under their own names."
+      },
+      {
+        "criterion": "9B — Leadership",
+        "src": [
+          "exp:woodwell.b1",
+          "collab:microsoft-woodwell",
+          "collab:google-woodwell",
+          "collab:esri-woodwell",
+          "exp:woodwell.b5",
+          "exp:woodwell.b6",
+          "exp:woodwell.b7",
+          "exp:woodwell.b8"
+        ],
+        "text": "My clearest leadership is the thaw slump mapping project, which I have led from research design through to a published, openly released continental-scale product. Beyond it I facilitated the partnership with the Microsoft Planetary Computer group, which is at an early stage and has no results to report yet; I want to be precise that this one I brought in, whereas in the Google and Esri collaborations I am a participant rather than the person who convened them. I also run four concurrent modelling collaborations with university groups at UCONN, ASU and UIUC, covering location embeddings for segmentation, pan-Arctic statistics from big geospatial data, cloud-scale inference optimisation, and modelling abrupt thaw initialisation."
+      },
+      {
+        "criterion": "9B — Proposals and Fundraising",
+        "src": [
+          "award:fcs-2025",
+          "service.fundingAwarded",
+          "service.proposalsLed",
+          "service.proposalsCollaborated",
+          "service.proposalFunders"
+        ],
+        "text": "I have led eight proposals and contributed to two more, across NASA, NSF, the Bezos Earth Fund, Google and Climate Change AI. One is funded to date: I am PI on the Funding for Climate Solutions award for 2025-26, \\$99,749, for a generic climate AI framework for multi-domain time-series prediction. I am not going to present ten submissions as ten successes — the conversion rate is what it is, and building it up is exactly the growth I am asking to be measured on at the next level."
+      },
+      {
+        "criterion": "9B — Technical Skills",
+        "src": [
+          "exp:woodwell.b4",
+          "exp:woodwell.b7",
+          "skill:python",
+          "skill:pytorch",
+          "skill:gcp"
+        ],
+        "text": "Technically I work in Python and PyTorch on Google Cloud Platform, and the work spans both ends of applied machine learning. At the research end, I built a zero-shot interactive segmentation workflow on the Segment Anything Model for satellite image labelling. At the engineering end, I optimised deep learning inference so that Arctic-scale sweeps run reliably and affordably in the cloud rather than only at notebook scale, which is what made the circumpolar product possible at all."
+      },
+      {
+        "criterion": "Gaps, stated openly",
+        "src": ["job:organizational-engagement", "job:required-materials"],
+        "text": "Two things I cannot evidence in this letter. Section 5's organizational engagement indicators — timecard and expense report timeliness, required trainings, performance reviews for subordinates — are drawn from Woodwell's own systems, not from anything I maintain, and I would rather the committee take them from the source than take my characterisation of them. The workshop series and the mentoring described above are real service to the Center, but they answer the Share Knowledge criterion, not the operational reliability question, and I do not want to blur the two. Separately, as noted above, policy engagement and advisory work is the weakest part of my record against Section 9B."
+      },
+      {
+        "criterion": "Closing",
+        "src": ["none"],
+        "text": "Thank you for considering this request. I would welcome the chance to discuss any of it in more detail, and to talk through where the next level of responsibility would take the work."
+      }
+    ],
+    "closing": "Yours sincerely,"
+  }
+}

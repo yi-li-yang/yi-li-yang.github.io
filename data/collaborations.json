@@ -8,7 +8,13 @@
     "grouping is a deliberate line-wrap, not a semantic grouping — keeping it explicit lets a",
     "tailored CV drop an institution without the remaining ones reflowing unpredictably.",
     "",
-    "Ids are referenced as `collab:<id>` from an application manifest."
+    "Ids are referenced as `collab:<id>` from an application manifest.",
+    "",
+    "`role` records WHAT PART YILI PLAYED in an industry partnership — 'facilitator' (brokered",
+    "or initiated it) vs 'participant' (contributed to it, someone else convened it). It is not",
+    "rendered anywhere; it exists so a cover letter claiming 'I facilitated X' has a source in",
+    "the data instead of asserting it in prose. Omitted where the part played is not recorded.",
+    "`stage` similarly keeps an early partnership from being written up as a delivered result."
   ],
   "industry": [
     {
@@ -19,12 +25,21 @@
     {
       "id": "google-woodwell",
       "partners": "Google $\\times$ Woodwell",
-      "text": "Understanding Permafrosts, AlphaEarth and Satellite Embedding"
+      "text": "Understanding Permafrosts, AlphaEarth and Satellite Embedding",
+      "role": "participant"
     },
     {
       "id": "esri-woodwell",
       "partners": "Esri $\\times$ Woodwell",
-      "text": "Understanding Permafrosts and Indigenous Communities"
+      "text": "Understanding Permafrosts and Indigenous Communities",
+      "role": "participant"
+    },
+    {
+      "id": "microsoft-woodwell",
+      "partners": "Microsoft $\\times$ Woodwell",
+      "text": "Planetary Computer, permafrost data \\& compute (early stage)",
+      "role": "facilitator",
+      "stage": "early"
     }
   ],
   "academic": [

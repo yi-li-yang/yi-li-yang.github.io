@@ -10,12 +10,12 @@
 << date >>
 
 <% if recipient.name %>
-<< recipient.name >>
+<< recipient.name | untex >>
 <% endif %>
 <% if recipient.title %>
-<< recipient.title >>
+<< recipient.title | untex >>
 <% endif %>
-<< recipient.company >>
+<< recipient.company | untex >>
 <% if recipient.address %>
 << recipient.address | untex >>
 <% endif %>

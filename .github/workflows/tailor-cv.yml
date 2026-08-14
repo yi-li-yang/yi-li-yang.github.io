@@ -282,6 +282,11 @@ jobs:
           if [ "${{ steps.compile.outputs.letter }}" = "true" ]; then
             cp "build/${{ matrix.slug }}/letter.pdf" "out/$appdir/letter.pdf"
             cp "build/${{ matrix.slug }}/letter.txt" "out/$appdir/letter.txt"
+            # letter.md is the reviewer's copy — pasted into a doc, marked up, exported there.
+            # Unlike the others it needs no LaTeX, so tailor.js already wrote it straight into
+            # $appdir; this stages that file rather than one from build/. Copied here anyway so
+            # a rebuild triggered by a data-layer change refreshes it like everything else.
+            cp "$appdir/letter.md" "out/$appdir/letter.md"
           fi
 
       - name: Upload documents

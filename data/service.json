@@ -22,5 +22,26 @@
   "menteesSupervised": 9,
   "invitedTalks": 17,
   "peerReviews": 8,
-  "nsfProposalReviews": 1
+  "nsfProposalReviews": 1,
+
+  "_comment_proposals": [
+    "Proposals WRITTEN, not proposals funded. `fundingAwarded` above is the funded total and",
+    "covers exactly one award (data/awards.json fcs-2025). Keeping the two apart is the point:",
+    "'led 8 proposals' and 'one is funded' are different claims and a cover letter must not let",
+    "the first imply the second."
+  ],
+  "proposalsLed": 8,
+  "proposalsCollaborated": 2,
+  "proposalFunders": ["NASA", "NSF", "Bezos Earth Fund", "Google", "Climate Change AI"],
+
+  "_comment_talks": [
+    "`invitedTalks` is a CAREER total and includes talks given before joining Woodwell in Jan",
+    "2022. A promotion or performance case needs the since-2022 subset, and there is no year",
+    "data here to derive it from.",
+    "",
+    "There is deliberately NO `invitedTalksSince2022` key yet. Adding it as null would be worse",
+    "than absent: verify-application.js treats a resolved-but-null value as a valid citation",
+    "(it tests for undefined), so a claim could cite an uncounted figure and still pass. Absent,",
+    "the same citation fails loudly. Add the key when the talks are actually counted."
+  ]
 }

@@ -1,12 +1,12 @@
 {
   "_edit": "DERIVED — written by scripts/bib-to-json.js (npm run bib). Never edit; the next build reverts you. Edit cv/publications.bib instead.",
   "generatedBy": "scripts/bib-to-json.js",
-  "generatedAt": "2026-08-13T09:48:10.197Z",
+  "generatedAt": "2026-08-14T16:12:18.333Z",
   "counts": {
     "journalPapers": 13,
     "conferences": 8,
-    "datasets": 1,
-    "total": 25
+    "datasets": 2,
+    "total": 26
   },
   "publications": [
     {
@@ -72,6 +72,34 @@
       "doi": "",
       "url": "",
       "dataset": false
+    },
+    {
+      "key": "yang2026circumpolar",
+      "type": "misc",
+      "title": "Retrogressive thaw slump probability map and thresholded mask for the circumpolar arctic (50–76° north), derived from july–september 2025 PlanetScope basemap imagery at 4.8-meter resolution",
+      "authors": [
+        {
+          "name": "Yili Yang",
+          "isOwner": true
+        },
+        {
+          "name": "Heidi Rodenhizer",
+          "isOwner": false
+        },
+        {
+          "name": "Robb Young",
+          "isOwner": false
+        },
+        {
+          "name": "Marly Bartkus",
+          "isOwner": false
+        }
+      ],
+      "venue": "Arctic Data Center",
+      "year": 2026,
+      "doi": "10.18739/A26970107",
+      "url": "https://doi.org/10.18739/A26970107",
+      "dataset": true
     },
     {
       "key": "potter2026burned",

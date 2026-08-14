@@ -12,7 +12,7 @@
   "jobs": [
     {
       "id": "woodwell",
-      "role": "Data Scientist",
+      "role": "AI Scientist -- Geospatial \\& Remote Sensing",
       "org": "Woodwell Climate Research Center",
       "onepage": {
         "descript": "| Woodwell Climate Research Center",
@@ -24,6 +24,11 @@
             "id": "o1",
             "label": "Project Lead",
             "text": "Thaw slumps detection using deep learning and remote sensing"
+          },
+          {
+            "id": "o10",
+            "label": "Project Lead",
+            "text": "Circumpolar thaw slump probability map, released open at the Arctic Data Center"
           },
           {
             "id": "o2",
@@ -68,7 +73,7 @@
         ]
       },
       "biosketch": {
-        "heading": "Data Scientist, Woodwell Climate Research Center, MA, USA (remote)",
+        "heading": "AI Scientist -- Geospatial \\& Remote Sensing, Woodwell Climate Research Center, MA, USA (remote)",
         "dates": "Jan 2022 - ",
         "bullets": [
           {
@@ -78,6 +83,10 @@
           {
             "id": "b2",
             "text": "Designed and built the ARTS scientific dataset, establishing a benchmark training resource for deep learning applications in environmental monitoring"
+          },
+          {
+            "id": "b13",
+            "text": "Published the first circumpolar retrogressive thaw slump probability map and polygon inventory (NSF Arctic Data Center, doi:10.18739/A26970107), produced by a 41.5-million-tile deep learning inference sweep of 2025 PlanetScope imagery: 19,068 quality-controlled slump polygons covering 529.7 km$^2$, released as cloud-optimised rasters and open vectors"
           },
           {
             "id": "b3",
@@ -113,7 +122,7 @@
           },
           {
             "id": "b11",
-            "text": "Lead annual machine learning workshop series for Woodwell researchers, providing training in advanced AI techniques for environmental science applications including image processing and time-series forecasting. Designing progressive curriculum materials and adapting teaching methods for diverse learner backgrounds."
+            "text": "Led the machine learning workshop series for Woodwell researchers in 2022 and 2023, providing training in advanced AI techniques for environmental science applications including image processing and time-series forecasting. Designed progressive curriculum materials and adapted teaching methods for diverse learner backgrounds."
           },
           {
             "id": "b12",

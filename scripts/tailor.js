@@ -192,6 +192,23 @@ if (letterDoc) {
     context,
     banner: false,
   });
+  // The markdown twin, for review by someone who is not going to read letter.json — pasted
+  // into a Google Doc, marked up, exported as a PDF from there.
+  //
+  // It lands in the APPLICATION directory, not build/, and it is the only output that does.
+  // Everything else here needs LaTeX, so it has to wait for CI; markdown does not, and making
+  // someone push and wait to read their own letter would be silly. It is still DERIVED — the
+  // template says so in its first line, and the next run of this script overwrites it.
+  //
+  // banner: false for the same reason as the .txt — the provenance header is a LaTeX `%`
+  // comment, and this file gets pasted somewhere. The template carries its own warning.
+  renderPartial({
+    template: 'coverletter.md.njk',
+    out: `${app.rel}/letter.md`,
+    src: lsrc,
+    context,
+    banner: false,
+  });
 } else {
   console.log(`no ${app.rel}/letter.json — skipped the cover letter`);
 }
