@@ -1,12 +1,12 @@
 {
   "_edit": "DERIVED — written by scripts/bib-to-json.js (npm run bib). Never edit; the next build reverts you. Edit cv/publications.bib instead.",
   "generatedBy": "scripts/bib-to-json.js",
-  "generatedAt": "2026-08-14T17:53:49.578Z",
+  "generatedAt": "2026-08-24T16:30:22.166Z",
   "counts": {
     "journalPapers": 13,
     "conferences": 8,
     "datasets": 2,
-    "total": 26
+    "total": 28
   },
   "publications": [
     {
@@ -68,6 +68,146 @@
         }
       ],
       "venue": "submitted to Global Change Biology",
+      "year": null,
+      "doi": "",
+      "url": "",
+      "dataset": false
+    },
+    {
+      "key": "potter2026abzbam",
+      "type": "misc",
+      "title": "ABZ-BAM30: Arctic-boreal zone burned area map at 30m",
+      "authors": [
+        {
+          "name": "Stefano Potter",
+          "isOwner": false
+        },
+        {
+          "name": "Yili Yang",
+          "isOwner": true
+        },
+        {
+          "name": "Anna Talucci",
+          "isOwner": false
+        },
+        {
+          "name": "Sander Veraverbeke",
+          "isOwner": false
+        },
+        {
+          "name": "James T. Randerson",
+          "isOwner": false
+        },
+        {
+          "name": "Scott J. Goetz",
+          "isOwner": false
+        },
+        {
+          "name": "Logan T. Berner",
+          "isOwner": false
+        },
+        {
+          "name": "Michelle C. Mack",
+          "isOwner": false
+        },
+        {
+          "name": "Xanthe J. Walker",
+          "isOwner": false
+        },
+        {
+          "name": "Mathew J. Macander",
+          "isOwner": false
+        },
+        {
+          "name": "Kathleen Orndahl",
+          "isOwner": false
+        },
+        {
+          "name": "Susan M. Natali",
+          "isOwner": false
+        },
+        {
+          "name": "Brendan M. Rogers",
+          "isOwner": false
+        }
+      ],
+      "venue": "In preparation for Earth System Science Data",
+      "year": null,
+      "doi": "",
+      "url": "",
+      "dataset": false
+    },
+    {
+      "key": "yang2026circumpolarrts",
+      "type": "misc",
+      "title": "Circumpolar-scale detection of retrogressive thaw slumps with deep learning",
+      "authors": [
+        {
+          "name": "Yili Yang",
+          "isOwner": true
+        },
+        {
+          "name": "Heidi Rodenhizer",
+          "isOwner": false
+        },
+        {
+          "name": "Robb Young",
+          "isOwner": false
+        },
+        {
+          "name": "Brendan M. Rogers",
+          "isOwner": false
+        },
+        {
+          "name": "Marlena Bartkus",
+          "isOwner": false
+        },
+        {
+          "name": "Stefano Potter",
+          "isOwner": false
+        },
+        {
+          "name": "Greg Fiske",
+          "isOwner": false
+        },
+        {
+          "name": "Scott Zolkos",
+          "isOwner": false
+        },
+        {
+          "name": "Wenwen Li",
+          "isOwner": false
+        },
+        {
+          "name": "Chia-Yu Hsu",
+          "isOwner": false
+        },
+        {
+          "name": "Luigi Marini",
+          "isOwner": false
+        },
+        {
+          "name": "Todd C. Nicholson",
+          "isOwner": false
+        },
+        {
+          "name": "Benjamin C. Maglio",
+          "isOwner": false
+        },
+        {
+          "name": "Jennifer Watts",
+          "isOwner": false
+        },
+        {
+          "name": "Anna Liljedahl",
+          "isOwner": false
+        },
+        {
+          "name": "Susan M. Natali",
+          "isOwner": false
+        }
+      ],
+      "venue": "In preparation for Remote Sensing of Environment",
       "year": null,
       "doi": "",
       "url": "",

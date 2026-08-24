@@ -228,8 +228,10 @@ npm run verify:app -- <slug>            # the report on its own, without renderi
 npm run verify:app -- <slug> --strict   # warnings become failures — what CI runs
 ```
 
-To get a PDF: commit and push. CI compiles it and commits it back into the application folder.
-LaTeX never runs locally.
+To get the PDF of record: commit and push. CI compiles it and commits it back into the application
+folder. For a layout check without that round trip, `npm run pdf -- <slug>` compiles the same
+`.tex` locally with Tectonic — but only into the gitignored `build/<slug>/`, never beside the
+manifest. A preview and the document an employer received must never be confusable.
 
 You do not have to watch for it. `npm run hooks` (once per clone) installs a `pre-push` hook
 that starts a background watcher; when CI finishes, it fast-forwards your branch and the PDFs

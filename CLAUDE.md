@@ -70,9 +70,29 @@ from data, not a literal).
   (see `scripts/render-cv.js`) — same intent, working tool. Do not revert to `\VAR{}`.
 - **Flat single repo, NO git submodules.** The LaTeX folders become plain directories here.
 - **Overleaf is unplugged from git** — an optional, unsynced scratchpad for eyeballing layout,
-  not part of the pipeline. Canonical compile is `latexmk` in CI or locally.
+  not part of the pipeline.
+- **Two LaTeX engines, and they are not interchangeable.** CI compiles the *canonical* PDFs with
+  `latexmk` in a TeX Live container (`build-cv.yml` — XeLaTeX for the one-pager, pdfLaTeX + bibtex
+  for the biosketch) and the *tailored* PDFs with **Tectonic** (`tailor-cv.yml`). Locally, Tectonic
+  is the only engine: `npm run pdf -- <slug>` (`scripts/preview-pdf.js`). Two consequences worth
+  remembering. First, a dev machine will not have `latexmk` or `pdflatex` — probe for `tectonic`
+  before concluding there is no toolchain. Second, Tectonic is XeTeX-based, so compiling the
+  biosketch locally emits missing-character warnings that CI's pdfLaTeX run does not; that is
+  engine noise, not a regression. A local build is a PREVIEW — CI stays the only producer of a
+  document of record (invariant 2).
 - **Keep the `data/` directory and the existing JSON contract.** The site already reads it; do
   not relocate to `web/data/` or rename keys without updating `js/modules/*`.
+- **Unpublished work is `@misc`, never `@article`.** `pubCounts()` in `scripts/lib/data.js` derives
+  "Journal Papers" from `type === 'article'`, so an in-preparation manuscript typed as `@article`
+  silently inflates a number printed on the CV — invariant 4 with extra steps. Use `@misc` with
+  `howpublished = {In preparation for <journal>}` (or `{Submitted to <journal>}`) and an empty
+  `year = {}`; the null year sorts the entry to the top of the website list as current work.
+  Examples: `clelland2025machine`, `potter2026abzbam`, `yang2026circumpolarrts`. Promote it to
+  `@article` with a real year on acceptance and every count moves on its own.
+- **Adding a publication is two edits, not one.** `cv/publications.bib` feeds the website and every
+  derived count, but the biosketch bibliography prints only what `cv/biosketch/BIOSKETCH.tex`
+  explicitly `\nocite`s, in citation order. An entry that is never `\nocite`d there is invisible in
+  that PDF, and a `\nocite` with no matching entry fails the bibtex run.
 
 ---
 

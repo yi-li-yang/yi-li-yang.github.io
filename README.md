@@ -46,6 +46,9 @@ npm run verify:app -- <slug> --strict   # warnings become failures (what CI runs
 npm run clean                           # wipe build/
 npm run ingest                          # refresh stats from ORCID / GitHub / Scholar (network)
 npm run bib | metrics | render          # the individual stages `build` chains together
+npm run pdf -- <slug>                   # preview one application's PDFs locally (needs Tectonic)
+npm run pdfs                            # wait for CI, then pull the PDFs it committed
+npm run hooks                           # make `git push` do that pull for you
 ```
 
 </details>
@@ -72,12 +75,20 @@ and then rots the first time a file moves; a marker inside the file cannot.
 
 ## How does a PDF get made?
 
-**LaTeX never runs on your machine.** There is no TeX installation and none is needed.
+**CI is the only thing that produces a document of record.**
 
 ```text
 git push  →  GitHub Actions  →  xu-cheng/latex-action (a full TeX Live container)
-          →  latexmk  →  PDF uploaded as a run artifact
+          →  latexmk  →  PDF uploaded as a run artifact, then committed back
 ```
+
+You *can* compile locally, and it is worth doing when you are fighting the layout:
+`npm run pdf -- <slug>` renders a tailored CV and letter with
+[Tectonic](https://tectonic-typesetting.github.io/) — a single binary that fetches only the
+packages a document needs, so there is no TeX Live install to maintain. It writes **only** into
+the gitignored `build/<slug>/` and deliberately never drops a PDF beside a manifest: a local
+build and the document an employer actually received must never be confusable. Tectonic is
+optional; skip it and let CI do the compiling.
 
 `build-cv.yml` compiles the two canonical PDFs and commits them to `assets/`.
 `tailor-cv.yml` compiles one tailored CV and cover letter per application, asserts the one-pager

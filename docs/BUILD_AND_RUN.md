@@ -1,6 +1,9 @@
 # BUILD_AND_RUN
 
-Everything is Node. The LaTeX compiler is `latexmk`. The same scripts run locally and in CI.
+Everything is Node, and the same render scripts run locally and in CI. LaTeX is the one place the
+two differ: CI compiles the canonical PDFs with `latexmk` in a TeX Live container, while a dev
+machine uses **Tectonic** — a single binary that fetches only the packages a document needs, so
+there is no TeX Live to install. See *Local commands* below.
 
 ---
 
@@ -16,7 +19,8 @@ update-stats.js  ──→ data/stats.json                       (existing, mont
 bib-to-json.js   : cv/publications.bib ──→ data/publications.json        (site)
 emit-metrics-tex : data/stats.json + bib ──→ cv/**/generated/metrics.tex (CV numbers)
 render-cv.js     : data/* + templates/*.njk ──→ cv/**/generated/*.tex    (CV bodies)
-latexmk          : cv/**/*.tex ──→ assets/cv.pdf, assets/biosketch.pdf
+latexmk (CI only): cv/**/*.tex ──→ assets/cv.pdf, assets/biosketch.pdf
+tectonic (local) : cv/**/*.tex ──→ build/preview/*.pdf                  (a preview, never of record)
 ```
 
 ---
@@ -36,11 +40,21 @@ npm run verify:app -- <slug>          # firewall: every claim must cite a source
 npm run verify:app -- <slug> --strict # warnings become failures (what CI runs)
 npm run tailor     -- <slug>          # → tailored one-pager + cover letter (.tex and .txt)
 
-# compile (needs local TeXLive w/ XeLaTeX + Lato/Raleway fonts; MacTeX or texlive-full)
-latexmk -xelatex -interaction=nonstopmode -outdir=cv/onepage/build  cv/onepage/ONE-PAGE.tex
-BIBINPUTS=cv: latexmk -pdf -interaction=nonstopmode -outdir=cv/biosketch/build cv/biosketch/BIOSKETCH.tex
-cp cv/onepage/build/*.pdf cv/biosketch/build/*.pdf assets/
+# compile a PREVIEW (needs `tectonic` on PATH — one binary, no TeXLive, no font install)
+npm run pdf -- <slug>             # a tailored application, after `npm run tailor -- <slug>`
+
+# the two canonical PDFs. Run from each directory so the class's relative `fonts/` and
+# \input{generated/...} paths resolve; -o must already exist, and build/ is gitignored.
+mkdir -p build/preview
+(cd cv/onepage   && tectonic -o ../../build/preview ONE-PAGE.tex)
+(cd cv/biosketch && tectonic -o ../../build/preview BIOSKETCH.tex)   # bibtex runs on its own
 ```
+
+**Never copy a local build into `assets/`.** Those two PDFs are CI's bytes (invariant 2: no byte
+has two authors), and a locally compiled `assets/cv.pdf` is indistinguishable from the real one
+while silently disagreeing about its date stamp. Local compiles exist to check layout, nothing
+else. Tectonic is XeTeX-based, so the biosketch — which CI builds with pdfLaTeX — logs
+missing-character warnings locally that CI never sees. That is engine noise, not a regression.
 
 Preview the site with the existing Live Server config (`.vscode/settings.json`, port 5501) or
 any static server — it just fetches `data/*.json`.
@@ -146,5 +160,7 @@ or pin the TeXLive version. This is the classic "works on Overleaf, fails in CI"
 
 ## Manual-only fallback
 
-CI is optional. Run the four `node` scripts + `latexmk` locally and `git push` the results.
-You lose only the automatic monthly refresh; everything else is identical.
+The render half is genuinely optional: run the four `node` scripts locally, `git push`, and you
+lose only the automatic monthly refresh. The compile half is not. A PDF is a document of record —
+the artifact an employer actually received — and letting one machine's Tectonic build stand in for
+CI's `latexmk` build gives `assets/` two authors. Render anywhere; compile for keeps in CI.
