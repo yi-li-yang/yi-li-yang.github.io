@@ -1,12 +1,12 @@
 {
   "_edit": "DERIVED — written by scripts/bib-to-json.js (npm run bib). Never edit; the next build reverts you. Edit cv/publications.bib instead.",
   "generatedBy": "scripts/bib-to-json.js",
-  "generatedAt": "2026-08-24T16:30:22.166Z",
+  "generatedAt": "2026-08-25T11:08:06.972Z",
   "counts": {
     "journalPapers": 13,
     "conferences": 8,
     "datasets": 2,
-    "total": 28
+    "total": 29
   },
   "publications": [
     {
@@ -208,6 +208,38 @@
         }
       ],
       "venue": "In preparation for Remote Sensing of Environment",
+      "year": null,
+      "doi": "",
+      "url": "",
+      "dataset": false
+    },
+    {
+      "key": "li2026artificial",
+      "type": "misc",
+      "title": "Artificial intelligence for abrupt permafrost thaw forecasting: Prospects and challenges",
+      "authors": [
+        {
+          "name": "Wenwen Li",
+          "isOwner": false
+        },
+        {
+          "name": "Anna K. Liljedahl",
+          "isOwner": false
+        },
+        {
+          "name": "Elchin Jafarov",
+          "isOwner": false
+        },
+        {
+          "name": "Yili Yang",
+          "isOwner": true
+        },
+        {
+          "name": "Simon Zwieback",
+          "isOwner": false
+        }
+      ],
+      "venue": "Submitted to Current Opinion in Environmental Sustainability",
       "year": null,
       "doi": "",
       "url": "",

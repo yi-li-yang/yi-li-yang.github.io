@@ -19,6 +19,13 @@ on:
       - '.github/workflows/build-cv.yml'
   workflow_dispatch:
 
+# This workflow and tailor-cv.yml both trigger on `cv/**` and `data/**`, so one push starts
+# both and they race to commit to the same branch. This group only serialises Build CV against
+# itself; the cross-workflow race is handled by rebasing before the push, below.
+concurrency:
+  group: build-cv
+  cancel-in-progress: false
+
 permissions:
   contents: write
 
@@ -87,5 +94,12 @@ jobs:
                   cv/onepage/generated cv/biosketch/generated \
                   assets/cv.pdf assets/biosketch.pdf
           # [skip ci] so this automated commit does not retrigger this workflow.
-          git diff --cached --quiet || git commit -m "build: regenerate CV + PDFs [automated] [skip ci]"
-          git push
+          if git diff --cached --quiet; then
+            echo "artifacts unchanged — nothing to commit"
+          else
+            git commit -m "build: regenerate CV + PDFs [automated] [skip ci]"
+            # Tailor CV runs off the same push and may have landed its own commit while this
+            # run compiled. Without this, our push is rejected and the PDFs are silently lost.
+            git pull --rebase --autostash origin "${GITHUB_REF_NAME}"
+            git push origin "HEAD:${GITHUB_REF_NAME}"
+          fi
