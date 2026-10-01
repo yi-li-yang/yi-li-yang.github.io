@@ -15,7 +15,7 @@
   },
   "github": {
     "repos": 22,
-    "commits": 863,
+    "commits": 994,
     "languages": [
       {
         "name": "Jupyter Notebook",
@@ -65,9 +65,9 @@
     ]
   },
   "scholar": {
-    "citations": 296,
+    "citations": 308,
     "hIndex": 8,
     "i10Index": 7
   },
-  "lastUpdated": "2026-09-01T02:35:12.978Z"
+  "lastUpdated": "2026-10-01T03:03:37.258Z"
 }
