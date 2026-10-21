@@ -14,13 +14,13 @@
     "reviews": 5
   },
   "github": {
-    "repos": 22,
-    "commits": 994,
+    "repos": 24,
+    "commits": 1023,
     "languages": [
       {
         "name": "Jupyter Notebook",
         "bytes": 58880512,
-        "percent": 95
+        "percent": 94.9
       },
       {
         "name": "HTML",
@@ -34,8 +34,8 @@
       },
       {
         "name": "Python",
-        "bytes": 585076,
-        "percent": 0.9
+        "bytes": 692113,
+        "percent": 1.1
       },
       {
         "name": "JavaScript",
@@ -59,15 +59,15 @@
       },
       {
         "name": "Other",
-        "bytes": 17236,
+        "bytes": 17620,
         "percent": 0
       }
     ]
   },
   "scholar": {
-    "citations": 308,
+    "citations": 315,
     "hIndex": 8,
     "i10Index": 7
   },
-  "lastUpdated": "2026-10-01T03:03:37.258Z"
+  "lastUpdated": "2026-10-21T15:44:22.328Z"
 }
