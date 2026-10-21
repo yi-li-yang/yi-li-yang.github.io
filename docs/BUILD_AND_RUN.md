@@ -149,8 +149,10 @@ jobs:
           git push
 ```
 
-Keep the monthly `update-stats.yml` as the metrics refresh; optionally have it also trigger a
-CV rebuild so PDFs pick up new citation counts. GitHub Pages serves the root of `main`.
+Keep the monthly `update-stats.yml` as the metrics refresh. Its commit is pushed with
+`GITHUB_TOKEN`, which never triggers other workflows, so after committing new stats it
+dispatches Build CV and Tailor CV itself; that is how the PDFs pick up new citation counts.
+GitHub Pages serves the root of `main`.
 
 **The one environment risk:** the Deedy one-pager is XeLaTeX + `fontspec` with Lato/Raleway.
 Overleaf has those fonts; confirm the CI TeXLive image resolves `lato`/`raleway`/`fontawesome`,
