@@ -20,6 +20,11 @@
       "image": "https://github.com/whrc/interactive-sam2/blob/main/thumb.gif"
     },
     {
+      "description": "Deep learning pipelines for monthly environmental time series in three domains: emulating the Terrestrial Ecosystem Model's carbon fluxes across the circumpolar Arctic, predicting river discharge and wildfire in the Amazon basin, and emulating the RangeSTAR carbon-flux model in rangelands. A shared transformer trained on all three tests whether pooling data helps the data-scarce domains. A Woodwell collaboration.",
+      "url": "https://github.com/whrc/Multi-domain-time-series",
+      "image": ""
+    },
+    {
       "description": "LLM-Enhanced Automatic bookkeeping and personal finance dashboard",
       "url": "https://github.com/yi-li-yang/Bookkeeping-auto",
       "image": "https://github.com/yi-li-yang/Bookkeeping-auto/blob/main/thumbnail.png"
