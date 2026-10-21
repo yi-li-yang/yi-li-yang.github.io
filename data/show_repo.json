@@ -1,7 +1,7 @@
 {
   "_edit": "SOURCE — you own this file. Edit freely, by hand or by agent.",
   "_comment": [
-    "Repositories featured in the website's showcase section. Read by js/modules/showcase-map.js."
+    "Repositories featured in the website's Thoughts & projects grid. Read by js/modules/thoughts.js."
   ],
   "repos": [
     {
@@ -47,6 +47,16 @@
     {
       "description": "A decision router that does the legwork — all of it. Its job is to take the research → compare → find loop a person re-runs every time they buy something non-trivial and run that loop for them, so they never have to be the researcher.",
       "url": "https://github.com/yi-li-yang/research-before-buy",
+      "image": ""
+    },
+    {
+      "description": "Bring Claude up to date on any topic before you start working on it. The /expertise skill sends a team of research agents after what Claude is most likely to have wrong, checks every cited claim against its source, and saves a dated briefing that the next conversation starts from.",
+      "url": "https://github.com/yi-li-yang/deep-research",
+      "image": ""
+    },
+    {
+      "description": "A skill that helps AI agents write text I would sign as my own, from papers and grant proposals to web pages and email. It is not a list of banned habits. It explains what good writing asks of the writer, drawing on Lindsay, Schimel, Strunk and the ASD-STE100 standard for Simplified Technical English.",
+      "url": "https://github.com/yi-li-yang/write-like-myself",
       "image": ""
     },
     {
