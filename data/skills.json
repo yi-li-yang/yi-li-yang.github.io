@@ -156,6 +156,7 @@
         },
         {
           "id": "t-ml",
+          "after": "break",
           "items": [
             {
               "id": "python",
@@ -168,6 +169,27 @@
             {
               "id": "scikit-learn",
               "label": "Scikit-learn"
+            }
+          ]
+        },
+        {
+          "id": "t-sci",
+          "items": [
+            {
+              "id": "numpy",
+              "label": "NumPy"
+            },
+            {
+              "id": "pandas",
+              "label": "pandas"
+            },
+            {
+              "id": "scipy",
+              "label": "SciPy"
+            },
+            {
+              "id": "tensorflow",
+              "label": "TensorFlow"
             }
           ]
         }

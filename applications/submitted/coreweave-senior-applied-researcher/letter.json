@@ -1,0 +1,122 @@
+{
+  "_edit": "SOURCE — you own this file. Edit freely, by hand or by agent.",
+  "_comment": [
+    "Cover letter, CoreWeave Monolith — Senior Applied Researcher. `criterion` names what each",
+    "paragraph answers in the posting; it is rendered only into the review notes, never the letter.",
+    "",
+    "The tagline says 'Production ML'. ¶5 states exactly what that has meant so far — large batch",
+    "inference and openly released data products — and what it has not: a live, customer-facing",
+    "service with monitoring and on-call. The tagline and the gap paragraph must stay consistent.",
+    "",
+    "Trimmed from ~630 to ~400 words to fit one page. What went, and why it was safe to lose:",
+    "the Google / Microsoft partnerships (the CV's Collaborations block carries them), journal",
+    "names (the CV's publication list), and the SAM interactive segmentation framework (a CV",
+    "bullet AND a selected publication). The PhD moved into ¶1 so it opens the letter rather",
+    "than following a separate hook. The gaps paragraph was NOT cut for length — every gap it",
+    "named before the trim is still named.",
+    "",
+    "GCP: the owner confirmed (2026-09-29) that the 41.5M-tile sweep ran on Google Cloud Platform,",
+    "and exp:woodwell.b13 now records it, so ¶2 says so directly. The owner also said the UIUC",
+    "contribution to optimising that inference was minor, so exp:woodwell.b7 ('Collaborated with",
+    "UIUC in optimising...') is NOT cited anywhere in this application. b7 itself is left for the",
+    "owner to reword — it still prints in the biosketch.",
+    "",
+    "Deliberately absent: career-total figures (citations, talk counts); any claim of anomaly",
+    "detection, model monitoring or live deployment; any causal link between the SAM",
+    "generalisability assessment (li2024segment) and the candidate's own SAM framework — the data",
+    "records both, not that one led to the other."
+  ],
+
+  "sender": {
+    "name": "Yili Yang, PhD",
+    "contact": "yyl.eli@gmail.com \\textbar{} +44 7490334233 \\textbar{} London, UK"
+  },
+  "recipient": {
+    "name": "",
+    "title": "Hiring Team \\textbar{} Monolith",
+    "company": "CoreWeave",
+    "address": ""
+  },
+  "date": "29 September 2026",
+
+  "letter": {
+    "salutation": "Dear Hiring Team,",
+    "paragraphs": [
+      {
+        "criterion": "Intent; Preferred — STEM background in complex physical systems; lab data",
+        "src": [
+          "job:role",
+          "job:company",
+          "exp:iccr.b1",
+          "exp:iccr.b2",
+          "exp:iccr.b3",
+          "exp:iccr.o1",
+          "exp:iccr.o2",
+          "pub:yang2022fast"
+        ],
+        "text": "I am applying for the Senior Applied Researcher role in CoreWeave's Monolith team, because machine learning on physical systems is where my career started. My PhD at the International Centre for Carbonate Reservoirs, funded by Petrobras, developed computational methods for multiphase flow in porous rock and petrophysical simulation. I took part in synchrotron X-ray micro-tomography experiments at the Diamond Light Source, the Advanced Photon Source and the Swiss Light Source, and developed a CNN for fast segmentation of the resulting 4D volumes."
+      },
+      {
+        "criterion": "End-to-end ownership; deployment at scale; cloud; Python and ML libraries",
+        "src": [
+          "exp:woodwell.b1",
+          "exp:woodwell.b2",
+          "exp:woodwell.b13",
+          "pub:yang2023mappingb",
+          "pub:yang2025collaborative",
+          "skill:python",
+          "skill:pytorch",
+          "skill:tensorflow",
+          "skill:numpy",
+          "skill:pandas",
+          "skill:scipy",
+          "skill:scikit-learn",
+          "skill:gcp"
+        ],
+        "text": "Since 2022 at Woodwell Climate Research Center I have led the pan-Arctic retrogressive thaw slump mapping project end to end: I built the ARTS benchmark dataset, published the deep-learning method, and carried the model through a 41.5-million-tile inference sweep on Google Cloud Platform that produced the first circumpolar thaw slump map, 19,068 quality-controlled polygons released openly through the NSF Arctic Data Center. I work in Python with PyTorch, TensorFlow, NumPy, pandas, SciPy and scikit-learn."
+      },
+      {
+        "criterion": "Time series; experimentation and evaluation; keeping up with current research",
+        "src": [
+          "exp:woodwell.o2",
+          "award:fcs-2025",
+          "exp:woodwell.b10",
+          "pub:rodenhizer2024comparison",
+          "pub:li2024segment"
+        ],
+        "text": "I also lead a funded 2025-26 project on a framework for multi-domain time-series prediction, contributed to imputation of carbon flux time series, and co-authored evaluations of imagery sources for thaw slump detection and of the Segment Anything Model on permafrost mapping."
+      },
+      {
+        "criterion": "Cross-functional communication; client-facing collaboration; agents",
+        "src": [
+          "exp:woodwell.b11",
+          "exp:woodwell.b12",
+          "exp:faculty.o1",
+          "skill:agentic-coding",
+          "skill:harness-engineering",
+          "skill:claude-code-skills",
+          "job:agentic"
+        ],
+        "text": "I am used to explaining technical decisions to non-specialists: I led Woodwell's machine learning workshop series in 2022 and 2023 for researchers from very different backgrounds, I mentor interns and research assistants, and my Faculty fellowship combined commercial training with a client-project placement. In my own engineering I work agentically, including harness engineering and writing Claude Code skills, so Monolith's interest in agentic workflows appeals to me."
+      },
+      {
+        "criterion": "Gaps, stated openly",
+        "src": [
+          "job:who-you-are",
+          "job:preferred",
+          "exp:woodwell.b13",
+          "exp:woodwell.b9",
+          "exp:iccr.b1",
+          "exp:faculty.o1"
+        ],
+        "text": "I want to be clear about where my record is thin. My production machine learning has been large batch inference and openly released data products, not services running continuously for customers, so I cannot point to model monitoring, on-call support or a mature MLOps practice around a live system; that is where I would expect to learn fastest. My detection work is on landforms and wildfire in satellite imagery, not anomaly detection or reliability modelling for engineered products, and my industry exposure is Petrobras-funded research and a single client placement, not time inside an industrial engineering or product team."
+      },
+      {
+        "criterion": "Closing",
+        "src": ["none"],
+        "text": "Thank you for your consideration; I would welcome the chance to discuss this further."
+      }
+    ],
+    "closing": "Yours sincerely,"
+  }
+}
