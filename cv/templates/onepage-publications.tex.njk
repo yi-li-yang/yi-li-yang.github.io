@@ -4,9 +4,15 @@
    manifest selects 3-5 bib keys; the entries themselves come from cv/publications.bib, so the
    only tailoring lever here is WHICH, never WHAT.
 
-   Titles/venues are .bib-derived, not LaTeX, so they go through `texesc`. #>
+   Titles/venues are .bib-derived, not LaTeX, so they go through `texesc`.
+
+   The \vspace{\topsep} is load-bearing. \section has zero after-space in the class and
+   tightemize opens with \vspace{-\topsep}, so without it the first item is pulled up into the
+   heading and the two overprint. Experience never shows this because a \runsubsection line
+   always sits between its heading and its list. #>
 <% if publications.length %>
 \section{Selected Publications}
+\vspace{\topsep}
 \begin{tightemize}
 <% for p in publications %>
     \item << p.title | texesc >><% if p.venue %> --- \textit{<< p.venue | texesc >>}<% endif %><% if p.year %>, << p.year >><% endif %>.

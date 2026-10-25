@@ -205,7 +205,8 @@ bullet so the comparison is mechanical.
 
 The firewall says what you *may* claim. The gap report says what the posting wants that you
 **cannot**. It scans only requirement-bearing sections of `job.md` (`## Required Qualifications`,
-`## Responsibilities`, …), skips company boilerplate, and reports a line only when essentially
+`## Responsibilities`, `## Who You Are`, `## Preferred`, `## About the role`, …), skips company
+boilerplate (`## About <company>`, `## Benefits`, …), and reports a line only when essentially
 none of its distinctive terms appear anywhere in the data layer.
 
 Precision is deliberately favoured over recall: a report that flags nine things gets skimmed,

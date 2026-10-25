@@ -1,0 +1,140 @@
+{
+  "_edit": "SOURCE — you own this file. Edit freely, by hand or by agent.",
+  "_comment": [
+    "External application: CoreWeave, Monolith team (Physical AI), London.",
+    "",
+    "The posting's two centres of gravity are (1) ML on complex physical systems and (2) owning a",
+    "problem from framing through production. The selection leans on the ICCR doctorate for (1)",
+    "— synchrotron micro-CT lab data, Petrobras-funded — and on the thaw slump project for (2).",
+    "",
+    "KNOWN GAPS, named in letter.json ¶6 rather than written around: no live, customer-facing",
+    "production service (monitoring, on-call, MLOps around a running system); no industrial",
+    "anomaly detection or reliability modelling; no time inside an industrial or product team.",
+    "",
+    "`meta.company` names the team so 'Monolith' is filtered out of the gap scan as the employer's",
+    "own name rather than reported as a capability the candidate lacks."
+  ],
+
+  "meta": {
+    "company": "CoreWeave (Monolith team)",
+    "role": "Senior Applied Researcher",
+    "source": "applications/drafting/coreweave-senior-applied-researcher/job.md",
+    "date": "2026-09-29",
+    "note": "London, UK. Posting pasted by the candidate; no URL."
+  },
+
+  "tagline": "applied-ai-research",
+
+  "skills": [
+    {
+      "group": "domains",
+      "lines": [
+        ["machine-learning", "time-series-modelling"],
+        ["ai-for-science", "scientific-data-image-processing"],
+        ["multimodal-learning", "image-segmentation"],
+        ["digital-rocks", "remote-sensing"]
+      ]
+    },
+    {
+      "group": "tech-stack",
+      "lines": [
+        ["python", "pytorch", "tensorflow"],
+        ["numpy", "pandas", "scipy", "scikit-learn"],
+        ["gcp"]
+      ]
+    },
+    {
+      "group": "engineering",
+      "lines": [
+        ["agentic-coding", "harness-engineering"],
+        ["docker", "github-actions", "git"]
+      ]
+    }
+  ],
+
+  "_comment_publications": [
+    "Three first-author items: the core deep-learning method (RSE), foundation-model tooling",
+    "(IJAEOG 2026), and CNN segmentation of 4D synchrotron micro-CT from core-flooding",
+    "experiments — the one publication that is ML on physical lab data, which is Monolith's",
+    "territory. yang2022fast is a preprint and renders with its Authorea venue, as it should."
+  ],
+  "publications": ["yang2023mappingb", "yang2026keeping", "yang2022fast"],
+
+  "awards": ["fcs-2025"],
+
+  "collaborations": {
+    "industry": ["google-woodwell", "microsoft-woodwell", "petrobras-edinburgh"],
+    "academic": []
+  },
+
+  "experience": [
+    {
+      "role": "AI Scientist -- Geospatial \\& Remote Sensing",
+      "onepage": {
+        "descript": "| Woodwell Climate Research Center",
+        "location": ["Jan 2022 - Present | Falmouth, MA, USA"],
+        "bullets": [
+          {
+            "src": ["exp:woodwell.b1", "exp:woodwell.o1"],
+            "label": "Project Lead",
+            "text": "Pan-Arctic thaw slump detection with deep learning"
+          },
+          {
+            "src": ["exp:woodwell.b13"],
+            "label": "Inference at Scale",
+            "text": "41.5M-tile deep-learning inference sweep on GCP, released as the first circumpolar thaw slump map"
+          },
+          {
+            "src": ["exp:woodwell.o2", "award:fcs-2025", "exp:woodwell.b10"],
+            "label": "Time Series",
+            "text": "Lead, funded multi-domain time-series prediction framework; carbon-flux time-series imputation"
+          },
+          {
+            "src": ["exp:woodwell.b2", "exp:woodwell.b3"],
+            "label": "Data",
+            "text": "Built the ARTS benchmark dataset; multimodal workflows fusing satellite imagery with field observations"
+          },
+          {
+            "src": ["exp:woodwell.b4", "exp:woodwell.b5"],
+            "label": "Foundation Models",
+            "text": "Zero-shot interactive segmentation with SAM; location embeddings for vision foundation models"
+          },
+          {
+            "src": ["exp:woodwell.b11", "exp:woodwell.b12"],
+            "label": "Communication",
+            "text": "Led ML workshop series for researchers from diverse backgrounds; mentored interns"
+          }
+        ]
+      }
+    },
+    {
+      "role": "Data Science Fellow",
+      "onepage": {
+        "descript": "| Faculty.AI",
+        "location": ["Sep 2021 - Dec 2021 | London, UK"],
+        "bullets": [
+          {
+            "src": ["exp:faculty.o1", "exp:faculty.b1"],
+            "text": "Technical and commercial data-science training, then a client-project placement"
+          }
+        ]
+      }
+    },
+    {
+      "role": "Doctoral Researcher",
+      "onepage": {
+        "descript": "|ICCR",
+        "location": [
+          "International Centre for Carbonate Reservoirs",
+          "Sep 2016 - Apr 2021 | Edinburgh, UK"
+        ],
+        "bullets": [
+          {
+            "src": ["exp:iccr.b1", "exp:iccr.b2", "exp:iccr.o2", "exp:iccr.o3", "pub:yang2022fast"],
+            "text": "Petrobras-funded PhD on multiphase flow in porous rock; CNN segmentation of 4D synchrotron $\\mu$-CT"
+          }
+        ]
+      }
+    }
+  ]
+}

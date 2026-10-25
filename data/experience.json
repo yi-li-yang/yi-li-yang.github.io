@@ -86,7 +86,7 @@
           },
           {
             "id": "b13",
-            "text": "Published the first circumpolar retrogressive thaw slump probability map and polygon inventory (NSF Arctic Data Center, doi:10.18739/A26970107), produced by a 41.5-million-tile deep learning inference sweep of 2025 PlanetScope imagery: 19,068 quality-controlled slump polygons covering 529.7 km$^2$, released as cloud-optimised rasters and open vectors"
+            "text": "Published the first circumpolar retrogressive thaw slump probability map and polygon inventory (NSF Arctic Data Center, doi:10.18739/A26970107), produced by a 41.5-million-tile deep learning inference sweep of 2025 PlanetScope imagery on Google Cloud Platform: 19,068 quality-controlled slump polygons covering 529.7 km$^2$, released as cloud-optimised rasters and open vectors"
           },
           {
             "id": "b3",

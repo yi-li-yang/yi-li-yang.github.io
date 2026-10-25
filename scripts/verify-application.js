@@ -258,9 +258,10 @@ if (letterDoc) {
 // distinctive terms, and a high missing-ratio before anything is reported.
 
 // Only these sections state what the candidate must have or do.
-const REQUIREMENT_SECTION = /qualification|requirement|responsibilit|who we (look|are looking)|what you|skills|experience|you (will|should) (have|bring)/i;
+const REQUIREMENT_SECTION = /qualification|requirement|responsibilit|who we (look|are looking)|who you are|about the role|preferred|nice to have|what you|skills|experience|you (will|should) (have|bring)/i;
 // These describe the company, not the candidate. Scanning them produces pure noise.
-const BOILERPLATE_SECTION = /^(about|what we do|our culture|culture|benefits|diversity|equal opportunit|why join|perks|compensation)/i;
+// "About the role" is the exception: it describes the job, not the employer.
+const BOILERPLATE_SECTION = /^(about(?! the role)|what we do|our culture|culture|benefits|diversity|equal opportunit|why join|perks|compensation)/i;
 
 // Generic job-ad vocabulary. A requirement made only of these words says nothing checkable,
 // so its absence from the data layer is not evidence of a gap.
