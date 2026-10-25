@@ -49,13 +49,59 @@
   border-color: rgba(255, 255, 255, 0.12);
 }
 
+/* ── External-link marker ────────────────────── */
+/* A ↗ on text links and buttons that open a new tab, so leaving the site is never a surprise.
+   Logos, icons and image links get none. The second `content` hides the glyph from screen
+   readers, which hear "Opens in a new tab" instead (js/modules/links.js); browsers that don't
+   know the alt-text syntax keep the first declaration. */
+.btn[target="_blank"]::after,
+.footer-links a[target="_blank"]::after,
+.publication-card h3 a[target="_blank"]::after,
+.pub-row-title a[target="_blank"]::after,
+.showcase-map-out::after {
+  content: "\2197";
+  content: "\2197" / "";
+  font-size: 0.85em;
+  opacity: 0.7;
+}
+
+.footer-links a[target="_blank"]::after,
+.publication-card h3 a[target="_blank"]::after,
+.pub-row-title a[target="_blank"]::after,
+.showcase-map-out::after {
+  margin-left: 0.25em;
+}
+
+.pub-row-title a {
+  transition: color var(--transition);
+}
+
+.pub-row-title a:hover {
+  color: var(--color-accent);
+}
+
 /* ── Stats ───────────────────────────────────── */
 
 #stats {
   display: grid;
+  gap: var(--space-xl);
+}
+
+.stats-group-label {
+  margin-bottom: var(--space-sm);
+  font-family: var(--font-mono);
+  font-size: var(--font-size-xs);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-text-subtle);
+}
+
+/* auto-fit, so each group's row fills the width: four wider cards above five narrower ones
+   reads as two groups, where one shared column count left a ragged row. */
+.stats-grid {
+  display: grid;
   grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
   gap: var(--space-md);
-  margin-top: var(--space-lg);
 }
 
 .stat-card {
@@ -99,14 +145,6 @@
 .stat-source {
   font-size: 0.6875rem;
   color: var(--color-text-subtle);
-  font-family: var(--font-mono);
-}
-
-.stats-updated {
-  grid-column: 1 / -1;
-  text-align: right;
-  font-size: 0.6875rem;
-  color: var(--color-text);
   font-family: var(--font-mono);
 }
 
@@ -306,6 +344,105 @@
   margin: var(--space-lg) auto 0;
 }
 
+.publications-toggle[hidden] {
+  display: none;
+}
+
+/* Filter chips: real controls, so unlike the skill pills they keep a pressed state. */
+.filter-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-xs);
+  margin-bottom: var(--space-xl);
+}
+
+.filter-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 32px;
+  padding: 0 var(--space-sm);
+  background: transparent;
+  border: 1px solid var(--color-border-solid);
+  border-radius: var(--radius-pill);
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-xs);
+  font-weight: 510;
+  cursor: pointer;
+  transition: color var(--transition), border-color var(--transition), background var(--transition);
+}
+
+.filter-chip:hover {
+  color: var(--color-text);
+  border-color: rgba(255, 255, 255, 0.16);
+}
+
+.filter-chip[aria-pressed="true"] {
+  background: rgba(94, 106, 210, 0.12);
+  border-color: var(--color-accent);
+  color: var(--color-text);
+}
+
+.filter-chip-count {
+  font-family: var(--font-mono);
+  color: var(--color-text-muted);
+}
+
+.pub-group + .pub-group {
+  margin-top: var(--space-xl);
+}
+
+.pub-group-label {
+  font-family: var(--font-mono);
+  font-size: var(--font-size-xs);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-text-subtle);
+}
+
+.pub-group-count {
+  color: var(--color-text-muted);
+}
+
+.pub-group-label + .publications-grid {
+  margin-top: var(--space-sm);
+}
+
+.pub-rows {
+  list-style: none;
+  margin-top: var(--space-sm);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.pub-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-xxs) var(--space-lg);
+  padding: var(--space-sm) var(--space-lg);
+}
+
+.pub-row + .pub-row {
+  border-top: 1px solid var(--color-border-subtle);
+}
+
+.pub-row-title {
+  flex: 1 1 28rem;
+  font-size: 0.9375rem;
+  font-weight: 510;
+  line-height: 1.4;
+  color: var(--color-text);
+}
+
+.pub-row-venue {
+  font-family: var(--font-mono);
+  font-size: var(--font-size-xs);
+  color: var(--color-text-subtle);
+}
+
 .publication-meta {
   display: flex;
   justify-content: space-between;
@@ -387,13 +524,11 @@
               background 500ms ease-out, box-shadow 500ms ease-out;
 }
 
+/* Pills are labels, not controls: hover only brightens the text. The old glow and fill made
+   them look clickable, and clicking did nothing. */
 .tech-pill span:hover {
-  border-color: rgba(113, 112, 255, 0.45);
   color: var(--color-text);
-  background: rgba(94, 106, 210, 0.1);
-  box-shadow: 0 0 8px rgba(113, 112, 255, 0.2);
-  transition: border-color 60ms ease-in, color 60ms ease-in,
-              background 60ms ease-in, box-shadow 60ms ease-in;
+  transition: color 60ms ease-in;
 }
 
 /* ── Language donut chart ────────────────────── */
@@ -407,14 +542,57 @@
   border-radius: var(--radius-md);
 }
 
+.lang-chart-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-sm) var(--space-xl);
+  margin-bottom: var(--space-lg);
+}
+
 .lang-chart-label {
   font-size: var(--font-size-xs);
   font-weight: 510;
   letter-spacing: 0.06em;
   text-transform: uppercase;
   color: var(--color-text-subtle);
-  margin-bottom: var(--space-lg);
   font-feature-settings: var(--font-features);
+}
+
+/* The repo and commit counts, moved by skills.js into the chart's header row: inline
+   figures rather than cards, so they caption the chart instead of floating beside it. */
+.lang-chart-head .github-stats-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-xs) var(--space-xl);
+  margin: 0;
+}
+
+.lang-chart-head .stat-card {
+  flex-direction: row;
+  align-items: baseline;
+  gap: var(--space-xs);
+  padding: 0;
+  background: none;
+  border: 0;
+}
+
+.lang-chart-head .stat-card:hover {
+  background: none;
+  transform: none;
+}
+
+.lang-chart-head .stat-card:hover .stat-label {
+  color: var(--color-text);
+}
+
+.lang-chart-head .stat-value {
+  font-size: var(--font-size-2xl);
+}
+
+.lang-chart-head .stat-source {
+  display: none;
 }
 
 .lang-chart-body {
@@ -435,6 +613,9 @@
   grid-template-columns: repeat(2, minmax(130px, 1fr));
   gap: var(--space-xs) var(--space-xl);
   flex: 1;
+  /* Without a cap the columns stretch to the panel width and each percentage drifts
+     hundreds of pixels away from its label. */
+  max-width: 520px;
 }
 
 .lang-item {
@@ -525,12 +706,8 @@
 }
 
 .pill-tag:hover {
-  background: rgba(94, 106, 210, 0.12);
-  border-color: rgba(113, 112, 255, 0.45);
   color: var(--color-text);
-  box-shadow: 0 0 8px rgba(113, 112, 255, 0.2);
-  transition: background 60ms ease-in, border-color 60ms ease-in,
-              color 60ms ease-in, box-shadow 60ms ease-in;
+  transition: color 60ms ease-in;
 }
 
 .hero-pills-divider {
@@ -696,6 +873,30 @@
   border: 0;
 }
 
+/* Above the "Loading Earth Engine…" overlay (z-index 2), so the map can be closed while it
+   is still loading too. */
+.showcase-map-close {
+  position: absolute;
+  top: var(--space-sm);
+  right: var(--space-sm);
+  z-index: 3;
+  padding: 4px 12px;
+  background: rgba(8, 9, 10, 0.85);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-pill);
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-xs);
+  font-weight: 510;
+  cursor: pointer;
+  backdrop-filter: blur(6px);
+  transition: color var(--transition), border-color var(--transition);
+}
+
+.showcase-map-close:hover {
+  color: var(--color-text);
+  border-color: rgba(255, 255, 255, 0.16);
+}
+
 /* Once live the frame is the app's own surface — drop the decorative glow. */
 .showcase-figure.is-live::before {
   display: none;
@@ -752,11 +953,19 @@
 
 /* Three story panels */
 
+/* Science and Engineering stack on the left; Product, the only panel with a figure, spans
+   both rows on the right. In three equal columns the two text panels stretched to the
+   figure panel's height and each carried ~250px of empty space. */
 .showcase-panels {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: var(--space-lg);
   margin-top: var(--space-lg);
+}
+
+.showcase-panel-product {
+  grid-column: 2;
+  grid-row: 1 / span 2;
 }
 
 .showcase-panel {
@@ -829,6 +1038,49 @@
   color: var(--color-text-subtle);
 }
 
+/* Phone-only tabs over the story panels, built by js/modules/showcase-tabs.js. The panels
+   are display:flex, which would beat the UA's [hidden] rule, hence the explicit one. */
+.showcase-panel[hidden] {
+  display: none;
+}
+
+.showcase-tabs {
+  display: flex;
+  gap: var(--space-xxs);
+  margin-top: var(--space-lg);
+  padding: var(--space-xxs);
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+}
+
+.showcase-tabs + .showcase-panels {
+  margin-top: var(--space-sm);
+}
+
+.showcase-tab {
+  flex: 1;
+  min-height: 36px;
+  padding: var(--space-xs) var(--space-sm);
+  background: none;
+  border: 0;
+  border-radius: var(--radius-sm);
+  color: var(--color-text-muted);
+  font-size: var(--font-size-sm);
+  font-weight: 510;
+  cursor: pointer;
+  transition: color var(--transition), background var(--transition);
+}
+
+.showcase-tab:hover {
+  color: var(--color-text);
+}
+
+.showcase-tab[aria-selected="true"] {
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--color-text);
+}
+
 @media (max-width: 900px) {
   .showcase-statgrid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -836,6 +1088,11 @@
 
   .showcase-panels {
     grid-template-columns: 1fr;
+  }
+
+  .showcase-panel-product {
+    grid-column: auto;
+    grid-row: auto;
   }
 }
 
@@ -852,98 +1109,232 @@
   }
 }
 
-/* ── Thoughts Grid ───────────────────────────── */
+/* ── Projects Atlas ──────────────────────────── */
+/* Overview first (uniform tiles per track), details on demand (one shared panel that
+   js/modules/thoughts.js inserts after the clicked tile's grid row). */
 
-.thoughts-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: var(--space-lg);
+.atlas-group + .atlas-group {
   margin-top: var(--space-xl);
 }
 
-.thought-card {
+.atlas-group-label {
+  margin-bottom: var(--space-sm);
+  font-family: var(--font-mono);
+  font-size: var(--font-size-xs);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-text-subtle);
+}
+
+.atlas-group-count {
+  color: var(--color-text-muted);
+}
+
+.atlas-tiles {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: var(--space-sm);
+}
+
+.atlas-tile {
   display: flex;
   flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+  padding: var(--space-sm) 14px;
   background: rgba(255, 255, 255, 0.02);
   border: 1px solid var(--color-border);
-  border-radius: var(--radius-lg);
-  overflow: hidden;
-  text-decoration: none;
+  border-radius: var(--radius-md);
   color: inherit;
-  transition: background var(--transition), border-color var(--transition),
-    transform var(--transition);
+  text-align: left;
+  cursor: pointer;
+  transition: background var(--transition), border-color var(--transition);
 }
 
-.thought-card:hover {
+.atlas-tile:hover {
   background: rgba(255, 255, 255, 0.04);
   border-color: rgba(255, 255, 255, 0.12);
-  transform: translateY(-2px);
 }
 
-.thought-card-img {
-  width: 100%;
-  aspect-ratio: 16 / 9;
-  object-fit: cover;
-  display: block;
-  border-bottom: 1px solid var(--color-border-subtle);
+.atlas-tile[aria-expanded="true"] {
+  background: rgba(94, 106, 210, 0.08);
+  border-color: var(--color-accent);
 }
 
-.thought-card-img-placeholder {
-  width: 100%;
-  aspect-ratio: 16 / 9;
-  background: linear-gradient(135deg, #0d1f2d 0%, #0f1011 50%, #1a1025 100%);
-  border-bottom: 1px solid var(--color-border-subtle);
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.atlas-tile-name,
+.atlas-tile-desc {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
-.thought-card-img-placeholder svg {
-  width: 32px;
-  height: 32px;
-  fill: var(--color-text-subtle);
-  opacity: 0.35;
-}
-
-.thought-card-body {
-  padding: var(--space-lg);
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-xs);
-  flex: 1;
-}
-
-.thought-card-name {
-  font-size: var(--font-size-xl);
-  font-weight: 590;
-  letter-spacing: -0.24px;
+.atlas-tile-name {
+  font-size: 0.9375rem;
+  font-weight: 510;
   color: var(--color-text);
   font-feature-settings: var(--font-features);
 }
 
-.thought-card-desc {
-  font-size: 0.9375rem;
-  font-weight: 400;
-  line-height: 1.60;
-  letter-spacing: -0.165px;
+.atlas-tile-desc {
+  font-size: var(--font-size-sm);
   color: var(--color-text-muted);
-  flex: 1;
 }
 
-.thought-card-link-label {
-  display: inline-flex;
+.atlas-tile-more {
   align-items: center;
-  gap: 0.375rem;
-  font-size: var(--font-size-xs);
+  justify-content: center;
+  border-style: dashed;
+  font-size: var(--font-size-sm);
   font-weight: 510;
-  color: var(--color-accent);
-  margin-top: var(--space-xs);
+  color: var(--color-text-muted);
+}
+
+.atlas-detail {
+  position: relative;
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+  gap: var(--space-lg);
+  padding: var(--space-lg);
+  background: var(--color-bg-panel);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  animation: atlas-reveal 150ms ease-out;
+}
+
+.atlas-detail[hidden] {
+  display: none;
+}
+
+@keyframes atlas-reveal {
+  from { opacity: 0; transform: translateY(-4px); }
+}
+
+.atlas-media {
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  border: 1px solid var(--color-border-subtle);
+  border-radius: var(--radius-md);
+  background: linear-gradient(135deg, #0d1f2d 0%, #0f1011 50%, #1a1025 100%);
+}
+
+.atlas-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.atlas-titlecard {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: var(--space-xxs);
+  height: 100%;
+  padding: var(--space-lg);
+}
+
+.atlas-titlecard-owner,
+.atlas-owner {
+  font-family: var(--font-mono);
+  font-size: var(--font-size-xs);
+  color: var(--color-text-subtle);
+}
+
+.atlas-titlecard-name {
+  font-size: clamp(1.5rem, 3vw, 2.25rem);
+  font-weight: 510;
+  line-height: 1.05;
+  letter-spacing: -0.04em;
+  color: var(--color-text);
+  overflow-wrap: anywhere;
   font-feature-settings: var(--font-features);
+}
+
+.atlas-body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  min-width: 0;
+}
+
+.atlas-name {
+  font-size: var(--font-size-xl);
+  font-weight: 590;
+  letter-spacing: -0.24px;
+  color: var(--color-text);
+  overflow-wrap: anywhere;
+  font-feature-settings: var(--font-features);
+}
+
+.atlas-desc {
+  font-size: 0.9375rem;
+  line-height: 1.6;
+  letter-spacing: -0.165px;
+  color: var(--color-text-muted);
+}
+
+.atlas-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-xs);
+  margin-top: auto;
+}
+
+.atlas-navs {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-sm);
+  padding-top: var(--space-sm);
+  border-top: 1px solid var(--color-border-subtle);
+}
+
+.atlas-nav {
+  min-height: 32px;
+  padding: 0 var(--space-xs);
+  background: none;
+  border: 0;
+  border-radius: var(--radius-sm);
+  color: var(--color-text-muted);
+  font-size: var(--font-size-sm);
+  font-weight: 510;
+  cursor: pointer;
   transition: color var(--transition);
 }
 
-.thought-card:hover .thought-card-link-label {
-  color: var(--color-accent-hover);
+.atlas-nav:hover:not(:disabled) {
+  color: var(--color-text);
+}
+
+.atlas-nav:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+
+.atlas-close {
+  position: absolute;
+  top: var(--space-sm);
+  right: var(--space-sm);
+  width: 28px;
+  height: 28px;
+  border-radius: var(--radius-circle);
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--color-border);
+  color: var(--color-text-muted);
+  cursor: pointer;
+  transition: color var(--transition), border-color var(--transition);
+}
+
+.atlas-close:hover {
+  color: var(--color-text);
+  border-color: rgba(255, 255, 255, 0.12);
+}
+
+@media (max-width: 720px) {
+  .atlas-detail {
+    grid-template-columns: 1fr;
+    gap: var(--space-md);
+    padding: var(--space-md);
+  }
 }
 
 /* ── Logo Cloud ──────────────────────────────── */
@@ -979,8 +1370,25 @@
 
 .logo-item {
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
+  gap: var(--space-xs);
+}
+
+/* The organisation's name under its logo, read from the link's existing aria-label so it is
+   never typed twice. Some marks (Google's "G", Esri's globe) are unrecognisable on their own. */
+.logo-item::after {
+  content: attr(aria-label);
+  font-size: var(--font-size-xs);
+  color: var(--color-text-subtle);
+  font-feature-settings: var(--font-features);
+  white-space: nowrap;
+  transition: color var(--transition);
+}
+
+.logo-item:hover::after {
+  color: var(--color-text-secondary);
 }
 
 .logo-img {
@@ -1036,16 +1444,6 @@
   letter-spacing: -0.24px;
   color: var(--color-text);
   margin-bottom: var(--space-md);
-  font-feature-settings: var(--font-features);
-}
-
-.skills-subsection-label {
-  font-size: var(--font-size-xs);
-  font-weight: 510;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: var(--color-text-subtle);
-  margin-bottom: var(--space-lg);
   font-feature-settings: var(--font-features);
 }
 
@@ -1107,7 +1505,7 @@
 }
 
 .platform-name {
-  font-size: 0.625rem;
+  font-size: 0.6875rem;
   font-weight: 510;
   color: var(--color-text-subtle);
   text-align: center;
@@ -1124,6 +1522,63 @@
   grid-template-columns: repeat(auto-fit, minmax(160px, max-content));
   gap: var(--space-md);
   margin-bottom: var(--space-xl);
+}
+
+/* Empty until skills.js fills it and, normally, moves it into the chart header. Without this
+   its margin would hold 32px open and then vanish, nudging the chart up. */
+.github-stats-grid:empty {
+  margin-bottom: 0;
+}
+
+/* ── Load placeholders ───────────────────────── */
+/* Sections filled by JS hold roughly their finished height while their data loads, so the
+   page doesn't jump as each one arrives, and a deep link (#publications, #projects/…) lands
+   where it was aimed. :empty stops matching the moment a module appends anything, error
+   messages included, so no JS is involved. Heights are measured renders, rounded down. */
+#capabilities-skills:empty,
+#lang-chart-skills:empty,
+#thoughts-grid:empty,
+#publications-grid:empty,
+#stats:empty {
+  border-radius: var(--radius-md);
+  background: rgba(255, 255, 255, 0.015);
+}
+
+#capabilities-skills:empty { min-height: 190px; }
+#lang-chart-skills:empty   { min-height: 290px; }
+#thoughts-grid:empty       { min-height: 490px; }
+#publications-grid:empty   { min-height: 890px; }
+#stats:empty               { min-height: 380px; }
+
+@media (max-width: 1200px) {
+  #capabilities-skills:empty { min-height: 225px; }
+  #thoughts-grid:empty       { min-height: 650px; }
+  #publications-grid:empty   { min-height: 1000px; }
+}
+
+@media (max-width: 900px) {
+  #capabilities-skills:empty { min-height: 330px; }
+  #lang-chart-skills:empty   { min-height: 320px; }
+  #thoughts-grid:empty       { min-height: 740px; }
+  #publications-grid:empty   { min-height: 1200px; }
+  #stats:empty               { min-height: 540px; }
+  .pill-cluster:empty        { min-height: 25px; }
+}
+
+@media (max-width: 600px) {
+  #capabilities-skills:empty { min-height: 440px; }
+  #lang-chart-skills:empty   { min-height: 380px; }
+  #publications-grid:empty   { min-height: 1520px; }
+  #stats:empty               { min-height: 700px; }
+  #stats-updated:empty       { min-height: 3em; }
+}
+
+@media (max-width: 480px) {
+  #capabilities-skills:empty { min-height: 550px; }
+  #lang-chart-skills:empty   { min-height: 640px; }
+  #thoughts-grid:empty       { min-height: 1310px; }
+  #publications-grid:empty   { min-height: 2000px; }
+  #stats:empty               { min-height: 850px; }
 }
 
 /* ── Language Chart Tooltip ──────────────────── */
@@ -1154,8 +1609,13 @@
   }
 
   .hero-pills-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
     gap: var(--space-lg);
+  }
+
+  .hero-pills-panel,
+  .hero-pills-column {
+    min-width: 0;
   }
 
   .hero-pills-divider {
@@ -1181,11 +1641,55 @@
 }
 
 @media (max-width: 720px) {
-  .thoughts-grid {
-    grid-template-columns: 1fr;
-  }
-
   .platforms-cloud {
     grid-template-columns: repeat(4, 1fr);
+  }
+
+  /* Compact hero: each expertise group is one sideways-scrolling row instead of a wrapped
+     block, so the featured project starts higher on a phone. Same fade as the mobile nav. */
+  .hero-pills-grid {
+    gap: var(--space-sm);
+  }
+
+  .pill-cluster {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    scrollbar-width: none;
+    mask-image: linear-gradient(to right, #000 calc(100% - 24px), transparent);
+  }
+
+  .pill-cluster::-webkit-scrollbar {
+    display: none;
+  }
+
+  .pill-tag {
+    flex-shrink: 0;
+  }
+
+  /* Label sits at the start of its row, and the × divider gives way to a plain gap: two
+     ~28px rows instead of a ~190px stacked block. */
+  .hero-pills-column {
+    flex-direction: row;
+    align-items: center;
+    gap: var(--space-sm);
+  }
+
+  .pills-column-label {
+    flex-shrink: 0;
+    width: 6.5rem;
+  }
+
+  .hero-pills-divider {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .stat-card:hover {
+    transform: none;
+  }
+
+  .atlas-detail {
+    animation: none;
   }
 }

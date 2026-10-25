@@ -39,6 +39,12 @@ svg {
   max-width: 100%;
 }
 
+/* <img> tags carry width/height attributes so the browser reserves their space before they
+   load; height:auto keeps that ratio instead of taking the height attribute literally. */
+img {
+  height: auto;
+}
+
 a {
   color: inherit;
   text-decoration: none;
@@ -46,6 +52,12 @@ a {
 
 a:hover {
   color: var(--color-text);
+}
+
+/* Keyboard focus only; mouse clicks don't draw it. */
+:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
 }
 
 /* ── Layout ─────────────────────────────────── */
@@ -62,6 +74,8 @@ a:hover {
 
 .section {
   padding: var(--space-xxl) 0;
+  /* Nav jumps land the heading below the sticky header, not under it. */
+  scroll-margin-top: 1rem;
 }
 
 /* ── Header ─────────────────────────────────── */
@@ -102,6 +116,15 @@ a:hover {
   gap: var(--space-lg);
   flex-wrap: wrap;
   align-items: center;
+  margin-left: auto;
+}
+
+/* The CV is what most visitors come for, so it stays one click away while they scroll. */
+/* `.btn.` for specificity: components.css loads after this file and its .btn padding would win. */
+.btn.header-cta {
+  flex-shrink: 0;
+  padding: 3px 12px;
+  font-size: var(--font-size-xs);
 }
 
 .site-nav a {
@@ -116,6 +139,15 @@ a:hover {
 .site-nav a:hover {
   color: var(--color-text);
   text-decoration: none;
+}
+
+/* Set by js/modules/nav.js for the section currently in view. */
+.site-nav a[aria-current="true"] {
+  color: var(--color-text);
+  text-decoration: underline;
+  text-decoration-color: var(--color-accent);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 6px;
 }
 
 
@@ -158,6 +190,40 @@ a:hover {
   margin-top: var(--space-lg);
 }
 
+/* Filled by js/modules/contact.js from the footer's links. The min-height reserves the row
+   so the hero doesn't grow when the icons arrive. */
+.hero-contact {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-xs);
+  min-height: 36px;
+  margin-top: var(--space-md);
+}
+
+.hero-contact-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-circle);
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--color-border);
+  color: var(--color-text-muted);
+  transition: color var(--transition), border-color var(--transition), background var(--transition);
+}
+
+.hero-contact-link:hover {
+  color: var(--color-text);
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 255, 255, 0.12);
+}
+
+.hero-contact-link svg {
+  width: 16px;
+  height: 16px;
+}
+
 /* ── Section Heading ─────────────────────────── */
 
 .section-heading {
@@ -168,6 +234,17 @@ a:hover {
   color: var(--color-text);
   margin-bottom: var(--space-xl);
   font-feature-settings: var(--font-features);
+}
+
+/* One quiet line under a heading: a derived count or a data's provenance. */
+.section-lede {
+  margin: calc(-1 * var(--space-md)) 0 var(--space-xl);
+  font-family: var(--font-mono);
+  font-size: var(--font-size-xs);
+  letter-spacing: 0.02em;
+  color: var(--color-text-muted);
+  /* Reserve the line even while a module is still filling it, so nothing below jumps. */
+  min-height: 1.5em;
 }
 
 /* ── Footer ─────────────────────────────────── */
@@ -212,22 +289,50 @@ a:hover {
 /* ── Responsive ──────────────────────────────── */
 
 @media (max-width: 900px) {
-  .header-inner,
   .site-footer-inner {
     flex-direction: column;
     align-items: stretch;
   }
 
-  .site-nav {
-    justify-content: center;
-  }
-
   .hero-inner {
-    grid-template-columns: 1fr;
+    /* minmax(0, …): a plain 1fr track grows to its min-content width, and the no-wrap pill
+       rows on phones would then drag the whole hero wider than the screen. */
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--space-xl);
   }
 }
 
 @media (max-width: 760px) {
+  /* One row, not two: the brand stays put and the nav scrolls sideways, so the sticky bar
+     doesn't spend a tenth of a phone screen on wrapped links. */
+  .header-inner {
+    gap: var(--space-md);
+  }
+
+  .brand {
+    flex-shrink: 0;
+  }
+
+  .site-nav {
+    flex: 1;
+    flex-wrap: nowrap;
+    gap: var(--space-md);
+    min-width: 0;
+    overflow-x: auto;
+    scrollbar-width: none;
+    /* Fade the right edge so links cut off there read as "scroll for more". */
+    mask-image: linear-gradient(to right, #000 calc(100% - 24px), transparent);
+  }
+
+  .site-nav::-webkit-scrollbar {
+    display: none;
+  }
+
+  .site-nav a {
+    flex-shrink: 0;
+    padding: var(--space-xxs) 0;
+  }
+
   .section {
     padding: var(--space-xxl) 0;
   }
@@ -235,5 +340,19 @@ a:hover {
   .section-heading {
     font-size: var(--font-size-2xl);
     letter-spacing: -0.288px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
   }
 }

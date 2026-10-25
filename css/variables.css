@@ -10,7 +10,7 @@
   --color-text:           #f7f8f8;
   --color-text-secondary: #d0d6e0;
   --color-text-muted:     #8a8f98;
-  --color-text-subtle:    #62666d;
+  --color-text-subtle:    #7a7f88;  /* 4.9:1 on --color-bg; #62666d was 3.4:1, below WCAG AA */
 
   /* === Brand & Accent === */
   --color-brand:          #5e6ad2;

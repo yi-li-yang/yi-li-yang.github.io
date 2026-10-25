@@ -5,6 +5,10 @@
 // by scripts/bib-to-json.js). The owner is bolded from the per-author `isOwner` flag in
 // the data — never from markup stored in the JSON. Vanilla, no framework, matching the
 // existing dark card design (.publication-card / .publication-meta in components.css).
+//
+// Work in progress (no year) still comes first, as bib-to-json sorts it, but as its own
+// compact group of rows, so the published papers below aren't pushed behind "Show all".
+// Filter chips carry counts derived from each entry's type, year and dataset flag.
 
 function escapeHtml(s) {
   return String(s ?? '')
@@ -51,8 +55,56 @@ function renderCard(pub) {
   return card;
 }
 
-// How many publications to show before the list collapses behind a "Show all" toggle.
-const COLLAPSE_AFTER = 6;
+// Unfinished work: title and status only. A Scholar search for a paper that isn't out yet
+// finds nothing, so these link only when the .bib has a real URL (e.g. a preprint).
+function renderRow(pub) {
+  const row = document.createElement('li');
+  row.className = 'pub-row';
+  const title = pub.url
+    ? `<a href="${escapeHtml(pub.url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(pub.title)}</a>`
+    : escapeHtml(pub.title);
+  row.innerHTML = `
+    <span class="pub-row-title">${title}</span>
+    <span class="pub-row-venue">${escapeHtml(pub.venue || 'In preparation')}</span>
+  `;
+  return row;
+}
+
+// One category per entry, checked in this order. No year means unfinished whatever the type
+// (CLAUDE.md: unpublished work is @misc with an empty year), so it never counts as a paper.
+function categoryOf(pub) {
+  if (pub.year == null) return 'in-progress';
+  if (pub.dataset) return 'dataset';
+  if (pub.type === 'article') return 'journal';
+  if (pub.type === 'inproceedings') return 'conference';
+  return 'other';
+}
+
+const FILTERS = [
+  { key: 'all', label: 'All' },
+  { key: 'journal', label: 'Journal' },
+  { key: 'conference', label: 'Conference' },
+  { key: 'dataset', label: 'Dataset' },
+  { key: 'in-progress', label: 'In progress' },
+  { key: 'other', label: 'Other' },
+];
+
+const HASH_PREFIX = '#publications/';
+
+// How many published papers show before the list collapses behind a "Show all" toggle. The
+// chips above already give the full shape of the record, so a short first look is enough.
+const COLLAPSE_AFTER = 4;
+
+function groupLabel(text, count) {
+  const label = document.createElement('p');
+  label.className = 'pub-group-label';
+  label.textContent = `${text} · `;
+  const n = document.createElement('span');
+  n.className = 'pub-group-count';
+  n.textContent = String(count);
+  label.appendChild(n);
+  return label;
+}
 
 export async function initPublications() {
   const container = document.getElementById('publications-grid');
@@ -62,38 +114,102 @@ export async function initPublications() {
     const res = await fetch('data/publications.json');
     if (!res.ok) throw new Error(`publications fetch: ${res.status}`);
     const data = await res.json();
-    const pubs = data.publications ?? [];
+    const entries = (data.publications ?? []).map((pub) => ({ pub, category: categoryOf(pub) }));
 
-    const cards = pubs.map(renderCard);
-    const frag = document.createDocumentFragment();
-    for (const c of cards) frag.appendChild(c);
-    container.appendChild(frag);
+    const counts = { all: entries.length };
+    for (const { category } of entries) counts[category] = (counts[category] ?? 0) + 1;
+    const filters = FILTERS.filter((f) => counts[f.key]);
 
-    // Collapse long lists so the section doesn't dominate the page: hide the cards beyond
-    // COLLAPSE_AFTER until the reader opts in. Pure JS so it stays correct regardless of how
-    // many columns the grid wraps into.
-    if (pubs.length > COLLAPSE_AFTER) {
-      const overflow = cards.slice(COLLAPSE_AFTER);
-      let collapsed = true;
-      const apply = () => {
-        for (const c of overflow) c.style.display = collapsed ? 'none' : '';
-      };
-      apply();
-
-      const toggle = document.createElement('button');
-      toggle.type = 'button';
-      toggle.className = 'btn btn-secondary publications-toggle';
-      const setLabel = () => {
-        toggle.textContent = collapsed ? `Show all ${pubs.length} publications` : 'Show fewer';
-      };
-      setLabel();
-      toggle.addEventListener('click', () => {
-        collapsed = !collapsed;
-        apply();
-        setLabel();
-      });
-      container.insertAdjacentElement('afterend', toggle);
+    // Chips.
+    const chips = document.createElement('div');
+    chips.className = 'filter-chips';
+    chips.setAttribute('role', 'group');
+    chips.setAttribute('aria-label', 'Filter publications');
+    const chipFor = new Map();
+    for (const f of filters) {
+      const chip = document.createElement('button');
+      chip.type = 'button';
+      chip.className = 'filter-chip';
+      chip.dataset.filter = f.key;
+      chip.innerHTML = `${escapeHtml(f.label)} <span class="filter-chip-count">${counts[f.key]}</span>`;
+      chips.appendChild(chip);
+      chipFor.set(f.key, chip);
     }
+
+    // In progress: compact rows.
+    const progress = entries.filter((e) => e.category === 'in-progress');
+    const progressGroup = document.createElement('div');
+    progressGroup.className = 'pub-group';
+    const progressList = document.createElement('ul');
+    progressList.className = 'pub-rows';
+    progressList.append(...progress.map((e) => renderRow(e.pub)));
+    progressGroup.append(groupLabel('In progress', progress.length), progressList);
+
+    // Published: cards, collapsed after COLLAPSE_AFTER.
+    const published = entries.filter((e) => e.category !== 'in-progress').map((e) => ({ ...e, card: renderCard(e.pub) }));
+    const publishedGroup = document.createElement('div');
+    publishedGroup.className = 'pub-group';
+    const publishedLabel = groupLabel('Published', published.length);
+    const grid = document.createElement('div');
+    grid.className = 'publications-grid';
+    grid.append(...published.map((e) => e.card));
+    const toggle = document.createElement('button');
+    toggle.type = 'button';
+    toggle.className = 'btn btn-secondary publications-toggle';
+    publishedGroup.append(publishedLabel, grid, toggle);
+
+    container.append(chips, progressGroup, publishedGroup);
+
+    let filter = 'all';
+    let expanded = false;
+
+    const apply = () => {
+      for (const [key, chip] of chipFor) chip.setAttribute('aria-pressed', String(key === filter));
+
+      const showProgress = filter === 'all' || filter === 'in-progress';
+      progressGroup.hidden = !showProgress || !progress.length;
+
+      const matching = published.filter((e) => filter === 'all' || e.category === filter);
+      publishedGroup.hidden = !matching.length;
+      publishedLabel.lastChild.textContent = String(matching.length);
+      const visible = new Set(expanded ? matching : matching.slice(0, COLLAPSE_AFTER));
+      for (const e of published) e.card.style.display = visible.has(e) ? '' : 'none';
+
+      toggle.hidden = matching.length <= COLLAPSE_AFTER;
+      toggle.textContent = expanded ? 'Show fewer' : `Show all ${matching.length} published`;
+    };
+
+    const select = (key, { updateHash = true } = {}) => {
+      if (!chipFor.has(key)) return false;
+      filter = key;
+      expanded = false;
+      apply();
+      // replaceState, not a new history entry: flicking through chips shouldn't fill Back.
+      if (updateHash) history.replaceState(null, '', key === 'all' ? '#publications' : HASH_PREFIX + key);
+      return true;
+    };
+
+    chips.addEventListener('click', (e) => {
+      const chip = e.target.closest('.filter-chip');
+      if (chip) select(chip.dataset.filter);
+    });
+    toggle.addEventListener('click', () => {
+      expanded = !expanded;
+      apply();
+    });
+
+    // Deep link: #publications/<filter> selects that chip and brings the section into view.
+    // The hash names no element, so the browser won't scroll there by itself.
+    const fromHash = () => {
+      if (!location.hash.startsWith(HASH_PREFIX)) return;
+      if (select(location.hash.slice(HASH_PREFIX.length), { updateHash: false })) {
+        // Instant, not the page's smooth scroll: arriving from a link should land, not glide.
+        document.getElementById('publications')?.scrollIntoView({ behavior: 'instant' });
+      }
+    };
+    window.addEventListener('hashchange', fromHash);
+    apply();
+    fromHash();
   } catch (err) {
     console.error('Failed to load publications:', err);
     container.innerHTML =

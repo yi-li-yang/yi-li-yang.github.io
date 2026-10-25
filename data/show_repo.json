@@ -1,73 +1,95 @@
 {
   "_edit": "SOURCE — you own this file. Edit freely, by hand or by agent.",
   "_comment": [
-    "Repositories featured in the website's Thoughts & projects grid. Read by js/modules/thoughts.js."
+    "Repositories featured in the website's Projects atlas. Read by js/modules/thoughts.js.",
+    "`group` is the track a repo is listed under. Tracks appear in the order they first occur, and repos in file order within their track, so keep each track's entries together.",
+    "`image` is optional: leave it empty and the detail panel shows a title card instead.",
+    "Prefer a local file in assets/projects/ (WebP, about 1200px wide, under 250 KB) over a remote URL: a raw screenshot or GIF from a README can weigh several megabytes."
   ],
   "repos": [
     {
+      "group": "Earth & climate research",
       "description": "Automated mapping of pan-Arctic abrupt thaw landscapes using deep learning and remote sensing imagery.",
       "url": "https://github.com/whrc/RTSmapping_v2",
-      "image": "https://images.zapnito.com/cdn-cgi/image/metadata=copyright,fit=scale-down,format=auto,quality=95/https://images.zapnito.com/uploads/5Ks0zqhStRYlwWduuMcw_slump%20graphics%20-%20slidedeck-sized_pages-to-jpg-0001.jpg"
+      "image": "assets/projects/RTSmapping_v2.webp"
     },
     {
+      "group": "Earth & climate research",
       "description": "Arctic Retrogressive Thaw Slumps Data Set",
       "url": "https://github.com/whrc/ARTS",
-      "image": "https://github.com/whrc/ARTS/blob/main/img/Yang_et_al_ARTS_points_Sept_2025_RTS_V6.0.0.jpg"
+      "image": "assets/projects/ARTS.webp"
     },
     {
-      "description": "Interactive Geospatial Labeling Tool for Remote Sensing Imagery using the Segment Anything Model (SAM).",
+      "group": "Earth & climate research",
+      "description": "An interactive geospatial labeling tool for remote sensing imagery, built on the Segment Anything Model (SAM).",
       "url": "https://github.com/whrc/interactive-sam2",
-      "image": "https://github.com/whrc/interactive-sam2/blob/main/thumb.gif"
+      "image": "assets/projects/interactive-sam2.webp"
     },
     {
+      "group": "Earth & climate research",
       "description": "Deep learning pipelines for monthly environmental time series in three domains: emulating the Terrestrial Ecosystem Model's carbon fluxes across the circumpolar Arctic, predicting river discharge and wildfire in the Amazon basin, and emulating the RangeSTAR carbon-flux model in rangelands. A shared transformer trained on all three tests whether pooling data helps the data-scarce domains. A Woodwell collaboration.",
       "url": "https://github.com/whrc/Multi-domain-time-series",
       "image": ""
     },
     {
-      "description": "LLM-Enhanced Automatic bookkeeping and personal finance dashboard",
-      "url": "https://github.com/yi-li-yang/Bookkeeping-auto",
-      "image": "https://github.com/yi-li-yang/Bookkeeping-auto/blob/main/thumbnail.png"
-    },
-    {
-      "description": "Daily Octopus Agile Energy Rate Email Push with GitHub Actions",
-      "url": "https://github.com/yi-li-yang/Octopus-agile-price-push-notification",
-      "image": "https://raw.githubusercontent.com/yi-li-yang/Octopus-agile-price-push-notification/main/thumb.png"
-    },
-    {
-      "description": "Flight log mapped on an interactive map",
-      "url": "https://github.com/yi-li-yang/travel-map",
-      "image": "https://raw.githubusercontent.com/yi-li-yang/travel-map/main/thumb.gif"
-    },
-    {
-      "description": "A frosted-glass desktop widget (Tauri v2 + Rust) showing live Claude Code usage — session and weekly quota with reset countdowns.",
-      "url": "https://github.com/yi-li-yang/desktop-dashboard",
-      "image": "https://raw.githubusercontent.com/yi-li-yang/desktop-dashboard/main/docs/screenshot.png"
-    },
-    {
-      "description": "A personal document. It describes how I want a machine to think with me, and in doing so, describes what I believe good thinking looks like.It is not a product, or methodology nor fix for current models, most of what is written here will become default behavior in time, and that will be a success, not an obsolescence.What I am writing down is not the gap between models and ideal behavior. That gap will close. What I am writing down is my own clarity about what kind of conversation I want to have with a thinking machine, kept as a record I can return to and recognize.",
-      "url": "https://github.com/yi-li-yang/prompt-to-think",
-      "image": ""
-    },
-    {
-      "description": "A decision router that does the legwork — all of it. Its job is to take the research → compare → find loop a person re-runs every time they buy something non-trivial and run that loop for them, so they never have to be the researcher.",
-      "url": "https://github.com/yi-li-yang/research-before-buy",
-      "image": ""
-    },
-    {
-      "description": "Bring Claude up to date on any topic before you start working on it. The /expertise skill sends a team of research agents after what Claude is most likely to have wrong, checks every cited claim against its source, and saves a dated briefing that the next conversation starts from.",
-      "url": "https://github.com/yi-li-yang/deep-research",
-      "image": ""
-    },
-    {
+      "group": "AI agents & skills",
       "description": "A skill that helps AI agents write text I would sign as my own, from papers and grant proposals to web pages and email. It is not a list of banned habits. It explains what good writing asks of the writer, drawing on Lindsay, Schimel, Strunk and the ASD-STE100 standard for Simplified Technical English.",
       "url": "https://github.com/yi-li-yang/write-like-myself",
       "image": ""
     },
     {
+      "group": "AI agents & skills",
+      "description": "Bring Claude up to date on any topic before you start working on it. The /expertise skill sends a team of research agents after what Claude is most likely to have wrong, checks every cited claim against its source, and saves a dated briefing that the next conversation starts from.",
+      "url": "https://github.com/yi-li-yang/deep-research",
+      "image": ""
+    },
+    {
+      "group": "AI agents & skills",
+      "description": "A decision router that does the legwork — all of it. Its job is to take the research → compare → find loop a person re-runs every time they buy something non-trivial and run that loop for them, so they never have to be the researcher.",
+      "url": "https://github.com/yi-li-yang/research-before-buy",
+      "image": ""
+    },
+    {
+      "group": "AI agents & skills",
+      "description": "A personal document. It describes how I want a machine to think with me, and in doing so, describes what I believe good thinking looks like. It is not a product, a methodology or a fix for current models. Most of what is written here will become default behavior in time, and that will be a success, not an obsolescence. What I am writing down is not the gap between models and ideal behavior. That gap will close. What I am writing down is my own clarity about what kind of conversation I want to have with a thinking machine, kept as a record I can return to and recognize.",
+      "url": "https://github.com/yi-li-yang/prompt-to-think",
+      "image": ""
+    },
+    {
+      "group": "Tools & apps",
+      "description": "An open-source decision tool for one question: where should I live? It scores every area of a city by your own weights and hard limits, lights up the best areas on a map, and explains every score one layer at a time. It starts with London and is in its foundations phase.",
+      "url": "https://github.com/yi-li-yang/Livability-Atlas",
+      "image": ""
+    },
+    {
+      "group": "Tools & apps",
       "description": "This site, and the single-source-of-truth pipeline behind it. One data layer renders the website and both PDF CVs, then tailors a one-pager and cover letter to a job posting — where every generated sentence must cite the fact it came from, or the build fails. No number on the CV is typed twice.",
       "url": "https://github.com/yi-li-yang/yi-li-yang.github.io",
       "image": ""
+    },
+    {
+      "group": "Tools & apps",
+      "description": "A frosted-glass desktop widget (Tauri v2 + Rust) showing live Claude Code usage — session and weekly quota with reset countdowns.",
+      "url": "https://github.com/yi-li-yang/desktop-dashboard",
+      "image": "assets/projects/desktop-dashboard.webp"
+    },
+    {
+      "group": "Tools & apps",
+      "description": "My flight log, drawn on an interactive globe.",
+      "url": "https://github.com/yi-li-yang/travel-map",
+      "image": "assets/projects/travel-map.webp"
+    },
+    {
+      "group": "Tools & apps",
+      "description": "A daily email of Octopus Agile energy prices, sent by GitHub Actions.",
+      "url": "https://github.com/yi-li-yang/Octopus-agile-price-push-notification",
+      "image": "assets/projects/Octopus-agile-price-push-notification.webp"
+    },
+    {
+      "group": "Tools & apps",
+      "description": "LLM-enhanced automatic bookkeeping and a personal finance dashboard.",
+      "url": "https://github.com/yi-li-yang/Bookkeeping-auto",
+      "image": "assets/projects/Bookkeeping-auto.webp"
     }
   ]
 }
