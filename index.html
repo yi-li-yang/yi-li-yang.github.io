@@ -5,6 +5,15 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Yili Yang, Ph.D. | Geospatial AI &amp; Climate Science</title>
+  <meta name="description" content="Yili Yang, Ph.D. — AI Scientist, Geospatial &amp; Remote Sensing. AI &amp; machine learning for complex global systems.">
+  <meta name="theme-color" content="#08090a">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://yi-li-yang.github.io/">
+  <meta property="og:title" content="Yili Yang, Ph.D. | Geospatial AI &amp; Climate Science">
+  <meta property="og:description" content="AI Scientist, Geospatial &amp; Remote Sensing. AI &amp; machine learning for complex global systems.">
+  <meta property="og:image" content="https://yi-li-yang.github.io/assets/showcase/rts-training-map.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
@@ -16,14 +25,16 @@
   <div class="page-shell">
     <header class="site-header">
       <div class="container header-inner">
-        <a class="brand" href="#">Home</a>
-        <nav class="site-nav" id="site-nav">
+        <a class="brand" href="#">Yili Yang</a>
+        <nav class="site-nav" id="site-nav" aria-label="Sections">
           <a href="#showcase">Featured</a>
-          <a href="#skills">Skills</a>
+          <a href="#capabilities">Skills</a>
+          <a href="#skills">Tools</a>
           <a href="#thoughts">Projects</a>
           <a href="#publications">Publications</a>
-          <a href="#stats-panel">Stats</a>
+          <a href="#stats-panel">Metrics</a>
         </nav>
+        <a class="btn btn-primary header-cta" href="assets/cv.pdf" target="_blank" rel="noopener noreferrer">Resume</a>
       </div>
     </header>
 
@@ -40,6 +51,7 @@
                 <a class="btn btn-primary" href="assets/cv.pdf" target="_blank" rel="noopener noreferrer">View Resume</a>
                 <a class="btn btn-secondary" href="assets/biosketch.pdf" target="_blank" rel="noopener noreferrer">View Biosketch</a>
               </div>
+              <div class="hero-contact" id="hero-contact" role="group" aria-label="Contact"></div>
             </div>
 
             <div class="hero-pills-panel" aria-label="Expertise domains">
@@ -88,11 +100,11 @@
             <div class="visual-header">
               <span>Circumpolar Arctic &middot; 19,068 mapped thaw slumps &middot; live Earth Engine app</span>
               <a class="showcase-map-out" href="https://abruptthawmapping.projects.earthengine.app/view/south-rts-map"
-                 target="_blank" rel="noopener noreferrer">Open in Earth Engine &#8599;</a>
+                 target="_blank" rel="noopener noreferrer">Open in Earth Engine</a>
             </div>
             <div class="showcase-hero-body">
               <div class="visual-frame showcase-figure" id="rts-live-map">
-                <img class="showcase-map-poster" src="assets/showcase/rts-training-map.png"
+                <img class="showcase-map-poster" src="assets/showcase/rts-training-map.png" width="1950" height="1950"
                      alt="Circumpolar hexbin map of the RTSmapping v2 training data: 1,819 thaw-slump labels and 13,695 negative tiles distributed across the Arctic" loading="lazy">
                 <a class="showcase-map-launch" href="https://abruptthawmapping.projects.earthengine.app/view/south-rts-map"
                    target="_blank" rel="noopener noreferrer">
@@ -147,7 +159,7 @@
               <p class="showcase-panel-kicker">03 &middot; Product</p>
               <h3 class="showcase-panel-title">From pixels to open maps</h3>
               <a class="showcase-panel-figure" href="assets/showcase/rts-prob-example.jpg" target="_blank" rel="noopener noreferrer">
-                <img src="assets/showcase/rts-prob-example.jpg"
+                <img src="assets/showcase/rts-prob-example.jpg" width="1600" height="875"
                      alt="Example model output: PlanetScope RGB tile beside the same tile with the model's thaw-slump probability heatmap and decision-threshold contours overlaid" loading="lazy">
               </a>
               <p class="showcase-panel-caption">Model output on 2025 imagery &mdash; Northwest Territories, Canada</p>
@@ -181,7 +193,6 @@
 
           <!-- Working Platforms Logo Cloud -->
           <div class="skills-platforms-section">
-            <p class="skills-subsection-label">Tools & Environments</p>
             <div class="platforms-cloud">
               <div class="platform-item">
                 <img src="https://cdn.simpleicons.org/anthropic" alt="Claude Code" class="platform-logo">
@@ -253,8 +264,8 @@
       <!-- ── Thoughts ────────────────────────────── -->
       <section class="section" id="thoughts">
         <div class="container">
-          <div class="section-heading">Thoughts &amp; projects</div>
-          <div class="thoughts-grid" id="thoughts-grid"></div>
+          <div class="section-heading">Projects</div>
+          <div class="projects-atlas" id="thoughts-grid"></div>
         </div>
       </section>
 
@@ -262,14 +273,15 @@
       <section class="section" id="publications">
         <div class="container">
           <div class="section-heading">Publications</div>
-          <div class="publications-grid" id="publications-grid"></div>
+          <div class="publications-list" id="publications-grid"></div>
         </div>
       </section>
 
       <!-- ── Live Stats ─────────────────────────── -->
       <section class="section" id="stats-panel">
         <div class="container">
-          <div class="section-heading">Live academic metrics</div>
+          <div class="section-heading">Academic metrics</div>
+          <p class="section-lede" id="stats-updated"></p>
           <div id="stats"></div>
         </div>
       </section>
@@ -282,25 +294,25 @@
         <p class="logo-cloud-label">Experience</p>
         <div class="logo-cloud-items">
           <a class="logo-item" href="https://www.ed.ac.uk" target="_blank" rel="noopener noreferrer" aria-label="University of Edinburgh">
-            <img src="assets/logos/edinburgh.png" alt="University of Edinburgh" class="logo-img">
+            <img src="assets/logos/edinburgh.png" alt="University of Edinburgh" class="logo-img" width="831" height="199" loading="lazy">
           </a>
           <a class="logo-item" href="https://faculty.ai" target="_blank" rel="noopener noreferrer" aria-label="Faculty.ai">
-            <img src="assets/logos/faculty-ai.png" alt="Faculty.ai" class="logo-img">
+            <img src="assets/logos/faculty-ai.png" alt="Faculty.ai" class="logo-img" width="2288" height="405" loading="lazy">
           </a>
           <a class="logo-item" href="https://www.woodwellclimate.org" target="_blank" rel="noopener noreferrer" aria-label="Woodwell Climate Research Center">
-            <img src="assets/logos/woodwell.png" alt="Woodwell Climate Research Center" class="logo-img">
+            <img src="assets/logos/woodwell.png" alt="Woodwell Climate Research Center" class="logo-img" width="165" height="33" loading="lazy">
           </a>
         </div>
         <p class="logo-cloud-label logo-cloud-label-second">Collaborations</p>
         <div class="logo-cloud-items">
           <a class="logo-item" href="https://www.petrobras.com.br" target="_blank" rel="noopener noreferrer" aria-label="Petrobras">
-            <img src="assets/logos/petrobras.svg" alt="Petrobras" class="logo-img">
+            <img src="assets/logos/petrobras.svg" alt="Petrobras" class="logo-img" width="216" height="43" loading="lazy">
           </a>
           <a class="logo-item" href="https://www.google.com" target="_blank" rel="noopener noreferrer" aria-label="Google">
-            <img src="https://cdn.simpleicons.org/google" alt="Google" class="logo-img">
+            <img src="https://cdn.simpleicons.org/google" alt="Google" class="logo-img" width="24" height="24" loading="lazy">
           </a>
           <a class="logo-item" href="https://www.esri.com" target="_blank" rel="noopener noreferrer" aria-label="Esri">
-            <img src="https://cdn.simpleicons.org/esri" alt="Esri" class="logo-img">
+            <img src="https://cdn.simpleicons.org/esri" alt="Esri" class="logo-img" width="24" height="24" loading="lazy">
           </a>
         </div>
       </div>

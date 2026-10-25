@@ -22,11 +22,16 @@ export async function initStats() {
 
     const pubCount = publications?.count ?? orcid?.works ?? null;
 
-    const items = [
+    // Two groups, so the numbers say what kind of evidence they are: what the research has
+    // produced (from the ingest), and the service and leadership around it (hand-curated).
+    const impact = [
       { value: pubCount,           label: 'Publications', source: 'ORCID',  link: orcidLink },
       { value: scholar?.citations, label: 'Citations',    source: 'Scholar', link: scholarLink },
       { value: scholar?.hIndex,    label: 'h-index',      source: 'Scholar' },
       { value: scholar?.i10Index,  label: 'i10-index',    source: 'Scholar' },
+    ];
+
+    const service = [
       // Curated total: ORCID tracks fewer, because some reviews aren't ORCID-registered.
       // The true count lives in data/service.json; fall back to ORCID if it didn't load.
       { value: hand?.peerReviews ?? orcid?.reviews, label: 'Peer Reviews', source: 'Curated' },
@@ -35,21 +40,20 @@ export async function initStats() {
     if (hand) {
       if (hand.fundingAwarded) {
         const f = hand.fundingAwarded;
-        items.push({ value: f.display ?? f.value, label: f.label ?? 'Funding' });
+        service.push({ value: f.display ?? f.value, label: f.label ?? 'Funding' });
       }
       if (hand.menteesSupervised != null) {
-        items.push({ value: hand.menteesSupervised, label: 'Mentees' });
+        service.push({ value: hand.menteesSupervised, label: 'Mentees' });
       }
       if (hand.invitedTalks != null) {
-        items.push({ value: hand.invitedTalks, label: 'Invited Talks' });
+        service.push({ value: hand.invitedTalks, label: 'Invited Talks' });
       }
       if (hand.nsfProposalReviews != null) {
-        items.push({ value: hand.nsfProposalReviews, label: 'NSF Proposal Reviews' });
+        service.push({ value: hand.nsfProposalReviews, label: 'NSF Proposal Reviews' });
       }
     }
 
-    for (const item of items) {
-      if (item.value == null) continue;
+    const renderCard = (item) => {
       const card = document.createElement(item.link ? 'a' : 'div');
       card.className = 'stat-card';
       if (item.link) {
@@ -62,22 +66,30 @@ export async function initStats() {
         <span class="stat-label">${item.label}</span>
         ${item.source ? `<span class="stat-source">${item.source}</span>` : ''}
       `;
-      container.appendChild(card);
+      return card;
+    };
+
+    for (const [title, items] of [['Research impact', impact], ['Service & leadership', service]]) {
+      const shown = items.filter((item) => item.value != null);
+      if (!shown.length) continue;
+      const group = document.createElement('div');
+      group.className = 'stats-group';
+      const label = document.createElement('p');
+      label.className = 'stats-group-label';
+      label.textContent = title;
+      const grid = document.createElement('div');
+      grid.className = 'stats-grid';
+      grid.append(...shown.map(renderCard));
+      group.append(label, grid);
+      container.appendChild(group);
     }
 
-    if (lastUpdated) {
-      const date = new Date(lastUpdated);
-      const formatted = date.toLocaleDateString('en-GB', {
+    const updated = document.getElementById('stats-updated');
+    if (lastUpdated && updated) {
+      const formatted = new Date(lastUpdated).toLocaleDateString('en-GB', {
         day: 'numeric', month: 'long', year: 'numeric'
       });
-
-      const footer = document.createElement('p');
-      footer.className = 'stats-updated';
-      footer.textContent = `Last updated: ${formatted}`;
-      container.appendChild(footer);
-
-      const footerUpdated = document.getElementById('footer-updated');
-      if (footerUpdated) footerUpdated.textContent = formatted;
+      updated.textContent = `Research figures update monthly from ORCID and Google Scholar · last updated ${formatted}`;
     }
   } catch (err) {
     console.error('Failed to load stats:', err);

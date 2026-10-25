@@ -25,19 +25,40 @@ export function initShowcaseMap() {
   const note   = link.querySelector('.showcase-map-launch-note');
   const poster = Array.from(frame.children);
 
-  if (title) title.textContent = 'Launch the interactive map';
-  if (note)  note.textContent  = 'Google Earth Engine · loads on click';
+  const LAUNCH_TITLE = 'Launch the interactive map';
+  const LAUNCH_NOTE  = 'Google Earth Engine · loads on click';
+  if (title) title.textContent = LAUNCH_TITLE;
+  if (note)  note.textContent  = LAUNCH_NOTE;
 
-  // idle → loading → live, or → failed (after which the anchor just opens a tab)
+  // idle → loading → live, or → failed (after which the anchor just opens a tab).
+  // "Close map" takes loading/live back to idle, so the map can be launched again.
   let state = 'idle';
+  let timer = null;
 
   function restore(message) {
     state = 'failed';
+    clearTimeout(timer);
     frame.classList.remove('is-loading', 'is-live');
     frame.replaceChildren(...poster);
     if (title) title.textContent = 'Open the interactive map';
     if (note)  note.textContent  = message;
   }
+
+  // Once embedded, the app captures the scroll wheel over the whole frame. This puts the
+  // poster back, which gives the page its scrolling back too.
+  const closeButton = document.createElement('button');
+  closeButton.type = 'button';
+  closeButton.className = 'showcase-map-close';
+  closeButton.textContent = 'Close map';
+  closeButton.addEventListener('click', () => {
+    state = 'idle';
+    clearTimeout(timer);
+    frame.classList.remove('is-loading', 'is-live');
+    frame.replaceChildren(...poster);
+    if (title) title.textContent = LAUNCH_TITLE;
+    if (note)  note.textContent  = LAUNCH_NOTE;
+    link.focus();
+  });
 
   /* A cross-origin iframe fires `load` even when the navigation fails — the
    * browser's error page counts — so `load` cannot tell us the app is really
@@ -52,16 +73,24 @@ export function initShowcaseMap() {
     }
   }
 
+  // Each launch gets a number, so a probe that resolves after "Close map" (or after a
+  // close-and-relaunch) can tell it is stale and stand down.
+  let launches = 0;
+
   link.addEventListener('click', async event => {
     if (state !== 'idle') return;
     event.preventDefault();
     state = 'loading';
+    const launch = ++launches;
+    const current = () => launch === launches && state === 'loading';
 
     const url = link.href;
     frame.classList.add('is-live', 'is-loading');
-    frame.replaceChildren();
+    frame.replaceChildren(closeButton);
 
-    if (!await reachable(url)) {
+    const ok = await reachable(url);
+    if (!current()) return;
+    if (!ok) {
       console.warn('Earth Engine app is unreachable; restoring the link.');
       restore('Earth Engine did not load here — opens in a new tab');
       return;
@@ -75,19 +104,19 @@ export function initShowcaseMap() {
     iframe.src = url;
 
     // Backstop for a frame that answers but never finishes loading.
-    const timer = setTimeout(() => {
-      if (state !== 'loading') return;
+    timer = setTimeout(() => {
+      if (!current()) return;
       console.warn('Earth Engine app did not load in time; restoring the link.');
       restore('Earth Engine did not load here — opens in a new tab');
     }, LOAD_TIMEOUT_MS);
 
     iframe.addEventListener('load', () => {
+      if (!current()) return;
       clearTimeout(timer);
-      if (state !== 'loading') return;
       state = 'live';
       frame.classList.remove('is-loading');
     }, { once: true });
 
-    frame.replaceChildren(iframe);
+    frame.replaceChildren(iframe, closeButton);
   });
 }

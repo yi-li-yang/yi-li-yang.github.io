@@ -113,10 +113,13 @@ function renderInteractiveLangChart(container, languages) {
   tooltip.style.display = 'none';
   wrapper.appendChild(tooltip);
 
+  const head = document.createElement('div');
+  head.className = 'lang-chart-head';
   const label = document.createElement('p');
   label.className = 'lang-chart-label';
   label.textContent = 'Language breakdown · all repos';
-  wrapper.appendChild(label);
+  head.appendChild(label);
+  wrapper.appendChild(head);
 
   const svgNS = 'http://www.w3.org/2000/svg';
   const svg = document.createElementNS(svgNS, 'svg');
@@ -213,6 +216,11 @@ export async function initSkills() {
       if (langEl) {
         renderInteractiveLangChart(langEl, normalizeLangs(github?.languages));
       }
+
+      // As two lone cards the repo and commit counts floated beside empty space; in the
+      // chart's header row they caption it. If the chart didn't render, they stay as cards.
+      const chartHead = langEl?.querySelector('.lang-chart-head');
+      if (chartHead && githubEl?.childElementCount) chartHead.appendChild(githubEl);
     } else {
       console.warn(`Stats fetch failed: ${statsRes.status}`);
     }
