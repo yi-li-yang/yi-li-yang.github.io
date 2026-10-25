@@ -365,3 +365,37 @@ The color system is almost entirely achromatic — dark backgrounds with white/g
 5. Brand indigo (`#5e6ad2` / `#7170ff`) is the only chromatic color — everything else is grayscale
 6. Borders are always semi-transparent white, never solid dark colors on dark backgrounds
 7. Berkeley Mono for any code or technical content, Inter Variable for everything else
+
+## 10. Site Components (this site, not Linear)
+
+Sections 1–9 describe the Linear reference. This section records the patterns the site itself
+has adopted on top of it, so new work reuses them instead of inventing a near-copy.
+
+### Deviations from the reference
+- **Quaternary text is `#7a7f88`, not `#62666d`.** Linear's value has a 3.4:1 contrast ratio on
+  `#08090a`, below WCAG AA for the 11–12px labels it is used on here. The site uses 4.9:1.
+- **Pills are labels, not controls.** Hover only brightens the text: no glow, fill or border
+  change, because nothing happens on click. Filter chips, which do act, keep a pressed state.
+
+### Patterns
+- **Overview first, details on demand** (the projects atlas, `js/modules/thoughts.js`).
+  - Uniform text tiles grouped by track show how many items there are at a glance. One shared
+    detail panel opens under the clicked tile's grid row; on phones that reads as an accordion.
+  - Two levels only, never a third. A track over 8 tiles collapses its tail behind "+N more".
+  - Prefer this over an image-card grid whenever items lack pictures or the list grows.
+- **Section lede** (`.section-lede`): one mono line under a heading for a derived count or a
+  data's provenance. Never a hand-typed number.
+- **Group label** (mono, xs, uppercase, quaternary, with a muted count): `.atlas-group-label`,
+  `.pub-group-label`, `.stats-group-label`.
+- **Filter chips** (`.filter-chip`, `aria-pressed`): pill buttons with a mono count; the active
+  chip gets an accent border and a faint indigo fill.
+- **Deep links** use `#<section>/<item>` (e.g. `#projects/ARTS`, `#publications/journal`).
+  They are kept current with `history.replaceState`, so they never add Back-button entries, and
+  arriving from a link scrolls instantly rather than smoothly.
+- **External links** get a `↗` from CSS and an "Opens in a new tab" description for screen
+  readers (`js/modules/links.js`). Never type the arrow into the text.
+- **Load placeholders**: a JS-filled container reserves its measured height through `:empty`
+  (see "Load placeholders" in `components.css`). If a module's output gets much taller or
+  shorter, re-measure and update those heights, or the page will jump again.
+- **Phone-only tabs** (`js/modules/showcase-tabs.js`): long multi-panel stories become tabs at
+  ≤720px. The ARIA roles exist only while the tabs do.

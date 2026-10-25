@@ -26,7 +26,7 @@ derive from one set of facts. The CV's numbers stop being hand-typed; logging ha
 
 The real, implemented site is **vanilla**:
 - `index.html` at root, `css/variables.css` + `base.css` + `components.css`,
-- ES modules: `js/main.js` → `js/modules/{stats,thoughts,skills}.js`,
+- ES modules: `js/main.js` → `js/modules/{nav,links,contact,stats,thoughts,skills,publications,showcase-map,showcase-tabs,seo}.js`,
 - data fetched at runtime from `data/*.json`,
 - design system in `docs/DESIGN.md` (Linear-inspired, dark, Inter Variable).
 
