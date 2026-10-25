@@ -1,18 +1,18 @@
 {
   "_edit": "DERIVED — written by scripts/bib-to-json.js (npm run bib). Never edit; the next build reverts you. Edit cv/publications.bib instead.",
   "generatedBy": "scripts/bib-to-json.js",
-  "generatedAt": "2026-10-21T16:14:46.406Z",
+  "generatedAt": "2026-10-25T12:18:53.995Z",
   "counts": {
-    "journalPapers": 13,
-    "conferences": 8,
+    "journalPapers": 10,
+    "conferences": 9,
     "datasets": 2,
-    "total": 29
+    "total": 28
   },
   "publications": [
     {
       "key": "clelland2025machine",
       "type": "misc",
-      "title": "Machine learning projections of fire occurrence in the arctic-boreal zone for 2025-2100 under different SSP scenarios",
+      "title": "Machine learning projections of fire occurrence in the Arctic-boreal zone for 2025-2100 under different SSP scenarios",
       "authors": [
         {
           "name": "Andrew A. Clelland",
@@ -63,14 +63,146 @@
       "title": "Data-driven modeling of carbon dioxide and methane fluxes across the Arctic-boreal region: recent achievements and future opportunities",
       "authors": [
         {
-          "name": "Anna-Maria Virkkala...",
+          "name": "Anna-Maria Virkkala",
+          "isOwner": false
+        },
+        {
+          "name": "Mathias Göckede",
+          "isOwner": false
+        },
+        {
+          "name": "Kyle Arndt",
+          "isOwner": false
+        },
+        {
+          "name": "McKenzie Kuhn",
+          "isOwner": false
+        },
+        {
+          "name": "Sophia Walther",
+          "isOwner": false
+        },
+        {
+          "name": "Jacob Nelson",
+          "isOwner": false
+        },
+        {
+          "name": "Olli Peltola",
+          "isOwner": false
+        },
+        {
+          "name": "Gerard Rocher-Ros",
+          "isOwner": false
+        },
+        {
+          "name": "Annett Bartsch",
+          "isOwner": false
+        },
+        {
+          "name": "David Bastviken",
+          "isOwner": false
+        },
+        {
+          "name": "Grant Falvo",
+          "isOwner": false
+        },
+        {
+          "name": "Alexandra Hamm",
+          "isOwner": false
+        },
+        {
+          "name": "Joshua Hashemi",
+          "isOwner": false
+        },
+        {
+          "name": "Sarah Ludwig",
+          "isOwner": false
+        },
+        {
+          "name": "Susan Natali",
+          "isOwner": false
+        },
+        {
+          "name": "David Olefeldt",
+          "isOwner": false
+        },
+        {
+          "name": "Martijn Pallandt",
+          "isOwner": false
+        },
+        {
+          "name": "Frans-Jan Parmentier",
+          "isOwner": false
+        },
+        {
+          "name": "Brendan Rogers",
+          "isOwner": false
+        },
+        {
+          "name": "Edward Schuur",
+          "isOwner": false
+        },
+        {
+          "name": "Claire Treat",
+          "isOwner": false
+        },
+        {
+          "name": "Judith Vogt",
+          "isOwner": false
+        },
+        {
+          "name": "Carolina Voigt",
+          "isOwner": false
+        },
+        {
+          "name": "Jennifer Watts",
+          "isOwner": false
+        },
+        {
+          "name": "Isabel Wargowsky",
+          "isOwner": false
+        },
+        {
+          "name": "Birgit Wild",
+          "isOwner": false
+        },
+        {
+          "name": "Yili Yang",
+          "isOwner": true
+        },
+        {
+          "name": "Amanda Armstrong",
+          "isOwner": false
+        },
+        {
+          "name": "Valeria Briones",
+          "isOwner": false
+        },
+        {
+          "name": "Elchin Jafarov",
+          "isOwner": false
+        },
+        {
+          "name": "Kathleen Orndahl",
+          "isOwner": false
+        },
+        {
+          "name": "Benjamin Poulter",
+          "isOwner": false
+        },
+        {
+          "name": "Qing Ying",
+          "isOwner": false
+        },
+        {
+          "name": "Gustaf Hugelius",
           "isOwner": false
         }
       ],
       "venue": "submitted to Global Change Biology",
       "year": null,
-      "doi": "",
-      "url": "",
+      "doi": "10.31223/X5TJ4W",
+      "url": "https://doi.org/10.31223/X5TJ4W",
       "dataset": false
     },
     {
@@ -248,7 +380,7 @@
     {
       "key": "yang2026circumpolar",
       "type": "misc",
-      "title": "Retrogressive thaw slump probability map and thresholded mask for the circumpolar arctic (50–76° north), derived from july–september 2025 PlanetScope basemap imagery at 4.8-meter resolution",
+      "title": "Retrogressive thaw slump probability map and thresholded mask for the circumpolar Arctic (50–76° north), derived from July–September 2025 PlanetScope basemap imagery at 4.8-meter resolution",
       "authors": [
         {
           "name": "Yili Yang",
@@ -332,8 +464,8 @@
     },
     {
       "key": "perera2025panarctic",
-      "type": "misc",
-      "title": "Pan-arctic permafrost landform and human-built infrastructure feature detection with vision transformers and location embeddings",
+      "type": "article",
+      "title": "Pan-Arctic permafrost landform and human-built infrastructure feature detection with vision transformers and location embeddings",
       "authors": [
         {
           "name": "Amal S. Perera",
@@ -446,7 +578,7 @@
     {
       "key": "yang2025collaborative",
       "type": "article",
-      "title": "A collaborative and scalable geospatial data set for arctic retrogressive thaw slumps with data standards",
+      "title": "A collaborative and scalable geospatial data set for Arctic retrogressive thaw slumps with data standards",
       "authors": [
         {
           "name": "Yili Yang",
@@ -496,14 +628,14 @@
       ],
       "venue": "Scientific Data",
       "year": 2025,
-      "doi": "",
-      "url": "",
+      "doi": "10.1038/s41597-025-04372-7",
+      "url": "https://doi.org/10.1038/s41597-025-04372-7",
       "dataset": false
     },
     {
       "key": "li2025multiscale",
       "type": "article",
-      "title": "A multi-scale vision transformer-based multimodal GeoAI model for mapping arctic permafrost thaw",
+      "title": "A multi-scale vision transformer-based multimodal GeoAI model for mapping Arctic permafrost thaw",
       "authors": [
         {
           "name": "Wenwen Li",
@@ -543,7 +675,7 @@
     {
       "key": "li2024segment",
       "type": "article",
-      "title": "Segment anything model can not segment anything: Assessing ai foundation model’s generalizability in permafrost mapping",
+      "title": "Segment anything model can not segment anything: Assessing AI foundation model’s generalizability in permafrost mapping",
       "authors": [
         {
           "name": "Wenwen Li",
@@ -593,14 +725,14 @@
       ],
       "venue": "Remote Sensing",
       "year": 2024,
-      "doi": "",
-      "url": "",
+      "doi": "10.3390/rs16050797",
+      "url": "https://doi.org/10.3390/rs16050797",
       "dataset": false
     },
     {
       "key": "yang2024arts",
       "type": "inproceedings",
-      "title": "Arts: a scalable data set for arctic retrogressive thaw slumps",
+      "title": "ARTS: a scalable data set for Arctic retrogressive thaw slumps",
       "authors": [
         {
           "name": "Yili Yang",
@@ -650,54 +782,14 @@
       ],
       "venue": "EGU general assembly conference abstracts",
       "year": 2024,
-      "doi": "",
-      "url": "",
-      "dataset": false
-    },
-    {
-      "key": "gu4762408multi",
-      "type": "article",
-      "title": "A multi-scale vision transformer-based multimodal geoai model for mapping arctic permafrost thaw",
-      "authors": [
-        {
-          "name": "Zhining Gu",
-          "isOwner": false
-        },
-        {
-          "name": "Wenwen Li",
-          "isOwner": false
-        },
-        {
-          "name": "Chia-Yu Hsu",
-          "isOwner": false
-        },
-        {
-          "name": "Sizhe Wang",
-          "isOwner": false
-        },
-        {
-          "name": "Yili Yang",
-          "isOwner": true
-        },
-        {
-          "name": "Brendan M Rogers",
-          "isOwner": false
-        },
-        {
-          "name": "Anna Liljedahl",
-          "isOwner": false
-        }
-      ],
-      "venue": "Available at SSRN 4762408",
-      "year": 2024,
-      "doi": "",
-      "url": "",
+      "doi": "10.5194/egusphere-egu24-1365",
+      "url": "https://doi.org/10.5194/egusphere-egu24-1365",
       "dataset": false
     },
     {
       "key": "potter4803815mapping",
-      "type": "article",
-      "title": "Mapping arctic-boreal burned area in north america using a convolutional neural network with landsat and sentinel-2 imagery",
+      "type": "misc",
+      "title": "Mapping Arctic-boreal burned area in North America using a convolutional neural network with Landsat and Sentinel-2 imagery",
       "authors": [
         {
           "name": "Stefano Potter",
@@ -745,10 +837,10 @@
           "etAl": true
         }
       ],
-      "venue": "Available at SSRN 4803815",
+      "venue": "Preprint, SSRN",
       "year": 2024,
-      "doi": "",
-      "url": "",
+      "doi": "10.2139/ssrn.4803815",
+      "url": "https://doi.org/10.2139/ssrn.4803815",
       "dataset": false
     },
     {
@@ -791,14 +883,14 @@
       ],
       "venue": "Remote Sensing",
       "year": 2024,
-      "doi": "",
-      "url": "",
+      "doi": "10.3390/rs16132361",
+      "url": "https://doi.org/10.3390/rs16132361",
       "dataset": false
     },
     {
       "key": "yang2024arctic",
       "type": "misc",
-      "title": "Arctic retrogressive thaw slumps (ARTS): digitisations of pan-arctic retrogressive thaw slumps, 1985-2021",
+      "title": "Arctic retrogressive thaw slumps (ARTS): digitisations of pan-Arctic retrogressive thaw slumps, 1985-2021",
       "authors": [
         {
           "name": "Yili Yang",
@@ -863,14 +955,14 @@
       ],
       "venue": "Remote Sensing of Environment",
       "year": 2023,
-      "doi": "",
-      "url": "",
+      "doi": "10.1016/j.rse.2023.113495",
+      "url": "https://doi.org/10.1016/j.rse.2023.113495",
       "dataset": false
     },
     {
       "key": "potter2023mapping",
       "type": "inproceedings",
-      "title": "Mapping alaskan and canadian wildfires using convolutional neural networks",
+      "title": "Mapping Alaskan and Canadian wildfires using convolutional neural networks",
       "authors": [
         {
           "name": "Stefano Potter",
@@ -972,8 +1064,8 @@
       ],
       "venue": "Geophysical Research Letters",
       "year": 2023,
-      "doi": "",
-      "url": "",
+      "doi": "10.1029/2022GL102327",
+      "url": "https://doi.org/10.1029/2022GL102327",
       "dataset": false
     },
     {
@@ -1020,8 +1112,8 @@
       ],
       "venue": "EGU general assembly conference abstracts",
       "year": 2023,
-      "doi": "",
-      "url": "",
+      "doi": "10.5194/egusphere-egu23-1675",
+      "url": "https://doi.org/10.5194/egusphere-egu23-1675",
       "dataset": false
     },
     {
@@ -1084,7 +1176,7 @@
     {
       "key": "rodenhizer2023comparison",
       "type": "inproceedings",
-      "title": "Comparison of three different imagery sources for retrogressive thaw slump detection using a unet3+ deep learning model",
+      "title": "Comparison of three different imagery sources for retrogressive thaw slump detection using a UNet3+ deep learning model",
       "authors": [
         {
           "name": "Heidi Rodenhizer",
@@ -1127,7 +1219,7 @@
     },
     {
       "key": "li2023geoai",
-      "type": "article",
+      "type": "inproceedings",
       "title": "GeoAI foundation models for vision: a view from AI augmented environmental mapping",
       "authors": [
         {
@@ -1176,7 +1268,7 @@
           "etAl": true
         }
       ],
-      "venue": "AGU23",
+      "venue": "AGU fall meeting abstracts",
       "year": 2023,
       "doi": "",
       "url": "",
@@ -1184,7 +1276,7 @@
     },
     {
       "key": "yang2022fast",
-      "type": "article",
+      "type": "misc",
       "title": "Fast segmentation of 4D microtomography volumes from core-flooding experiments in porous rock using convolutional neural network",
       "authors": [
         {
@@ -1204,10 +1296,10 @@
           "isOwner": false
         }
       ],
-      "venue": "Authorea Preprints",
+      "venue": "Preprint, ESS Open Archive",
       "year": 2022,
-      "doi": "",
-      "url": "",
+      "doi": "10.1002/essoar.10507074.1",
+      "url": "https://doi.org/10.1002/essoar.10507074.1",
       "dataset": false
     },
     {
@@ -1274,8 +1366,8 @@
       ],
       "venue": "Earth and Planetary Science Letters",
       "year": 2021,
-      "doi": "",
-      "url": "",
+      "doi": "10.1016/j.epsl.2020.116679",
+      "url": "https://doi.org/10.1016/j.epsl.2020.116679",
       "dataset": false
     },
     {
@@ -1318,8 +1410,8 @@
       ],
       "venue": "EGU general assembly conference abstracts",
       "year": 2020,
-      "doi": "",
-      "url": "",
+      "doi": "10.5194/egusphere-egu2020-9560",
+      "url": "https://doi.org/10.5194/egusphere-egu2020-9560",
       "dataset": false
     },
     {
