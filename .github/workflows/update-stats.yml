@@ -27,6 +27,12 @@ jobs:
           GH_USER_TOKEN: ${{ secrets.GH_PAT }}
           SERPAPI_KEY: ${{ secrets.SERPAPI_KEY }}
 
+      # Lists the skills in yi-li-yang/skills for the website's Projects atlas. Fails safe on its own:
+      # on an error it leaves data/claude-skills.json as it was, so it never fails the job.
+      - run: node scripts/fetch-skills.js
+        env:
+          GH_USER_TOKEN: ${{ secrets.GH_PAT }}
+
       - name: Validate stats JSON
         run: node -e "const s=require('./data/stats.json');if(!s.profiles||!s.lastUpdated)process.exit(1)"
 
@@ -35,7 +41,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add data/stats.json
+          git add data/stats.json data/claude-skills.json
           if git diff --cached --quiet; then
             echo "stats unchanged — nothing to commit"
           else

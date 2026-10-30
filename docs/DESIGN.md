@@ -379,10 +379,17 @@ has adopted on top of it, so new work reuses them instead of inventing a near-co
 
 ### Patterns
 - **Overview first, details on demand** (the projects atlas, `js/modules/thoughts.js`).
-  - Uniform text tiles grouped by track show how many items there are at a glance. One shared
-    detail panel opens under the clicked tile's grid row; on phones that reads as an accordion.
-  - Two levels only, never a third. A track over 8 tiles collapses its tail behind "+N more".
-  - Prefer this over an image-card grid whenever items lack pictures or the list grows.
+  - Uniform tiles grouped by track show how many items there are at a glance. Each tile sits on
+    a dimmed screenshot (38% opacity under a dark scrim, 55% on hover), or, with no screenshot,
+    on a gradient tinted with its track's hue (`--hue`, one per track, in track order).
+  - One shared popover (`.atlas-pop`) floats beside the hovered tile and stays while the pointer
+    is on the tile or the popover. A click, or a tap, pins it; Esc, ✕ or a click elsewhere closes
+    it. It never reflows the grid. At 720px and below it is a bottom sheet and hover is off.
+  - Two levels only, never a third. A track shows two rows (one screen on a phone), fades the
+    last row as a hint, and loads the next 4 as the reader scrolls toward the "Show more"
+    button; clicking it does the same. A single leftover tile is shown, never given a button.
+  - A track can be derived: a `show_repo.json` entry with `expand` names a data file that
+    supplies its tiles (`data/claude-skills.json`, from `scripts/fetch-skills.js`).
 - **Section lede** (`.section-lede`): one mono line under a heading for a derived count or a
   data's provenance. Never a hand-typed number.
 - **Group label** (mono, xs, uppercase, quaternary, with a muted count): `.atlas-group-label`,
