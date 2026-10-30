@@ -20,7 +20,8 @@
     "ingest": "node scripts/update-stats.js",
     "bib": "node scripts/bib-to-json.js",
     "metrics": "node scripts/emit-metrics-tex.js",
-    "render": "node scripts/render-cv.js"
+    "render": "node scripts/render-cv.js",
+    "ingest:skills": "node scripts/fetch-skills.js"
   },
   "dependencies": {
     "@retorquere/bibtex-parser": "^9.0.20",

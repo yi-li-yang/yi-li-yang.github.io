@@ -3,6 +3,8 @@
   "_comment": [
     "Repositories featured in the website's Projects atlas. Read by js/modules/thoughts.js.",
     "`group` is the track a repo is listed under. Tracks appear in the order they first occur, and repos in file order within their track, so keep each track's entries together.",
+    "An entry with `expand` (a path to a data file) is a placeholder: it keeps that track in this position, and its tiles come from the file. `Claude Code skills` expands from data/claude-skills.json, which scripts/fetch-skills.js writes from the skills repo, so do not list skills here.",
+    "`name` and `owner` are optional overrides; by default both are read from the repo URL.",
     "`image` is optional: leave it empty and the detail panel shows a title card instead.",
     "Prefer a local file in assets/projects/ (WebP, about 1200px wide, under 250 KB) over a remote URL: a raw screenshot or GIF from a README can weigh several megabytes."
   ],
@@ -32,28 +34,8 @@
       "image": ""
     },
     {
-      "group": "AI agents & skills",
-      "description": "A skill that helps AI agents write text I would sign as my own, from papers and grant proposals to web pages and email. It is not a list of banned habits. It explains what good writing asks of the writer, drawing on Lindsay, Schimel, Strunk and the ASD-STE100 standard for Simplified Technical English.",
-      "url": "https://github.com/yi-li-yang/write-like-myself",
-      "image": ""
-    },
-    {
-      "group": "AI agents & skills",
-      "description": "Bring Claude up to date on any topic before you start working on it. The /expertise skill sends a team of research agents after what Claude is most likely to have wrong, checks every cited claim against its source, and saves a dated briefing that the next conversation starts from.",
-      "url": "https://github.com/yi-li-yang/deep-research",
-      "image": ""
-    },
-    {
-      "group": "AI agents & skills",
-      "description": "A decision router that does the legwork — all of it. Its job is to take the research → compare → find loop a person re-runs every time they buy something non-trivial and run that loop for them, so they never have to be the researcher.",
-      "url": "https://github.com/yi-li-yang/research-before-buy",
-      "image": ""
-    },
-    {
-      "group": "AI agents & skills",
-      "description": "A personal document. It describes how I want a machine to think with me, and in doing so, describes what I believe good thinking looks like. It is not a product, a methodology or a fix for current models. Most of what is written here will become default behavior in time, and that will be a success, not an obsolescence. What I am writing down is not the gap between models and ideal behavior. That gap will close. What I am writing down is my own clarity about what kind of conversation I want to have with a thinking machine, kept as a record I can return to and recognize.",
-      "url": "https://github.com/yi-li-yang/prompt-to-think",
-      "image": ""
+      "group": "Claude Code skills",
+      "expand": "data/claude-skills.json"
     },
     {
       "group": "Tools & apps",

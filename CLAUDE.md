@@ -101,8 +101,9 @@ from data, not a literal).
 ```
 yi-li-yang.github.io/                 CURRENT (keep)
 ├── index.html  css/  js/modules/     vanilla site
-├── data/ stats.json pill-tags.json show_repo.json   (stats.json = script-written; other two = hand-written)
+├── data/ stats.json claude-skills.json pill-tags.json show_repo.json   (first two = script-written; other two = hand-written)
 ├── scripts/update-stats.js           working ingest (ORCID/GitHub/Scholar, fail-safe)
+├── scripts/fetch-skills.js           ingest: skills in yi-li-yang/skills -> data/claude-skills.json (fail-safe)
 ├── .github/workflows/update-stats.yml monthly cron
 ├── docs/  CLAUDE.md  README.md
 │

@@ -1110,8 +1110,9 @@
 }
 
 /* ── Projects Atlas ──────────────────────────── */
-/* Overview first (uniform tiles per track), details on demand (one shared panel that
-   js/modules/thoughts.js inserts after the clicked tile's grid row). */
+/* Overview first (uniform tiles per track), details on demand (one shared popover that
+   js/modules/thoughts.js floats beside the hovered tile, or pins on click). Each track
+   carries a hue in --hue; tiles without a screenshot are tinted with it. */
 
 .atlas-group + .atlas-group {
   margin-top: var(--space-xl);
@@ -1130,45 +1131,138 @@
   color: var(--color-text-muted);
 }
 
+.atlas-install {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-sm);
+  margin-bottom: var(--space-sm);
+  padding: var(--space-xs) var(--space-sm);
+  border: 1px dashed var(--color-border);
+  border-radius: var(--radius-md);
+}
+
+.atlas-install-lines {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.atlas-install-lines code {
+  font-family: var(--font-mono);
+  font-size: var(--font-size-xs);
+  color: var(--color-text-muted);
+  overflow-wrap: anywhere;
+}
+
+.atlas-install-copy {
+  flex: none;
+  padding: 2px var(--space-xs);
+  background: none;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  color: var(--color-text-muted);
+  font-size: var(--font-size-xs);
+  font-weight: 510;
+  cursor: pointer;
+  transition: color var(--transition), border-color var(--transition);
+}
+
+.atlas-install-copy:hover {
+  color: var(--color-text);
+  border-color: rgba(255, 255, 255, 0.12);
+}
+
 .atlas-tiles {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
   gap: var(--space-sm);
 }
 
+/* A tile is three layers under its text: the gradient (or the screenshot that replaces it),
+   then a scrim that darkens the bottom so the text stays readable over either. */
 .atlas-tile {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  justify-content: flex-end;
+  gap: 3px;
   min-width: 0;
+  min-height: 128px;
   padding: var(--space-sm) 14px;
-  background: rgba(255, 255, 255, 0.02);
+  background: var(--color-bg-panel);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-md);
   color: inherit;
   text-align: left;
   cursor: pointer;
-  transition: background var(--transition), border-color var(--transition);
+  transition: border-color var(--transition);
 }
 
-.atlas-tile:hover {
-  background: rgba(255, 255, 255, 0.04);
-  border-color: rgba(255, 255, 255, 0.12);
+.atlas-tile::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  background:
+    radial-gradient(120% 140% at var(--ox, 30%) 0%, hsl(var(--hue, 255) 70% 55% / 0.42), transparent 62%),
+    radial-gradient(90% 90% at 100% 100%, hsl(var(--hue, 255) 70% 55% / 0.16), transparent 70%);
 }
 
+.atlas-tile.has-image::before {
+  display: none;
+}
+
+.atlas-tile-bg {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.38;
+  filter: saturate(0.85);
+  transition: opacity 200ms ease, transform 400ms ease;
+}
+
+.atlas-tile::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(to top, rgba(8, 9, 10, 0.55) 0%, rgba(8, 9, 10, 0.2) 60%, transparent 100%);
+}
+
+.atlas-tile.has-image::after {
+  background: linear-gradient(to top, rgba(8, 9, 10, 0.94) 0%, rgba(8, 9, 10, 0.6) 55%, rgba(8, 9, 10, 0.2) 100%);
+}
+
+.atlas-tile:hover,
 .atlas-tile[aria-expanded="true"] {
-  background: rgba(94, 106, 210, 0.08);
+  border-color: rgba(255, 255, 255, 0.18);
+}
+
+.atlas-tile:hover .atlas-tile-bg,
+.atlas-tile[aria-expanded="true"] .atlas-tile-bg {
+  opacity: 0.55;
+  transform: scale(1.03);
+}
+
+.atlas-tile.is-pinned {
   border-color: var(--color-accent);
 }
 
-.atlas-tile-name,
-.atlas-tile-desc {
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
+.atlas-tile.is-new {
+  animation: atlas-reveal 260ms ease-out both;
 }
 
 .atlas-tile-name {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
   font-size: 0.9375rem;
   font-weight: 510;
   color: var(--color-text);
@@ -1176,38 +1270,92 @@
 }
 
 .atlas-tile-desc {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  overflow: hidden;
   font-size: var(--font-size-sm);
-  color: var(--color-text-muted);
-}
-
-.atlas-tile-more {
-  align-items: center;
-  justify-content: center;
-  border-style: dashed;
-  font-size: var(--font-size-sm);
-  font-weight: 510;
-  color: var(--color-text-muted);
-}
-
-.atlas-detail {
-  position: relative;
-  grid-column: 1 / -1;
-  display: grid;
-  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
-  gap: var(--space-lg);
-  padding: var(--space-lg);
-  background: var(--color-bg-panel);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-lg);
-  animation: atlas-reveal 150ms ease-out;
-}
-
-.atlas-detail[hidden] {
-  display: none;
+  line-height: 1.45;
+  color: #a3a8b0;
 }
 
 @keyframes atlas-reveal {
-  from { opacity: 0; transform: translateY(-4px); }
+  from { opacity: 0; transform: translateY(8px); }
+}
+
+/* "Show more": the last visible row fades out as the hint that the track continues, and the
+   button sits over the fade. Scrolling toward it loads the next batch; clicking does too. */
+.atlas-group.has-more .atlas-tiles {
+  -webkit-mask-image: linear-gradient(to bottom, #000 calc(100% - 84px), transparent);
+  mask-image: linear-gradient(to bottom, #000 calc(100% - 84px), transparent);
+}
+
+.atlas-more {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  margin-top: -18px;
+}
+
+.atlas-more-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
+  padding: 6px var(--space-md);
+  background: var(--color-bg-panel);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 999px;
+  color: var(--color-text);
+  font-size: var(--font-size-sm);
+  font-weight: 510;
+  cursor: pointer;
+  transition: border-color var(--transition), background var(--transition);
+}
+
+.atlas-more-btn:hover {
+  border-color: var(--color-accent);
+  background: rgba(94, 106, 210, 0.08);
+}
+
+.atlas-more-count {
+  font-family: var(--font-mono);
+  font-size: var(--font-size-xs);
+  color: var(--color-text-muted);
+}
+
+.atlas-more-arrow {
+  color: var(--color-text-muted);
+  animation: atlas-nudge 1.8s ease-in-out infinite;
+}
+
+@keyframes atlas-nudge {
+  50% { transform: translateY(3px); }
+}
+
+/* The popover: one element, moved between tiles. Absolutely positioned in the document so it
+   scrolls with the page; thoughts.js sets left/top. On phones it is a bottom sheet instead. */
+.atlas-pop {
+  position: absolute;
+  z-index: 60;
+  width: min(400px, calc(100vw - 24px));
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+  padding: var(--space-md);
+  background: var(--color-bg-panel);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.55);
+  animation: atlas-pop-in 140ms ease-out;
+}
+
+.atlas-pop[hidden] {
+  display: none;
+}
+
+@keyframes atlas-pop-in {
+  from { opacity: 0; transform: translateY(4px); }
 }
 
 .atlas-media {
@@ -1215,7 +1363,9 @@
   overflow: hidden;
   border: 1px solid var(--color-border-subtle);
   border-radius: var(--radius-md);
-  background: linear-gradient(135deg, #0d1f2d 0%, #0f1011 50%, #1a1025 100%);
+  background:
+    radial-gradient(120% 140% at 20% 0%, hsl(var(--hue, 255) 70% 55% / 0.42), transparent 62%),
+    var(--color-bg-panel);
 }
 
 .atlas-media img {
@@ -1230,7 +1380,7 @@
   justify-content: flex-end;
   gap: var(--space-xxs);
   height: 100%;
-  padding: var(--space-lg);
+  padding: var(--space-md);
 }
 
 .atlas-titlecard-owner,
@@ -1241,7 +1391,7 @@
 }
 
 .atlas-titlecard-name {
-  font-size: clamp(1.5rem, 3vw, 2.25rem);
+  font-size: clamp(1.25rem, 3vw, 1.75rem);
   font-weight: 510;
   line-height: 1.05;
   letter-spacing: -0.04em;
@@ -1277,37 +1427,6 @@
   display: flex;
   flex-wrap: wrap;
   gap: var(--space-xs);
-  margin-top: auto;
-}
-
-.atlas-navs {
-  display: flex;
-  justify-content: space-between;
-  gap: var(--space-sm);
-  padding-top: var(--space-sm);
-  border-top: 1px solid var(--color-border-subtle);
-}
-
-.atlas-nav {
-  min-height: 32px;
-  padding: 0 var(--space-xs);
-  background: none;
-  border: 0;
-  border-radius: var(--radius-sm);
-  color: var(--color-text-muted);
-  font-size: var(--font-size-sm);
-  font-weight: 510;
-  cursor: pointer;
-  transition: color var(--transition);
-}
-
-.atlas-nav:hover:not(:disabled) {
-  color: var(--color-text);
-}
-
-.atlas-nav:disabled {
-  opacity: 0.35;
-  cursor: default;
 }
 
 .atlas-close {
@@ -1317,7 +1436,7 @@
   width: 28px;
   height: 28px;
   border-radius: var(--radius-circle);
-  background: rgba(255, 255, 255, 0.03);
+  background: rgba(8, 9, 10, 0.6);
   border: 1px solid var(--color-border);
   color: var(--color-text-muted);
   cursor: pointer;
@@ -1330,11 +1449,23 @@
 }
 
 @media (max-width: 720px) {
-  .atlas-detail {
-    grid-template-columns: 1fr;
-    gap: var(--space-md);
-    padding: var(--space-md);
+  .atlas-tile {
+    min-height: 104px;
   }
+
+  .atlas-pop {
+    position: fixed;
+    inset: auto 0 0 0;
+    width: auto;
+    max-height: 82vh;
+    overflow-y: auto;
+    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+    animation-name: atlas-sheet-in;
+  }
+}
+
+@keyframes atlas-sheet-in {
+  from { transform: translateY(24px); opacity: 0; }
 }
 
 /* ── Logo Cloud ──────────────────────────────── */
@@ -1689,7 +1820,14 @@
     transform: none;
   }
 
-  .atlas-detail {
+  .atlas-pop,
+  .atlas-tile.is-new,
+  .atlas-more-arrow {
     animation: none;
+  }
+
+  .atlas-tile:hover .atlas-tile-bg,
+  .atlas-tile[aria-expanded="true"] .atlas-tile-bg {
+    transform: none;
   }
 }

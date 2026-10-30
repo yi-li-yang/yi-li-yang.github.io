@@ -1,0 +1,38 @@
+{
+  "_edit": "DERIVED — written by scripts/fetch-skills.js (npm run ingest:skills). Never edit; the next run reverts you. The skills live in https://github.com/yi-li-yang/skills.",
+  "repo": "yi-li-yang/skills",
+  "install": [
+    "/plugin marketplace add yi-li-yang/skills",
+    "/plugin install yili-skills@yili-skills"
+  ],
+  "skills": [
+    {
+      "name": "expertise",
+      "owner": "yili-skills",
+      "description": "Brings Claude up to date on a topic with parallel research agents and saves a sourced, dated briefing.",
+      "url": "https://github.com/yi-li-yang/skills/tree/HEAD/plugins/yili-skills/skills/expertise",
+      "image": ""
+    },
+    {
+      "name": "prompt-to-think",
+      "owner": "yili-skills",
+      "description": "A thinking framework: intellectual honesty, first principles, inversion, anti-fragility, taste.",
+      "url": "https://github.com/yi-li-yang/skills/tree/HEAD/plugins/yili-skills/skills/prompt-to-think",
+      "image": ""
+    },
+    {
+      "name": "research-before-buy",
+      "owner": "yili-skills",
+      "description": "Runs the research, compare and find loop for a non-trivial purchase.",
+      "url": "https://github.com/yi-li-yang/skills/tree/HEAD/plugins/yili-skills/skills/research-before-buy",
+      "image": ""
+    },
+    {
+      "name": "write-like-myself",
+      "owner": "yili-skills",
+      "description": "Writes the way I would, built on how readers read rather than on lists of rules.",
+      "url": "https://github.com/yi-li-yang/skills/tree/HEAD/plugins/yili-skills/skills/write-like-myself",
+      "image": ""
+    }
+  ]
+}
