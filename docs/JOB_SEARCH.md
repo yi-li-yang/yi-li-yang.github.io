@@ -28,7 +28,7 @@ Skip on the title alone, without reading further:
 
 ## Then judge what is left
 
-Any sector counts, finance and quant included, when the skill set fits. Ask four questions:
+Any sector counts, finance and quant included, when the skill set fits. Ask five questions:
 
 1. **Fit.** Does the work use the core skills: applied machine learning on large, messy,
    real-world data (images, time series, geospatial), end-to-end delivery, Python and PyTorch?
@@ -41,10 +41,14 @@ Any sector counts, finance and quant included, when the skill set fits. Ask four
    judge from the employer and the sector.
 4. **Workload.** Is the job sustainable? Roles known for very long hours (for example
    front-office investment banking) need pay that clearly makes up for it, and are flagged.
+5. **Employer.** Judge the company as a whole: size, stability, standing in its field, and what
+   staff say about it. An established company, such as a large technology firm, usually beats an
+   early start-up with the same title. A company with a clearly bad reputation, for example poor
+   staff reviews on Glassdoor, is a pass whatever the role.
 
 Then give one of three answers, with the one reason that decides it:
 
-- **Worth applying**: good fit, a real chance, fair pay, sustainable hours.
+- **Worth applying**: good fit, a real chance, fair pay, sustainable hours, a sound employer.
 - **Maybe**: one question is unclear or weak; say which.
 - **Not this one**: say why in one line.
 

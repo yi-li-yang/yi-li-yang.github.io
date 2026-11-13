@@ -32,7 +32,7 @@ Derive `<slug>` as `<company>-<role>`, lowercase, hyphenated
 ### 1b. Judge it
 
 Before tailoring, judge the posting with the questions in `docs/JOB_SEARCH.md` (fit, chance,
-pay for the industry, workload). Give the user a short verdict in plain words: worth it, maybe,
+pay for the industry, workload, employer). Give the user a short verdict in plain words: worth it, maybe,
 or not, with the one reason that decides it. If the answer is "not", say why and ask whether to
 go on. The verdict is a judgment, never a claim, and never goes into the manifest or the letter.
 
