@@ -15,6 +15,7 @@ One body of facts in `data/` and `cv/publications.bib`. Three things derived fro
 | Document | For |
 |----------|-----|
 | [../README.md](../README.md) | start here — the commands, and which files you may edit |
+| [JOB_SEARCH.md](JOB_SEARCH.md) | the step before ③: which postings deserve an application, and `npm run score` |
 | [APPLICATIONS.md](APPLICATIONS.md) | ③ in detail: schemas, citation tokens, the firewall, the gap report |
 | [ARCHITECTURE.md](ARCHITECTURE.md) | why the pipeline is shaped this way, and the invariants it protects |
 | [BUILD_AND_RUN.md](BUILD_AND_RUN.md) | build stages, and the Nunjucks-vs-LaTeX delimiter gotcha |

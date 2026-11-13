@@ -29,6 +29,13 @@ produces a CV tailored to the wrong thing.
 Derive `<slug>` as `<company>-<role>`, lowercase, hyphenated
 (e.g. `goldman-sachs-applied-ai-researcher`).
 
+### 1b. Screen it
+
+Save the pasted posting to a scratch file and run `npm run score -- <file>`. If the verdict is
+`skip`, show the user why (the deal-breaker or the empty groups) and ask whether to go on.
+The score is the user's own preference from `data/job-search.json`; it is never a claim and
+never goes into the manifest or the letter.
+
 ### 2. Archive it verbatim
 
 Write `applications/drafting/<slug>/job.md`: a short front-matter block (company, role, source,

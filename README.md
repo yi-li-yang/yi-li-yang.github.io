@@ -34,6 +34,7 @@ npm run app:status -- goldman-sachs-applied-ai-researcher submitted
 |---------|--------------|
 | `npm run build` | Regenerates every derived `.tex` from `data/` + the `.bib`. Run after editing any source file. |
 | `npm run apps` | Lists every application, grouped by status, with company, role and date. The directory tree *is* the record — there is no index file to keep in sync. |
+| `npm run score -- <slug\|file\|->` | Screens a posting against `data/job-search.json` and says `apply`, `consider` or `skip`, before any tailoring work is spent on it. See [docs/JOB_SEARCH.md](docs/JOB_SEARCH.md). |
 | `npm run tailor -- <slug>` | **Verifies, then renders** one application into `build/<slug>/`. A claim that doesn't trace to the data layer aborts the run before anything is written. |
 | `npm run app:status -- <slug> <drafting\|submitted\|closed>` | Moves an application between status folders with `git mv`. Nothing else needs updating — every command finds applications by slug, not by path. |
 
@@ -126,6 +127,7 @@ See **[docs/APPLICATIONS.md](docs/APPLICATIONS.md)** for the citation tokens and
 
 | | |
 |---|---|
+| [docs/JOB_SEARCH.md](docs/JOB_SEARCH.md) | screening job alerts: the scoring rules and `npm run score` |
 | [docs/APPLICATIONS.md](docs/APPLICATIONS.md) | job applications: schemas, citation tokens, the firewall, the gap report |
 | [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) | why the pipeline is shaped this way, and the invariants |
 | [docs/BUILD_AND_RUN.md](docs/BUILD_AND_RUN.md) | build stages in detail, and the Nunjucks/LaTeX delimiter gotcha |
