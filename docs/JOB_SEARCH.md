@@ -5,55 +5,53 @@ The repo already turns a posting into a tailored CV and letter (`/apply`, see
 deserve `/apply` at all.**
 
 ```text
-job-alert email ─► screen (title only) ─► read posting ─► npm run score ─► /apply ─► drafting/
-   platforms          cheap, drops noise       full text       data/job-search.json
+job-alert email ─► drop the noise (title only) ─► read the posting ─► judge it ─► /apply ─► drafting/
 ```
+
+There is no score. A fixed formula was tried and was too rigid: it cannot tell a strong odd-fit
+role from a weak on-paper match. Each posting gets a judgment instead, using the questions below.
 
 ## The one rule
 
-**A score is a preference, not a fact.** `data/job-search.json` says what the owner wants, so it
-never feeds the CV, the letter or the website, and nothing the scorer prints may be copied into
-`data/**`. The scorer only reads.
+**A judgment is a preference, not a fact.** Nothing in it feeds the CV, the letter or the
+website. The facts about the candidate stay in `data/**`.
 
-## Commands
+## Drop the noise first
 
-```bash
-npm run score -- <slug>                 # score an application's job.md
-npm run score -- path/to/posting.md     # score any saved posting
-pbpaste | npm run score -- -            # score text on stdin
-npm run score -- <...> --json           # machine-readable, for the email watch
-```
+Skip on the title alone, without reading further:
 
-Output: a total out of 100, a verdict (`apply` ≥ 65, `consider` ≥ 45, otherwise `skip`), the
-points per group with the terms that earned them, any penalty, any deal-breaker, and which of your
-own skills (`data/skills.json`) the posting names.
+- school teaching or tutoring;
+- roles that need an unrelated professional qualification (nursing, law, pharmacy, social work);
+- AI-training or annotation gig work;
+- junior, graduate or internship roles;
+- reporting-only analyst roles (dashboards, business intelligence).
 
-## How the score works
+## Then judge what is left
 
-| Group | Weight | Full marks when |
-|-------|-------:|-----------------|
-| Role title | 25 | one fitting title (applied / research / ML / AI / geospatial scientist, research engineer, quantitative researcher, quant developer, lecturer) |
-| Skill set | 35 | five of deep learning, computer vision, time series, forecasting, statistics, foundation models, PyTorch, Python, Google Cloud Platform (GCP), Earth Engine … |
-| Domain | 15 | two terms from Earth and climate science or from finance (systematic trading, hedge fund, alternative data …) |
-| Seniority | 10 | senior, staff, lead, principal, vice president (VP) or PhD |
-| Location or work mode | 10 | London, UK, remote, hybrid or Europe |
-| Mission | 5 | a small bonus: net zero, sustainability, conservation, research institute, university … |
+Any sector counts, finance and quant included, when the skill set fits. Ask four questions:
 
-The skill set carries the most weight on purpose: any sector counts when the skills fit.
+1. **Fit.** Does the work use the core skills: applied machine learning on large, messy,
+   real-world data (images, time series, geospatial), end-to-end delivery, Python and PyTorch?
+   Domain knowledge is a bonus, not a gate.
+2. **Chance.** Would a hiring manager short-list this CV? Look at what the posting treats as
+   essential. A missing nice-to-have is fine. A missing essential (for example competition-level
+   C++ for a low-latency trading role) usually is not.
+3. **Pay.** Is the pay at or above what the industry usually pays for this level? Roles that pay
+   well below the market for the level are not worth the switch. When the posting gives no pay,
+   judge from the employer and the sector.
+4. **Workload.** Is the job sustainable? Roles known for very long hours (for example
+   front-office investment banking) need pay that clearly makes up for it, and are flagged.
 
-Penalties: junior or internship (−20), AI-training or annotation gig work (−25), reporting or
-analyst role (−10).
+Then give one of three answers, with the one reason that decides it:
 
-Deal-breakers (verdict `skip` whatever the score): school teaching or tutoring; roles that need an
-unrelated professional qualification (nursing, law, pharmacy, social work).
-
-Edit the weights and lists in `data/job-search.json`. Set `"status": "confirmed"` once the owner
-has agreed them; until then the scorer prints `(rules status: proposal)`.
+- **Worth applying**: good fit, a real chance, fair pay, sustainable hours.
+- **Maybe**: one question is unclear or weak; say which.
+- **Not this one**: say why in one line.
 
 ## Keep private things out
 
-This repo is public. Pay floors, notice periods, anything about the current employer and anything
-personal stay in the owner's private notes, never in `data/job-search.json`.
+This repo is public. Pay figures, notice periods, anything about the current employer and
+anything personal stay in the owner's private notes, never in this repo.
 
 ## Recording outcomes
 

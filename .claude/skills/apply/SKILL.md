@@ -29,12 +29,12 @@ produces a CV tailored to the wrong thing.
 Derive `<slug>` as `<company>-<role>`, lowercase, hyphenated
 (e.g. `goldman-sachs-applied-ai-researcher`).
 
-### 1b. Screen it
+### 1b. Judge it
 
-Save the pasted posting to a scratch file and run `npm run score -- <file>`. If the verdict is
-`skip`, show the user why (the deal-breaker or the empty groups) and ask whether to go on.
-The score is the user's own preference from `data/job-search.json`; it is never a claim and
-never goes into the manifest or the letter.
+Before tailoring, judge the posting with the questions in `docs/JOB_SEARCH.md` (fit, chance,
+pay for the industry, workload). Give the user a short verdict in plain words: worth it, maybe,
+or not, with the one reason that decides it. If the answer is "not", say why and ask whether to
+go on. The verdict is a judgment, never a claim, and never goes into the manifest or the letter.
 
 ### 2. Archive it verbatim
 
