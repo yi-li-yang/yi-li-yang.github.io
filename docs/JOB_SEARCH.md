@@ -52,6 +52,12 @@ Then give one of three answers, with the one reason that decides it:
 - **Maybe**: one question is unclear or weak; say which.
 - **Not this one**: say why in one line.
 
+## What the email watch sends
+
+Every two days, one short brief. It names only the roles that are clearly worth applying for,
+with the one reason for each. "Maybe" roles are not reported. When nothing is clearly worth it,
+the brief says so in one line.
+
 ## Keep private things out
 
 This repo is public. Pay figures, notice periods, anything about the current employer and
