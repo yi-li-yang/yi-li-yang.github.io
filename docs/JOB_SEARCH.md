@@ -32,15 +32,17 @@ own skills (`data/skills.json`) the posting names.
 
 | Group | Weight | Full marks when |
 |-------|-------:|-----------------|
-| Role title | 25 | one fitting title (applied / research / ML / AI / geospatial / remote sensing scientist, research engineer, lecturer) |
-| Domain | 25 | three Earth, climate or physical-science terms |
-| Methods and tools | 20 | four of deep learning, computer vision, segmentation, time series, foundation models, PyTorch, Python, Google Cloud Platform (GCP), Earth Engine … |
-| Seniority | 10 | senior, staff, lead, principal or PhD |
+| Role title | 25 | one fitting title (applied / research / ML / AI / geospatial scientist, research engineer, quantitative researcher, quant developer, lecturer) |
+| Skill set | 35 | five of deep learning, computer vision, time series, forecasting, statistics, foundation models, PyTorch, Python, Google Cloud Platform (GCP), Earth Engine … |
+| Domain | 15 | two terms from Earth and climate science or from finance (systematic trading, hedge fund, alternative data …) |
+| Seniority | 10 | senior, staff, lead, principal, vice president (VP) or PhD |
 | Location or work mode | 10 | London, UK, remote, hybrid or Europe |
-| Mission | 10 | net zero, sustainability, conservation, research institute, non-profit, university … |
+| Mission | 5 | a small bonus: net zero, sustainability, conservation, research institute, university … |
+
+The skill set carries the most weight on purpose: any sector counts when the skills fit.
 
 Penalties: junior or internship (−20), AI-training or annotation gig work (−25), reporting or
-analyst role (−10), advertising or sales analytics (−10).
+analyst role (−10).
 
 Deal-breakers (verdict `skip` whatever the score): school teaching or tutoring; roles that need an
 unrelated professional qualification (nursing, law, pharmacy, social work).

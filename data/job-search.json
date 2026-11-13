@@ -17,16 +17,13 @@
     "This repo is PUBLIC. Keep pay floors, current-employer details and anything else private OUT",
     "of this file. The watch keeps those in the owner's private notes, not here.",
     "",
-    "STATUS: first proposal (2026-11). The owner has not confirmed the weights or the lists yet."
+    "STATUS: second proposal (2026-11-13). Widened after the owner said any role that fits the skill set counts, finance and quant included. Not confirmed yet."
   ],
-
   "status": "proposal",
-
   "tiers": {
     "apply": 65,
     "consider": 45
   },
-
   "groups": [
     {
       "id": "role",
@@ -50,14 +47,57 @@
         "earth observation scientist",
         "climate data scientist",
         "research fellow",
-        "lecturer"
+        "lecturer",
+        "quantitative researcher",
+        "quant researcher",
+        "machine learning researcher",
+        "ai researcher",
+        "quantitative developer",
+        "quant developer"
+      ]
+    },
+    {
+      "id": "skills",
+      "label": "Skill set fits (methods and tools)",
+      "weight": 35,
+      "saturate": 5,
+      "terms": [
+        "deep learning",
+        "computer vision",
+        "segmentation",
+        "object detection",
+        "time series",
+        "re:foundation models?",
+        "multimodal",
+        "pytorch",
+        "tensorflow",
+        "python",
+        "google cloud",
+        "re:\\bgcp\\b",
+        "earth engine",
+        "large-scale",
+        "distributed",
+        "inference",
+        "benchmark",
+        "machine learning",
+        "forecasting",
+        "statistical modelling",
+        "statistical modeling",
+        "re:\\bstatistics\\b",
+        "bayesian",
+        "optimisation",
+        "optimization",
+        "signal processing",
+        "re:\\bsql\\b",
+        "geospatial",
+        "remote sensing"
       ]
     },
     {
       "id": "domain",
-      "label": "Domain fits (Earth, climate, physical science)",
-      "weight": 25,
-      "saturate": 3,
+      "label": "Domain where the background counts (Earth and climate, or finance)",
+      "weight": 15,
+      "saturate": 2,
       "terms": [
         "geospatial",
         "remote sensing",
@@ -80,32 +120,18 @@
         "physical systems",
         "ai for science",
         "scientific machine learning",
-        "digital rock"
-      ]
-    },
-    {
-      "id": "methods",
-      "label": "Methods and tools fit",
-      "weight": 20,
-      "saturate": 4,
-      "terms": [
-        "deep learning",
-        "computer vision",
-        "segmentation",
-        "object detection",
-        "time series",
-        "re:foundation models?",
-        "multimodal",
-        "pytorch",
-        "tensorflow",
-        "python",
-        "google cloud",
-        "re:\\bgcp\\b",
-        "earth engine",
-        "large-scale",
-        "distributed",
-        "inference",
-        "benchmark"
+        "digital rock",
+        "alternative data",
+        "quantitative finance",
+        "systematic",
+        "hedge fund",
+        "asset management",
+        "investment bank",
+        "trading",
+        "commodities",
+        "alpha",
+        "risk modelling",
+        "risk modeling"
       ]
     },
     {
@@ -113,19 +139,35 @@
       "label": "Seniority fits",
       "weight": 10,
       "saturate": 1,
-      "terms": ["senior", "staff", "lead", "principal", "phd"]
+      "terms": [
+        "senior",
+        "staff",
+        "lead",
+        "principal",
+        "phd",
+        "vice president",
+        "re:\\bvp\\b"
+      ]
     },
     {
       "id": "location",
       "label": "Location or work mode fits",
       "weight": 10,
       "saturate": 1,
-      "terms": ["london", "re:\\bremote\\b(?!\\s+sens)", "hybrid", "united kingdom", "re:\\buk\\b", "europe", "emea"]
+      "terms": [
+        "london",
+        "re:\\bremote\\b(?!\\s+sens)",
+        "hybrid",
+        "united kingdom",
+        "re:\\buk\\b",
+        "europe",
+        "emea"
+      ]
     },
     {
       "id": "mission",
-      "label": "Mission fits",
-      "weight": 10,
+      "label": "Mission fits (small bonus only)",
+      "weight": 5,
       "saturate": 1,
       "terms": [
         "net zero",
@@ -141,44 +183,68 @@
       ]
     }
   ],
-
   "penalties": [
     {
       "id": "junior",
       "label": "Junior or training role",
       "points": 20,
-      "terms": ["junior", "graduate", "intern", "internship", "apprentice", "entry level"]
+      "terms": [
+        "junior",
+        "graduate",
+        "intern",
+        "internship",
+        "apprentice",
+        "entry level"
+      ]
     },
     {
       "id": "gig-ai-training",
       "label": "AI-training or annotation gig work",
       "points": 25,
-      "terms": ["ai trainer", "ai tutor", "annotation", "annotator", "rlhf", "stump"]
+      "terms": [
+        "ai trainer",
+        "ai tutor",
+        "annotation",
+        "annotator",
+        "rlhf",
+        "stump"
+      ]
     },
     {
       "id": "analyst",
       "label": "Reporting or analyst role, not modelling",
       "points": 10,
-      "terms": ["data analyst", "business analyst", "bi developer", "dashboarding"]
-    },
-    {
-      "id": "adtech",
-      "label": "Advertising or sales analytics",
-      "points": 10,
-      "terms": ["advertising", "ad tech", "adtech", "sales analytics", "marketing analytics"]
+      "terms": [
+        "data analyst",
+        "business analyst",
+        "bi developer",
+        "dashboarding"
+      ]
     }
   ],
-
   "dealbreakers": [
     {
       "id": "school-teaching",
       "label": "School teaching or tutoring",
-      "terms": ["teacher", "tutor", "key stage", "primary school", "secondary school", "sendco"]
+      "terms": [
+        "teacher",
+        "tutor",
+        "key stage",
+        "primary school",
+        "secondary school",
+        "sendco"
+      ]
     },
     {
       "id": "unrelated-profession",
       "label": "Needs an unrelated professional qualification",
-      "terms": ["nursing", "solicitor", "bar practice", "pharmacist", "social worker"]
+      "terms": [
+        "nursing",
+        "solicitor",
+        "bar practice",
+        "pharmacist",
+        "social worker"
+      ]
     }
   ]
 }
