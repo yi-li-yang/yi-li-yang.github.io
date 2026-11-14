@@ -1429,6 +1429,13 @@
   gap: var(--space-xs);
 }
 
+/* A label in the button's place for a repo that visitors cannot open: same shape, no hover. */
+.atlas-private {
+  cursor: default;
+  pointer-events: none;
+  color: var(--color-text-muted);
+}
+
 .atlas-close {
   position: absolute;
   top: var(--space-sm);

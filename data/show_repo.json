@@ -6,6 +6,7 @@
     "An entry with `expand` (a path to a data file) is a placeholder: it keeps that track in this position, and its tiles come from the file. `Claude Code skills` expands from data/claude-skills.json, which scripts/fetch-skills.js writes from the skills repo, so do not list skills here.",
     "`name` and `owner` are optional overrides; by default both are read from the repo URL.",
     "`image` is optional: leave it empty and the detail panel shows a title card instead.",
+    "`private: true` marks a repo that visitors cannot open: the detail panel shows a \"Private repository\" label instead of the GitHub button. The tile, image and description stay.",
     "Prefer a local file in assets/projects/ (WebP, about 1200px wide, under 250 KB) over a remote URL: a raw screenshot or GIF from a README can weigh several megabytes."
   ],
   "repos": [
@@ -71,6 +72,7 @@
       "group": "Tools & apps",
       "description": "LLM-enhanced automatic bookkeeping and a personal finance dashboard.",
       "url": "https://github.com/yi-li-yang/Bookkeeping-auto",
+      "private": true,
       "image": "assets/projects/Bookkeeping-auto.webp"
     }
   ]

@@ -129,13 +129,19 @@ function fillPopover(pop, repo, onClose) {
     media.appendChild(makeTitleCard(repo));
   }
 
-  const link = el('a', 'btn btn-secondary', 'View on GitHub');
-  link.href = repo.url;
-  link.target = '_blank';
-  link.rel = 'noopener noreferrer';
+  // A private repo would answer visitors with a 404, so it gets a plain label, not a link.
+  let source;
+  if (repo.private) {
+    source = el('span', 'btn btn-secondary atlas-private', 'Private repository');
+  } else {
+    source = el('a', 'btn btn-secondary', 'View on GitHub');
+    source.href = repo.url;
+    source.target = '_blank';
+    source.rel = 'noopener noreferrer';
+  }
 
   const actions = el('div', 'atlas-actions');
-  actions.append(link, copyButton('Copy link', () => projectUrl(name)));
+  actions.append(source, copyButton('Copy link', () => projectUrl(name)));
 
   const body = el('div', 'atlas-body');
   body.append(
