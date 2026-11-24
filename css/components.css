@@ -58,7 +58,8 @@
 .footer-links a[target="_blank"]::after,
 .publication-card h3 a[target="_blank"]::after,
 .pub-row-title a[target="_blank"]::after,
-.showcase-map-out::after {
+.flagship-link[target="_blank"]::after,
+.flagship-story-links a[target="_blank"]::after {
   content: "\2197";
   content: "\2197" / "";
   font-size: 0.85em;
@@ -68,7 +69,8 @@
 .footer-links a[target="_blank"]::after,
 .publication-card h3 a[target="_blank"]::after,
 .pub-row-title a[target="_blank"]::after,
-.showcase-map-out::after {
+.flagship-link[target="_blank"]::after,
+.flagship-story-links a[target="_blank"]::after {
   margin-left: 0.25em;
 }
 
@@ -154,54 +156,6 @@
   font-size: var(--font-size-sm);
   color: var(--color-text-muted);
   padding: var(--space-xl) 0;
-}
-
-/* ── Hero Visual ─────────────────────────────── */
-
-.hero-visual {
-  position: relative;
-  display: grid;
-  gap: var(--space-md);
-  border-radius: var(--radius-lg);
-  background: rgba(255, 255, 255, 0.02);
-  padding: var(--space-lg);
-  border: 1px solid var(--color-border);
-  box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px;
-}
-
-.hero-visual-content {
-  position: relative;
-  display: grid;
-  gap: var(--space-md);
-}
-
-.visual-header {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: space-between;
-  gap: 0.75rem;
-  font-size: var(--font-size-xs);
-  font-weight: 510;
-  color: var(--color-text-subtle);
-  font-feature-settings: var(--font-features);
-}
-
-.visual-frame {
-  min-height: 300px;
-  border-radius: var(--radius-md);
-  overflow: hidden;
-  background: linear-gradient(135deg, #0d1f2d 0%, #0f1011 50%, #1a1025 100%);
-  position: relative;
-  border: 1px solid var(--color-border-subtle);
-}
-
-.visual-frame::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(circle at 20% 20%, rgba(113, 112, 255, 0.08), transparent 40%),
-              radial-gradient(circle at 80% 70%, rgba(94, 106, 210, 0.06), transparent 40%);
 }
 
 /* ── Feature Grid ────────────────────────────── */
@@ -314,19 +268,6 @@
 
 /* ── Publications ────────────────────────────── */
 
-.publications-grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: var(--space-md);
-  margin-top: var(--space-lg);
-}
-
-@media (max-width: 720px) {
-  .publications-grid {
-    grid-template-columns: 1fr;
-  }
-}
-
 /* Publications use a denser card than the feature/timeline cards above. */
 .publication-card {
   padding: var(--space-lg);
@@ -337,15 +278,6 @@
   font-size: var(--font-size-md);
   font-weight: 510;
   line-height: 1.35;
-}
-
-.publications-toggle {
-  display: block;
-  margin: var(--space-lg) auto 0;
-}
-
-.publications-toggle[hidden] {
-  display: none;
 }
 
 /* Filter chips: real controls, so unlike the skill pills they keep a pressed state. */
@@ -404,7 +336,7 @@
   color: var(--color-text-muted);
 }
 
-.pub-group-label + .publications-grid {
+.pub-group-label + .card-row {
   margin-top: var(--space-sm);
 }
 
@@ -734,251 +666,295 @@
   font-feature-settings: var(--font-features);
 }
 
-/* ── Featured Showcase ───────────────────────── */
+/* ── Card rows ───────────────────────────────── */
+/* One sideways row of cards (js/modules/card-row.js). The row is CSS scroll-snap, so it swipes
+   with no JS. --row-per-view is how many whole cards show. When there are more cards than
+   that, the module sets data-overflow, and the row fades out at the edge that has more, with
+   an arrow on the fade. Where a row shows one card at a time, and in the flagship and paper
+   rows, a strip of the next card (--row-peek-size) shows under the fade, so neither the fade
+   nor the arrow covers the text of the card being read. When the cards all fit, nothing moves.
+   A container, so the arrows can be placed in units of the row's own width (cqw). */
 
-.showcase-head {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: var(--space-md);
-  max-width: 760px;
-  margin-bottom: var(--space-xl);
-}
-
-.showcase-head .badge {
-  font-size: var(--font-size-sm);
-  padding: 3px 12px;
-  margin-bottom: 0;
-}
-
-.showcase-title {
-  font-size: var(--font-size-3xl);
-  font-weight: 510;
-  line-height: 1.15;
-  letter-spacing: -0.96px;
-  color: var(--color-text);
-  font-feature-settings: var(--font-features);
-}
-
-.showcase-desc {
-  font-size: 0.9375rem;
-  font-weight: 400;
-  line-height: 1.6;
-  letter-spacing: -0.165px;
-  color: var(--color-text-muted);
-}
-
-.showcase-desc strong {
-  color: var(--color-text-secondary);
-  font-weight: 510;
-}
-
-.showcase-links {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-xs);
-  margin-top: var(--space-xs);
-}
-
-/* Hero card: full-width live map + stat row */
-
-.showcase-hero-body {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: var(--space-lg);
-  align-items: stretch;
-}
-
-.showcase-map-out {
-  color: var(--color-text-muted);
-  transition: color var(--transition);
-}
-
-.showcase-map-out:hover {
-  color: var(--color-accent);
-}
-
-.showcase-figure {
+.card-row {
+  --row-gap: var(--space-md);
+  --row-per-view: 1;
+  --row-peek-size: 0px;
+  --row-peek: 0px;
+  --edge-top: 50%;
   position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  /* `width` must stay definite: with only aspect-ratio + min-height, a narrow
-     column lets the ratio drive the width back up and the frame overflows. */
-  width: 100%;
-  aspect-ratio: 16 / 9;
-  min-height: 320px;
-  max-height: 620px;
-  background: var(--color-bg-panel);
+  container-type: inline-size;
 }
 
-.showcase-figure::before {
-  z-index: 1;            /* keep the radial glow above the dimmed poster */
-  pointer-events: none;
+.card-row[data-overflow="true"] {
+  --row-peek: var(--row-peek-size);
 }
 
-/* Training-data figure, reused as a dimmed backdrop behind the launch CTA. */
-.showcase-map-poster {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  display: block;
-  object-fit: cover;
-  /* The source is a light "paper" figure on a dark page — darken hard, but keep
-     saturation so the labelled hexbins still read as data behind the CTA. */
-  filter: brightness(0.24) saturate(1.25);
-}
-
-.showcase-map-launch {
+/* Positioned, so it is the cards' offsetParent and their offsetLeft is their place in the row.
+   A snapped card sits half a peek in from the left, so the previous card shows a little there. */
+.card-row-viewport {
   position: relative;
-  z-index: 2;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: var(--space-xs);
-  padding: var(--space-md) var(--space-xl);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-md);
-  background: rgba(8, 9, 10, 0.72);
-  backdrop-filter: blur(6px);
-  text-align: center;
-  transition: border-color var(--transition), background var(--transition);
+  overflow-x: auto;
+  overflow-y: hidden;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x mandatory;
+  scroll-padding-inline-start: calc(var(--row-peek) / 2);
+  scrollbar-width: none;
 }
 
-.showcase-map-launch:hover {
-  border-color: var(--color-accent);
-  background: rgba(8, 9, 10, 0.85);
-}
-
-.showcase-map-launch-title {
-  font-size: var(--font-size-md);
-  font-weight: 510;
-  letter-spacing: -0.3px;
-  color: var(--color-text);
-  font-feature-settings: var(--font-features);
-}
-
-.showcase-map-launch-note {
-  font-family: var(--font-mono);
-  font-size: var(--font-size-xs);
-  letter-spacing: 0.02em;
-  color: var(--color-text-muted);
-}
-
-.showcase-map-embed {
-  width: 100%;
-  height: 100%;
-  display: block;
-  border: 0;
-}
-
-/* Above the "Loading Earth Engine…" overlay (z-index 2), so the map can be closed while it
-   is still loading too. */
-.showcase-map-close {
-  position: absolute;
-  top: var(--space-sm);
-  right: var(--space-sm);
-  z-index: 3;
-  padding: 4px 12px;
-  background: rgba(8, 9, 10, 0.85);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-pill);
-  color: var(--color-text-secondary);
-  font-size: var(--font-size-xs);
-  font-weight: 510;
-  cursor: pointer;
-  backdrop-filter: blur(6px);
-  transition: color var(--transition), border-color var(--transition);
-}
-
-.showcase-map-close:hover {
-  color: var(--color-text);
-  border-color: rgba(255, 255, 255, 0.16);
-}
-
-/* Once live the frame is the app's own surface — drop the decorative glow. */
-.showcase-figure.is-live::before {
+.card-row-viewport::-webkit-scrollbar {
   display: none;
 }
 
-.showcase-figure.is-loading::after {
-  content: 'Loading Earth Engine…';
+.card-row-track {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: calc((100% - var(--row-gap) * (var(--row-per-view) - 1) - var(--row-peek)) / var(--row-per-view));
+  gap: var(--row-gap);
+}
+
+.card-row-track > * {
+  min-width: 0;
+  scroll-snap-align: start;
+}
+
+/* The fade: at the right while more cards wait there, at the left once the row has moved. */
+.card-row[data-overflow="true"] .card-row-viewport {
+  -webkit-mask-image: linear-gradient(to right, transparent, #000 var(--fade-start, 0px), #000 calc(100% - var(--fade-end, 0px)), transparent);
+  mask-image: linear-gradient(to right, transparent, #000 var(--fade-start, 0px), #000 calc(100% - var(--fade-end, 0px)), transparent);
+}
+
+.card-row[data-at-start="false"] {
+  --fade-start: max(16px, calc(var(--row-peek) / 2));
+}
+
+.card-row[data-at-end="false"] {
+  --fade-end: max(56px, var(--row-peek));
+}
+
+/* The arrows sit on the fades: centred on the strip of the neighbouring card where there is
+   one, and at --edge-top, a height chosen per kind to keep them off the card's text. */
+.card-row-edge {
   position: absolute;
-  inset: 0;
+  top: var(--edge-top);
   z-index: 2;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: var(--color-bg-panel);
-  font-family: var(--font-mono);
-  font-size: var(--font-size-xs);
-  letter-spacing: 0.02em;
-  color: var(--color-text-muted);
-}
-
-.showcase-statgrid {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  grid-auto-rows: 1fr;
-  gap: var(--space-sm);
-}
-
-.showcase-stat {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  gap: var(--space-xs);
-  padding: var(--space-md) var(--space-lg);
-  background: rgba(255, 255, 255, 0.02);
-  border: 1px solid var(--color-border-subtle);
-  border-radius: var(--radius-md);
-}
-
-.showcase-stat-value {
-  font-size: var(--font-size-3xl);
-  font-weight: 510;
-  line-height: 1.1;
-  letter-spacing: -0.64px;
+  display: none;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  padding: 0 0 2px;
+  background: rgba(8, 9, 10, 0.85);
+  border: 1px solid var(--color-border);
+  border-radius: 50%;
   color: var(--color-text);
-  font-feature-settings: var(--font-features);
+  font-size: 20px;
+  line-height: 1;
+  cursor: pointer;
+  transform: translateY(-50%);
+  transition: border-color var(--transition), background var(--transition);
 }
 
-.showcase-stat-label {
-  font-size: var(--font-size-xs);
-  line-height: 1.45;
-  color: var(--color-text-muted);
-  font-feature-settings: var(--font-features);
+.card-row-edge:hover {
+  background: rgba(25, 26, 27, 0.95);
+  border-color: rgba(255, 255, 255, 0.2);
 }
 
-/* Three story panels */
-
-/* Science and Engineering stack on the left; Product, the only panel with a figure, spans
-   both rows on the right. In three equal columns the two text panels stretched to the
-   figure panel's height and each carried ~250px of empty space. */
-.showcase-panels {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: var(--space-lg);
-  margin-top: var(--space-lg);
+.card-row-edge-prev {
+  left: max(4px, calc((var(--row-peek) / 2 - var(--row-gap) - 36px) / 2));
 }
 
-.showcase-panel-product {
-  grid-column: 2;
-  grid-row: 1 / span 2;
+.card-row-edge-next {
+  right: max(4px, calc((var(--row-peek) - var(--row-gap) - 36px) / 2));
 }
 
-.showcase-panel {
+.card-row[data-overflow="true"] .card-row-edge {
+  display: inline-grid;
+}
+
+.card-row[data-at-start="true"] .card-row-edge-prev,
+.card-row[data-at-end="true"] .card-row-edge-next {
+  display: none;
+}
+
+/* The one nudge: the track slides by --nudge and back. A transform, so it neither scrolls
+   the row nor fights the snapping. */
+.card-row-track.is-nudging {
+  animation: card-row-nudge 900ms cubic-bezier(0.3, 0.7, 0.4, 1) 1;
+}
+
+@keyframes card-row-nudge {
+  0%, 100% { transform: none; }
+  40% { transform: translateX(var(--nudge, -40px)); }
+}
+
+/* Read out once the row settles (card-row.js), never shown. */
+.card-row-status {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* Row sizes, by kind. A peek shows --row-peek-size minus the gap of the next card, about
+   48–56px: enough to read as a card. Tile rows of several columns have no peek, so their
+   columns line up with the rows above and below that stay still. */
+.card-row--flagships {
+  --row-gap: var(--space-lg);
+  --row-per-view: 2;
+  --row-peek-size: 80px;
+  /* Level with the middle of the 16:10 map image at the top of each card. */
+  --edge-top: calc((100cqw - var(--row-gap) * (var(--row-per-view) - 1) - var(--row-peek)) / var(--row-per-view) * 0.3125);
+}
+
+.card-row--tiles {
+  --row-gap: var(--space-sm);
+  --row-per-view: 4;
+  /* Over the top of a tile, where its picture is; its name and text sit at the bottom. */
+  --edge-top: 26px;
+}
+
+.card-row--papers {
+  --row-per-view: 2;
+  --row-peek-size: 64px;
+}
+
+@media (max-width: 1099px) {
+  .card-row--tiles { --row-per-view: 3; }
+}
+
+@media (max-width: 900px) {
+  .card-row--flagships { --row-per-view: 1; --row-gap: var(--space-md); --row-peek-size: 18cqw; }
+  .card-row--papers { --row-per-view: 1; --row-peek-size: 18cqw; }
+}
+
+@media (max-width: 720px) {
+  .card-row--tiles { --row-per-view: 1; --row-peek-size: 24cqw; }
+}
+
+/* Every card in a row is as tall as its tallest card, so in the papers row a long title or
+   author list is clamped and the venue line sits at each card's foot, level across the row. */
+.card-row--papers .publication-card {
   display: flex;
   flex-direction: column;
-  gap: var(--space-sm);
-  padding: var(--space-lg);
+}
+
+.card-row--papers .publication-card h3,
+.card-row--papers .publication-authors {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.card-row--papers .publication-card h3 {
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+}
+
+.card-row--papers .publication-authors {
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+}
+
+.card-row--papers .publication-meta {
+  margin-top: auto;
+  padding-top: var(--space-xs);
+}
+
+/* A tile is the card itself, so its focus ring goes inside: the row clips anything outside. */
+.card-row-track > .atlas-tile:focus-visible {
+  outline-offset: -2px;
+}
+
+@media print {
+  .card-row-viewport { overflow: visible; }
+  .card-row[data-overflow] .card-row-viewport { -webkit-mask-image: none; mask-image: none; }
+  .card-row-track { grid-auto-flow: row; grid-template-columns: repeat(var(--row-per-view), minmax(0, 1fr)); }
+  .card-row-edge { display: none; }
+}
+
+/* ── Featured flagships ──────────────────────── */
+/* js/modules/flagships.js renders data/flagships.json, one card per flagship. Every card has
+   the same parts in the same order, and the stats and buttons sit at its foot, so two cards
+   side by side line up row for row. The long story opens in one full-width drawer under the
+   cards, so opening it never makes one card taller than its neighbour. */
+
+.flagship-card {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
   background: rgba(255, 255, 255, 0.02);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-lg);
 }
 
-.showcase-panel-kicker {
+/* The screenshot repeats the card's main button, so it is a mouse shortcut only: no tab stop,
+   hidden from screen readers. */
+.flagship-media {
+  position: relative;
+  display: block;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  background: var(--color-bg-panel);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.flagship-media img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+  filter: brightness(0.88);
+  transition: filter 200ms ease, transform 400ms ease;
+}
+
+.flagship-media:hover img {
+  filter: brightness(1);
+  transform: scale(1.012);
+}
+
+.flagship-chip {
+  position: absolute;
+  left: 12px;
+  bottom: 12px;
+  padding: 3px 10px;
+  background: rgba(8, 9, 10, 0.8);
+  backdrop-filter: blur(6px);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-pill);
+  font-size: var(--font-size-xs);
+  font-weight: 510;
+  color: var(--color-text-secondary);
+}
+
+.flagship-chip::after {
+  content: " \2197";
+  opacity: 0.7;
+}
+
+/* The map's own credit, which the crop cut off. */
+.flagship-credit {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  padding: 1px 6px;
+  background: rgba(8, 9, 10, 0.6);
+  border-radius: var(--radius-xs);
+  font-size: 0.625rem;
+  color: var(--color-text-muted);
+}
+
+.flagship-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+  padding: var(--space-lg);
+}
+
+.flagship-kicker,
+.flagship-drawer-label,
+.flagship-story-kicker {
   font-family: var(--font-mono);
   font-size: var(--font-size-xs);
   letter-spacing: 0.06em;
@@ -986,126 +962,243 @@
   color: var(--color-text-subtle);
 }
 
-.showcase-panel-title {
-  font-size: var(--font-size-lg);
+.flagship-title {
+  font-size: var(--font-size-2xl);
   font-weight: 510;
-  letter-spacing: -0.36px;
+  line-height: 1.2;
+  letter-spacing: -0.4px;
   color: var(--color-text);
   font-feature-settings: var(--font-features);
 }
 
-.showcase-panel-body {
+.flagship-summary {
+  font-size: 0.9375rem;
+  line-height: 1.6;
+  letter-spacing: -0.165px;
+  color: var(--color-text-muted);
+}
+
+.flagship-foot {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+  margin-top: auto;
+}
+
+.flagship-stats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-md);
+  padding-top: var(--space-md);
+  border-top: 1px solid var(--color-border-subtle);
+}
+
+/* The number reads first, the label under it; in the markup the label (dt) comes first. */
+.flagship-stat {
+  display: flex;
+  flex-direction: column-reverse;
+  justify-content: flex-end;
+  gap: 2px;
+}
+
+.flagship-stat dd {
+  font-size: var(--font-size-2xl);
+  font-weight: 510;
+  line-height: 1.1;
+  letter-spacing: -0.5px;
+  color: var(--color-text);
+  font-feature-settings: var(--font-features);
+  font-variant-numeric: tabular-nums;
+}
+
+.flagship-stat dt {
+  font-size: var(--font-size-xs);
+  line-height: 1.45;
+  color: var(--color-text-muted);
+}
+
+.flagship-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-xs) var(--space-lg);
+}
+
+.flagship-link,
+.flagship-story-links a {
+  font-size: var(--font-size-sm);
+  font-weight: 510;
+  color: var(--color-text-secondary);
+  transition: color var(--transition);
+}
+
+.flagship-link:hover,
+.flagship-story-links a:hover {
+  color: var(--color-accent);
+  text-decoration: none;
+}
+
+.flagship-more {
+  display: inline-flex;
+  align-items: center;
+  align-self: flex-start;
+  gap: var(--space-xs);
+  padding: 0;
+  background: none;
+  border: 0;
+  font: inherit;
+  font-size: var(--font-size-sm);
+  font-weight: 510;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  transition: color var(--transition);
+}
+
+.flagship-more::before {
+  content: "+";
+  display: inline-grid;
+  place-items: center;
+  width: 18px;
+  height: 18px;
+  border: 1px solid var(--color-border);
+  border-radius: 50%;
+  font-size: 12px;
+  line-height: 1;
+}
+
+.flagship-more[aria-expanded="true"]::before {
+  content: "\2013";
+}
+
+.flagship-more:hover,
+.flagship-more[aria-expanded="true"] {
+  color: var(--color-text);
+}
+
+.flagship-drawer {
+  margin-top: var(--space-lg);
+  padding: var(--space-lg);
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+}
+
+.flagship-drawer[hidden] {
+  display: none;
+}
+
+.flagship-story-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-lg);
+  margin-top: var(--space-md);
+}
+
+/* With a figure, the two text panels stack on the left and the figure panel spans them on
+   the right, so no column carries a block of empty space. */
+.flagship-story-grid.has-figure {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-rows: auto 1fr;
+}
+
+.flagship-story-grid.has-figure .with-figure {
+  grid-column: 2;
+  grid-row: 1 / span 2;
+}
+
+.flagship-story {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  padding-top: var(--space-md);
+  border-top: 1px solid var(--color-border-subtle);
+}
+
+.flagship-story-title {
+  font-size: var(--font-size-md);
+  font-weight: 510;
+  letter-spacing: -0.2px;
+  color: var(--color-text);
+  font-feature-settings: var(--font-features);
+}
+
+.flagship-story-body {
   font-size: var(--font-size-sm);
   line-height: 1.6;
   color: var(--color-text-muted);
 }
 
-.showcase-panel-body strong {
-  color: var(--color-text-secondary);
-  font-weight: 510;
-}
-
-.showcase-panel-figure {
-  display: block;
-  border-radius: var(--radius-sm);
-  overflow: hidden;
-  border: 1px solid var(--color-border-subtle);
-  transition: border-color var(--transition);
-}
-
-.showcase-panel-figure:hover {
-  border-color: var(--color-accent);
-}
-
-.showcase-panel-figure img {
-  width: 100%;
-  display: block;
-}
-
-.showcase-panel-caption {
-  font-size: var(--font-size-xs);
-  color: var(--color-text-subtle);
-  font-feature-settings: var(--font-features);
-}
-
-.showcase-panel-foot {
-  margin-top: auto;
-  padding-top: var(--space-sm);
-  border-top: 1px solid var(--color-border-subtle);
+.flagship-story-foot {
   font-family: var(--font-mono);
   font-size: var(--font-size-xs);
   letter-spacing: 0.02em;
   color: var(--color-text-subtle);
 }
 
-/* Phone-only tabs over the story panels, built by js/modules/showcase-tabs.js. The panels
-   are display:flex, which would beat the UA's [hidden] rule, hence the explicit one. */
-.showcase-panel[hidden] {
-  display: none;
-}
-
-.showcase-tabs {
-  display: flex;
-  gap: var(--space-xxs);
-  margin-top: var(--space-lg);
-  padding: var(--space-xxs);
-  background: rgba(255, 255, 255, 0.02);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-md);
-}
-
-.showcase-tabs + .showcase-panels {
-  margin-top: var(--space-sm);
-}
-
-.showcase-tab {
-  flex: 1;
-  min-height: 36px;
-  padding: var(--space-xs) var(--space-sm);
-  background: none;
-  border: 0;
+.flagship-story-figure img {
+  width: 100%;
+  display: block;
+  border: 1px solid var(--color-border-subtle);
   border-radius: var(--radius-sm);
-  color: var(--color-text-muted);
-  font-size: var(--font-size-sm);
-  font-weight: 510;
-  cursor: pointer;
-  transition: color var(--transition), background var(--transition);
 }
 
-.showcase-tab:hover {
-  color: var(--color-text);
+.flagship-story-figure figcaption {
+  margin-top: var(--space-xxs);
+  font-size: var(--font-size-xs);
+  color: var(--color-text-subtle);
 }
 
-.showcase-tab[aria-selected="true"] {
-  background: rgba(255, 255, 255, 0.06);
-  color: var(--color-text);
+.flagship-story-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-xs) var(--space-md);
 }
 
 @media (max-width: 900px) {
-  .showcase-statgrid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+  .flagship-story-grid,
+  .flagship-story-grid.has-figure {
+    grid-template-columns: minmax(0, 1fr);
   }
 
-  .showcase-panels {
-    grid-template-columns: 1fr;
-  }
-
-  .showcase-panel-product {
+  .flagship-story-grid.has-figure .with-figure {
     grid-column: auto;
     grid-row: auto;
   }
 }
 
-/* Below this width the map is never embedded — keep in sync with the
-   EMBED_QUERY floor in js/modules/showcase-map.js. */
-@media (max-width: 700px) {
-  .showcase-figure {
-    aspect-ratio: 4 / 3;
-    min-height: 260px;
+@media (max-width: 540px) {
+  .flagship-stats {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--space-xs);
   }
 
-  .showcase-map-launch {
-    padding: var(--space-md) var(--space-lg);
+  .flagship-stat {
+    flex-direction: row-reverse;
+    align-items: baseline;
+    gap: var(--space-xs);
+  }
+}
+
+@media (max-width: 720px) {
+  .flagship-body,
+  .flagship-drawer {
+    padding: var(--space-md);
+  }
+
+  .flagship-title,
+  .flagship-stat dd {
+    font-size: var(--font-size-xl);
+    letter-spacing: -0.3px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card-row-track.is-nudging {
+    animation: none;
+  }
+
+  .flagship-media:hover img {
+    transform: none;
   }
 }
 
@@ -1172,12 +1265,6 @@
 .atlas-install-copy:hover {
   color: var(--color-text);
   border-color: rgba(255, 255, 255, 0.12);
-}
-
-.atlas-tiles {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-  gap: var(--space-sm);
 }
 
 /* A tile is three layers under its text: the gradient (or the screenshot that replaces it),
@@ -1255,10 +1342,6 @@
   border-color: var(--color-accent);
 }
 
-.atlas-tile.is-new {
-  animation: atlas-reveal 260ms ease-out both;
-}
-
 .atlas-tile-name {
   overflow: hidden;
   white-space: nowrap;
@@ -1278,59 +1361,6 @@
   font-size: var(--font-size-sm);
   line-height: 1.45;
   color: #a3a8b0;
-}
-
-@keyframes atlas-reveal {
-  from { opacity: 0; transform: translateY(8px); }
-}
-
-/* "Show more": the last visible row fades out as the hint that the track continues, and the
-   button sits over the fade. Scrolling toward it loads the next batch; clicking does too. */
-.atlas-group.has-more .atlas-tiles {
-  -webkit-mask-image: linear-gradient(to bottom, #000 calc(100% - 84px), transparent);
-  mask-image: linear-gradient(to bottom, #000 calc(100% - 84px), transparent);
-}
-
-.atlas-more {
-  position: relative;
-  display: flex;
-  justify-content: center;
-  margin-top: -18px;
-}
-
-.atlas-more-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--space-xs);
-  padding: 6px var(--space-md);
-  background: var(--color-bg-panel);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  border-radius: 999px;
-  color: var(--color-text);
-  font-size: var(--font-size-sm);
-  font-weight: 510;
-  cursor: pointer;
-  transition: border-color var(--transition), background var(--transition);
-}
-
-.atlas-more-btn:hover {
-  border-color: var(--color-accent);
-  background: rgba(94, 106, 210, 0.08);
-}
-
-.atlas-more-count {
-  font-family: var(--font-mono);
-  font-size: var(--font-size-xs);
-  color: var(--color-text-muted);
-}
-
-.atlas-more-arrow {
-  color: var(--color-text-muted);
-  animation: atlas-nudge 1.8s ease-in-out infinite;
-}
-
-@keyframes atlas-nudge {
-  50% { transform: translateY(3px); }
 }
 
 /* The popover: one element, moved between tiles. Absolutely positioned in the document so it
@@ -1673,6 +1703,7 @@
    page doesn't jump as each one arrives, and a deep link (#publications, #projects/…) lands
    where it was aimed. :empty stops matching the moment a module appends anything, error
    messages included, so no JS is involved. Heights are measured renders, rounded down. */
+#flagships:empty,
 #capabilities-skills:empty,
 #lang-chart-skills:empty,
 #thoughts-grid:empty,
@@ -1682,40 +1713,43 @@
   background: rgba(255, 255, 255, 0.015);
 }
 
+#flagships:empty           { min-height: 770px; }
 #capabilities-skills:empty { min-height: 190px; }
 #lang-chart-skills:empty   { min-height: 290px; }
-#thoughts-grid:empty       { min-height: 490px; }
-#publications-grid:empty   { min-height: 890px; }
+#thoughts-grid:empty       { min-height: 650px; }
+#publications-grid:empty   { min-height: 640px; }
 #stats:empty               { min-height: 380px; }
 
 @media (max-width: 1200px) {
+  #flagships:empty           { min-height: 730px; }
   #capabilities-skills:empty { min-height: 225px; }
-  #thoughts-grid:empty       { min-height: 650px; }
-  #publications-grid:empty   { min-height: 1000px; }
+  #publications-grid:empty   { min-height: 660px; }
 }
 
 @media (max-width: 900px) {
+  #flagships:empty           { min-height: 770px; }
   #capabilities-skills:empty { min-height: 330px; }
   #lang-chart-skills:empty   { min-height: 320px; }
-  #thoughts-grid:empty       { min-height: 740px; }
-  #publications-grid:empty   { min-height: 1200px; }
+  #publications-grid:empty   { min-height: 700px; }
   #stats:empty               { min-height: 540px; }
   .pill-cluster:empty        { min-height: 25px; }
 }
 
 @media (max-width: 600px) {
+  #flagships:empty           { min-height: 670px; }
   #capabilities-skills:empty { min-height: 440px; }
   #lang-chart-skills:empty   { min-height: 380px; }
-  #publications-grid:empty   { min-height: 1520px; }
+  #thoughts-grid:empty       { min-height: 580px; }
+  #publications-grid:empty   { min-height: 870px; }
   #stats:empty               { min-height: 700px; }
   #stats-updated:empty       { min-height: 3em; }
 }
 
 @media (max-width: 480px) {
+  #flagships:empty           { min-height: 730px; }
   #capabilities-skills:empty { min-height: 550px; }
   #lang-chart-skills:empty   { min-height: 640px; }
-  #thoughts-grid:empty       { min-height: 1310px; }
-  #publications-grid:empty   { min-height: 2000px; }
+  #publications-grid:empty   { min-height: 1030px; }
   #stats:empty               { min-height: 850px; }
 }
 
@@ -1827,9 +1861,7 @@
     transform: none;
   }
 
-  .atlas-pop,
-  .atlas-tile.is-new,
-  .atlas-more-arrow {
+  .atlas-pop {
     animation: none;
   }
 

@@ -385,9 +385,8 @@ has adopted on top of it, so new work reuses them instead of inventing a near-co
   - One shared popover (`.atlas-pop`) floats beside the hovered tile and stays while the pointer
     is on the tile or the popover. A click, or a tap, pins it; Esc, ✕ or a click elsewhere closes
     it. It never reflows the grid. At 720px and below it is a bottom sheet and hover is off.
-  - Two levels only, never a third. A track shows two rows (one screen on a phone), fades the
-    last row as a hint, and loads the next 4 as the reader scrolls toward the "Show more"
-    button; clicking it does the same. A single leftover tile is shown, never given a button.
+  - Two levels only, never a third. Each track is one card row (below): the tiles that fit
+    show side by side, and a track with more rotates sideways. There is no "Show more".
   - A track can be derived: a `show_repo.json` entry with `expand` names a data file that
     supplies its tiles (`data/claude-skills.json`, from `scripts/fetch-skills.js`).
 - **Section lede** (`.section-lede`): one mono line under a heading for a derived count or a
@@ -404,5 +403,33 @@ has adopted on top of it, so new work reuses them instead of inventing a near-co
 - **Load placeholders**: a JS-filled container reserves its measured height through `:empty`
   (see "Load placeholders" in `components.css`). If a module's output gets much taller or
   shorter, re-measure and update those heights, or the page will jump again.
-- **Phone-only tabs** (`js/modules/showcase-tabs.js`): long multi-panel stories become tabs at
-  ≤720px. The ARIA roles exist only while the tabs do.
+- **Card rows** (`js/modules/card-row.js`, "Card rows" in `components.css`): one sideways row
+  of cards, used by Featured, each Projects track and the published papers.
+  - The row is CSS scroll-snap, so it swipes with no JS. `--row-per-view` (per breakpoint, on
+    the kind class `card-row--flagships`, `--tiles` or `--papers`) is how many whole cards show.
+  - When all the cards fit, nothing moves and there is no cue. A row rotates only when it has
+    more cards than fit, so a desktop shows both flagships still, and a 4-tile track stays still.
+  - The cue is an edge fade with an arrow on it: the row fades out at the side that has more
+    cards. Where one card shows at a time, and in the flagship and paper rows, a strip of the
+    next card (`--row-peek-size`, about 48–56px showing) lies under the fade, so neither the
+    fade nor the arrow covers the text being read. Tile rows of several columns have no strip,
+    so their columns line up with the tracks that stay still; their arrows sit over the top of
+    a tile, where its picture is. Flagship arrows sit level with the map image.
+  - Reader-driven: a swipe, a sideways trackpad scroll or Shift with the wheel, an arrow, or
+    Tab to a card. The vertical wheel always scrolls the page (scrolljacking disorients
+    people, NN/g). Nothing rotates on a timer.
+  - One nudge: the first time a rotating row is 60% in view, it slides about 40px and back,
+    once, unless the reader has touched it first. Never under reduced motion.
+  - A card that takes focus comes wholly into view; browsers leave a partly visible one where
+    it is. A tile that slides under a still pointer does not open its popover; the pointer's
+    next move does. A screen reader hears "Cards 3 to 6 of 6" once the row settles.
+- **Flagship cards** (`js/modules/flagships.js`, `data/flagships.json`): the Featured section.
+  - One template for every flagship: map image, kicker, title, two sentences, three numbers,
+    the live link, two text links. The numbers and buttons sit at the card's foot, so cards
+    side by side line up row for row.
+  - "How it was built" opens one full-width drawer under the row, one at a time, so opening it
+    never makes one card taller than its neighbour.
+  - A number another project owns is a token in the data, such as `{atlas.cells}`, filled from
+    `data/livability-atlas.json` (`scripts/fetch-atlas.js`); a line whose number is missing is
+    left out. Images are 1200×750 WebP screenshots of each live app, under 250 KB, with the
+    map's credit put back on the card because the crop cuts it.

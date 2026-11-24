@@ -33,6 +33,10 @@ jobs:
         env:
           GH_USER_TOKEN: ${{ secrets.GH_PAT }}
 
+      # Reads the Livability Atlas's live data bundle for the numbers on its Featured card. Fails
+      # safe like the step above: on an error data/livability-atlas.json stays as it was.
+      - run: node scripts/fetch-atlas.js
+
       - name: Validate stats JSON
         run: node -e "const s=require('./data/stats.json');if(!s.profiles||!s.lastUpdated)process.exit(1)"
 
@@ -41,7 +45,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add data/stats.json data/claude-skills.json
+          git add data/stats.json data/claude-skills.json data/livability-atlas.json
           if git diff --cached --quiet; then
             echo "stats unchanged — nothing to commit"
           else

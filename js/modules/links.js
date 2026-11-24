@@ -8,13 +8,11 @@
 
 const NOTE_ID = 'new-tab-note';
 const SELECTOR = 'a[target="_blank"]:not([aria-describedby])';
-// The map launcher embeds in place on wide screens, so the note would be wrong there.
-const EXCLUDE = '.showcase-map-launch';
 
 function mark(root) {
   const links = root.matches?.(SELECTOR) ? [root] : [];
   links.push(...root.querySelectorAll(SELECTOR));
-  for (const a of links) if (!a.matches(EXCLUDE)) a.setAttribute('aria-describedby', NOTE_ID);
+  for (const a of links) a.setAttribute('aria-describedby', NOTE_ID);
 }
 
 export function initLinks() {

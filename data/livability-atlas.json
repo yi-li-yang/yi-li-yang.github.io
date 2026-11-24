@@ -1,0 +1,13 @@
+{
+  "_edit": "DERIVED — written by scripts/fetch-atlas.js (npm run ingest:atlas) from the Livability Atlas's live data bundle. Never edit; the next run reverts you.",
+  "source": "https://yi-li-yang.github.io/Livability-Atlas/bundles/london/dc3d5a941943/manifest.json",
+  "version": "dc3d5a941943",
+  "region": "London",
+  "cells": 16668,
+  "indicators": 70,
+  "factors": 15,
+  "datasets": 50,
+  "presets": 4,
+  "stations": 863,
+  "resolution": 9
+}
