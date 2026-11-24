@@ -295,7 +295,9 @@ jobs:
           name: documents-${{ matrix.slug }}
           path: out/
           if-no-files-found: error
-          retention-days: 1 # a handoff to the commit job, not the record
+          # On main, a handoff to the commit job. On a branch nothing is committed (see below),
+          # so this is how the documents get reviewed: keep them for two weeks.
+          retention-days: ${{ github.ref == 'refs/heads/main' && 1 || 14 }}
 
   # ONE job commits, after every application has built. Committing inside the matrix would have
   # parallel jobs pushing to the same branch and clobbering each other.
@@ -305,9 +307,13 @@ jobs:
   # skipped, and the OTHER applications' PDFs — which compiled perfectly — are thrown away. One
   # over-long manifest would silently block every other document from ever reaching the repo.
   # So: commit whatever compiled, and let the failed leg stay red on its own.
+  #
+  # Only main commits. A branch that committed documents would hold a second copy of bytes
+  # that main also rebuilds whenever a shared input moves, and the two would conflict at merge
+  # time. Merging into main is itself a push here, so the merged drafts rebuild on main then.
   commit:
     needs: [discover, tailor]
-    if: always() && needs.discover.outputs.count != '0'
+    if: always() && needs.discover.outputs.count != '0' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4

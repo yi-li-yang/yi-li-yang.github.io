@@ -4,6 +4,11 @@ name: Build CV
 # compiles both PDFs whenever a source of truth changes. This is the PURE/offline render
 # arm of the SSOT pipeline — it makes no network calls; it only reads files already on disk
 # (data/* written by Update Stats, cv/publications.bib + data/experience.json hand-curated).
+#
+# Every branch builds, so a pull request still proves the CVs compile and offers the PDFs as
+# an artifact. Only main commits them. A branch that committed its own PDFs would hold a
+# second copy of bytes that main also rebuilds (monthly, from new stats), and the two would
+# conflict at merge time. Merging into main is itself a push here, so main rebuilds then.
 
 on:
   push:
@@ -74,7 +79,7 @@ jobs:
           cp cv/biosketch/BIOSKETCH.pdf assets/biosketch.pdf
 
       # Downloadable from the Actions run summary, so the PDFs can be reviewed before the
-      # commit lands (and even if a later step fails).
+      # commit lands (and even if a later step fails). On a branch this is the only output.
       - name: Upload PDFs as artifacts
         uses: actions/upload-artifact@v4
         with:
@@ -84,6 +89,7 @@ jobs:
             assets/biosketch.pdf
 
       - name: Commit regenerated artifacts if changed
+        if: github.ref == 'refs/heads/main'
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"

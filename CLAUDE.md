@@ -80,7 +80,9 @@ from data, not a literal).
   before concluding there is no toolchain. Second, Tectonic is XeTeX-based, so compiling the
   biosketch locally emits missing-character warnings that CI's pdfLaTeX run does not; that is
   engine noise, not a regression. A local build is a PREVIEW — CI stays the only producer of a
-  document of record (invariant 2).
+  document of record (invariant 2). CI commits derived bytes (PDFs, `generated/`,
+  `publications.json`, tailored documents) **only on main**; other branches build, verify and
+  offer the PDFs as artifacts, so a pull request never conflicts with main over them.
 - **Keep the `data/` directory and the existing JSON contract.** The site already reads it; do
   not relocate to `web/data/` or rename keys without updating `js/modules/*`.
 - **Unpublished work is `@misc`, never `@article`.** `pubCounts()` in `scripts/lib/data.js` derives
