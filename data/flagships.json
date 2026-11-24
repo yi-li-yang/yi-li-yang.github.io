@@ -1,0 +1,107 @@
+{
+  "_edit": "SOURCE — you own this file. Edit freely, by hand or by agent.",
+  "_comment": [
+    "The flagship projects in the website's Featured section, in display order. Read by js/modules/flagships.js.",
+    "Each card shows: image, kicker, title, summary, up to three stats, the live link, and `links`. The `story` panels open under the cards from \"How it was built\".",
+    "Numbers that another project owns are never typed here. {atlas.cells}, {atlas.indicators}, {atlas.factors}, {atlas.datasets}, {atlas.presets}, {atlas.stations} and {atlas.resolution} are filled from data/livability-atlas.json, which scripts/fetch-atlas.js reads from the Atlas's live data bundle. A stat or a foot line whose number is missing is left out, never printed blank.",
+    "Images are 1200x750 WebP screenshots of each live app, under 250 KB. The crop cuts the map's own credits, so `image.credit` puts them back on the card. The screenshot is a mouse shortcut to the live link, hidden from screen readers because the card's main button says the same, so it needs no alt text."
+  ],
+  "flagships": [
+    {
+      "id": "rts",
+      "kicker": "Research · Woodwell Climate",
+      "title": "Mapping thaw slumps across the Arctic",
+      "summary": "A deep-learning system that finds retrogressive thaw slumps, the most dramatic form of abrupt permafrost thaw, in satellite imagery. I led it from the training data to a 32-GPU sweep of the circumpolar Arctic and an open, citable map.",
+      "image": {
+        "src": "assets/showcase/rts-live-map.webp",
+        "credit": "Imagery: Google, NASA"
+      },
+      "chip": "Live map · Earth Engine",
+      "live": { "label": "Open the live map", "href": "https://abruptthawmapping.projects.earthengine.app/view/south-rts-map" },
+      "links": [
+        { "label": "Paper", "href": "https://scholar.google.com/scholar?q=Mapping+retrogressive+thaw+slumps+using+deep+neural+networks" },
+        { "label": "Code", "href": "https://github.com/whrc/RTSmapping_v2" }
+      ],
+      "stats": [
+        { "value": "19,068", "label": "high-confidence slumps mapped" },
+        { "value": "41.6M", "label": "satellite tiles scanned" },
+        { "value": "0.94", "label": "PR-AUC, 3-seed ensemble" }
+      ],
+      "story": [
+        {
+          "kicker": "Science",
+          "title": "Referee-proof by design",
+          "body": "Leakage-free spatial splits, three-seed ensembles, object metrics corrected to the minimum mapping unit, and a full pre-launch audit. Benchmarked head-to-head against SAM2 and satellite foundation models up to 6.7B parameters: the purpose-built 30M-parameter UNet++ wins at a fraction of the compute.",
+          "foot": "PR-AUC — UNet++ 0.92 · ViT-L 0.92 · 7B frozen 0.76 · SAM2 0.56"
+        },
+        {
+          "kicker": "Engineering",
+          "title": "Planetary-scale inference",
+          "body": "An atomic shard-claim queue on cloud storage drove a self-healing fleet of 32 L4 GPUs through 41,567,572 tiles with exactly-once reconciliation, so every tile is accounted for. Docker-reproducible end to end, with a 338-test suite guarding the pipeline.",
+          "foot": "2,079 shards · 0 tiles lost · 338 tests green"
+        },
+        {
+          "kicker": "Product",
+          "title": "From pixels to open maps",
+          "figure": {
+            "src": "assets/showcase/rts-prob-example.jpg",
+            "alt": "A PlanetScope tile beside the same tile with the model's thaw-slump probability heatmap and decision-threshold contours",
+            "caption": "Model output on 2025 imagery, Northwest Territories, Canada"
+          },
+          "body": "19,068 high-confidence polygons across 529.7 km², drawn from 60,167 candidates at threshold 0.30, released as open vectors and cloud-optimized rasters. Builds on the open ARTS benchmark (Scientific Data) and deep-learning mapping in Remote Sensing of Environment.",
+          "foot": "NSF Arctic Data Center · cloud-optimized GeoTIFF · open access",
+          "links": [
+            { "label": "Circumpolar map (DOI)", "href": "https://doi.org/10.18739/A26970107" },
+            { "label": "ARTS benchmark", "href": "https://doi.org/10.18739/A2PK0738B" },
+            { "label": "Labelling demo", "href": "https://github.com/whrc/interactive-sam2" }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "atlas",
+      "kicker": "Product · open source",
+      "title": "Scoring London by what matters to you",
+      "summary": "An open-source tool for one question: where should I live? It scores every part of London by your own priorities, in your browser, and shows the data behind each score. I designed and built it, from the data pipeline to the web app.",
+      "image": {
+        "src": "assets/showcase/livability-atlas.webp",
+        "credit": "Map: © OpenStreetMap contributors, OpenMapTiles"
+      },
+      "chip": "Live app · London",
+      "live": { "label": "Try the live app", "href": "https://yi-li-yang.github.io/Livability-Atlas/" },
+      "links": [
+        { "label": "Code", "href": "https://github.com/yi-li-yang/Livability-Atlas" },
+        { "label": "How it works", "href": "https://github.com/yi-li-yang/Livability-Atlas/blob/main/docs/architecture.md" }
+      ],
+      "stats": [
+        { "value": "{atlas.cells}", "label": "hex cells scored in your browser" },
+        { "value": "{atlas.indicators}", "label": "indicators across {atlas.factors} factors" },
+        { "value": "{atlas.datasets}", "label": "public datasets, each one cited" }
+      ],
+      "story": [
+        {
+          "kicker": "Data",
+          "title": "Every build is checked before it ships",
+          "body": "A Python pipeline fetches {atlas.datasets} public datasets, from police records to energy certificates and TfL timetables, aggregates them to an H3 hex grid, and writes a versioned data bundle. The bundle is published only if its QA report passes: structure, values, cross-checks between independent datasets, and known facts.",
+          "foot": "H3 resolution {atlas.resolution} · versioned bundles · a QA gate on every build"
+        },
+        {
+          "kicker": "Scoring",
+          "title": "The score is yours, and stays with you",
+          "body": "Each score is a weighted sum that anyone can inspect, scored by the amount, never by rank. Hard limits grey out the cells that fail them, and a \"No weak spots\" mode stops a strong factor from hiding a weak one. Nothing goes to a server: the profile lives in the browser and in the link, and your own places never leave the device.",
+          "foot": "{atlas.factors} factors · {atlas.presets} presets to start from · no server, no account"
+        },
+        {
+          "kicker": "Interface",
+          "title": "The answer first, the evidence one click away",
+          "body": "The map shows the best areas. A hover gives a quick look, a click gives the reasons, and each measure opens to its dataset, date and licence. Travel times to your own places are estimated in the browser from a timetable matrix of {atlas.stations} stations.",
+          "foot": "React · TypeScript · MapLibre · deck.gl · static hosting",
+          "links": [
+            { "label": "Architecture", "href": "https://github.com/yi-li-yang/Livability-Atlas/blob/main/docs/architecture.md" },
+            { "label": "Decisions", "href": "https://github.com/yi-li-yang/Livability-Atlas/blob/main/docs/decisions.md" }
+          ]
+        }
+      ]
+    }
+  ]
+}

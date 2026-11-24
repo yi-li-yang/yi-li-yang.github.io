@@ -8,17 +8,14 @@
 // floats over the grid while the pointer rests on a tile, and a click (or a tap, on touch)
 // pins it. On phones it is a bottom sheet. There is no third level.
 //
-// A long track shows its first rows, fades the last one out as a hint, and loads the next
-// batch as the reader scrolls toward the "Show more" button. The button does the same on
-// click, for keyboard users and anyone who prefers to ask.
+// Each track is one card row (card-row.js): its tiles sit side by side, and when they do not
+// all fit, the row rotates sideways, fading out at the edge that has more, with an arrow there.
 //
 // A repo entry with `expand` is a placeholder for a derived track: its tiles come from the
 // data file it names (data/claude-skills.json, written by scripts/fetch-skills.js).
 
-// Tiles a track shows before it needs "Show more" (two rows of four on desktop), and how many
-// each further batch adds. A leftover of one tile is never worth a button, so it is shown.
-const INITIAL = { wide: 8, narrow: 4 };
-const BATCH = 4;
+import { enhanceCardRow } from './card-row.js';
+
 const DETAIL_ID = 'atlas-pop';
 const HOVER_OPEN_MS = 110;
 const HOVER_CLOSE_MS = 200;
@@ -174,13 +171,12 @@ export async function initThoughts() {
     const groups = new Map();
     for (const repo of repos) {
       const key = repo.group ?? 'Projects';
-      if (!groups.has(key)) groups.set(key, { name: key, items: [], shown: 0 });
+      if (!groups.has(key)) groups.set(key, { name: key, items: [] });
       groups.get(key).items.push(repo);
     }
 
     const narrow = window.matchMedia(NARROW);
     const canHover = window.matchMedia('(hover: hover) and (pointer: fine)');
-    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
     const hoverEnabled = () => canHover.matches && !narrow.matches;
 
     const pop = el('div', 'atlas-pop');
@@ -196,7 +192,7 @@ export async function initThoughts() {
 
     // Reading order, for finding a repo's track and index from a deep link.
     const order = [...groups.values()].flatMap((g) => g.items);
-    const tileFor = new Map(); // repo -> tile, for tiles that exist (not behind "Show more")
+    const tileFor = new Map(); // repo -> tile
     const groupOf = new Map(order.map((repo) => [repo, groups.get(repo.group ?? 'Projects')]));
 
     // replaceState: opening projects one after another shouldn't fill the Back button.
@@ -277,6 +273,21 @@ export async function initThoughts() {
       else openTimer = setTimeout(() => show(tile), HOVER_OPEN_MS);
     };
 
+    // A tile that slides under a still pointer, because its row moved, must not open its
+    // popover; only the pointer moving onto a tile does. So each row scroll notes where the
+    // pointer stood, and a hover from that same spot waits for the pointer's next move.
+    let pointerX = NaN;
+    let pointerY = NaN;
+    let stillX = NaN;
+    let stillY = NaN;
+    document.addEventListener('pointermove', (e) => { pointerX = e.clientX; pointerY = e.clientY; }, { passive: true });
+    const cameToPointer = (e) => Math.abs(e.clientX - stillX) < 3 && Math.abs(e.clientY - stillY) < 3;
+    const hoverFrom = (tile, e) => {
+      if (e.pointerType === 'touch' || !hoverEnabled()) return;
+      tile.waitsForMove = cameToPointer(e);
+      if (!tile.waitsForMove) hoverShow(tile);
+    };
+
     pop.addEventListener('pointerenter', () => clearTimeout(closeTimer));
     pop.addEventListener('pointerleave', scheduleHide);
     pop.addEventListener('focusout', (e) => {
@@ -312,8 +323,12 @@ export async function initThoughts() {
       }
       tile.append(el('span', 'atlas-tile-name', name), el('span', 'atlas-tile-desc', repo.description));
 
-      tile.addEventListener('pointerenter', (e) => { if (e.pointerType !== 'touch' && hoverEnabled()) hoverShow(tile); });
-      tile.addEventListener('pointerleave', (e) => { if (e.pointerType !== 'touch') scheduleHide(); });
+      tile.addEventListener('pointerenter', (e) => hoverFrom(tile, e));
+      tile.addEventListener('pointermove', (e) => { if (tile.waitsForMove) hoverFrom(tile, e); });
+      tile.addEventListener('pointerleave', (e) => {
+        tile.waitsForMove = false;
+        if (e.pointerType !== 'touch') scheduleHide();
+      });
       tile.addEventListener('focus', () => {
         // Keyboard focus previews like hover does; a mouse click focuses too, but its click pins.
         if (tile.matches(':focus-visible') && shownTile !== tile) show(tile);
@@ -332,58 +347,7 @@ export async function initThoughts() {
       return tile;
     };
 
-    // ── Tracks and progressive loading ─────────────────────
-
-    const firstBatch = (group) => {
-      const n = narrow.matches ? INITIAL.narrow : INITIAL.wide;
-      return group.items.length - n < 2 ? group.items.length : n;
-    };
-    const nextBatch = (group) => {
-      const left = group.items.length - group.shown;
-      return left - BATCH < 2 ? left : BATCH;
-    };
-
-    const observer = new IntersectionObserver((entries) => {
-      for (const entry of entries) {
-        if (entry.isIntersecting) reveal(entry.target.group, nextBatch(entry.target.group));
-      }
-      // Cut off at 15% from the bottom of the viewport, so the button must be scrolled up into
-      // the page before it fires, not merely peek in.
-    }, { rootMargin: '0px 0px -15% 0px' });
-
-    const reveal = (group, count, { focusFirst = false } = {}) => {
-      const fresh = group.items.slice(group.shown, group.shown + count);
-      const tiles = fresh.map((repo, i) => makeTile(repo, group.shown + i));
-      group.shown += fresh.length;
-      group.grid.append(...tiles);
-      if (!reducedMotion.matches && group.shown > fresh.length) {
-        tiles.forEach((tile) => tile.classList.add('is-new'));
-      }
-
-      const left = group.items.length - group.shown;
-      group.block.classList.toggle('has-more', left > 0);
-      if (left > 0) {
-        group.moreCount.textContent = `${group.shown} of ${group.items.length}`;
-        group.moreLabel.textContent = `Show ${nextBatch(group)} more`;
-        // A tile appended while the button is still on screen would never re-fire the observer,
-        // which only reports changes. Observe afresh so loading continues until the viewport fills.
-        observer.unobserve(group.more);
-        requestAnimationFrame(() => group.more.isConnected && observer.observe(group.more));
-      } else {
-        observer.unobserve(group.more);
-        group.more.remove();
-      }
-      if (focusFirst) tiles[0]?.focus();
-      if (shownTile && !pop.hidden) place();
-    };
-
-    const tileOf = (repo) => {
-      if (!tileFor.has(repo)) {
-        const group = groupOf.get(repo);
-        reveal(group, group.items.indexOf(repo) + 1 - group.shown);
-      }
-      return tileFor.get(repo);
-    };
+    // ── Tracks ─────────────────────────────────────────────
 
     const frag = document.createDocumentFragment();
     frag.appendChild(el('p', 'section-lede atlas-count', `${plural(repos.length, 'project')} · ${plural(groups.size, 'track')}`));
@@ -395,26 +359,32 @@ export async function initThoughts() {
       const label = el('p', 'atlas-group-label', `${group.name} · `);
       label.appendChild(el('span', 'atlas-group-count', String(group.items.length)));
       const grid = el('div', 'atlas-tiles');
+      grid.append(...group.items.map((repo, i) => makeTile(repo, i)));
 
-      const more = el('div', 'atlas-more');
-      const moreButton = el('button', 'atlas-more-btn');
-      moreButton.type = 'button';
-      const moreLabel = el('span', 'atlas-more-label');
-      const moreCount = el('span', 'atlas-more-count');
-      moreButton.setAttribute('aria-label', `Show more ${group.name} projects`);
-      moreButton.append(moreLabel, moreCount, el('span', 'atlas-more-arrow', '↓'));
-      more.appendChild(moreButton);
-      more.group = group;
-      moreButton.addEventListener('click', () => reveal(group, nextBatch(group), { focusFirst: true }));
-
-      Object.assign(group, { block, grid, more, moreLabel, moreCount });
+      group.grid = grid;
       block.append(label);
       if (installs.has(group.name)) block.appendChild(makeInstall(installs.get(group.name)));
-      block.append(grid, more);
+      block.append(grid);
       frag.appendChild(block);
-      reveal(group, firstBatch(group));
     }
     container.appendChild(frag);
+
+    // The rows are made once the tracks are in the page, so they can measure themselves. A
+    // popover belongs beside its tile: a hover one closes when its row moves; a pinned one
+    // follows its tile, and closes once the tile has left the row's view.
+    for (const group of groups.values()) {
+      group.row = enhanceCardRow(group.grid, { kind: 'tiles', label: `${group.name} projects` });
+      group.row.viewport.addEventListener('scroll', () => {
+        stillX = pointerX;
+        stillY = pointerY;
+        if (!shownTile || groupOf.get(shownTile.repo) !== group) return;
+        if (!pinned) { hide(); return; }
+        const tile = shownTile.getBoundingClientRect();
+        const view = group.row.viewport.getBoundingClientRect();
+        if (tile.right < view.left + 8 || tile.left > view.right - 8) hide();
+        else place();
+      }, { passive: true });
+    }
 
     // ── Dismissal, deep links, layout changes ──────────────
 
@@ -433,10 +403,11 @@ export async function initThoughts() {
       if (!location.hash.startsWith(HASH_PREFIX)) return;
       const wanted = decodeURIComponent(location.hash.slice(HASH_PREFIX.length)).toLowerCase();
       const repo = order.find((r) => nameOf(r).toLowerCase() === wanted);
-      const tile = repo && tileOf(repo);
+      const tile = repo && tileFor.get(repo);
       if (!tile) return;
       // Instant: arriving from a link should land on the project, not glide to it.
       document.getElementById('thoughts')?.scrollIntoView({ behavior: 'instant' });
+      groupOf.get(repo).row?.scrollToItem(tile);
       if (shownTile !== tile || !pinned) show(tile, { pin: true });
     };
     window.addEventListener('hashchange', fromHash);

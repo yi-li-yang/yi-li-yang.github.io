@@ -39,9 +39,9 @@
     },
     {
       "group": "Tools & apps",
-      "description": "An open-source decision tool for one question: where should I live? It scores every area of a city by your own weights and hard limits, lights up the best areas on a map, and explains every score one layer at a time. It starts with London and is in its foundations phase.",
+      "description": "An open-source decision tool for one question: where should I live? It scores every part of London by your own weights and hard limits, in your browser, lights up the best areas on a map, and explains every score one layer at a time. Live for London.",
       "url": "https://github.com/yi-li-yang/Livability-Atlas",
-      "image": ""
+      "image": "assets/showcase/livability-atlas.webp"
     },
     {
       "group": "Tools & apps",

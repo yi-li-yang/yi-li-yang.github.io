@@ -7,8 +7,12 @@
 // existing dark card design (.publication-card / .publication-meta in components.css).
 //
 // Work in progress (no year) still comes first, as bib-to-json sorts it, but as its own
-// compact group of rows, so the published papers below aren't pushed behind "Show all".
-// Filter chips carry counts derived from each entry's type, year and dataset flag.
+// compact group of rows, so it never pushes the published papers further along their row.
+// Filter chips carry counts derived from each entry's type, year and dataset flag. The
+// published papers are one card row (card-row.js): it rotates sideways when the filtered cards
+// do not fit, fading out at the edge that has more, with an arrow there.
+
+import { enhanceCardRow } from './card-row.js';
 
 function escapeHtml(s) {
   return String(s ?? '')
@@ -91,10 +95,6 @@ const FILTERS = [
 
 const HASH_PREFIX = '#publications/';
 
-// How many published papers show before the list collapses behind a "Show all" toggle. The
-// chips above already give the full shape of the record, so a short first look is enough.
-const COLLAPSE_AFTER = 4;
-
 function groupLabel(text, count) {
   const label = document.createElement('p');
   label.className = 'pub-group-label';
@@ -145,7 +145,7 @@ export async function initPublications() {
     progressList.append(...progress.map((e) => renderRow(e.pub)));
     progressGroup.append(groupLabel('In progress', progress.length), progressList);
 
-    // Published: cards, collapsed after COLLAPSE_AFTER.
+    // Published: cards in one row.
     const published = entries.filter((e) => e.category !== 'in-progress').map((e) => ({ ...e, card: renderCard(e.pub) }));
     const publishedGroup = document.createElement('div');
     publishedGroup.className = 'pub-group';
@@ -153,15 +153,12 @@ export async function initPublications() {
     const grid = document.createElement('div');
     grid.className = 'publications-grid';
     grid.append(...published.map((e) => e.card));
-    const toggle = document.createElement('button');
-    toggle.type = 'button';
-    toggle.className = 'btn btn-secondary publications-toggle';
-    publishedGroup.append(publishedLabel, grid, toggle);
+    publishedGroup.append(publishedLabel, grid);
 
     container.append(chips, progressGroup, publishedGroup);
+    const row = enhanceCardRow(grid, { kind: 'papers', label: 'Published papers' });
 
     let filter = 'all';
-    let expanded = false;
 
     const apply = () => {
       for (const [key, chip] of chipFor) chip.setAttribute('aria-pressed', String(key === filter));
@@ -172,18 +169,16 @@ export async function initPublications() {
       const matching = published.filter((e) => filter === 'all' || e.category === filter);
       publishedGroup.hidden = !matching.length;
       publishedLabel.lastChild.textContent = String(matching.length);
-      const visible = new Set(expanded ? matching : matching.slice(0, COLLAPSE_AFTER));
+      const visible = new Set(matching);
       for (const e of published) e.card.style.display = visible.has(e) ? '' : 'none';
-
-      toggle.hidden = matching.length <= COLLAPSE_AFTER;
-      toggle.textContent = expanded ? 'Show fewer' : `Show all ${matching.length} published`;
+      row.refresh();
     };
 
     const select = (key, { updateHash = true } = {}) => {
       if (!chipFor.has(key)) return false;
       filter = key;
-      expanded = false;
       apply();
+      row.reset();
       // replaceState, not a new history entry: flicking through chips shouldn't fill Back.
       if (updateHash) history.replaceState(null, '', key === 'all' ? '#publications' : HASH_PREFIX + key);
       return true;
@@ -192,10 +187,6 @@ export async function initPublications() {
     chips.addEventListener('click', (e) => {
       const chip = e.target.closest('.filter-chip');
       if (chip) select(chip.dataset.filter);
-    });
-    toggle.addEventListener('click', () => {
-      expanded = !expanded;
-      apply();
     });
 
     // Deep link: #publications/<filter> selects that chip and brings the section into view.
