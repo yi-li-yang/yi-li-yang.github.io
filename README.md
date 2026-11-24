@@ -126,6 +126,7 @@ See **[docs/APPLICATIONS.md](docs/APPLICATIONS.md)** for the citation tokens and
 
 | | |
 |---|---|
+| [docs/JOB_SEARCH.md](docs/JOB_SEARCH.md) | screening job alerts: how to judge whether a posting is worth an application |
 | [docs/APPLICATIONS.md](docs/APPLICATIONS.md) | job applications: schemas, citation tokens, the firewall, the gap report |
 | [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) | why the pipeline is shaped this way, and the invariants |
 | [docs/BUILD_AND_RUN.md](docs/BUILD_AND_RUN.md) | build stages in detail, and the Nunjucks/LaTeX delimiter gotcha |

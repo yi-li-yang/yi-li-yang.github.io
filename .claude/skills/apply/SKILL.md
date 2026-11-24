@@ -29,6 +29,13 @@ produces a CV tailored to the wrong thing.
 Derive `<slug>` as `<company>-<role>`, lowercase, hyphenated
 (e.g. `goldman-sachs-applied-ai-researcher`).
 
+### 1b. Judge it
+
+Before tailoring, judge the posting with the questions in `docs/JOB_SEARCH.md` (fit, chance,
+pay for the industry, workload, employer). Give the user a short verdict in plain words: worth it, maybe,
+or not, with the one reason that decides it. If the answer is "not", say why and ask whether to
+go on. The verdict is a judgment, never a claim, and never goes into the manifest or the letter.
+
 ### 2. Archive it verbatim
 
 Write `applications/drafting/<slug>/job.md`: a short front-matter block (company, role, source,

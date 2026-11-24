@@ -28,6 +28,13 @@
       "image": ""
     },
     {
+      "name": "talk-standard-tech-eng",
+      "owner": "yili-skills",
+      "description": "Keeps Claude's English plain and its names stable, using the ideas of ASD-STE100, and keeps a good metaphor when it explains better.",
+      "url": "https://github.com/yi-li-yang/skills/tree/HEAD/plugins/yili-skills/skills/talk-standard-tech-eng",
+      "image": ""
+    },
+    {
       "name": "write-like-myself",
       "owner": "yili-skills",
       "description": "Writes the way I would, built on how readers read rather than on lists of rules.",
