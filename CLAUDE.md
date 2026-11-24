@@ -26,7 +26,8 @@ derive from one set of facts. The CV's numbers stop being hand-typed; logging ha
 
 The real, implemented site is **vanilla**:
 - `index.html` at root, `css/variables.css` + `base.css` + `components.css`,
-- ES modules: `js/main.js` → `js/modules/{nav,links,contact,stats,thoughts,skills,publications,showcase-map,showcase-tabs,seo}.js`,
+- ES modules: `js/main.js` → `js/modules/{nav,links,contact,stats,flagships,thoughts,skills,publications,seo}.js`,
+  plus `card-row.js`, the sideways card row that `flagships`, `thoughts` and `publications` share,
 - data fetched at runtime from `data/*.json`,
 - design system in `docs/DESIGN.md` (Linear-inspired, dark, Inter Variable).
 
@@ -101,9 +102,11 @@ from data, not a literal).
 ```
 yi-li-yang.github.io/                 CURRENT (keep)
 ├── index.html  css/  js/modules/     vanilla site
-├── data/ stats.json claude-skills.json pill-tags.json show_repo.json   (first two = script-written; other two = hand-written)
+├── data/ stats.json claude-skills.json livability-atlas.json   (script-written)
+│         pill-tags.json show_repo.json flagships.json          (hand-written)
 ├── scripts/update-stats.js           working ingest (ORCID/GitHub/Scholar, fail-safe)
 ├── scripts/fetch-skills.js           ingest: skills in yi-li-yang/skills -> data/claude-skills.json (fail-safe)
+├── scripts/fetch-atlas.js            ingest: the Livability Atlas's live data bundle -> data/livability-atlas.json (fail-safe)
 ├── .github/workflows/update-stats.yml monthly cron
 ├── docs/  CLAUDE.md  README.md
 │
