@@ -60,6 +60,8 @@ function makeCard(item, sources) {
   media.setAttribute('aria-hidden', 'true');
   const img = el('img');
   Object.assign(img, { src: item.image.src, alt: '', width: 1200, height: 750, loading: 'lazy', decoding: 'async' });
+  // A missing image leaves the card's text, not a broken-image box.
+  img.onerror = () => img.remove();
   media.append(img, el('span', 'flagship-chip', item.chip));
   if (item.image.credit) media.appendChild(el('span', 'flagship-credit', item.image.credit));
 

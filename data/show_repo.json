@@ -7,7 +7,8 @@
     "`name` and `owner` are optional overrides; by default both are read from the repo URL.",
     "`image` is optional: leave it empty and the detail panel shows a title card instead.",
     "`private: true` marks a repo that visitors cannot open: the detail panel shows a \"Private repository\" label instead of the GitHub button. The tile, image and description stay.",
-    "Prefer a local file in assets/projects/ (WebP, about 1200px wide, under 250 KB) over a remote URL: a raw screenshot or GIF from a README can weigh several megabytes."
+    "Prefer a local file in assets/projects/ (WebP, about 1200px wide, under 250 KB) over a remote URL: a raw screenshot or GIF from a README can weigh several megabytes.",
+    "`preview: true` opts a repo in to its own preview image: scripts/fetch-previews.js (daily, update-previews.yml) copies the repo's docs/preview.webp, made by github.com/yi-li-yang/auto-generate-preview-image, into assets/previews/ and lists it in data/previews.json; the detail panel then plays the repo's animation, if it has one, unless the visitor asks for reduced motion. Only that script writes assets/previews/. Keep `image` on the hand-made file until the first copy is on main, then point it at assets/previews/<repo>.webp and delete the hand-made file."
   ],
   "repos": [
     {
@@ -42,7 +43,8 @@
       "group": "Tools & apps",
       "description": "An open-source decision tool for one question: where should I live? It scores every part of London by your own weights and hard limits, in your browser, lights up the best areas on a map, and explains every score one layer at a time. Live for London.",
       "url": "https://github.com/yi-li-yang/Livability-Atlas",
-      "image": "assets/showcase/livability-atlas.webp"
+      "image": "assets/showcase/livability-atlas.webp",
+      "preview": true
     },
     {
       "group": "Tools & apps",
@@ -60,7 +62,8 @@
       "group": "Tools & apps",
       "description": "My flight log, drawn on an interactive globe.",
       "url": "https://github.com/yi-li-yang/travel-map",
-      "image": "assets/projects/travel-map.webp"
+      "image": "assets/projects/travel-map.webp",
+      "preview": true
     },
     {
       "group": "Tools & apps",

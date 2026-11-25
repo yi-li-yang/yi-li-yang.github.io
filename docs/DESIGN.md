@@ -385,6 +385,9 @@ has adopted on top of it, so new work reuses them instead of inventing a near-co
   - One shared popover (`.atlas-pop`) floats beside the hovered tile and stays while the pointer
     is on the tile or the popover. A click, or a tap, pins it; Esc, ✕ or a click elsewhere closes
     it. It never reflows the grid. At 720px and below it is a bottom sheet and hover is off.
+  - A tile's screenshot is always still. When the repo has an animated preview
+    (`data/previews.json`), the popover plays it, never under reduced motion (`<picture>` with a
+    `prefers-reduced-motion: no-preference` source over the still image).
   - Two levels only, never a third. Each track is one card row (below): the tiles that fit
     show side by side, and a track with more rotates sideways. There is no "Show more".
   - A track can be derived: a `show_repo.json` entry with `expand` names a data file that
