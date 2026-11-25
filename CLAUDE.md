@@ -25,11 +25,14 @@ derive from one set of facts. The CV's numbers stop being hand-typed; logging ha
 ## ⚠️ Ground truth about the ACTUAL stack (read before doing anything)
 
 The real, implemented site is **vanilla**:
-- `index.html` at root, `css/variables.css` + `base.css` + `components.css`,
+- `index.html` at root, `css/visual-preference/{fonts,tokens}.css` (Yili's visual system, copied
+  at a stated version — never edit) + `css/variables.css` + `base.css` + `components.css`,
 - ES modules: `js/main.js` → `js/modules/{nav,links,contact,stats,flagships,thoughts,skills,publications,seo}.js`,
   plus `card-row.js`, the sideways card row that `flagships`, `thoughts` and `publications` share,
 - data fetched at runtime from `data/*.json`,
-- design system in `docs/DESIGN.md` (Linear-inspired, dark, Inter Variable).
+- design: Yili's visual system 1.0.0, lichen accent. `DESIGN.md` (root) is the system's record;
+  `docs/DESIGN.md` says how the site applies it. Use the tokens (`var(--ink)`, `var(--space-4)`);
+  never type a colour, size or font into the site's CSS or JS.
 
 There is **no** Next.js, React, Tailwind, or map library in this repo, despite what the
 old CLAUDE.md's "Project Scaffolding" section claimed. **Do not introduce them.** Treat

@@ -1,72 +1,27 @@
 /* SOURCE — you own this file. Edit freely, by hand or by agent. */
+/* The site's own additions to Yili's visual system. Every colour, size, space and font comes
+   from css/visual-preference/tokens.css (loaded before this file); nothing here retypes one of
+   its values. See DESIGN.md and docs/DESIGN.md. */
+
 :root {
-  /* === Background Surfaces === */
-  --color-bg:             #08090a;
-  --color-bg-panel:       #0f1011;
-  --color-surface:        #191a1b;
-  --color-surface-alt:    #28282c;
+  /* The ease and duration of a hover, in one name. */
+  --transition: var(--fast) var(--out);
 
-  /* === Text === */
-  --color-text:           #f7f8f8;
-  --color-text-secondary: #d0d6e0;
-  --color-text-muted:     #8a8f98;
-  --color-text-subtle:    #7a7f88;  /* 4.9:1 on --color-bg; #62666d was 3.4:1, below WCAG AA */
+  /* Monochrome logos: drawn in ink, so they turn dark on the light theme. */
+  --logo-ink: brightness(0) invert(1);
 
-  /* === Brand & Accent === */
-  --color-brand:          #5e6ad2;
-  --color-accent:         #7170ff;
-  --color-accent-hover:   #828fff;
+  /* A scrim under text that sits on a picture: the ground, made transparent. */
+  --scrim-strong: color-mix(in srgb, var(--ground) 94%, transparent);
+  --scrim-mid: color-mix(in srgb, var(--ground) 60%, transparent);
+  --scrim-soft: color-mix(in srgb, var(--ground) 20%, transparent);
+}
 
-  /* === Status === */
-  --color-success:        #10b981;
+[data-theme="light"] {
+  --logo-ink: brightness(0);
+}
 
-  /* === Borders === */
-  --color-border:         rgba(255, 255, 255, 0.08);
-  --color-border-subtle:  rgba(255, 255, 255, 0.05);
-  --color-border-solid:   #23252a;
-
-  /* === Typography === */
-  --font-body: 'Inter Variable', 'Inter', 'SF Pro Display', -apple-system, system-ui,
-    'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-  --font-mono: 'Berkeley Mono', ui-monospace, 'SF Mono', Menlo, Monaco, Consolas, monospace;
-  --font-features: 'cv01', 'ss03';
-
-  /* Font sizes */
-  --font-size-xs:   0.75rem;    /* 12px */
-  --font-size-sm:   0.8125rem;  /* 13px */
-  --font-size-base: 1rem;       /* 16px */
-  --font-size-md:   1.0625rem;  /* 17px */
-  --font-size-lg:   1.125rem;   /* 18px */
-  --font-size-xl:   1.25rem;    /* 20px */
-  --font-size-2xl:  1.5rem;     /* 24px */
-  --font-size-3xl:  2rem;       /* 32px */
-  --font-size-4xl:  3rem;       /* 48px */
-  --font-size-5xl:  4rem;       /* 64px */
-  --font-size-6xl:  4.5rem;     /* 72px */
-
-  /* === Spacing (8px base) === */
-  --space-xxs: 0.25rem;   /* 4px */
-  --space-xs:  0.5rem;    /* 8px */
-  --space-sm:  0.75rem;   /* 12px */
-  --space-md:  1rem;      /* 16px */
-  --space-lg:  1.5rem;    /* 24px */
-  --space-xl:  2rem;      /* 32px */
-  --space-xxl: 3rem;      /* 48px */
-  --space-3xl: 5rem;      /* 80px */
-
-  /* === Layout === */
-  --max-width: 1200px;
-
-  /* === Border Radius === */
-  --radius-micro:  2px;
-  --radius-xs:     4px;
-  --radius-sm:     6px;
-  --radius-md:     8px;
-  --radius-lg:     12px;
-  --radius-xl:     22px;
-  --radius-pill:   9999px;
-  --radius-circle: 50%;
-
-  /* === Transitions === */
-  --transition: 150ms ease;
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme="dark"]) {
+    --logo-ink: brightness(0);
+  }
 }

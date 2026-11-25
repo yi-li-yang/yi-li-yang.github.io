@@ -19,7 +19,7 @@ One body of facts in `data/` and `cv/publications.bib`. Three things derived fro
 | [APPLICATIONS.md](APPLICATIONS.md) | ③ in detail: schemas, citation tokens, the firewall, the gap report |
 | [ARCHITECTURE.md](ARCHITECTURE.md) | why the pipeline is shaped this way, and the invariants it protects |
 | [BUILD_AND_RUN.md](BUILD_AND_RUN.md) | build stages, and the Nunjucks-vs-LaTeX delimiter gotcha |
-| [DESIGN.md](DESIGN.md) | ① the website's design system |
+| [DESIGN.md](DESIGN.md) | ① how the website uses Yili's visual system, and its judgement calls |
 
 ## Rules for any change
 

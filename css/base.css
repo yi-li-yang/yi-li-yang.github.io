@@ -12,13 +12,12 @@ html {
 }
 
 body {
-  font-family: var(--font-body);
-  font-feature-settings: var(--font-features);
-  font-size: var(--font-size-base);
+  font-family: var(--font-sans);
+  font-size: 16px;
   font-weight: 400;
-  line-height: 1.5;
-  color: var(--color-text-secondary);
-  background-color: var(--color-bg);
+  line-height: 1.55;
+  color: var(--ink);
+  background-color: var(--ground);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -28,7 +27,6 @@ input,
 textarea,
 select {
   font: inherit;
-  font-feature-settings: var(--font-features);
 }
 
 img,
@@ -51,29 +49,29 @@ a {
 }
 
 a:hover {
-  color: var(--color-text);
+  color: var(--ink);
 }
 
 /* Keyboard focus only; mouse clicks don't draw it. */
 :focus-visible {
-  outline: 2px solid var(--color-accent);
+  outline: 2px solid var(--lichen);
   outline-offset: 2px;
 }
 
 /* ── Layout ─────────────────────────────────── */
 
 .container {
-  width: min(100% - 2rem, var(--max-width));
+  width: min(100% - 2rem, var(--page));
   margin-inline: auto;
 }
 
 .page-shell {
   min-height: 100vh;
-  background-color: var(--color-bg);
+  background-color: var(--ground);
 }
 
 .section {
-  padding: var(--space-xxl) 0;
+  padding: var(--space-12) 0;
   /* Nav jumps land the heading below the sticky header, not under it. */
   scroll-margin-top: 1rem;
 }
@@ -84,36 +82,39 @@ a:hover {
   position: sticky;
   top: 0;
   z-index: 10;
-  background: rgba(8, 9, 10, 0.85);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border-bottom: 1px solid var(--color-border-subtle);
+  background: var(--ground);
+  border-bottom: 1px solid var(--rule);
 }
 
 .header-inner {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: var(--space-lg);
+  gap: var(--space-6);
   padding: 1rem 0;
 }
 
 .brand {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  font-family: var(--font-body);
-  font-feature-settings: var(--font-features);
-  font-size: var(--font-size-sm);
-  font-weight: 510;
-  letter-spacing: 0.04em;
-  color: var(--color-text);
-  text-transform: none;
+  font-family: var(--font-sans);
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--ink);
+  white-space: nowrap;
+}
+
+/* The mark: a square full stop in the accent, 0.22 of the type size, on the baseline,
+   0.1 of the type size after the last letter. */
+.stop {
+  display: inline-block;
+  width: 0.22em;
+  height: 0.22em;
+  margin-left: 0.1em;
+  background: var(--lichen);
 }
 
 .site-nav {
   display: flex;
-  gap: var(--space-lg);
+  gap: var(--space-6);
   flex-wrap: wrap;
   align-items: center;
   margin-left: auto;
@@ -123,29 +124,28 @@ a:hover {
 /* `.btn.` for specificity: components.css loads after this file and its .btn padding would win. */
 .btn.header-cta {
   flex-shrink: 0;
-  padding: 3px 12px;
-  font-size: var(--font-size-xs);
+  padding-block: 0;
 }
 
 .site-nav a {
-  color: var(--color-text-secondary);
-  font-size: var(--font-size-sm);
-  font-weight: 510;
+  color: var(--muted);
+  font-size: 14px;
+  font-weight: 500;
   letter-spacing: normal;
   text-transform: none;
   transition: color var(--transition);
 }
 
 .site-nav a:hover {
-  color: var(--color-text);
+  color: var(--ink);
   text-decoration: none;
 }
 
 /* Set by js/modules/nav.js for the section currently in view. */
 .site-nav a[aria-current="true"] {
-  color: var(--color-text);
+  color: var(--ink);
   text-decoration: underline;
-  text-decoration-color: var(--color-accent);
+  text-decoration-color: var(--lichen);
   text-decoration-thickness: 1px;
   text-underline-offset: 6px;
 }
@@ -156,7 +156,7 @@ a:hover {
 .hero-inner {
   display: grid;
   grid-template-columns: 1.1fr 0.9fr;
-  gap: var(--space-xxl);
+  gap: var(--space-12);
   align-items: start;
 }
 
@@ -164,30 +164,42 @@ a:hover {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  margin-bottom: var(--space-sm);
-  font-size: var(--font-size-xs);
-  font-weight: 510;
-  letter-spacing: 0.06em;
+  margin-bottom: var(--space-3);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: var(--color-text-muted);
+  color: var(--muted);
 }
 
+/* The name is the page's one display line; the line under it is the h1 size. */
 .hero-title {
-  font-size: clamp(2.5rem, 5vw, var(--font-size-4xl));
-  font-weight: 510;
-  line-height: 1.00;
-  letter-spacing: -1.056px;
-  color: var(--color-text);
-  margin-bottom: var(--space-lg);
-  font-feature-settings: var(--font-features);
+  font-size: 31px;
+  font-weight: 600;
+  line-height: 1.15;
+  color: var(--ink);
+  margin-bottom: var(--space-6);
+  max-width: 24ch;
+}
+
+.hero-name {
+  display: block;
+  margin-bottom: var(--space-3);
+  font-size: 49px;
+  letter-spacing: -0.01em;
+}
+
+.hero-line {
+  display: block;
 }
 
 
 .hero-actions {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--space-xs);
-  margin-top: var(--space-lg);
+  align-items: center;
+  gap: var(--space-2) var(--space-6);
+  margin-top: var(--space-6);
 }
 
 /* Filled by js/modules/contact.js from the footer's links. The min-height reserves the row
@@ -195,9 +207,9 @@ a:hover {
 .hero-contact {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--space-xs);
+  gap: var(--space-2);
   min-height: 36px;
-  margin-top: var(--space-md);
+  margin-top: var(--space-4);
 }
 
 .hero-contact-link {
@@ -206,17 +218,15 @@ a:hover {
   justify-content: center;
   width: 36px;
   height: 36px;
-  border-radius: var(--radius-circle);
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid var(--color-border);
-  color: var(--color-text-muted);
+  border-radius: 0;
+  border: 1px solid var(--edge);
+  color: var(--muted);
   transition: color var(--transition), border-color var(--transition), background var(--transition);
 }
 
 .hero-contact-link:hover {
-  color: var(--color-text);
-  background: rgba(255, 255, 255, 0.05);
-  border-color: rgba(255, 255, 255, 0.12);
+  color: var(--ink);
+  border-color: var(--ink);
 }
 
 .hero-contact-link svg {
@@ -227,22 +237,18 @@ a:hover {
 /* ── Section Heading ─────────────────────────── */
 
 .section-heading {
-  font-size: var(--font-size-3xl);
-  font-weight: 510;
-  line-height: 1.13;
-  letter-spacing: -0.704px;
-  color: var(--color-text);
-  margin-bottom: var(--space-xl);
-  font-feature-settings: var(--font-features);
+  font-size: 25px;
+  font-weight: 600;
+  line-height: 1.15;
+  color: var(--ink);
+  margin-bottom: var(--space-8);
 }
 
 /* One quiet line under a heading: a derived count or a data's provenance. */
 .section-lede {
-  margin: calc(-1 * var(--space-md)) 0 var(--space-xl);
-  font-family: var(--font-mono);
-  font-size: var(--font-size-xs);
-  letter-spacing: 0.02em;
-  color: var(--color-text-muted);
+  margin: calc(-1 * var(--space-4)) 0 var(--space-8);
+  font-size: 14px;
+  color: var(--muted);
   /* Reserve the line even while a module is still filling it, so nothing below jumps. */
   min-height: 1.5em;
 }
@@ -250,39 +256,39 @@ a:hover {
 /* ── Footer ─────────────────────────────────── */
 
 .site-footer {
-  padding: var(--space-xxl) 0;
-  background-color: var(--color-bg-panel);
-  border-top: 1px solid var(--color-border-subtle);
+  padding: var(--space-12) 0;
+  background-color: var(--surface);
+  border-top: 1px solid var(--rule);
 }
 
 .site-footer-inner {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: var(--space-lg);
+  gap: var(--space-6);
   flex-wrap: wrap;
 }
 
 .site-footer p {
-  font-size: var(--font-size-sm);
-  color: var(--color-text-subtle);
+  font-size: 14px;
+  color: var(--muted);
 }
 
 .footer-links {
   display: flex;
-  gap: var(--space-lg);
+  gap: var(--space-6);
   flex-wrap: wrap;
 }
 
 .footer-links a {
-  font-size: var(--font-size-sm);
-  font-weight: 510;
-  color: var(--color-text-muted);
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--muted);
   transition: color var(--transition);
 }
 
 .footer-links a:hover {
-  color: var(--color-text);
+  color: var(--ink);
   text-decoration: none;
 }
 
@@ -298,7 +304,7 @@ a:hover {
     /* minmax(0, …): a plain 1fr track grows to its min-content width, and the no-wrap pill
        rows on phones would then drag the whole hero wider than the screen. */
     grid-template-columns: minmax(0, 1fr);
-    gap: var(--space-xl);
+    gap: var(--space-8);
   }
 }
 
@@ -306,7 +312,7 @@ a:hover {
   /* One row, not two: the brand stays put and the nav scrolls sideways, so the sticky bar
      doesn't spend a tenth of a phone screen on wrapped links. */
   .header-inner {
-    gap: var(--space-md);
+    gap: var(--space-4);
   }
 
   .brand {
@@ -316,7 +322,7 @@ a:hover {
   .site-nav {
     flex: 1;
     flex-wrap: nowrap;
-    gap: var(--space-md);
+    gap: var(--space-4);
     min-width: 0;
     overflow-x: auto;
     scrollbar-width: none;
@@ -330,16 +336,15 @@ a:hover {
 
   .site-nav a {
     flex-shrink: 0;
-    padding: var(--space-xxs) 0;
+    padding: var(--space-1) 0;
   }
 
   .section {
-    padding: var(--space-xxl) 0;
+    padding: var(--space-12) 0;
   }
 
-  .section-heading {
-    font-size: var(--font-size-2xl);
-    letter-spacing: -0.288px;
+  .hero-title {
+    font-size: 25px;
   }
 }
 
