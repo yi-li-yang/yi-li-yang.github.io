@@ -15,6 +15,7 @@
 // data file it names (data/claude-skills.json, written by scripts/fetch-skills.js).
 
 import { enhanceCardRow } from './card-row.js';
+import { loadPreviews } from './previews.js';
 
 const DETAIL_ID = 'atlas-pop';
 const HOVER_OPEN_MS = 110;
@@ -120,8 +121,18 @@ function fillPopover(pop, repo, onClose) {
     img.src = imgUrl;
     img.alt = name;
     img.decoding = 'async';
-    img.onerror = () => img.replaceWith(makeTitleCard(repo));
-    media.appendChild(img);
+    // The repo's animation, when it has one, plays here only, and only for a visitor who has not
+    // asked for reduced motion; everyone else sees the still image. The tile stays still.
+    let shown = img;
+    if (repo.anim) {
+      const source = el('source');
+      source.media = '(prefers-reduced-motion: no-preference)';
+      source.srcset = repo.anim;
+      shown = el('picture');
+      shown.append(source, img);
+    }
+    img.onerror = () => shown.replaceWith(makeTitleCard(repo));
+    media.appendChild(shown);
   } else {
     media.appendChild(makeTitleCard(repo));
   }
@@ -171,7 +182,11 @@ export async function initThoughts() {
   if (!container) return;
 
   try {
-    const { repos, installs } = await loadRepos();
+    const [{ repos, installs }, previews] = await Promise.all([loadRepos(), loadPreviews()]);
+    for (const repo of repos) {
+      const anim = previews[repo.url]?.anim;
+      if (anim) repo.anim = anim;
+    }
 
     // Tracks in order of first appearance; repos keep file order within a track.
     const groups = new Map();

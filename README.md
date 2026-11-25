@@ -45,6 +45,8 @@ npm run verify:app -- <slug>            # the firewall's report, without renderi
 npm run verify:app -- <slug> --strict   # warnings become failures (what CI runs)
 npm run clean                           # wipe build/
 npm run ingest                          # refresh stats from ORCID / GitHub / Scholar (network)
+npm run ingest:previews                 # copy each opted-in repo's preview image (network)
+npm test                                # the scripts' tests (node --test)
 npm run bib | metrics | render          # the individual stages `build` chains together
 npm run pdf -- <slug>                   # preview one application's PDFs locally (needs Tectonic)
 npm run pdfs                            # wait for CI, then pull the PDFs it committed

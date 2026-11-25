@@ -1,0 +1,44 @@
+name: Update Previews
+
+on:
+  schedule:
+    - cron: '0 3 * * *'  # every day, 03:00 UTC (update-stats.yml runs at midnight on the 1st)
+  workflow_dispatch:      # run now, for example right after a repo's new preview is merged
+
+permissions:
+  contents: write
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      # Copies each opted-in repo's docs/preview.webp (and docs/preview-anim.webp) into
+      # assets/previews/ and writes data/previews.json. Fails safe on its own: a repo that fails
+      # keeps its last good file, so this step never fails the job. Most days nothing changes,
+      # and nothing is committed.
+      - run: node scripts/fetch-previews.js
+        env:
+          GH_USER_TOKEN: ${{ secrets.GH_PAT }}
+
+      # Derived bytes are committed only on main (CLAUDE.md); a run on another branch only fetches.
+      # Unlike update-stats.yml, this starts no CV build: the CVs print no preview.
+      - name: Commit and push if changed
+        if: github.ref == 'refs/heads/main'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/previews.json
+          if [ -d assets/previews ]; then git add assets/previews; fi
+          if git diff --cached --quiet; then
+            echo "previews unchanged — nothing to commit"
+          else
+            git commit -m "chore: update previews [automated]"
+            git pull --rebase
+            git push
+          fi

@@ -104,12 +104,16 @@ from data, not a literal).
 ```
 yi-li-yang.github.io/                 CURRENT (keep)
 ├── index.html  css/  js/modules/     vanilla site
-├── data/ stats.json claude-skills.json livability-atlas.json   (script-written)
+├── data/ stats.json claude-skills.json livability-atlas.json previews.json  (script-written)
 │         pill-tags.json show_repo.json flagships.json          (hand-written)
+├── assets/previews/                  (script-written) each opted-in repo's own preview image
 ├── scripts/update-stats.js           working ingest (ORCID/GitHub/Scholar, fail-safe)
 ├── scripts/fetch-skills.js           ingest: skills in yi-li-yang/skills -> data/claude-skills.json (fail-safe)
 ├── scripts/fetch-atlas.js            ingest: the Livability Atlas's live data bundle -> data/livability-atlas.json (fail-safe)
+├── scripts/fetch-previews.js         ingest: each `preview: true` repo's docs/preview.webp -> assets/previews/ + data/previews.json (fail-safe)
+├── test/                             `npm test` (node --test)
 ├── .github/workflows/update-stats.yml monthly cron
+├── .github/workflows/update-previews.yml daily cron; commits previews on main only, starts no CV build
 ├── docs/  CLAUDE.md  README.md
 │
 │                                     TARGET ADDITIONS
@@ -126,7 +130,7 @@ yi-li-yang.github.io/                 CURRENT (keep)
 │   ├── lib/  data.js  render.js  applications.js
 │   ├── update-stats.js  bib-to-json.js  emit-metrics-tex.js  render-cv.js
 │   └── tailor.js  verify-application.js  apps.js  app-status.js  fetch-pdfs.js
-└── .github/workflows/  build-cv.yml  tailor-cv.yml  update-stats.yml
+└── .github/workflows/  build-cv.yml  tailor-cv.yml  update-stats.yml  update-previews.yml
 ```
 
 ---

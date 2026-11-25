@@ -31,6 +31,7 @@ Every fact has an owner (who may write it). Partition storage by owner:
 | You (publications) | curated; APIs *propose* | `cv/publications.bib` | you only |
 | You (CV prose) | hand | `cv/**/*.tex` shells + new `data/experience.*` | you only |
 | Derived | pure render | `cv/**/generated/*`, `data/publications.json`, `assets/*.pdf` | scripts only |
+| Each project repo (its `docs/preview.webp`) | ingest | `assets/previews/*`, `data/previews.json` | `scripts/fetch-previews.js` only |
 
 Invariant 2 falls out: a human file is never script-written and vice-versa. Your repo already
 honors this for `stats.json` (script-written) — the rule just needs stating and extending.
@@ -46,6 +47,7 @@ optional ORCID diff *proposes* missing entries for you to accept. A pull never o
 
 - **Impure (ingest):** `scripts/update-stats.js`. Network, flaky, fail-safe. **Already built.**
   Runs in CI (`update-stats.yml`, monthly) or locally. Cannot run inside Overleaf (no network).
+  `scripts/fetch-previews.js` is the same kind of step for project images (`update-previews.yml`, daily).
 - **Pure (render):** new `emit-metrics-tex.js`, `bib-to-json.js`, `render-cv.js`. Deterministic,
   offline, read the data layer, write generated artifacts. Run anywhere.
 
@@ -84,7 +86,8 @@ without collapsing the two templates, and it revives the old role-variants
 ## Single-writer rule (operational form of invariant 2)
 
 Generated paths have exactly one writer — the build (CI or local scripts):
-`data/stats.json`, `data/publications.json`, `cv/**/generated/*`, `assets/*.pdf`.
+`data/stats.json`, `data/publications.json`, `data/previews.json`, `cv/**/generated/*`,
+`assets/*.pdf`, `assets/previews/*`.
 You author `data/pill-tags.json`, `data/show_repo.json`, `cv/publications.bib`, the `.tex`
 shells, the `.njk` templates, and the site source. **Never hand-edit a generated file** — the
 next build silently reverts it.

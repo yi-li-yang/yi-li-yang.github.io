@@ -1404,6 +1404,13 @@
   object-fit: cover;
 }
 
+/* A repo's animation comes in a <picture> (js/modules/thoughts.js); it fills the box like an img. */
+.atlas-media picture {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
 .atlas-titlecard {
   display: flex;
   flex-direction: column;
