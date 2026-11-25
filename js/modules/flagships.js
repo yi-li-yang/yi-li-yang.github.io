@@ -77,7 +77,7 @@ function makeCard(item, sources) {
 
   const actions = el('div', 'flagship-actions');
   actions.append(
-    external(item.live.href, item.live.label, 'btn btn-primary'),
+    external(item.live.href, item.live.label, 'btn btn-secondary'),
     ...(item.links ?? []).map((link) => external(link.href, link.label, 'flagship-link')),
   );
 
@@ -167,6 +167,6 @@ export async function initFlagships() {
     }));
   } catch (err) {
     console.error('Failed to load flagships:', err);
-    host.innerHTML = '<p style="color:var(--color-text-muted);padding:2rem 0">Featured projects temporarily unavailable.</p>';
+    host.innerHTML = '<p style="color:var(--muted);padding:2rem 0">Featured projects temporarily unavailable.</p>';
   }
 }

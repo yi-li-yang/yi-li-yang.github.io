@@ -1,5 +1,7 @@
 # yi-li-yang.github.io
 
+![yi-li-yang.github.io preview](docs/preview.webp)
+
 One body of facts. Three outputs.
 
 Every fact about this career is written down exactly once, in `data/` and `cv/publications.bib`.
@@ -132,5 +134,5 @@ See **[docs/APPLICATIONS.md](docs/APPLICATIONS.md)** for the citation tokens and
 | [docs/APPLICATIONS.md](docs/APPLICATIONS.md) | job applications: schemas, citation tokens, the firewall, the gap report |
 | [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) | why the pipeline is shaped this way, and the invariants |
 | [docs/BUILD_AND_RUN.md](docs/BUILD_AND_RUN.md) | build stages in detail, and the Nunjucks/LaTeX delimiter gotcha |
-| [docs/DESIGN.md](docs/DESIGN.md) | the website's design system |
+| [DESIGN.md](DESIGN.md) · [docs/DESIGN.md](docs/DESIGN.md) | the visual system's record · how the website applies it |
 | [CLAUDE.md](CLAUDE.md) | working agreement for agents in this repo |

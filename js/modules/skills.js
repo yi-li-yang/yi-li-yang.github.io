@@ -1,24 +1,25 @@
 // SOURCE — you own this file. Edit freely, by hand or by agent.
-const LANG_COLORS = {
-  Python:             '#3572A5',
-  JavaScript:         '#f1e05a',
-  TypeScript:         '#3178c6',
-  R:                  '#198CE7',
-  Shell:              '#89e051',
-  'Jupyter Notebook': '#DA5B0B',
-  HTML:               '#e34c26',
-  CSS:                '#563d7c',
-  'C++':              '#f34b7d',
-  Go:                 '#00ADD8',
-  Rust:               '#dea584',
-  Java:               '#b07219',
-  MATLAB:             '#bb92ac',
-  Dockerfile:         '#384d54',
-  Other:              '#4e5260'
-};
+// Languages are groups, so they take the visual system's group colours, in order of size:
+// Earth 6 for up to six languages, Earth 8 for seven or eight. The values are custom
+// properties from css/visual-preference/tokens.css, so the chart follows the theme. More than
+// eight named languages are folded into "Other", which stays neutral.
+const EARTH_6 = ['sky', 'rust', 'spruce', 'sand', 'dusk', 'ochre'];
+const EARTH_8 = ['glacier', 'rust', 'spruce', 'sand', 'dusk', 'rose', 'olive', 'sky'];
+const OTHER_COLOR = 'var(--edge)';
 
-function langColor(name) {
-  return LANG_COLORS[name] ?? '#4e5260';
+function colourLangs(languages) {
+  const named = languages.filter(l => l.name !== 'Other');
+  const rest = languages.filter(l => l.name === 'Other');
+  const kept = named.slice(0, EARTH_8.length);
+  const folded = named.slice(EARTH_8.length).concat(rest);
+  const palette = kept.length <= EARTH_6.length ? EARTH_6 : EARTH_8;
+  const out = kept.map((l, i) => ({ ...l, color: `var(--data-${palette[i]})` }));
+  if (folded.length) {
+    const bytes = folded.reduce((s, l) => s + l.bytes, 0);
+    const percent = folded.reduce((s, l) => s + l.percent, 0);
+    out.push({ name: 'Other', bytes, percent, color: OTHER_COLOR });
+  }
+  return out;
 }
 
 function donutPath(cx, cy, outerR, innerR, a0, a1) {
@@ -97,12 +98,12 @@ function renderInteractiveLangChart(container, languages) {
   const SIZE = 180, CX = 90, CY = 90, OUTER = 78, INNER = 50, GAP = 0.018;
   let angle = -Math.PI / 2;
 
-  const segments = languages.map(lang => {
+  const segments = colourLangs(languages).map(lang => {
     const sweep = (lang.percent / 100) * 2 * Math.PI;
     const a0 = angle + GAP / 2;
     const a1 = angle + sweep - GAP / 2;
     angle += sweep;
-    return { ...lang, path: donutPath(CX, CY, OUTER, INNER, a0, a1), color: langColor(lang.name) };
+    return { ...lang, path: donutPath(CX, CY, OUTER, INNER, a0, a1) };
   });
 
   const wrapper = document.createElement('div');
@@ -131,9 +132,9 @@ function renderInteractiveLangChart(container, languages) {
   const pathEls = segments.map((s, i) => {
     const path = document.createElementNS(svgNS, 'path');
     path.setAttribute('d', s.path);
-    path.setAttribute('fill', s.color);
+    path.style.fill = s.color;
     path.style.cursor = 'pointer';
-    path.style.transition = 'opacity 150ms ease';
+    path.style.transition = 'opacity var(--transition)';
 
     path.addEventListener('mouseenter', () => {
       pathEls.forEach((p, j) => { p.style.opacity = j === i ? '1' : '0.2'; });

@@ -204,6 +204,6 @@ export async function initPublications() {
   } catch (err) {
     console.error('Failed to load publications:', err);
     container.innerHTML =
-      '<p style="color:var(--color-text-muted);padding:2rem 0">Publications temporarily unavailable.</p>';
+      '<p style="color:var(--muted);padding:2rem 0">Publications temporarily unavailable.</p>';
   }
 }

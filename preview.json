@@ -1,0 +1,21 @@
+{
+  "_comment": "How auto-generate-preview-image captures this site. The frame is the top of the homepage: the name with its lichen stop, the line under it, the two expertise columns, and the start of the Featured maps.",
+  "url": "http://localhost:5512/",
+  "data": "public",
+  "dataNote": "Everything in the frame is Yili's own public profile as the live site shows it: his name, job title, expertise tags and two published map projects with their published figures. It holds no data about anyone else and nothing private.",
+  "watch": ["index.html", "css/", "js/", "assets/showcase/", "data/flagships.json", "data/pill-tags.json"],
+  "start": {
+    "command": "npx --yes http-server@14.1.1 -p 5512 -c-1 --silent",
+    "waitUrl": "http://localhost:5512/",
+    "timeoutMs": 60000
+  },
+  "colorScheme": "dark",
+  "reducedMotion": "reduce",
+  "deviceScaleFactor": 2,
+  "steps": [
+    { "waitForFunction": "document.fonts.status === 'loaded' && document.querySelectorAll('#hero-pills-geoscience .pill-tag').length > 0 && document.querySelectorAll('#hero-contact a').length > 0 && document.querySelectorAll('.flagship-media img').length >= 2 && [...document.querySelectorAll('.flagship-media img')].every(i => i.complete && i.naturalWidth > 0)" },
+    { "eval": "document.documentElement.style.scrollbarWidth = 'none'" },
+    { "mouse": [1190, 740] },
+    { "wait": 500 }
+  ]
+}

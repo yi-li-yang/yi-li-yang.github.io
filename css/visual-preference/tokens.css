@@ -1,0 +1,121 @@
+/* generated from tokens.json by dev/visual-preference/build.py · visual-preference 1.0.0 · do not edit */
+
+/* Load fonts.css (or the Google Fonts link inside it) before this file. Dark is home; light follows the
+
+   system setting, and data-theme="dark" or "light" on <html> forces either. */
+
+:root, [data-theme="dark"] {
+  color-scheme: dark;
+  --ground: #141413;
+  --surface: #1c1c1b;
+  --raised: #242522;
+  --rule: #363734;
+  --edge: #6e6f6c;
+  --muted: #a0a09d;
+  --ink: #e8e7e3;
+  --lichen: #a3b86c;
+  --signal: #e2652f;
+  --amber: #e0a84a;
+  --data-sky: #a9cfe6;
+  --data-rust: #c4573a;
+  --data-spruce: #4f9a7d;
+  --data-sand: #d8c48e;
+  --data-dusk: #8a7fb8;
+  --data-ochre: #c9962e;
+  --data-glacier: #86b2d4;
+  --data-rose: #d98ca0;
+  --data-olive: #b0ac5a;
+  --float: 0 8px 24px rgba(0,0,0,0.35);
+}
+
+[data-theme="light"] {
+  color-scheme: light;
+  --ground: #f4f2f0;
+  --surface: #ebe9e6;
+  --raised: #ffffff;
+  --rule: #d2d1cd;
+  --edge: #82837f;
+  --muted: #5e5f5c;
+  --ink: #1b1c1a;
+  --lichen: #566a26;
+  --signal: #b0441a;
+  --amber: #8a5d0c;
+  --data-sky: #48606e;
+  --data-rust: #9c3f27;
+  --data-spruce: #307f67;
+  --data-sand: #9e8a59;
+  --data-dusk: #72679f;
+  --data-ochre: #9e7002;
+  --data-glacier: #6490b0;
+  --data-rose: #bc7387;
+  --data-olive: #7a801b;
+  --float: 0 8px 24px rgba(26,29,24,0.18);
+}
+
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme="dark"]) {
+    color-scheme: light;
+    --ground: #f4f2f0;
+    --surface: #ebe9e6;
+    --raised: #ffffff;
+    --rule: #d2d1cd;
+    --edge: #82837f;
+    --muted: #5e5f5c;
+    --ink: #1b1c1a;
+    --lichen: #566a26;
+    --signal: #b0441a;
+    --amber: #8a5d0c;
+    --data-sky: #48606e;
+    --data-rust: #9c3f27;
+    --data-spruce: #307f67;
+    --data-sand: #9e8a59;
+    --data-dusk: #72679f;
+    --data-ochre: #9e7002;
+    --data-glacier: #6490b0;
+    --data-rose: #bc7387;
+    --data-olive: #7a801b;
+    --float: 0 8px 24px rgba(26,29,24,0.18);
+  }
+}
+
+:root {
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-12: 48px;
+  --space-16: 64px;
+  --space-24: 96px;
+  --radius-0: 0;
+  --radius-dot: 9999px;
+  --fast: 120ms;
+  --panel: 200ms;
+  --out: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --measure: 68ch;
+  --page: 1200px;
+  --focus-width: 2px;
+  --focus-offset: 2px;
+  --font-sans: "Albert Sans", system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, monospace;
+  --font-serif: "Source Serif 4", Georgia, serif;
+  --font-cjk: "Noto Sans SC", sans-serif;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root { --fast: 0ms; --panel: 0ms; }
+}
+
+.vp-label { font-family: var(--font-sans); font-size: 12px; line-height: 1.55; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; }
+.vp-small { font-family: var(--font-sans); font-size: 14px; line-height: 1.55; font-weight: 400; }
+.vp-body { font-family: var(--font-sans); font-size: 16px; line-height: 1.55; font-weight: 400; }
+.vp-h3 { font-family: var(--font-sans); font-size: 20px; line-height: 1.15; font-weight: 600; }
+.vp-h2 { font-family: var(--font-sans); font-size: 25px; line-height: 1.15; font-weight: 600; }
+.vp-h1 { font-family: var(--font-sans); font-size: 31px; line-height: 1.15; font-weight: 600; }
+.vp-display { font-family: var(--font-sans); font-size: 49px; line-height: 1.15; font-weight: 600; letter-spacing: -0.01em; }
+.vp-num { font-family: var(--font-mono); font-size: 16px; line-height: 1.55; font-weight: 400; font-variant-numeric: tabular-nums; }
+.vp-code { font-family: var(--font-mono); font-size: 14px; line-height: 1.55; font-weight: 400; font-variant-numeric: tabular-nums; }
+.vp-doc-h1 { font-family: var(--font-serif); font-size: 31px; line-height: 1.15; font-weight: 600; }
+.vp-doc-h2 { font-family: var(--font-serif); font-size: 25px; line-height: 1.15; font-weight: 600; }
+.vp-doc-h3 { font-family: var(--font-serif); font-size: 20px; line-height: 1.15; font-weight: 600; }

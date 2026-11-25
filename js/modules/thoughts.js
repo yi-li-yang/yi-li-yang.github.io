@@ -3,8 +3,8 @@
 //
 // Renders data/show_repo.json as a project atlas: overview first, details on demand.
 // Level 1 is one uniform tile per repo, grouped by track, so the reader sees how many projects
-// there are without reading any of them. Each tile sits on a dimmed screenshot, or on a
-// gradient tinted by its track when the repo has none. Level 2 is one shared popover: it
+// there are without reading any of them. Each tile sits on the repo's dimmed preview image,
+// or on plain surface when the repo has none. Level 2 is one shared popover: it
 // floats over the grid while the pointer rests on a tile, and a click (or a tap, on touch)
 // pins it. On phones it is a bottom sheet. There is no third level.
 //
@@ -24,7 +24,6 @@ const NARROW = '(max-width: 720px)';
 
 // One hue per track, in track order: the colour is wayfinding, so a reader can tell a
 // tile's track without reading the label above it.
-const HUES = [168, 255, 32, 205, 330, 95];
 
 function repoNameFromUrl(url) {
   return url.split('/').pop();
@@ -265,7 +264,6 @@ export async function initThoughts() {
       }
       if (shownTile !== tile) {
         fillPopover(pop, tile.repo, hide);
-        pop.style.setProperty('--hue', tile.closest('.atlas-group').style.getPropertyValue('--hue'));
       }
       shownTile = tile;
       pinned = pin;
@@ -317,7 +315,7 @@ export async function initThoughts() {
 
     // ── Tiles ──────────────────────────────────────────────
 
-    const makeTile = (repo, index) => {
+    const makeTile = (repo) => {
       const name = nameOf(repo);
       const tile = el('button', 'atlas-tile');
       tile.type = 'button';
@@ -327,8 +325,6 @@ export async function initThoughts() {
       tile.setAttribute('aria-label', name);
       tile.setAttribute('aria-expanded', 'false');
       tile.setAttribute('aria-controls', DETAIL_ID);
-      // Without a screenshot the tile gets a gradient; this offsets its light so neighbours differ.
-      tile.style.setProperty('--ox', `${15 + ((index * 37) % 70)}%`);
 
       const imgUrl = resolveImageUrl(repo.image);
       if (imgUrl) {
@@ -373,14 +369,12 @@ export async function initThoughts() {
     const frag = document.createDocumentFragment();
     frag.appendChild(el('p', 'section-lede atlas-count', `${plural(repos.length, 'project')} · ${plural(groups.size, 'track')}`));
 
-    let trackIndex = 0;
     for (const group of groups.values()) {
       const block = el('div', 'atlas-group');
-      block.style.setProperty('--hue', HUES[trackIndex++ % HUES.length]);
       const label = el('p', 'atlas-group-label', `${group.name} · `);
       label.appendChild(el('span', 'atlas-group-count', String(group.items.length)));
       const grid = el('div', 'atlas-tiles');
-      grid.append(...group.items.map((repo, i) => makeTile(repo, i)));
+      grid.append(...group.items.map(repo => makeTile(repo)));
 
       group.grid = grid;
       block.append(label);
@@ -444,6 +438,6 @@ export async function initThoughts() {
     });
   } catch (err) {
     console.error('Failed to load thoughts:', err);
-    container.innerHTML = '<p style="color:var(--color-text-muted);padding:2rem 0">Projects temporarily unavailable.</p>';
+    container.innerHTML = '<p style="color:var(--muted);padding:2rem 0">Projects temporarily unavailable.</p>';
   }
 }
