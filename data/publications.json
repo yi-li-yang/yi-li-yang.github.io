@@ -1,7 +1,7 @@
 {
   "_edit": "DERIVED — written by scripts/bib-to-json.js (npm run bib). Never edit; the next build reverts you. Edit cv/publications.bib instead.",
   "generatedBy": "scripts/bib-to-json.js",
-  "generatedAt": "2026-11-24T19:02:11.219Z",
+  "generatedAt": "2026-11-25T17:32:24.028Z",
   "counts": {
     "journalPapers": 10,
     "conferences": 9,
