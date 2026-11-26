@@ -2,6 +2,7 @@
 import { initStats } from './modules/stats.js';
 import { initThoughts } from './modules/thoughts.js';
 import { initSkills } from './modules/skills.js';
+import { initTools } from './modules/tools.js';
 import { initPublications } from './modules/publications.js';
 import { initFlagships } from './modules/flagships.js';
 import { initNav } from './modules/nav.js';
@@ -16,6 +17,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initStats();
   initThoughts();
   initSkills();
+  initTools();
   initPublications();
   initFlagships();
   initSeo();

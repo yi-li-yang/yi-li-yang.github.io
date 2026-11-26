@@ -1,4 +1,6 @@
 // SOURCE — you own this file. Edit freely, by hand or by agent.
+import { flipIn } from './flip.js';
+
 // Languages are groups, so they take the visual system's group colours, in order of size:
 // Earth 6 for up to six languages, Earth 8 for seven or eight. The values are custom
 // properties from css/visual-preference/tokens.css, so the chart follows the theme. More than
@@ -46,18 +48,46 @@ function renderPillCluster(container, tags) {
   }
 }
 
+// ── The Skills section ───────────────────────────────────
+// data/pill-tags.json's skill groups, drawn as trees: each group is a root with a branch to
+// each skill. The branches grow in, one after another, when the section first scrolls into
+// view, and hovering a skill dims its siblings. The tree draws only what the data says: a
+// group, its skills, and how many there are. Nothing is ranked or scored, because the data
+// holds no level for a skill.
+
+function node(tag, className, text) {
+  const n = document.createElement(tag);
+  if (className) n.className = className;
+  if (text != null) n.textContent = text;
+  return n;
+}
+
 function renderPillCategories(container, categories) {
   if (!container || !Array.isArray(categories)) return;
-  container.innerHTML = categories.map(category => {
-    const pills = Array.isArray(category.tags)
-      ? category.tags.map(tag => `<span class="pill-tag">${tag}</span>`).join('')
-      : '';
-    return `
-      <div>
-        <h3>${category.title}</h3>
-        <div class="tech-pill">${pills}</div>
-      </div>`;
-  }).join('');
+  container.replaceChildren();
+  for (const category of categories) {
+    const tree = node('div', 'skill-tree');
+    const root = node('h3', 'skill-tree-root');
+    root.append(node('span', null, category.title), node('span', 'skills-count', String(category.tags.length)));
+    const branches = node('ul', 'skill-tree-branches');
+    category.tags.forEach((tag, i) => {
+      const leaf = node('li', 'skill-tree-leaf');
+      leaf.style.setProperty('--i', i);
+      leaf.appendChild(node('span', 'skill-tree-label', tag));
+      branches.appendChild(leaf);
+    });
+    tree.append(root, branches);
+    container.appendChild(tree);
+  }
+
+  flipIn(container.querySelectorAll('.skills-count'));
+
+  const drawn = () => container.classList.add('is-drawn');
+  if (!('IntersectionObserver' in window)) { drawn(); return; }
+  const watch = new IntersectionObserver((entries) => {
+    if (entries.some((e) => e.isIntersecting)) { drawn(); watch.disconnect(); }
+  }, { threshold: 0.25 });
+  watch.observe(container);
 }
 
 async function fetchPillTags() {
@@ -175,12 +205,13 @@ function renderInteractiveLangChart(container, languages) {
 
   wrapper.appendChild(body);
   container.appendChild(wrapper);
+  flipIn(legend.querySelectorAll('.lang-pct'));
 }
 
 export async function initSkills() {
   const githubEl = document.getElementById('github-stats');
   const langEl   = document.getElementById('lang-chart-skills');
-  const pillEl   = document.getElementById('skills-concepts');
+  const pillEl   = document.getElementById('capabilities-skills');
   if (!githubEl && !langEl && !pillEl) return;
 
   try {
@@ -212,6 +243,7 @@ export async function initSkills() {
           `;
           githubEl.appendChild(card);
         }
+        flipIn(githubEl.querySelectorAll('.stat-value'));
       }
 
       if (langEl) {

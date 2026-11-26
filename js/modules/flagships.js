@@ -14,6 +14,7 @@
 // number is missing is left out, never printed blank.
 
 import { enhanceCardRow } from './card-row.js';
+import { flipIn } from './flip.js';
 
 async function fetchJson(path) {
   const res = await fetch(path);
@@ -132,6 +133,75 @@ function makeDrawer(item, sources) {
   return drawer;
 }
 
+// A drawer slides open and shut (height, its spacing and opacity together), so the page under
+// it moves smoothly instead of jumping by the drawer's full height in one frame. The lengths
+// and the curve are the CSS's --settle, --leave and --soft-out (css/variables.css), which are
+// 0ms for a reader who asks for reduced motion.
+function cssTime(name) {
+  const value = getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+  return value.endsWith('ms') ? parseFloat(value) : parseFloat(value) * 1000 || 0;
+}
+
+// A drawer's figure has no size until it loads, so the drawer could only be measured short and
+// would then jump when the picture arrives. Its images start loading when the pointer or focus
+// reaches the toggle, and an opening waits a moment (at most FIGURE_WAIT_MS) for them.
+const FIGURE_WAIT_MS = 400;
+
+function preloadDrawer(drawer) {
+  for (const img of drawer.querySelectorAll('img')) img.loading = 'eager';
+}
+
+function figuresReady(drawer) {
+  preloadDrawer(drawer);
+  const pending = [...drawer.querySelectorAll('img')].filter((img) => !img.complete);
+  if (!pending.length) return Promise.resolve();
+  return Promise.race([
+    Promise.all(pending.map((img) => img.decode().catch(() => {}))),
+    new Promise((resolve) => setTimeout(resolve, FIGURE_WAIT_MS)),
+  ]);
+}
+
+async function slideDrawer(drawer, open) {
+  drawer.wanted = open;
+  const isOpen = () => !drawer.hidden && !drawer.closing;
+  if (open === isOpen()) return;
+  if (open) {
+    await figuresReady(drawer);
+    // Closed again, or already opened by a second click, while its figure loaded.
+    if (drawer.wanted !== open || isOpen()) return;
+  }
+  drawer.motion?.cancel();
+  drawer.closing = false;
+  const duration = cssTime(open ? '--settle' : '--leave');
+  if (!duration) {
+    drawer.hidden = !open;
+    return;
+  }
+  drawer.hidden = false;
+  const style = getComputedStyle(drawer);
+  const shown = {
+    height: `${drawer.offsetHeight}px`,
+    paddingTop: style.paddingTop,
+    paddingBottom: style.paddingBottom,
+    marginTop: style.marginTop,
+    opacity: 1,
+  };
+  const folded = { height: '0px', paddingTop: '0px', paddingBottom: '0px', marginTop: '0px', opacity: 0 };
+  drawer.style.overflow = 'hidden';
+  drawer.motion = drawer.animate(open ? [folded, shown] : [shown, folded], {
+    duration,
+    easing: getComputedStyle(document.documentElement).getPropertyValue('--soft-out').trim() || 'ease-out',
+  });
+  drawer.closing = !open;
+  drawer.motion.onfinish = () => {
+    drawer.style.overflow = '';
+    if (!open) {
+      drawer.hidden = true;
+      drawer.closing = false;
+    }
+  };
+}
+
 export async function initFlagships() {
   const host = document.getElementById('flagships');
   if (!host) return;
@@ -154,15 +224,21 @@ export async function initFlagships() {
       drawers.push(makeDrawer(item, sources));
     }
     host.append(track, ...drawers);
+    flipIn(track.querySelectorAll('.flagship-stat dd'));
 
     enhanceCardRow(track, { kind: 'flagships', label: 'Featured projects' });
+
+    toggles.forEach((toggle, i) => {
+      toggle.addEventListener('pointerenter', () => preloadDrawer(drawers[i]), { once: true });
+      toggle.addEventListener('focus', () => preloadDrawer(drawers[i]), { once: true });
+    });
 
     // One drawer at a time: opening one closes the other.
     toggles.forEach((toggle, i) => toggle.addEventListener('click', () => {
       const open = toggle.getAttribute('aria-expanded') !== 'true';
       toggles.forEach((other, j) => {
         other.setAttribute('aria-expanded', String(open && i === j));
-        drawers[j].hidden = !(open && i === j);
+        slideDrawer(drawers[j], open && i === j);
       });
     }));
   } catch (err) {
