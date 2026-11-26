@@ -27,8 +27,9 @@ derive from one set of facts. The CV's numbers stop being hand-typed; logging ha
 The real, implemented site is **vanilla**:
 - `index.html` at root, `css/visual-preference/{fonts,tokens}.css` (Yili's visual system, copied
   at a stated version — never edit) + `css/variables.css` + `base.css` + `components.css`,
-- ES modules: `js/main.js` → `js/modules/{nav,links,contact,stats,flagships,thoughts,skills,publications,seo}.js`,
+- ES modules: `js/main.js` → `js/modules/{nav,links,contact,stats,flagships,thoughts,skills,tools,publications,seo}.js`,
   plus `card-row.js`, the sideways card row that `flagships`, `thoughts` and `publications` share,
+  and `flip.js`, which flips every number in the first time it scrolls into view,
 - data fetched at runtime from `data/*.json`,
 - design: Yili's visual system 1.0.0, lichen accent. `DESIGN.md` (root) is the system's record;
   `docs/DESIGN.md` says how the site applies it. Use the tokens (`var(--ink)`, `var(--space-4)`);
@@ -116,7 +117,7 @@ yi-li-yang.github.io/                 CURRENT (keep)
 ├── scripts/fetch-previews.js         ingest: each `preview: true` repo's docs/preview.webp -> assets/previews/ + data/previews.json (fail-safe)
 ├── test/                             `npm test` (node --test)
 ├── .github/workflows/update-stats.yml monthly cron
-├── .github/workflows/update-previews.yml daily cron; commits previews on main only, starts no CV build
+├── .github/workflows/update-previews.yml daily cron: previews + the skills list; commits on main only, starts no CV build
 ├── docs/  CLAUDE.md  README.md
 │
 │                                     TARGET ADDITIONS

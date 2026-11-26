@@ -3,7 +3,7 @@ name: Update Previews
 on:
   schedule:
     - cron: '0 3 * * *'  # every day, 03:00 UTC (update-stats.yml runs at midnight on the 1st)
-  workflow_dispatch:      # run now, for example right after a repo's new preview is merged
+  workflow_dispatch:      # run now, for example right after a repo's new preview or a new skill is merged
 
 permissions:
   contents: write
@@ -26,19 +26,27 @@ jobs:
         env:
           GH_USER_TOKEN: ${{ secrets.GH_PAT }}
 
+      # Lists the skills in yi-li-yang/skills for the Projects atlas (data/claude-skills.json).
+      # Daily, not with the monthly stats, so a new or renamed skill shows on the site the next
+      # day. Fails safe on its own: on an error it leaves the file as it was, so it never fails
+      # the job.
+      - run: node scripts/fetch-skills.js
+        env:
+          GH_USER_TOKEN: ${{ secrets.GH_PAT }}
+
       # Derived bytes are committed only on main (CLAUDE.md); a run on another branch only fetches.
-      # Unlike update-stats.yml, this starts no CV build: the CVs print no preview.
+      # Unlike update-stats.yml, this starts no CV build: the CVs print no preview and no skill list.
       - name: Commit and push if changed
         if: github.ref == 'refs/heads/main'
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add data/previews.json
+          git add data/previews.json data/claude-skills.json
           if [ -d assets/previews ]; then git add assets/previews; fi
           if git diff --cached --quiet; then
-            echo "previews unchanged — nothing to commit"
+            echo "previews and skills unchanged — nothing to commit"
           else
-            git commit -m "chore: update previews [automated]"
+            git commit -m "chore: update previews and skills [automated]"
             git pull --rebase
             git push
           fi

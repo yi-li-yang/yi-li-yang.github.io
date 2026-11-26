@@ -13,6 +13,7 @@
 // do not fit, fading out at the edge that has more, with an arrow there.
 
 import { enhanceCardRow } from './card-row.js';
+import { flipIn } from './flip.js';
 
 function escapeHtml(s) {
   return String(s ?? '')
@@ -156,6 +157,7 @@ export async function initPublications() {
     publishedGroup.append(publishedLabel, grid);
 
     container.append(chips, progressGroup, publishedGroup);
+    flipIn(container.querySelectorAll('.filter-chip-count, .pub-group-count'));
     const row = enhanceCardRow(grid, { kind: 'papers', label: 'Published papers' });
 
     let filter = 'all';

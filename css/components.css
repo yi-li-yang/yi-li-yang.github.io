@@ -90,9 +90,21 @@
 
 /* ── Stats ───────────────────────────────────── */
 
+/* Two groups as mirrored halves, split by one hairline: four readouts each, 2 × 2. The
+   Experience and Collaborations logos below split on the same line. */
 #stats {
   display: grid;
-  gap: var(--space-8);
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  row-gap: var(--space-8);
+}
+
+.stats-group:first-child {
+  padding-right: var(--space-12);
+}
+
+.stats-group + .stats-group {
+  padding-left: var(--space-12);
+  border-left: 1px solid var(--rule);
 }
 
 .stats-group-label {
@@ -104,12 +116,33 @@
   color: var(--muted);
 }
 
-/* auto-fit, so each group's row fills the width: four wider cards above five narrower ones
-   reads as two groups, where one shared column count left a ragged row. */
 .stats-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-  gap: var(--space-4);
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-6) var(--space-6);
+}
+
+/* Below 900px the halves stack, and each group is one row of four; on a phone, 2 × 2 again. */
+@media (max-width: 900px) {
+  #stats {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .stats-group:first-child,
+  .stats-group + .stats-group {
+    padding: 0;
+    border-left: 0;
+  }
+
+  .stats-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 600px) {
+  .stats-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 }
 
 .stat-card {
@@ -140,7 +173,9 @@
 }
 
 .stat-source {
+  min-height: 1.55em;
   font-size: 12px;
+  line-height: 1.55;
   color: var(--muted);
 }
 
@@ -400,46 +435,168 @@
   font-style: italic;
 }
 
-/* ── Tech Stack ──────────────────────────────── */
+/* ── Skills board ────────────────────────────── */
+/* js/modules/skills.js draws data/pill-tags.json's skill groups as trees: a root, a trunk, and
+   one branch to each skill. Drawn in when it scrolls into view: the trunk grows down, then
+   each branch reaches out and its label arrives, one after another. */
 
-.tech-grid {
+.skills-board {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: var(--space-8);
 }
 
-.tech-grid h3 {
+.skills-board h3 {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-2);
   font-size: 20px;
   font-weight: 600;
+  line-height: 1.15;
   color: var(--ink);
-  margin-bottom: var(--space-4);
 }
 
-.tech-pill {
-  display: flex;
-  align-items: flex-start;
-  gap: var(--space-2);
-  flex-wrap: wrap;
-}
-
-.tech-pill span {
-  display: inline-flex;
-  align-items: center;
-  background: transparent;
-  border: 1px solid var(--edge);
-  border-radius: 0;
-  padding: 0px 10px 0px 5px;
+.skills-count {
+  font-family: var(--font-mono);
   font-size: 12px;
-  font-weight: 500;
-  color: var(--ink);
-  line-height: 1.75rem;
-  transition: color var(--transition);
+  font-weight: 400;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
 }
 
-/* Pills are labels, not controls: hover only brightens the text. The old glow and fill made
-   them look clickable, and clicking did nothing. */
-.tech-pill span:hover {
+.skill-tree-root {
+  position: relative;
+  padding-left: 18px;
+}
+
+/* The root's node: a small square, the system's one shape. */
+.skill-tree-root::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 50%;
+  width: 9px;
+  height: 9px;
+  margin-top: -4px;
+  background: var(--ink);
+}
+
+.skill-tree-branches {
+  position: relative;
+  margin: var(--space-2) 0 0 4px;
+  padding: 0;
+  list-style: none;
+}
+
+/* The trunk: from the root down to the last branch (the last leaf masks the rest). */
+.skill-tree-branches::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 15px;
+  width: 1px;
+  background: var(--edge);
+  transform-origin: 50% 0;
+  transform: scaleY(0);
+  transition: transform 700ms var(--soft-out);
+}
+
+.skill-tree-leaf {
+  position: relative;
+  display: flex;
+  align-items: center;
+  min-height: 30px;
+  padding-left: 26px;
+  transition: opacity var(--settle) var(--soft-out);
+}
+
+/* The branch, and the node at its end. */
+.skill-tree-leaf::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 50%;
+  width: 18px;
+  height: 1px;
+  background: var(--edge);
+  transform-origin: 0 50%;
+  transform: scaleX(0);
+  transition: transform 420ms var(--soft-out), background-color var(--transition);
+  transition-delay: calc(240ms + var(--i) * 55ms), 0ms;
+}
+
+.skill-tree-leaf::after {
+  content: "";
+  position: absolute;
+  left: 17px;
+  top: 50%;
+  width: 5px;
+  height: 5px;
+  margin-top: -2px;
+  background: var(--edge);
+  opacity: 0;
+  transition: opacity 300ms var(--soft-out), background-color var(--transition);
+  transition-delay: calc(420ms + var(--i) * 55ms), 0ms;
+}
+
+.skill-tree-label {
+  font-size: 16px;
+  line-height: 1.3;
   color: var(--ink);
+  opacity: 0;
+  transform: translateX(-6px);
+  transition: opacity 420ms var(--soft-out), transform 420ms var(--soft-out);
+  transition-delay: calc(360ms + var(--i) * 55ms);
+}
+
+.skills-board.is-drawn .skill-tree-branches::before,
+.skills-board.is-drawn .skill-tree-leaf::before {
+  transform: none;
+}
+
+.skills-board.is-drawn .skill-tree-leaf::after,
+.skills-board.is-drawn .skill-tree-label {
+  opacity: 1;
+  transform: none;
+}
+
+/* Hovering a skill keeps it in ink and dims the rest of its group a little. */
+.skill-tree-branches:hover .skill-tree-leaf:not(:hover) {
+  opacity: 0.45;
+}
+
+.skill-tree-leaf:hover::before,
+.skill-tree-leaf:hover::after {
+  background: var(--ink);
+}
+
+@media (max-width: 900px) {
+  .skills-board {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+/* Printed, or for a reader who asks for reduced motion, the tree is drawn whole at once. */
+@media print {
+  .skill-tree-branches::before,
+  .skill-tree-leaf::before,
+  .skill-tree-leaf::after,
+  .skill-tree-label {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .skill-tree-branches::before,
+  .skill-tree-leaf::before,
+  .skill-tree-leaf::after,
+  .skill-tree-label {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
 }
 
 /* ── Language donut chart ────────────────────── */
@@ -1156,8 +1313,8 @@
 
 /* ── Projects Atlas ──────────────────────────── */
 /* Overview first (uniform tiles per track), details on demand (one shared popover that
-   js/modules/thoughts.js floats beside the hovered tile, or pins on click). Each track
-   carries a hue in --hue; tiles without a screenshot are tinted with it. */
+   js/modules/thoughts.js floats beside the hovered tile, or pins on click). A tile without
+   an image shows its project's art: a skill's command, or contour lines. */
 
 .atlas-group + .atlas-group {
   margin-top: var(--space-8);
@@ -1249,7 +1406,7 @@
   height: 100%;
   object-fit: cover;
   opacity: 0.45;
-  transition: opacity var(--panel) var(--out);
+  transition: opacity var(--settle) var(--soft-out), transform 900ms var(--soft-out);
 }
 
 .atlas-tile::after {
@@ -1263,14 +1420,136 @@
   background: linear-gradient(to top, var(--scrim-strong) 0%, var(--scrim-mid) 55%, var(--scrim-soft) 100%);
 }
 
+/* No image: the art stands where the picture would (makeArt in js/modules/thoughts.js), under
+   a scrim of the tile's own surface, so the name and description read as on a picture. */
+.atlas-tile.has-art::after {
+  background: linear-gradient(to top, var(--surface) 18%, color-mix(in srgb, var(--surface) 55%, transparent) 62%, transparent 100%);
+}
+
 .atlas-tile:hover,
 .atlas-tile[aria-expanded="true"] {
   border-color: var(--edge);
 }
 
+/* The picture brightens and drifts a little closer while the tile is in focus: slow enough to
+   read as settling, not as a jump. */
 .atlas-tile:hover .atlas-tile-bg,
 .atlas-tile[aria-expanded="true"] .atlas-tile-bg {
   opacity: 0.6;
+  transform: scale(1.03);
+}
+
+.atlas-art {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.atlas-art svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  transition: transform 900ms var(--soft-out);
+}
+
+.atlas-tile:hover .atlas-art svg,
+.atlas-tile[aria-expanded="true"] .atlas-art svg {
+  transform: scale(1.04);
+}
+
+.atlas-art polygon {
+  fill: none;
+  stroke: var(--edge);
+  stroke-opacity: 0.4;
+  stroke-width: 1;
+  vector-effect: non-scaling-stroke;
+}
+
+/* Index contours, a step stronger, as on a survey map. */
+.atlas-art polygon.is-index {
+  stroke-opacity: 0.85;
+}
+
+/* A skill's art: rows of faint dots, like the character grid of a terminal, under its command. */
+.atlas-art--skill {
+  background-image: radial-gradient(circle, color-mix(in srgb, var(--edge) 55%, transparent) 1px, transparent 1.4px);
+  background-size: 12px 12px;
+  background-position: 6px 4px;
+  mask-image: linear-gradient(to bottom, transparent 0, #000 36px, #000 55%, transparent 100%);
+  transition: background-position 900ms var(--soft-out);
+}
+
+.atlas-tile:hover .atlas-art--skill,
+.atlas-tile[aria-expanded="true"] .atlas-art--skill {
+  background-position: 6px 0;
+}
+
+/* ?blank=type: the project's name set large, cropped by the tile. */
+.atlas-art-word {
+  position: absolute;
+  top: -0.22em;
+  left: 10px;
+  font-size: 72px;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  white-space: nowrap;
+  color: var(--rule);
+  transition: transform 900ms var(--soft-out);
+}
+
+.atlas-tile:hover .atlas-art-word,
+.atlas-tile[aria-expanded="true"] .atlas-art-word {
+  transform: translateX(-8px);
+}
+
+/* A skill's command, as it is typed in Claude Code, with a cursor that blinks on hover. The
+   tile keeps room for it, so a short tile (on a phone) never sets the name over it. */
+.atlas-tile.has-prompt {
+  padding-top: calc(var(--space-3) + 28px);
+}
+
+.atlas-prompt {
+  position: absolute;
+  top: var(--space-3);
+  left: 14px;
+  right: 14px;
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-width: 0;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  line-height: 1.55;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+.atlas-prompt-cmd {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: var(--ink);
+}
+
+.atlas-prompt-caret {
+  flex: none;
+  width: 7px;
+  height: 14px;
+  margin-left: -4px;
+  background: var(--muted);
+  opacity: 0.5;
+}
+
+.atlas-tile:hover .atlas-prompt-caret,
+.atlas-tile[aria-expanded="true"] .atlas-prompt-caret {
+  opacity: 1;
+  animation: atlas-caret 1.1s steps(1, end) infinite;
+}
+
+@keyframes atlas-caret {
+  50% { opacity: 0; }
 }
 
 .atlas-tile.is-pinned {
@@ -1311,15 +1590,51 @@
   border: 1px solid var(--rule);
   border-radius: 0;
   box-shadow: var(--float);
-  animation: atlas-pop-in var(--panel) var(--out);
+  /* Closed state; .is-open is the open one (js/modules/thoughts.js). It settles in from its
+     tile, glides between tiles (left/top), and fades out before it is hidden. */
+  opacity: 0;
+  transform: translateY(-6px) scale(0.985);
+  transform-origin: 50% 0;
+  pointer-events: none;
+  transition:
+    opacity var(--leave) var(--soft-out),
+    transform var(--leave) var(--soft-out),
+    left var(--settle) var(--soft-out),
+    top var(--settle) var(--soft-out);
+}
+
+.atlas-pop.is-above {
+  transform: translateY(6px) scale(0.985);
+  transform-origin: 50% 100%;
+}
+
+.atlas-pop.is-open {
+  opacity: 1;
+  transform: none;
+  pointer-events: auto;
+  transition:
+    opacity var(--settle) var(--soft-out),
+    transform var(--settle) var(--soft-out),
+    left var(--settle) var(--soft-out),
+    top var(--settle) var(--soft-out);
+}
+
+.atlas-pop.no-glide {
+  transition: none;
 }
 
 .atlas-pop[hidden] {
   display: none;
 }
 
-@keyframes atlas-pop-in {
-  from { opacity: 0; transform: translateY(4px); }
+/* Switching tiles: the new content fades in over the old frame. */
+.atlas-pop > * {
+  transition: opacity var(--settle) var(--soft-out);
+}
+
+.atlas-pop.is-swapping > * {
+  opacity: 0;
+  transition: none;
 }
 
 .atlas-media {
@@ -1344,12 +1659,38 @@
 }
 
 .atlas-titlecard {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
   gap: var(--space-1);
   height: 100%;
   padding: var(--space-4);
+}
+
+.atlas-titlecard::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(to top, var(--surface) 12%, color-mix(in srgb, var(--surface) 40%, transparent) 60%, transparent 100%);
+}
+
+.atlas-titlecard .atlas-prompt {
+  top: var(--space-4);
+  left: var(--space-4);
+  right: var(--space-4);
+}
+
+.atlas-titlecard .atlas-prompt-caret {
+  animation: atlas-caret 1.1s steps(1, end) infinite;
+  opacity: 1;
+}
+
+.atlas-titlecard .atlas-art-word {
+  font-size: 110px;
 }
 
 .atlas-titlecard-owner,
@@ -1424,19 +1765,22 @@
     min-height: 104px;
   }
 
-  .atlas-pop {
+  /* On phones the popover is a bottom sheet: it slides up from the edge and back down. */
+  .atlas-pop,
+  .atlas-pop.is-above {
     position: fixed;
     inset: auto 0 0 0;
     width: auto;
     max-height: 82vh;
     overflow-y: auto;
     border-radius: 0;
-    animation-name: atlas-sheet-in;
+    transform: translateY(32px);
+    transform-origin: 50% 100%;
   }
-}
 
-@keyframes atlas-sheet-in {
-  from { transform: translateY(24px); opacity: 0; }
+  .atlas-pop.is-open {
+    transform: none;
+  }
 }
 
 /* ── Logo Cloud ──────────────────────────────── */
@@ -1456,33 +1800,58 @@
   margin-bottom: var(--space-6);
 }
 
-.logo-cloud-label-second {
-  margin-top: var(--space-12);
+/* Experience and Collaborations are mirrored halves on the metrics' split line: three logos
+   each, in three equal cells, every mark in the same height of box. */
+.logo-cloud-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  row-gap: var(--space-12);
+}
+
+.logo-cloud-group:first-child {
+  padding-right: var(--space-12);
+}
+
+.logo-cloud-group + .logo-cloud-group {
+  padding-left: var(--space-12);
+  border-left: 1px solid var(--rule);
 }
 
 .logo-cloud-items {
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  gap: var(--space-12);
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-6);
+  align-items: start;
 }
 
 .logo-item {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  justify-content: center;
-  gap: var(--space-2);
+  gap: var(--space-3);
+  min-width: 0;
+}
+
+@media (max-width: 900px) {
+  .logo-cloud-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .logo-cloud-group:first-child,
+  .logo-cloud-group + .logo-cloud-group {
+    padding: 0;
+    border-left: 0;
+  }
 }
 
 /* The organisation's name under its logo, read from the link's existing aria-label so it is
    never typed twice. Some marks (Google's "G", Esri's globe) are unrecognisable on their own. */
 .logo-item::after {
   content: attr(aria-label);
+  max-width: 100%;
   font-size: 12px;
+  line-height: 1.4;
   color: var(--muted);
-  white-space: nowrap;
   transition: color var(--transition);
 }
 
@@ -1491,9 +1860,11 @@
 }
 
 .logo-img {
-  height: 36px;
+  height: 32px;
   width: auto;
-  max-width: 180px;
+  max-width: 100%;
+  object-fit: contain;
+  object-position: left bottom;
   filter: var(--logo-ink);
   opacity: 0.6;
   transition: opacity var(--transition), filter var(--transition);
@@ -1529,20 +1900,6 @@
   gap: var(--space-6);
 }
 
-.skills-concepts {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: var(--space-8);
-  margin-bottom: var(--space-12);
-}
-
-.skills-concepts h3 {
-  font-size: 20px;
-  font-weight: 600;
-  color: var(--ink);
-  margin-bottom: var(--space-4);
-}
-
 .skills-platforms-section {
   margin-bottom: var(--space-12);
 }
@@ -1570,9 +1927,43 @@
   transition: opacity var(--transition), filter var(--transition);
 }
 
-.platform-item:hover .platform-logo {
+/* Without js/modules/tools.js, a logo takes its own colours on hover only. */
+.platforms-cloud:not(.has-light) .platform-item:hover .platform-logo {
   filter: none;
   opacity: 1;
+}
+
+/* With it, each logo is lit by --lit (0 to 1), set from how near the pointer is: the ink copy
+   fades out as the colour copy over it fades in. A mark whose own colour is black (data-mono)
+   lights up in ink, because black would vanish on the dark ground. */
+.platform-mark {
+  position: relative;
+  display: block;
+  width: 32px;
+  height: 32px;
+}
+
+.platforms-cloud.has-light .platform-logo {
+  display: block;
+  opacity: calc(0.6 * (1 - var(--lit, 0)));
+  transition: none;
+}
+
+.platform-logo-lit {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  opacity: var(--lit, 0);
+}
+
+.platform-item[data-mono] .platform-logo-lit {
+  filter: var(--logo-ink);
+}
+
+.platforms-cloud.has-light .platform-name {
+  color: color-mix(in srgb, var(--ink) calc(var(--lit, 0) * 100%), var(--muted));
 }
 
 .platform-text-logo {
@@ -1623,6 +2014,42 @@
   margin-bottom: 0;
 }
 
+/* ── Number flip ─────────────────────────────── */
+/* js/modules/flip.js: a number rolls into its value the first time it scrolls into view. Each
+   digit (.flip-cell) keeps the hidden final digit for its width and baseline, and the rolling
+   strip over it is clipped to it, so the number never changes size while it flips. */
+
+.flip-sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.flip-cell {
+  position: relative;
+  display: inline-block;
+  clip-path: inset(0);
+}
+
+.flip-hold {
+  visibility: hidden;
+}
+
+.flip-strip {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  text-align: center;
+}
+
+.flip-strip > span {
+  display: block;
+}
+
 /* ── Load placeholders ───────────────────────── */
 /* Sections filled by JS hold roughly their finished height while their data loads, so the
    page doesn't jump as each one arrives, and a deep link (#publications, #projects/…) lands
@@ -1639,43 +2066,40 @@
 }
 
 #flagships:empty           { min-height: 770px; }
-#capabilities-skills:empty { min-height: 190px; }
+#capabilities-skills:empty { min-height: 300px; }
 #lang-chart-skills:empty   { min-height: 290px; }
 #thoughts-grid:empty       { min-height: 650px; }
 #publications-grid:empty   { min-height: 640px; }
-#stats:empty               { min-height: 380px; }
+#stats:empty               { min-height: 240px; }
 
 @media (max-width: 1200px) {
   #flagships:empty           { min-height: 730px; }
-  #capabilities-skills:empty { min-height: 225px; }
   #publications-grid:empty   { min-height: 660px; }
 }
 
 @media (max-width: 900px) {
   #flagships:empty           { min-height: 770px; }
-  #capabilities-skills:empty { min-height: 330px; }
+  #capabilities-skills:empty { min-height: 845px; }
   #lang-chart-skills:empty   { min-height: 320px; }
   #publications-grid:empty   { min-height: 700px; }
-  #stats:empty               { min-height: 540px; }
+  #stats:empty               { min-height: 280px; }
   .pill-cluster:empty        { min-height: 25px; }
 }
 
 @media (max-width: 600px) {
   #flagships:empty           { min-height: 670px; }
-  #capabilities-skills:empty { min-height: 440px; }
   #lang-chart-skills:empty   { min-height: 380px; }
   #thoughts-grid:empty       { min-height: 580px; }
   #publications-grid:empty   { min-height: 870px; }
-  #stats:empty               { min-height: 700px; }
+  #stats:empty               { min-height: 515px; }
   #stats-updated:empty       { min-height: 3em; }
 }
 
 @media (max-width: 480px) {
   #flagships:empty           { min-height: 730px; }
-  #capabilities-skills:empty { min-height: 550px; }
   #lang-chart-skills:empty   { min-height: 640px; }
   #publications-grid:empty   { min-height: 1030px; }
-  #stats:empty               { min-height: 850px; }
+  #stats:empty               { min-height: 515px; }
 }
 
 /* ── Language Chart Tooltip ──────────────────── */
@@ -1697,14 +2121,6 @@
 /* ── Responsive ──────────────────────────────── */
 
 @media (max-width: 900px) {
-  .skills-concepts {
-    grid-template-columns: 1fr;
-  }
-
-  .tech-grid {
-    grid-template-columns: 1fr;
-  }
-
   .hero-pills-grid {
     grid-template-columns: minmax(0, 1fr);
     gap: var(--space-6);
@@ -1782,8 +2198,10 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .atlas-pop {
-    animation: none;
+  .atlas-pop,
+  .atlas-pop.is-above,
+  .atlas-pop.is-open {
+    transform: none;
+    transition: none;
   }
-
 }

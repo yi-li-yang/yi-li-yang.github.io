@@ -16,11 +16,15 @@
 
 import { enhanceCardRow } from './card-row.js';
 import { loadPreviews } from './previews.js';
+import { flipIn } from './flip.js';
 
 const DETAIL_ID = 'atlas-pop';
-const HOVER_OPEN_MS = 110;
+const HOVER_OPEN_MS = 120;
 const HOVER_CLOSE_MS = 200;
+// How long the popover takes to fade out (--leave in css/variables.css) before it is hidden.
+const LEAVE_MS = 180;
 const NARROW = '(max-width: 720px)';
+const REDUCED_MOTION = window.matchMedia('(prefers-reduced-motion: reduce)');
 
 // One hue per track, in track order: the colour is wayfinding, so a reader can tell a
 // tile's track without reading the label above it.
@@ -71,7 +75,7 @@ async function loadRepos() {
     try {
       const data = await fetchJson(repo.expand);
       if (data.install) installs.set(repo.group, data.install);
-      return data.skills.map((item) => ({ ...item, group: repo.group }));
+      return data.skills.map((item) => ({ ...item, group: repo.group, kind: 'skill' }));
     } catch (err) {
       console.warn(`Could not load ${repo.group}:`, err.message);
       return [];
@@ -80,10 +84,106 @@ async function loadRepos() {
   return { repos: expanded.flat(), installs };
 }
 
-// Stands in for a missing or broken image: the repo's own name, set large. Honest about
-// there being no picture, instead of a faint icon that reads as a failed load.
+// Loads the repo's image into `img`. When it fails, tries the hand-made fallback once, then
+// calls onFail, so a broken file never leaves a broken-image box.
+function loadImage(img, repo, onFail) {
+  let triedFallback = false;
+  img.onerror = () => {
+    if (!triedFallback && repo.fallbackImage) {
+      triedFallback = true;
+      img.src = resolveImageUrl(repo.fallbackImage);
+      return;
+    }
+    onFail();
+  };
+  img.src = resolveImageUrl(repo.image);
+}
+
+// ── Art for a project with no picture ─────────────────
+// A tile without an image still gets something to look at, and the something says what the
+// project is: a skill shows the command that runs it, over a terminal's faint character grid;
+// a repo shows contour lines, the earth-science field's own drawing, seeded from its name so
+// each one is different and stays the same on every visit. The lines are hairlines in the
+// stone neutrals, under the same scrim as a picture, so the text stays readable. ?blank=type
+// swaps the contours for the project's name set large (a variant to compare).
+
+const BLANK = new URLSearchParams(location.search).get('blank') === 'type' ? 'type' : 'contour';
+const SVG_NS = 'http://www.w3.org/2000/svg';
+
+// A small seeded random number generator (mulberry32), so a repo's drawing never changes.
+function seeded(text) {
+  let h = 1779033703 ^ text.length;
+  for (let i = 0; i < text.length; i++) {
+    h = Math.imul(h ^ text.charCodeAt(i), 3432918353);
+    h = (h << 13) | (h >>> 19);
+  }
+  return () => {
+    h = (h + 0x6d2b79f5) | 0;
+    let t = Math.imul(h ^ (h >>> 15), 1 | h);
+    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
+}
+
+// Nested closed contours around one summit: each ring is a circle bent by three harmonics,
+// and the bend grows outwards, as it does on a real hillside.
+function contourSvg(name) {
+  const rand = seeded(name);
+  const W = 320;
+  const H = 180;
+  const cx = W * (0.5 + rand() * 0.3);
+  const cy = H * (0.2 + rand() * 0.3);
+  const waves = [2, 3, 5].map((k) => ({ k, a: 0.05 + rand() * 0.11, p: rand() * Math.PI * 2, drift: (rand() - 0.5) * 0.5 }));
+  const svg = document.createElementNS(SVG_NS, 'svg');
+  svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
+  svg.setAttribute('preserveAspectRatio', 'xMidYMid slice');
+  svg.setAttribute('aria-hidden', 'true');
+  for (let ring = 0; ring < 14; ring++) {
+    const r = 10 + ring * 15;
+    const points = [];
+    for (let i = 0; i < 72; i++) {
+      const t = (i / 72) * Math.PI * 2;
+      const bend = waves.reduce((s, w) => s + w.a * Math.min(1, 0.35 + ring * 0.12) * Math.sin(w.k * t + w.p + w.drift * ring), 0);
+      points.push(`${(cx + Math.cos(t) * r * (1 + bend)).toFixed(1)},${(cy + Math.sin(t) * r * (1 + bend) * 0.8).toFixed(1)}`);
+    }
+    const path = document.createElementNS(SVG_NS, 'polygon');
+    path.setAttribute('points', points.join(' '));
+    // Every fifth line is an index contour, drawn a step stronger, as on a survey map.
+    if (ring % 5 === 4) path.setAttribute('class', 'is-index');
+    svg.appendChild(path);
+  }
+  return svg;
+}
+
+const commandOf = (repo) => `/${ownerOf(repo)}:${nameOf(repo)}`;
+
+// The command line a skill runs from, with a cursor that blinks while the tile is hovered.
+function makePrompt(repo) {
+  const line = el('span', 'atlas-prompt');
+  line.setAttribute('aria-hidden', 'true');
+  line.append(el('span', 'atlas-prompt-mark', '>'), el('span', 'atlas-prompt-cmd', commandOf(repo)), el('span', 'atlas-prompt-caret'));
+  return line;
+}
+
+// The art behind a tile, or behind the popover's title card, for a project with no image.
+function makeArt(repo) {
+  const art = el('span', `atlas-art atlas-art--${repo.kind === 'skill' ? 'skill' : BLANK}`);
+  art.setAttribute('aria-hidden', 'true');
+  if (repo.kind === 'skill') {
+    // The dot grid is the element's own background (css/components.css).
+  } else if (BLANK === 'type') {
+    art.appendChild(el('span', 'atlas-art-word', nameOf(repo)));
+  } else {
+    art.appendChild(contourSvg(nameOf(repo)));
+  }
+  return art;
+}
+
+// Stands in for a missing or broken image: the repo's own name, set large, over its art.
 function makeTitleCard(repo) {
   const card = el('div', 'atlas-titlecard');
+  card.appendChild(makeArt(repo));
+  if (repo.kind === 'skill') card.appendChild(makePrompt(repo));
   card.append(
     el('span', 'atlas-titlecard-owner', `${ownerOf(repo)} /`),
     el('span', 'atlas-titlecard-name', nameOf(repo)),
@@ -114,10 +214,8 @@ function fillPopover(pop, repo, onClose) {
   const name = nameOf(repo);
 
   const media = el('div', 'atlas-media');
-  const imgUrl = resolveImageUrl(repo.image);
-  if (imgUrl) {
+  if (repo.image) {
     const img = el('img');
-    img.src = imgUrl;
     img.alt = name;
     img.decoding = 'async';
     // The repo's animation, when it has one, plays here only, and only for a visitor who has not
@@ -130,7 +228,7 @@ function fillPopover(pop, repo, onClose) {
       shown = el('picture');
       shown.append(source, img);
     }
-    img.onerror = () => shown.replaceWith(makeTitleCard(repo));
+    loadImage(img, repo, () => shown.replaceWith(makeTitleCard(repo)));
     media.appendChild(shown);
   } else {
     media.appendChild(makeTitleCard(repo));
@@ -182,9 +280,15 @@ export async function initThoughts() {
 
   try {
     const [{ repos, installs }, previews] = await Promise.all([loadRepos(), loadPreviews()]);
+    // A repo's own preview (data/previews.json) wins over the file show_repo.json names, which
+    // stays as the fallback: the site shows a new preview the day the ingest copies it.
     for (const repo of repos) {
-      const anim = previews[repo.url]?.anim;
-      if (anim) repo.anim = anim;
+      const preview = previews[repo.url];
+      if (preview?.image) {
+        if (repo.image && repo.image !== preview.image) repo.fallbackImage = repo.image;
+        repo.image = preview.image;
+      }
+      if (preview?.anim) repo.anim = preview.anim;
     }
 
     // Tracks in order of first appearance; repos keep file order within a track.
@@ -233,9 +337,44 @@ export async function initThoughts() {
       const margin = 12;
       const left = Math.min(Math.max(r.left + r.width / 2 - w / 2, margin), document.documentElement.clientWidth - w - margin);
       const room = { below: window.innerHeight - r.bottom, above: r.top };
-      const top = room.below >= h + gap || room.below >= room.above ? r.bottom + gap : r.top - h - gap;
+      const below = room.below >= h + gap || room.below >= room.above;
+      const top = below ? r.bottom + gap : r.top - h - gap;
+      // It grows out of its tile: from just above when it sits below the tile, and the reverse.
+      pop.classList.toggle('is-above', !below);
       pop.style.left = `${left + window.scrollX}px`;
       pop.style.top = `${top + window.scrollY}px`;
+    };
+
+    // Motion. The popover fades and settles in from its tile, glides from tile to tile while
+    // it stays open, and fades out before it is hidden; the CSS owns the curves and lengths.
+    // A first opening is placed before it is shown, so it never glides in from the last tile.
+    let leaveTimer = 0;
+    const openPop = () => {
+      clearTimeout(leaveTimer);
+      if (pop.hidden) {
+        pop.hidden = false;
+        pop.classList.add('no-glide');
+        place();
+        void pop.offsetWidth; // apply the start state, so the entrance runs from its first frame
+        pop.classList.remove('no-glide');
+      } else {
+        place();
+      }
+      pop.classList.add('is-open');
+    };
+    const closePop = () => {
+      pop.classList.remove('is-open');
+      clearTimeout(leaveTimer);
+      leaveTimer = setTimeout(() => {
+        if (!pop.classList.contains('is-open')) pop.hidden = true;
+      }, REDUCED_MOTION.matches ? 0 : LEAVE_MS);
+    };
+    // New content fades in where the old content was, instead of replacing it in one frame.
+    const swapContent = (repo) => {
+      pop.classList.add('is-swapping');
+      fillPopover(pop, repo, hide);
+      void pop.offsetWidth;
+      pop.classList.remove('is-swapping');
     };
 
     const hide = () => {
@@ -250,7 +389,7 @@ export async function initThoughts() {
       tile.classList.remove('is-pinned');
       shownTile = null;
       pinned = false;
-      pop.hidden = true;
+      closePop();
       if (focusWasInside) tile.focus();
       if (location.hash.startsWith(HASH_PREFIX)) setHash('');
     };
@@ -263,14 +402,14 @@ export async function initThoughts() {
         shownTile.classList.remove('is-pinned');
       }
       if (shownTile !== tile) {
-        fillPopover(pop, tile.repo, hide);
+        if (pop.classList.contains('is-open')) swapContent(tile.repo);
+        else fillPopover(pop, tile.repo, hide);
       }
       shownTile = tile;
       pinned = pin;
       tile.setAttribute('aria-expanded', 'true');
       tile.classList.toggle('is-pinned', pin);
-      pop.hidden = false;
-      place();
+      openPop();
       if (pin) setHash(HASH_PREFIX + encodeURIComponent(nameOf(tile.repo)));
       else if (location.hash.startsWith(HASH_PREFIX)) setHash('');
     };
@@ -326,17 +465,25 @@ export async function initThoughts() {
       tile.setAttribute('aria-expanded', 'false');
       tile.setAttribute('aria-controls', DETAIL_ID);
 
-      const imgUrl = resolveImageUrl(repo.image);
-      if (imgUrl) {
+      const addArt = () => {
+        tile.classList.add('has-art');
+        tile.prepend(makeArt(repo));
+        if (repo.kind === 'skill') {
+          tile.classList.add('has-prompt');
+          tile.prepend(makePrompt(repo));
+        }
+      };
+      if (repo.image) {
         const bg = el('img', 'atlas-tile-bg');
-        bg.src = imgUrl;
         bg.alt = '';
         // Lazy: only the tiles near the viewport pay for their image.
         bg.loading = 'lazy';
         bg.decoding = 'async';
-        bg.onerror = () => { bg.remove(); tile.classList.remove('has-image'); };
+        loadImage(bg, repo, () => { bg.remove(); tile.classList.remove('has-image'); addArt(); });
         tile.classList.add('has-image');
         tile.appendChild(bg);
+      } else {
+        addArt();
       }
       tile.append(el('span', 'atlas-tile-name', name), el('span', 'atlas-tile-desc', repo.description));
 
@@ -383,6 +530,7 @@ export async function initThoughts() {
       frag.appendChild(block);
     }
     container.appendChild(frag);
+    flipIn(container.querySelectorAll('.atlas-count, .atlas-group-count'));
 
     // The rows are made once the tracks are in the page, so they can measure themselves. A
     // popover belongs beside its tile: a hover one closes when its row moves; a pinned one
