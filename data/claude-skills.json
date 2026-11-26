@@ -7,37 +7,65 @@
   ],
   "skills": [
     {
-      "name": "expertise",
+      "name": "digest-distill-information",
       "owner": "yili-skills",
-      "description": "Brings Claude up to date on a topic with parallel research agents and saves a sourced, dated briefing.",
-      "url": "https://github.com/yi-li-yang/skills/tree/HEAD/plugins/yili-skills/skills/expertise",
+      "description": "What does the actual material say and show: review videos, owner posts and photos, comment threads, reports, pages that need a browser, in any language?",
+      "url": "https://github.com/yi-li-yang/skills/tree/HEAD/plugins/yili-skills/skills/digest-distill-information",
       "image": ""
     },
     {
-      "name": "prompt-to-think",
+      "name": "i-think-like-this",
       "owner": "yili-skills",
-      "description": "A thinking framework: intellectual honesty, first principles, inversion, anti-fragility, taste.",
-      "url": "https://github.com/yi-li-yang/skills/tree/HEAD/plugins/yili-skills/skills/prompt-to-think",
+      "description": "How do I reason, and how do I judge what is true, including what I am told?",
+      "url": "https://github.com/yi-li-yang/skills/tree/HEAD/plugins/yili-skills/skills/i-think-like-this",
+      "image": ""
+    },
+    {
+      "name": "interview-me-before-answer",
+      "owner": "yili-skills",
+      "description": "Who is asking, and how do they decide?",
+      "url": "https://github.com/yi-li-yang/skills/tree/HEAD/plugins/yili-skills/skills/interview-me-before-answer",
       "image": ""
     },
     {
       "name": "research-before-buy",
       "owner": "yili-skills",
-      "description": "Runs the research, compare and find loop for a non-trivial purchase.",
+      "description": "How do I decide a purchase?",
       "url": "https://github.com/yi-li-yang/skills/tree/HEAD/plugins/yili-skills/skills/research-before-buy",
       "image": ""
     },
     {
       "name": "talk-standard-tech-eng",
       "owner": "yili-skills",
-      "description": "Keeps Claude's English plain and its names stable, using the ideas of ASD-STE100, and keeps a good metaphor when it explains better.",
+      "description": "How do Claude's technical words stay plain?",
       "url": "https://github.com/yi-li-yang/skills/tree/HEAD/plugins/yili-skills/skills/talk-standard-tech-eng",
+      "image": ""
+    },
+    {
+      "name": "updated-domain-expert",
+      "owner": "yili-skills",
+      "description": "What does an expert in this field know now? Saves a sourced, dated briefing.",
+      "url": "https://github.com/yi-li-yang/skills/tree/HEAD/plugins/yili-skills/skills/updated-domain-expert",
+      "image": ""
+    },
+    {
+      "name": "visual-preference",
+      "owner": "yili-skills",
+      "description": "How does my work look: colours, type, the mark, figures, documents and slides?",
+      "url": "https://github.com/yi-li-yang/skills/tree/HEAD/plugins/yili-skills/skills/visual-preference",
+      "image": ""
+    },
+    {
+      "name": "wardrobe",
+      "owner": "yili-skills",
+      "description": "What is this piece made of, how well is it made, how does it fit me, and what do I already own like it? It keeps my wardrobe record; taste stays mine.",
+      "url": "https://github.com/yi-li-yang/skills/tree/HEAD/plugins/yili-skills/skills/wardrobe",
       "image": ""
     },
     {
       "name": "write-like-myself",
       "owner": "yili-skills",
-      "description": "Writes the way I would, built on how readers read rather than on lists of rules.",
+      "description": "How do my words read when I write?",
       "url": "https://github.com/yi-li-yang/skills/tree/HEAD/plugins/yili-skills/skills/write-like-myself",
       "image": ""
     }

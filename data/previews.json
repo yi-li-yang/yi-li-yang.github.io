@@ -1,0 +1,31 @@
+{
+  "_edit": "DERIVED — written by scripts/fetch-previews.js (npm run ingest:previews) from each repo's docs/preview.webp. Never edit; the next run reverts you.",
+  "previews": {
+    "https://github.com/yi-li-yang/Livability-Atlas": {
+      "image": "assets/previews/Livability-Atlas.webp",
+      "anim": "assets/previews/Livability-Atlas-anim.webp",
+      "sha256": "a105f000187bd00ae85f7ecb55a45652e654215c37689d87e63f2738d1361988",
+      "bytes": 196304,
+      "source": "https://raw.githubusercontent.com/yi-li-yang/Livability-Atlas/HEAD/docs/preview.webp"
+    },
+    "https://github.com/yi-li-yang/yi-li-yang.github.io": {
+      "image": "assets/previews/yi-li-yang.github.io.webp",
+      "sha256": "a55fdd48c1b988ec3bcd509a1932f9a4dd57d1042325d38920295a7ffa358c4e",
+      "bytes": 71248,
+      "source": "https://raw.githubusercontent.com/yi-li-yang/yi-li-yang.github.io/HEAD/docs/preview.webp"
+    },
+    "https://github.com/yi-li-yang/desktop-dashboard": {
+      "image": "assets/previews/desktop-dashboard.webp",
+      "sha256": "4cb9817ddc05147e717fb18fe2027ed0ed26bd790abf03c4c53c2c8c2d044388",
+      "bytes": 45424,
+      "source": "https://raw.githubusercontent.com/yi-li-yang/desktop-dashboard/HEAD/docs/preview.webp"
+    },
+    "https://github.com/yi-li-yang/travel-map": {
+      "image": "assets/previews/travel-map.webp",
+      "anim": "assets/previews/travel-map-anim.webp",
+      "sha256": "e40aa156fda7cb6386949bfb637aaa91be0c91d60a23681beb3755b952c40292",
+      "bytes": 45200,
+      "source": "https://raw.githubusercontent.com/yi-li-yang/travel-map/HEAD/docs/preview.webp"
+    }
+  }
+}
