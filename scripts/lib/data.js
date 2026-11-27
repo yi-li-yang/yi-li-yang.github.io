@@ -217,7 +217,8 @@ export function indexCollaborations(collaborations) {
   return byId;
 }
 
-// Dotted path into data/stats.json, e.g. `static.fundingAwarded.value`.
+// Dotted path into a data object (stats.json, service.json, profile.json), e.g.
+// `scholar.citations` or `profiles.orcid`.
 // Returns undefined when any segment is missing — the caller reports the dangling token.
 export function resolveStatsPath(stats, path) {
   return path.split('.').reduce((node, key) => (node == null ? undefined : node[key]), stats);
