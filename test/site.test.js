@@ -23,7 +23,7 @@ test('site.json service counts match the CV', () => {
   const s = site.service;
   assert.deepEqual(
     { peer: s.peerReviews, nsf: s.nsfProposalReviews, mentees: s.mentees, invited: s.invitedTalksPanels,
-      conferences: s.conferences, anyInvited: s.invited, funding: s.funding },
+      conferences: s.conferenceEvents, anyInvited: s.invited, funding: s.funding },
     { peer: 8, nsf: 1, mentees: 8, invited: 5, conferences: 15, anyInvited: 7,
       funding: { value: 99749, display: '~$100K' } },
   );
@@ -55,7 +55,9 @@ test('untex turns LaTeX dashes and escapes into plain text', () => {
 });
 
 test('the site publication chips count what the CV counts', () => {
-  const pubs = JSON.parse(read('data/publications.json')).publications;
+  // From the .bib in memory, not the derived data/publications.json, which a checkout can
+  // hold stale until `npm run build` runs.
+  const pubs = data.publications;
   const n = (c) => pubs.filter((p) => categoryOf(p) === c).length;
   const cv = pubCounts(data.publications);
   assert.deepEqual(

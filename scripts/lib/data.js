@@ -15,7 +15,13 @@ import { readFileSync, existsSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
 import { parse as parseBibtex } from '@retorquere/bibtex-parser';
-import { validateMentorship, validateTalks, assertNoBareSpecials } from './derive.js';
+import {
+  validateMentorship,
+  validateTalks,
+  validateAwards,
+  validateEducation,
+  assertNoBareSpecials,
+} from './derive.js';
 
 export const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..', '..');
 
@@ -144,19 +150,7 @@ export function loadData() {
   const initiatives = readJson('data/initiatives.json');
   const profile = readJson('data/profile.json');
 
-  validateMentorship(mentorship);
-  validateTalks(talks);
-  for (const [file, value] of Object.entries({
-    'data/education.json': education,
-    'data/mentorship.json': mentorship,
-    'data/talks.json': talks,
-    'data/initiatives.json': initiatives,
-    'data/profile.json': profile,
-  })) {
-    assertNoBareSpecials(value, file);
-  }
-
-  return {
+  return validateData({
     stats,
     service,
     publications,
@@ -170,7 +164,27 @@ export function loadData() {
     talks,
     initiatives,
     profile,
-  };
+  });
+}
+
+// The checks every build runs on the hand-written lists, before LaTeX or the browser meets
+// them. Each failure names the file and the entry. Returns the data unchanged.
+export function validateData(data) {
+  validateMentorship(data.mentorship);
+  validateTalks(data.talks);
+  validateAwards(data.awards);
+  validateEducation(data.education);
+  for (const [file, value] of Object.entries({
+    'data/education.json': data.education,
+    'data/mentorship.json': data.mentorship,
+    'data/talks.json': data.talks,
+    'data/initiatives.json': data.initiatives,
+    'data/profile.json': data.profile,
+    'data/awards.json': data.awards,
+  })) {
+    assertNoBareSpecials(value, file);
+  }
+  return data;
 }
 
 // The one publication order: undated (in preparation, submitted) first as current work, then

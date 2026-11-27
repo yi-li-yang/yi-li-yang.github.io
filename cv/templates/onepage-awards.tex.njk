@@ -1,11 +1,11 @@
 <# SOURCE — you own this file. Edit freely, by hand or by agent. #>
-<# Awards & Grants for the one-pager. The monetary figure is NOT written here: `amountMacro`
-   names a \newcommand emitted by scripts/emit-metrics-tex.js from data/stats.json, so the
-   number stays derived (invariant 4). #>
+<# Awards & Grants for the one-pager, from data/awards.json. Each award prints its OWN amount
+   (`amountText`, from `amount.value`); the funding total (\funding) belongs to summaries, never
+   to a single award. #>
 <% for a in awards %>
 \subsection{<< a.title >>}
 \location{<< a.location >>}
 
-\$\<< a.amountMacro >> | << a.period >> | << a.project >>
+\$<< a.amountText >> | << a.period >> | << a.project >>
 \sectionsep
 <% endfor %>

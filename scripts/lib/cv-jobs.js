@@ -33,6 +33,29 @@ export function educationView(education) {
   }));
 }
 
+// Each award with its OWN amount, ready to print. The one-pager and the biosketch both use
+// it, so neither can print the funding total (the \funding macro) beside a single award.
+export function awardsView(awards) {
+  return (awards ?? []).map((a) => ({
+    ...a,
+    amountText: (a.amount?.value ?? 0).toLocaleString('en-US'),
+  }));
+}
+
+// The one-pager's partials, split by who renders them in a tailored build (scripts/tailor.js):
+// TAILORED blocks are chosen per application from its manifest; SHARED blocks are the same for
+// every reader and are rendered from the canonical jobs below. metrics.tex is copied from
+// `npm run build`. test/shells.test.js checks that these cover every \input in ONE-PAGE.tex.
+export const TAILORED_BLOCKS = ['tagline', 'skills', 'experience', 'publications', 'awards', 'collaborations'];
+export const SHARED_BLOCKS = ['header', 'education', 'links'];
+
+export function sharedJobs(data, outDir) {
+  return SHARED_BLOCKS.map((block) => {
+    const job = canonicalJobs(data).find((j) => j.out === `cv/onepage/generated/${block}.tex`);
+    return { ...job, out: `${outDir}/${block}.tex` };
+  });
+}
+
 const INVITED_PREFIX = { talk: 'Invited talk: ', panel: 'Invited panel: ', participant: 'Invited: ' };
 
 // Talks entries newest first by their latest year; Array.prototype.sort is stable, so ties
@@ -119,7 +142,7 @@ export function canonicalJobs(data) {
       template: 'onepage-awards.tex.njk',
       out: 'cv/onepage/generated/awards.tex',
       src: 'data/awards.json',
-      context: { awards: awards.awards },
+      context: { awards: awardsView(awards.awards) },
     },
     {
       template: 'onepage-collaborations.tex.njk',
@@ -134,12 +157,7 @@ export function canonicalJobs(data) {
     bio('nocite', 'cv/publications.bib', {
       keys: sortPublications(data.publications).map((p) => p.key),
     }),
-    bio('funding', 'data/awards.json', {
-      awards: (awards.awards ?? []).map((a) => ({
-        ...a,
-        amountText: (a.amount?.value ?? 0).toLocaleString('en-US'),
-      })),
-    }),
+    bio('funding', 'data/awards.json', { awards: awardsView(awards.awards) }),
     bio('initiatives', 'data/initiatives.json', { initiatives: data.initiatives.initiatives }),
     bio('mentorship', 'data/mentorship.json', {
       projects: data.mentorship.projects.map((p) => ({

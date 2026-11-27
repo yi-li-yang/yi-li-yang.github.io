@@ -39,7 +39,7 @@ export function buildSiteJson(data) {
       nsfProposalReviews: data.service.nsfProposalReviews ?? null,
       mentees: facts.menteeCount,
       invitedTalksPanels: facts.invitedTalksPanels,
-      conferences: facts.conferences,
+      conferenceEvents: facts.conferenceEvents,
       invited: facts.invitedCount,
       funding: { value: facts.fundingTotal, display: facts.fundingDisplay },
     },

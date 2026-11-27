@@ -130,14 +130,15 @@ So the design removes the opportunity rather than relying on vigilance:
 | `profile.<key>` | `data/profile.json` — e.g. `profile.location` |
 | `stats.<dotted.path>` | `data/stats.json` — machine-written ingest figures |
 | `service.<key>` | `data/service.json` — reviews and proposals written: numbers no list stands behind |
-| `derived.<key>` | counted from a list by `scripts/lib/derive.js`: `menteeCount`, `invitedTalksPanels`, `conferences`, `invitedCount`, `fundingTotal`, `fundingDisplay` |
+| `derived.<key>` | counted from a list by `scripts/lib/derive.js`: `menteeCount`, `invitedTalksPanels`, `conferenceEvents` (event-years, not abstracts), `invitedCount`, `fundingTotal`, `fundingDisplay` |
+| `job:<field>` | `job.md` — naming the company or role you are applying to is not a claim about yourself |
+| `none` | connective or motivational prose asserting no fact; triggers the smell test |
 
 `service.menteesSupervised`, `service.invitedTalks`, `service.fundingAwarded` and
 `service.proposalFunders` no longer exist. The first three are now `derived.*` counts; the last
 was removed. Only the submitted Woodwell letter still cites them, and `submitted/` is a frozen
-record that is not re-verified.
-| `job:<field>` | `job.md` — naming the company or role you are applying to is not a claim about yourself |
-| `none` | connective or motivational prose asserting no fact; triggers the smell test |
+record that is not re-verified. The count of conference abstracts has no token of its own:
+cite the abstracts themselves with `pub:<bibkey>`.
 
 ## `manifest.json`
 

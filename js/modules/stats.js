@@ -40,7 +40,7 @@ export async function initStats() {
     // data/talks.json, so "invited" means invited, as on the CV.
     const nsf = hand?.nsfProposalReviews;
     const funding = hand?.funding;
-    const conferences = hand?.conferences;
+    const conferences = hand?.conferenceEvents;
     const service = [
       {
         value: hand?.peerReviews ?? orcid?.reviews,

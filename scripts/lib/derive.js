@@ -68,12 +68,50 @@ export function validateTalks(talks) {
 export function talkCounts(talks) {
   const all = (talks.entries ?? []).flatMap((e) => e.occurrences ?? []);
   const invitedTalksPanels = all.filter((o) => o.invited && (o.role === 'talk' || o.role === 'panel')).length;
+  // "conferenceEvents", never "conferences": \conferences and pubCounts().conferences already
+  // name the count of conference ABSTRACTS in the .bib, a different number.
   return {
     occurrences: all.length,
     invited: all.filter((o) => o.invited).length,
     invitedTalksPanels,
-    conferences: all.length - invitedTalksPanels,
+    conferenceEvents: all.length - invitedTalksPanels,
   };
+}
+
+// Every award's amount is printed with a $ and summed into one total, so a second currency
+// would be both mislabelled and added to dollars. Refuse it until currencies are designed.
+export function validateAwards(awards) {
+  for (const a of awards.awards ?? []) {
+    if (!a.amount) continue;
+    if (typeof a.amount.value !== 'number') {
+      throw new Error(`data/awards.json award "${a.id}": amount.value must be a number.`);
+    }
+    if (a.amount.currency !== 'USD') {
+      throw new Error(
+        `data/awards.json award "${a.id}": currency "${a.amount.currency}" is not supported; ` +
+          'the CVs and the site print every amount in USD.',
+      );
+    }
+  }
+}
+
+// A degree whose institution is unknown would vanish from both CVs, and one with no end date
+// would crash the date formatting. Name the degree instead.
+const YEAR_MONTH = /^\d{4}-(0[1-9]|1[0-2])$/;
+
+export function validateEducation(education) {
+  const institutions = new Set((education.institutions ?? []).map((i) => i.id));
+  for (const d of education.degrees ?? []) {
+    const where = `data/education.json degree "${d.id}"`;
+    if (!institutions.has(d.institution)) {
+      throw new Error(`${where}: institution "${d.institution}" is not in "institutions".`);
+    }
+    for (const field of ['start', 'end']) {
+      if (!YEAR_MONTH.test(d[field] ?? '')) {
+        throw new Error(`${where}: ${field} must be YYYY-MM (got ${JSON.stringify(d[field])}).`);
+      }
+    }
+  }
 }
 
 export function fundingTotal(awards) {
@@ -94,7 +132,7 @@ export function derivedFacts(data) {
   return {
     menteeCount: menteeCount(data.mentorship),
     invitedTalksPanels: talks.invitedTalksPanels,
-    conferences: talks.conferences,
+    conferenceEvents: talks.conferenceEvents,
     invitedCount: talks.invited,
     fundingTotal: total,
     fundingDisplay: fundingDisplay(total),
@@ -102,21 +140,23 @@ export function derivedFacts(data) {
 }
 
 // Prose in the data layer is LaTeX, so a bare &, %, # or _ breaks the PDF build with an error
-// that points at a generated file. Catch it here instead, naming the source file and key.
-// Keys that hold addresses or file paths are not prose and are skipped.
-const NOT_PROSE = new Set(['url', 'src', 'email', 'workEmail', 'website', 'logo', 'profiles']);
+// that points at a generated file. Catch it here instead, naming the source file and the path
+// to the value (e.g. `entries[6].name`). Skipped: keys that are never printed as text (ids,
+// URLs, file paths, profile ids) and comment keys. Emails ARE printed as text, so they are
+// checked.
+const NOT_PROSE = new Set(['id', 'url', 'src', 'website', 'logo', 'profiles']);
 const BARE = /(^|[^\\])[&%#_]/;
 
-export function assertNoBareSpecials(value, file, key = '') {
+export function assertNoBareSpecials(value, file, path = '') {
   if (typeof value === 'string') {
     if (BARE.test(value)) {
-      throw new Error(`${file}: "${key}" has a bare LaTeX special (& % # _); escape it with \\.`);
+      throw new Error(`${file}: "${path}" has a bare LaTeX special (& % # _); escape it with \\.`);
     }
   } else if (Array.isArray(value)) {
-    for (const v of value) assertNoBareSpecials(v, file, key);
+    value.forEach((v, i) => assertNoBareSpecials(v, file, `${path}[${i}]`));
   } else if (value && typeof value === 'object') {
     for (const [k, v] of Object.entries(value)) {
-      if (!NOT_PROSE.has(k) && !k.startsWith('_')) assertNoBareSpecials(v, file, k);
+      if (!NOT_PROSE.has(k) && !k.startsWith('_')) assertNoBareSpecials(v, file, path ? `${path}.${k}` : k);
     }
   }
 }

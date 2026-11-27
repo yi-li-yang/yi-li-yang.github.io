@@ -19,6 +19,7 @@ on:
       - 'scripts/render-cv.js'
       - 'scripts/emit-metrics-tex.js'
       - 'scripts/bib-to-json.js'
+      - 'scripts/build-site-json.js'
       - 'package.json'
       - 'package-lock.json'
       - '.github/workflows/build-cv.yml'

@@ -4,7 +4,7 @@
 
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { loadData, sortPublications } from '../scripts/lib/data.js';
+import { loadData, sortPublications, validateData } from '../scripts/lib/data.js';
 import {
   menteeCount,
   talkCounts,
@@ -12,6 +12,8 @@ import {
   derivedFacts,
   validateMentorship,
   validateTalks,
+  validateAwards,
+  validateEducation,
   assertNoBareSpecials,
 } from '../scripts/lib/derive.js';
 
@@ -30,7 +32,8 @@ test('real data: the counts the CV and the site print', () => {
   const f = derivedFacts(data);
   assert.equal(f.menteeCount, 8);
   assert.equal(f.invitedTalksPanels, 5);
-  assert.equal(f.conferences, 15);
+  assert.equal(f.conferenceEvents, 15);
+  assert.equal(f.conferences, undefined, 'the abstract count is \\conferences; this one is conferenceEvents');
   assert.equal(f.invitedCount, 7);
   assert.equal(f.fundingTotal, 99749);
   assert.equal(f.fundingDisplay, '~$100K');
@@ -58,7 +61,7 @@ test('invited talks and panels exclude invited participation and uninvited talks
       { year: 2024, role: 'participant', invited: false },
     ]),
   );
-  assert.deepEqual(talkCounts(t), { occurrences: 5, invited: 3, invitedTalksPanels: 2, conferences: 3 });
+  assert.deepEqual(talkCounts(t), { occurrences: 5, invited: 3, invitedTalksPanels: 2, conferenceEvents: 3 });
 });
 
 test('an entry whose years disagree on invited fails the check', () => {
@@ -93,6 +96,38 @@ test('the same year twice in one entry fails the check', () => {
     ]),
   );
   assert.throws(() => validateTalks(t), /e4/);
+});
+
+test('the bare-special check names the path, skips ids, and checks printed emails', () => {
+  assert.throws(
+    () => assertNoBareSpecials({ entries: [{ id: 'a_b', name: 'ok' }, { id: 'c', name: 'A & B' }] }, 't.json'),
+    /t\.json.*entries\[1\]\.name/,
+  );
+  assert.doesNotThrow(() => assertNoBareSpecials({ entries: [{ id: 'a_b', name: 'ok' }] }, 't.json'));
+  assert.throws(() => assertNoBareSpecials({ email: 'first_last@x.org' }, 'p.json'), /p\.json.*email/);
+});
+
+test('award prose is checked like the other data files', () => {
+  const data = loadData();
+  const awards = { awards: [{ ...data.awards.awards[0], objectives: 'An R&D programme' }] };
+  assert.throws(() => validateData({ ...data, awards }), /awards\.json.*objectives/);
+});
+
+test('an award in a currency other than USD fails the check', () => {
+  assert.throws(
+    () => validateAwards({ awards: [{ id: 'gbp-grant', amount: { value: 1000, currency: 'GBP' } }] }),
+    /gbp-grant/,
+  );
+  assert.doesNotThrow(() => validateAwards({ awards: [{ id: 'usd', amount: { value: 1000, currency: 'USD' } }] }));
+});
+
+test('a degree at an unknown institution, or with no end date, fails the check', () => {
+  const institutions = [{ id: 'edinburgh', name: 'U' }];
+  const degree = { id: 'msc', institution: 'edinburgh', level: 'MSc', subject: 'S', start: '2015-08', end: '2016-08' };
+  assert.doesNotThrow(() => validateEducation({ institutions, degrees: [degree] }));
+  assert.throws(() => validateEducation({ institutions, degrees: [{ ...degree, institution: 'oxford' }] }), /msc/);
+  const { end, ...noEnd } = degree;
+  assert.throws(() => validateEducation({ institutions, degrees: [noEnd] }), /msc/);
 });
 
 test('a bare LaTeX special in prose fails, URLs and escaped forms pass', () => {

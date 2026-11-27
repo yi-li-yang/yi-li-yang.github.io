@@ -8,7 +8,7 @@ import { readFileSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { loadData, sortPublications, ROOT } from '../scripts/lib/data.js';
 import { env } from '../scripts/lib/render.js';
-import { canonicalJobs } from '../scripts/lib/cv-jobs.js';
+import { canonicalJobs, sharedJobs, TAILORED_BLOCKS, SHARED_BLOCKS } from '../scripts/lib/cv-jobs.js';
 
 const read = (rel) => readFileSync(join(ROOT, rel), 'utf8');
 const data = loadData();
@@ -67,6 +67,31 @@ test('one-pager links are built from the profile ids', () => {
   ]) {
     assert.ok(tex.includes(`\\href{${url}}`), url);
   }
+});
+
+test('one-pager prints each award with its own amount, not the total', () => {
+  const second = { id: 'x', title: 'Second Grant', location: 'Somewhere', org: 'Org',
+    amount: { value: 50000, currency: 'USD' }, period: '2026', project: 'P' };
+  const more = { ...data, awards: { awards: [...data.awards.awards, second] } };
+  const job = canonicalJobs(more).find((j) => j.out.endsWith('onepage/generated/awards.tex'));
+  const tex = env.render(job.template, job.context);
+  assert.ok(tex.includes('\\$99,749 |'), 'first award, its own amount');
+  assert.ok(tex.includes('\\$50,000 |'), 'second award, its own amount');
+  assert.ok(!tex.includes('\\funding'), 'never the total macro');
+});
+
+test('a tailored build covers every partial the one-pager inputs', () => {
+  const covered = new Set([...TAILORED_BLOCKS, ...SHARED_BLOCKS, 'metrics']);
+  for (const [, name] of read('cv/onepage/ONE-PAGE.tex').matchAll(/\\input\{generated\/([\w-]+)\.tex\}/g)) {
+    assert.ok(covered.has(name), `tailor.js does not produce ${name}.tex`);
+  }
+});
+
+test('shared partials are rendered fresh into the build folder', () => {
+  const shared = sharedJobs(data, 'build/x');
+  assert.deepEqual(shared.map((j) => j.out).sort(), SHARED_BLOCKS.map((b) => `build/x/${b}.tex`).sort());
+  const header = shared.find((j) => j.out === 'build/x/header.tex');
+  assert.match(env.render(header.template, header.context), /yyl\.eli@gmail\.com/);
 });
 
 test('biosketch talks list marks invited events by role and prints every year', () => {

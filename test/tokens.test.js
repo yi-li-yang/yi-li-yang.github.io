@@ -24,6 +24,8 @@ test('derived counts can be cited and carry their value', () => {
   assert.match(cite('derived.menteeCount').text, /= 8$/);
   assert.match(cite('derived.invitedTalksPanels').text, /= 5$/);
   assert.match(cite('derived.fundingTotal').text, /= 99749$/);
+  assert.match(cite('derived.conferenceEvents').text, /= 15$/);
+  assert.equal(cite('derived.conferences'), null, 'ambiguous with the abstract count');
 });
 
 test('an unknown id in a new scheme does not resolve', () => {

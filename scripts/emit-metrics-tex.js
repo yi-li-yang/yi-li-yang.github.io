@@ -42,7 +42,7 @@ const macros = {
   // counted from lists (scripts/lib/derive.js): invited talks and panels, every other
   // event-year, distinct mentees
   invitedtalks: derived.invitedTalksPanels,
-  conferenceevents: derived.conferences,
+  conferenceevents: derived.conferenceEvents,
   mentees: derived.menteeCount,
   // numbers no list stands behind, typed once in data/service.json
   peerreviews: service.peerReviews ?? stats.orcid?.reviews ?? 0,
