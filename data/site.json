@@ -1,0 +1,64 @@
+{
+  "_edit": "DERIVED — written by scripts/build-site-json.js. Never edit; run `npm run build`. Edit data/*.json instead.",
+  "role": "AI Scientist – Geospatial & Remote Sensing",
+  "service": {
+    "peerReviews": 8,
+    "nsfProposalReviews": 1,
+    "mentees": 8,
+    "invitedTalksPanels": 5,
+    "conferenceEvents": 15,
+    "invited": 7,
+    "funding": {
+      "value": 99749,
+      "display": "~$100K"
+    }
+  },
+  "logoWalls": {
+    "experience": [
+      {
+        "name": "University of Edinburgh",
+        "url": "https://www.ed.ac.uk",
+        "src": "assets/logos/edinburgh.png",
+        "width": 831,
+        "height": 199
+      },
+      {
+        "name": "Faculty.ai",
+        "url": "https://faculty.ai",
+        "src": "assets/logos/faculty-ai.png",
+        "width": 2288,
+        "height": 405
+      },
+      {
+        "name": "Woodwell Climate Research Center",
+        "url": "https://www.woodwellclimate.org",
+        "src": "assets/logos/woodwell.png",
+        "width": 165,
+        "height": 33
+      }
+    ],
+    "collaborations": [
+      {
+        "name": "Petrobras",
+        "url": "https://www.petrobras.com.br",
+        "src": "assets/logos/petrobras.svg",
+        "width": 216,
+        "height": 43
+      },
+      {
+        "name": "Google",
+        "url": "https://www.google.com",
+        "src": "https://cdn.simpleicons.org/google",
+        "width": 24,
+        "height": 24
+      },
+      {
+        "name": "Esri",
+        "url": "https://www.esri.com",
+        "src": "https://cdn.simpleicons.org/esri",
+        "width": 24,
+        "height": 24
+      }
+    ]
+  }
+}

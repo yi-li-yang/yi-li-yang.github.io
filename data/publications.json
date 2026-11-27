@@ -1,12 +1,12 @@
 {
   "_edit": "DERIVED — written by scripts/bib-to-json.js (npm run bib). Never edit; the next build reverts you. Edit cv/publications.bib instead.",
   "generatedBy": "scripts/bib-to-json.js",
-  "generatedAt": "2026-11-26T10:53:40.337Z",
+  "generatedAt": "2026-11-27T20:13:29.908Z",
   "counts": {
     "journalPapers": 10,
-    "conferences": 9,
+    "conferences": 18,
     "datasets": 2,
-    "total": 28
+    "total": 37
   },
   "publications": [
     {
@@ -27,7 +27,11 @@
           "isOwner": false
         },
         {
-          "name": "Stefano Hosking",
+          "name": "J. Scott Hosking",
+          "isOwner": false
+        },
+        {
+          "name": "Stefano Potter",
           "isOwner": false
         },
         {
@@ -673,6 +677,138 @@
       "dataset": false
     },
     {
+      "key": "rodenhizer2025circumpolar",
+      "type": "inproceedings",
+      "title": "A circumpolar map of retrogressive thaw slump susceptibility",
+      "authors": [
+        {
+          "name": "Heidi Rodenhizer",
+          "isOwner": false
+        },
+        {
+          "name": "Eirini Makopoulou",
+          "isOwner": false
+        },
+        {
+          "name": "Yili Yang",
+          "isOwner": true
+        },
+        {
+          "name": "Brendan M Rogers",
+          "isOwner": false
+        }
+      ],
+      "venue": "AGU fall meeting abstracts",
+      "year": 2025,
+      "doi": "",
+      "url": "https://agu.confex.com/agu/agu25/meetingapp.cgi/Paper/1916917",
+      "dataset": false
+    },
+    {
+      "key": "agarwal2025enhancing",
+      "type": "inproceedings",
+      "title": "Enhancing geospatial label accuracy with prompt-based zero-shot Segment Anything Model: a retrogressive thaw slump case study",
+      "authors": [
+        {
+          "name": "Arav Agarwal",
+          "isOwner": false
+        },
+        {
+          "name": "Yili Yang",
+          "isOwner": true
+        },
+        {
+          "name": "Marlena Bartkus",
+          "isOwner": false
+        },
+        {
+          "name": "Heidi Rodenhizer",
+          "isOwner": false
+        },
+        {
+          "name": "Stefano Potter",
+          "isOwner": false
+        },
+        {
+          "name": "Greg Fiske",
+          "isOwner": false
+        },
+        {
+          "name": "Brendan M Rogers",
+          "isOwner": false
+        }
+      ],
+      "venue": "AGU fall meeting abstracts",
+      "year": 2025,
+      "doi": "",
+      "url": "https://agu.confex.com/agu/agu25/meetingapp.cgi/Paper/1925339",
+      "dataset": false
+    },
+    {
+      "key": "potter2025burned",
+      "type": "inproceedings",
+      "title": "Burned area mapping across the Arctic-boreal zone with Landsat and Sentinel-2 imagery",
+      "authors": [
+        {
+          "name": "Stefano Potter",
+          "isOwner": false
+        },
+        {
+          "name": "Yili Yang",
+          "isOwner": true
+        },
+        {
+          "name": "Arden Llewellyn Burrell",
+          "isOwner": false
+        },
+        {
+          "name": "Anna Talucci",
+          "isOwner": false
+        },
+        {
+          "name": "Andrew Clelland",
+          "isOwner": false
+        },
+        {
+          "name": "Sander Veraverbeke",
+          "isOwner": false
+        },
+        {
+          "name": "James Tremper Randerson",
+          "isOwner": false
+        },
+        {
+          "name": "Scott J Goetz",
+          "isOwner": false
+        },
+        {
+          "name": "Logan T Berner",
+          "isOwner": false
+        },
+        {
+          "name": "Michelle C Mack",
+          "isOwner": false
+        },
+        {
+          "name": "Xanthe J Walker",
+          "isOwner": false
+        },
+        {
+          "name": "Susan Natali",
+          "isOwner": false
+        },
+        {
+          "name": "Brendan M Rogers",
+          "isOwner": false
+        }
+      ],
+      "venue": "AGU fall meeting abstracts",
+      "year": 2025,
+      "doi": "",
+      "url": "https://agu.confex.com/agu/agu25/meetingapp.cgi/Paper/1953514",
+      "dataset": false
+    },
+    {
       "key": "li2024segment",
       "type": "article",
       "title": "Segment anything model can not segment anything: Assessing AI foundation model’s generalizability in permafrost mapping",
@@ -910,6 +1046,166 @@
       "doi": "10.18739/A2PK0738B",
       "url": "https://doi.org/10.18739/A2PK0738B",
       "dataset": true
+    },
+    {
+      "key": "clelland2024machine",
+      "type": "inproceedings",
+      "title": "Machine learning projections of fire occurrence in the Arctic-boreal zone for 2025–2100 under different SSP scenarios",
+      "authors": [
+        {
+          "name": "Andrew Clelland",
+          "isOwner": false
+        },
+        {
+          "name": "Gareth Marshall",
+          "isOwner": false
+        },
+        {
+          "name": "Robert Baxter",
+          "isOwner": false
+        },
+        {
+          "name": "J Scott Hosking",
+          "isOwner": false
+        },
+        {
+          "name": "Stefano Potter",
+          "isOwner": false
+        },
+        {
+          "name": "Anna Talucci",
+          "isOwner": false
+        },
+        {
+          "name": "Joshua Michael Rady",
+          "isOwner": false
+        },
+        {
+          "name": "Yili Yang",
+          "isOwner": true
+        },
+        {
+          "name": "Helene Genet",
+          "isOwner": false
+        },
+        {
+          "name": "Brendan M Rogers",
+          "isOwner": false
+        }
+      ],
+      "venue": "AGU fall meeting abstracts",
+      "year": 2024,
+      "doi": "",
+      "url": "https://agu.confex.com/agu/agu24/meetingapp.cgi/Paper/1525166",
+      "dataset": false
+    },
+    {
+      "key": "dean2024arts",
+      "type": "inproceedings",
+      "title": "ARTS: a scalable data set for Arctic Retrogressive Thaw Slumps",
+      "authors": [
+        {
+          "name": "Jackie Dean",
+          "isOwner": false
+        },
+        {
+          "name": "Yili Yang",
+          "isOwner": true
+        },
+        {
+          "name": "Heidi Rodenhizer",
+          "isOwner": false
+        },
+        {
+          "name": "Brendan M Rogers",
+          "isOwner": false
+        },
+        {
+          "name": "Ridhima Singh",
+          "isOwner": false
+        },
+        {
+          "name": "Tiffany Windholz",
+          "isOwner": false
+        },
+        {
+          "name": "Amanda Poston",
+          "isOwner": false
+        },
+        {
+          "name": "Stefano Potter",
+          "isOwner": false
+        },
+        {
+          "name": "Scott Zolkos",
+          "isOwner": false
+        },
+        {
+          "name": "Greg Fiske",
+          "isOwner": false
+        },
+        {
+          "name": "Jennifer Watts",
+          "isOwner": false
+        },
+        {
+          "name": "Lingcao Huang",
+          "isOwner": false
+        },
+        {
+          "name": "Chandi Witharana",
+          "isOwner": false
+        },
+        {
+          "name": "Ingmar Nitze",
+          "isOwner": false
+        },
+        {
+          "name": "Nina Nesterova",
+          "isOwner": false
+        },
+        {
+          "name": "Sophia Barth",
+          "isOwner": false
+        },
+        {
+          "name": "Guido Grosse",
+          "isOwner": false
+        },
+        {
+          "name": "Trevor C Lantz",
+          "isOwner": false
+        },
+        {
+          "name": "Alexandra Runge",
+          "isOwner": false
+        },
+        {
+          "name": "Luigi Lombardo",
+          "isOwner": false
+        },
+        {
+          "name": "Ionut Cristi Nicu",
+          "isOwner": false
+        },
+        {
+          "name": "Lena Rubensdotter",
+          "isOwner": false
+        },
+        {
+          "name": "Eirini Makopoulou",
+          "isOwner": false
+        },
+        {
+          "name": "Susan Natali",
+          "isOwner": false
+        }
+      ],
+      "venue": "AGU fall meeting abstracts",
+      "year": 2024,
+      "doi": "",
+      "url": "https://agu.confex.com/agu/agu24/meetingapp.cgi/Paper/1592281",
+      "dataset": false
     },
     {
       "key": "yang2023mappingb",
@@ -1154,7 +1450,7 @@
           "isOwner": false
         },
         {
-          "name": "Anna Virkalla",
+          "name": "Anna Virkkala",
           "isOwner": false
         },
         {
@@ -1275,6 +1571,198 @@
       "dataset": false
     },
     {
+      "key": "mullen2023outsized",
+      "type": "inproceedings",
+      "title": "The outsized influence of ponds on surface water variability and the carbon cycle in Alaska's boreal and tundra regions",
+      "authors": [
+        {
+          "name": "Andrew Mullen",
+          "isOwner": false
+        },
+        {
+          "name": "Jennifer D Watts",
+          "isOwner": false
+        },
+        {
+          "name": "Brendan M Rogers",
+          "isOwner": false
+        },
+        {
+          "name": "Mark L Carroll",
+          "isOwner": false
+        },
+        {
+          "name": "Clayton D Elder",
+          "isOwner": false
+        },
+        {
+          "name": "Jonas Noomah",
+          "isOwner": false
+        },
+        {
+          "name": "Zachary Williams",
+          "isOwner": false
+        },
+        {
+          "name": "Allison Bredder",
+          "isOwner": false
+        },
+        {
+          "name": "Lila Rickenbaugh",
+          "isOwner": false
+        },
+        {
+          "name": "Jordan A Caraballo-Vega",
+          "isOwner": false
+        },
+        {
+          "name": "Eric Levenson",
+          "isOwner": false
+        },
+        {
+          "name": "Sarah W Cooley",
+          "isOwner": false
+        },
+        {
+          "name": "Stefano Potter",
+          "isOwner": false
+        },
+        {
+          "name": "Yili Yang",
+          "isOwner": true
+        },
+        {
+          "name": "Gregory Fiske",
+          "isOwner": false
+        },
+        {
+          "name": "Charles E Miller",
+          "isOwner": false
+        },
+        {
+          "name": "Susan M Natali",
+          "isOwner": false
+        }
+      ],
+      "venue": "103rd AMS annual meeting",
+      "year": 2023,
+      "doi": "",
+      "url": "https://ams.confex.com/ams/103ANNUAL/meetingapp.cgi/Paper/416364",
+      "dataset": false
+    },
+    {
+      "key": "rogers2023pathways",
+      "type": "inproceedings",
+      "title": "Permafrost Pathways: Connecting science, people, and policy for Arctic justice and global climate",
+      "authors": [
+        {
+          "name": "Brendan Morris Rogers",
+          "isOwner": false
+        },
+        {
+          "name": "Susan M Natali",
+          "isOwner": false
+        },
+        {
+          "name": "John Holdren",
+          "isOwner": false
+        },
+        {
+          "name": "Robin Bronen",
+          "isOwner": false
+        },
+        {
+          "name": "Patricia Cochran",
+          "isOwner": false
+        },
+        {
+          "name": "Helene Genet",
+          "isOwner": false
+        },
+        {
+          "name": "Elchin Jafarov",
+          "isOwner": false
+        },
+        {
+          "name": "Jennifer Dawn Watts",
+          "isOwner": false
+        },
+        {
+          "name": "Rachael Treharne",
+          "isOwner": false
+        },
+        {
+          "name": "Kyle Andreas Arndt",
+          "isOwner": false
+        },
+        {
+          "name": "Anna-Maria Virkkala",
+          "isOwner": false
+        },
+        {
+          "name": "Yili Yang",
+          "isOwner": true
+        },
+        {
+          "name": "Melissa Shapiro",
+          "isOwner": false
+        },
+        {
+          "name": "Brooke Woods",
+          "isOwner": false
+        },
+        {
+          "name": "Greg Fiske",
+          "isOwner": false
+        },
+        {
+          "name": "Trevor Smith",
+          "isOwner": false
+        },
+        {
+          "name": "Stefano Potter",
+          "isOwner": false
+        },
+        {
+          "name": "Patrick Murphy",
+          "isOwner": false
+        },
+        {
+          "name": "Jacqueline Hung",
+          "isOwner": false
+        },
+        {
+          "name": "Joshua Rady",
+          "isOwner": false
+        },
+        {
+          "name": "Heidi Rodenhizer",
+          "isOwner": false
+        },
+        {
+          "name": "Valeria Briones",
+          "isOwner": false
+        },
+        {
+          "name": "Tiffany Windholz",
+          "isOwner": false
+        },
+        {
+          "name": "Marco Montemayor",
+          "isOwner": false
+        },
+        {
+          "name": "Jessica Howard",
+          "isOwner": false
+        }
+      ],
+      "venue": "NASA above 9th science team meeting",
+      "year": 2023,
+      "doi": "",
+      "url": "https://cce-datasharing.gsfc.nasa.gov/conferences/absbyid/37/37/h/1",
+      "dataset": false
+    },
+    {
       "key": "yang2022fast",
       "type": "misc",
       "title": "Fast segmentation of 4D microtomography volumes from core-flooding experiments in porous rock using convolutional neural network",
@@ -1324,6 +1812,38 @@
       "year": 2022,
       "doi": "",
       "url": "",
+      "dataset": false
+    },
+    {
+      "key": "potter2022mapping",
+      "type": "inproceedings",
+      "title": "Mapping Alaskan and Canadian wildfires using convolutional neural networks",
+      "authors": [
+        {
+          "name": "Stefano Potter",
+          "isOwner": false
+        },
+        {
+          "name": "Arden Llewellyn Burrell",
+          "isOwner": false
+        },
+        {
+          "name": "Anna Talucci",
+          "isOwner": false
+        },
+        {
+          "name": "Yili Yang",
+          "isOwner": true
+        },
+        {
+          "name": "Brendan M Rogers",
+          "isOwner": false
+        }
+      ],
+      "venue": "AGU fall meeting abstracts",
+      "year": 2022,
+      "doi": "",
+      "url": "https://agu.confex.com/agu/fm22/meetingapp.cgi/Paper/1159514",
       "dataset": false
     },
     {
@@ -1412,6 +1932,42 @@
       "year": 2020,
       "doi": "10.5194/egusphere-egu2020-9560",
       "url": "https://doi.org/10.5194/egusphere-egu2020-9560",
+      "dataset": false
+    },
+    {
+      "key": "yang2019fluid",
+      "type": "inproceedings",
+      "title": "Fluid displacement and trapping during two-phase steady-state flow in complex carbonate imaged by synchrotron x-ray microtomography",
+      "authors": [
+        {
+          "name": "Yili Yang",
+          "isOwner": true
+        },
+        {
+          "name": "Ian Butler",
+          "isOwner": false
+        },
+        {
+          "name": "Florian Fusseis",
+          "isOwner": false
+        },
+        {
+          "name": "Rink Dijke",
+          "isOwner": false
+        },
+        {
+          "name": "Sebastian Geiger",
+          "isOwner": false
+        },
+        {
+          "name": "Xianghui Xiao",
+          "isOwner": false
+        }
+      ],
+      "venue": "InterPore 2019 annual meeting",
+      "year": 2019,
+      "doi": "",
+      "url": "https://events.interpore.org/event/12/contributions/1177/",
       "dataset": false
     },
     {
