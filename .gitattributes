@@ -1,2 +1,7 @@
 # Auto detect text files and perform LF normalization
 * text=auto
+
+# Templates keep LF in every checkout. A template's line endings become the rendered output's,
+# so a CRLF checkout on Windows would render the CVs differently than CI does
+# (test/shells.test.js checks this).
+*.njk text eol=lf

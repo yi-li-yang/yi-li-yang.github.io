@@ -4,7 +4,7 @@
 
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { readFileSync } from 'node:fs';
+import { readFileSync, readdirSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { loadData, sortPublications, ROOT } from '../scripts/lib/data.js';
 import { env } from '../scripts/lib/render.js';
@@ -40,6 +40,15 @@ for (const shell of SHELLS) {
     }
   });
 }
+
+// A template's line endings become the output's. On Windows, `* text=auto` checks text files
+// out with CRLF, so without a rule in .gitattributes the same data renders differently there
+// than in CI.
+test('templates are checked out with LF line endings', () => {
+  for (const name of readdirSync(join(ROOT, 'cv/templates'))) {
+    assert.ok(!read(`cv/templates/${name}`).includes('\r'), `cv/templates/${name} has CRLF; see .gitattributes`);
+  }
+});
 
 test('one-pager education prints the end year of each degree', () => {
   const tex = render('onepage/generated/education.tex');
