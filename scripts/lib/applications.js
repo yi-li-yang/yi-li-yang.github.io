@@ -99,3 +99,31 @@ export function requireApplication(slug, command) {
   }
   return app;
 }
+
+// ── The cover letter's sender ────────────────────────────────────────────────
+// Name and contact line come from data/profile.json, the one place they are typed. They used
+// to be typed into each letter.json, a second copy that drifted (two email spellings).
+const BAR = ' \\textbar{} ';
+
+export function senderBlock(profile) {
+  return {
+    name: `${profile.name}, ${profile.credentials}`,
+    contact: [profile.email, profile.phone, profile.location].join(BAR),
+  };
+}
+
+/**
+ * The context the three cover-letter templates render. A `sender` still present in an older
+ * letter.json is ignored, and `warn` is told once, so nobody edits it expecting an effect.
+ */
+export function letterContext(letterDoc, profile, warn = console.warn) {
+  if (letterDoc.sender) {
+    warn('letter.json has a `sender` block; it is ignored. The sender comes from data/profile.json.');
+  }
+  return {
+    sender: senderBlock(profile),
+    recipient: letterDoc.recipient,
+    date: letterDoc.date,
+    letter: letterDoc.letter,
+  };
+}

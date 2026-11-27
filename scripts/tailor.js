@@ -24,7 +24,7 @@ import { readFileSync, existsSync, writeFileSync, cpSync, mkdirSync } from 'node
 import { join } from 'node:path';
 import { execFileSync } from 'node:child_process';
 import { loadData, indexSkills, indexCollaborations, ROOT } from './lib/data.js';
-import { requireApplication } from './lib/applications.js';
+import { requireApplication, letterContext } from './lib/applications.js';
 import { renderPartial } from './lib/render.js';
 
 const args = process.argv.slice(2);
@@ -58,6 +58,7 @@ const letterPath = join(app.dir, 'letter.json');
 const letterDoc = existsSync(letterPath) ? JSON.parse(readFileSync(letterPath, 'utf8')) : null;
 
 const data = loadData();
+const { profile } = data;
 const skillById = indexSkills(data.skills);
 const collabById = indexCollaborations(data.collaborations);
 const pubByKey = new Map(data.publications.map((p) => [p.key, p]));
@@ -177,12 +178,8 @@ console.log(`wrote ${outDir}/cv.tex  (compile this for the tailored one-pager)`)
 
 // ── Cover letter ─────────────────────────────────────────────────────────────
 if (letterDoc) {
-  const context = {
-    sender: letterDoc.sender,
-    recipient: letterDoc.recipient,
-    date: letterDoc.date,
-    letter: letterDoc.letter,
-  };
+  // The sender (name, email, phone, city) comes from data/profile.json, never letter.json.
+  const context = letterContext(letterDoc, profile);
   const lsrc = `${app.rel}/letter.json`;
   renderPartial({
     template: 'coverletter.tex.njk',
