@@ -110,6 +110,10 @@ yi-li-yang.github.io/                 CURRENT (keep)
 ├── index.html  css/  js/modules/     vanilla site
 ├── data/ stats.json claude-skills.json livability-atlas.json previews.json  (script-written)
 │         pill-tags.json show_repo.json flagships.json          (hand-written)
+│         education.json mentorship.json talks.json initiatives.json profile.json
+│         experience.json awards.json service.json skills.json …  (hand-written CV facts)
+│         publications.json site.json                            (script-written by `npm run build`)
+├── scripts/lib/derive.js             every count that summarises a list (mentees, talks, funding)
 ├── assets/previews/                  (script-written) each opted-in repo's own preview image
 ├── scripts/update-stats.js           working ingest (ORCID/GitHub/Scholar, fail-safe)
 ├── scripts/fetch-skills.js           ingest: skills in yi-li-yang/skills -> data/claude-skills.json (fail-safe)

@@ -15,6 +15,7 @@ import { readFileSync, existsSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
 import { parse as parseBibtex } from '@retorquere/bibtex-parser';
+import { validateMentorship, validateTalks, assertNoBareSpecials } from './derive.js';
 
 export const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..', '..');
 
@@ -134,7 +135,49 @@ export function loadData() {
     readJsonIfExists('data/collaborations.json') ?? { industry: [], academic: [] };
   const taglines = readJsonIfExists('data/taglines.json') ?? { default: null, options: [] };
 
-  return { stats, service, publications, experience, skills, awards, collaborations, taglines };
+  // The lists behind the derived counts, and the facts that used to be typed into the .tex
+  // shells (docs/superpowers/specs/2026-11-27-cv-site-ssot-design.md). Required: a CV built
+  // without them would print empty sections, so a missing file fails here, loudly.
+  const education = readJson('data/education.json');
+  const mentorship = readJson('data/mentorship.json');
+  const talks = readJson('data/talks.json');
+  const initiatives = readJson('data/initiatives.json');
+  const profile = readJson('data/profile.json');
+
+  validateMentorship(mentorship);
+  validateTalks(talks);
+  for (const [file, value] of Object.entries({
+    'data/education.json': education,
+    'data/mentorship.json': mentorship,
+    'data/talks.json': talks,
+    'data/initiatives.json': initiatives,
+    'data/profile.json': profile,
+  })) {
+    assertNoBareSpecials(value, file);
+  }
+
+  return {
+    stats,
+    service,
+    publications,
+    experience,
+    skills,
+    awards,
+    collaborations,
+    taglines,
+    education,
+    mentorship,
+    talks,
+    initiatives,
+    profile,
+  };
+}
+
+// The one publication order: undated (in preparation, submitted) first as current work, then
+// newest year first. Array.prototype.sort is stable, so ties keep the .bib's order. The
+// website list (bib-to-json.js) and the biosketch's generated \nocite list both use it.
+export function sortPublications(publications) {
+  return [...publications].sort((a, b) => (b.year ?? Infinity) - (a.year ?? Infinity));
 }
 
 // ── Id lookup, for the application firewall ──────────────────────────────────

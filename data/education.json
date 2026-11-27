@@ -1,0 +1,52 @@
+{
+  "_edit": "SOURCE — you own this file. Edit freely, by hand or by agent.",
+  "_comment": [
+    "Degrees, single-sourced for both CVs and the site's Experience logo wall.",
+    "Dates are YYYY-MM. The one-pager prints '<level> <subject>, <end year>'; the biosketch",
+    "prints '<level>[ (<qualifier>)] in <subject>[, <honours>]' with 'Mon YYYY - Mon YYYY'.",
+    "An institution with a `logo` appears on the site's Experience wall, before the jobs.",
+    "Ids are cited from an application as `edu:<degree id>`."
+  ],
+  "institutions": [
+    {
+      "id": "edinburgh",
+      "name": "University of Edinburgh",
+      "country": "UK",
+      "logo": {
+        "name": "University of Edinburgh",
+        "url": "https://www.ed.ac.uk",
+        "src": "assets/logos/edinburgh.png",
+        "width": 831,
+        "height": 199
+      }
+    }
+  ],
+  "degrees": [
+    {
+      "id": "phd",
+      "institution": "edinburgh",
+      "level": "PhD",
+      "subject": "Petrophysics",
+      "start": "2016-10",
+      "end": "2021-04"
+    },
+    {
+      "id": "msc",
+      "institution": "edinburgh",
+      "level": "MSc",
+      "qualifier": "Research",
+      "subject": "Geology",
+      "honours": "Distinction",
+      "start": "2015-08",
+      "end": "2016-08"
+    },
+    {
+      "id": "bsc",
+      "institution": "edinburgh",
+      "level": "BSc",
+      "subject": "Geology",
+      "start": "2011-09",
+      "end": "2015-05"
+    }
+  ]
+}

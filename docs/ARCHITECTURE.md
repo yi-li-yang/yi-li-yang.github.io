@@ -29,8 +29,8 @@ Every fact has an owner (who may write it). Partition storage by owner:
 | ORCID / GitHub / Scholar | API + scrape | `data/stats.json` | `scripts/update-stats.js` only |
 | You (web cards) | hand | `data/pill-tags.json`, `data/show_repo.json` | you only |
 | You (publications) | curated; APIs *propose* | `cv/publications.bib` | you only |
-| You (CV prose) | hand | `cv/**/*.tex` shells + new `data/experience.*` | you only |
-| Derived | pure render | `cv/**/generated/*`, `data/publications.json`, `assets/*.pdf` | scripts only |
+| You (CV facts) | hand | `data/experience.json`, `education.json`, `mentorship.json`, `talks.json`, `initiatives.json`, `profile.json`, `awards.json`, `service.json`, … (the `.tex` shells hold layout only) | you only |
+| Derived | pure render | `cv/**/generated/*`, `data/publications.json`, `data/site.json`, `assets/*.pdf` | scripts only |
 | Each project repo (its `docs/preview.webp`) | ingest | `assets/previews/*`, `data/previews.json` | `scripts/fetch-previews.js` only |
 
 Invariant 2 falls out: a human file is never script-written and vice-versa. Your repo already
@@ -86,11 +86,15 @@ without collapsing the two templates, and it revives the old role-variants
 ## Single-writer rule (operational form of invariant 2)
 
 Generated paths have exactly one writer — the build (CI or local scripts):
-`data/stats.json`, `data/publications.json`, `data/previews.json`, `cv/**/generated/*`,
-`assets/*.pdf`, `assets/previews/*`.
-You author `data/pill-tags.json`, `data/show_repo.json`, `cv/publications.bib`, the `.tex`
-shells, the `.njk` templates, and the site source. **Never hand-edit a generated file** — the
+`data/stats.json`, `data/publications.json`, `data/site.json`, `data/previews.json`,
+`cv/**/generated/*`, `assets/*.pdf`, `assets/previews/*`.
+You author the rest of `data/*.json`, `cv/publications.bib`, the `.tex` shells (layout only),
+the `.njk` templates, and the site source. **Never hand-edit a generated file** — the
 next build silently reverts it.
+
+A count is never typed next to its list. Mentees, talks and the funding total are counted
+from `data/mentorship.json`, `data/talks.json` and `data/awards.json` by
+`scripts/lib/derive.js`; `data/service.json` keeps only numbers no list stands behind.
 
 ---
 

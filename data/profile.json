@@ -1,0 +1,24 @@
+{
+  "_edit": "SOURCE — you own this file. Edit freely, by hand or by agent.",
+  "_comment": [
+    "Who Yili is and how to reach them: the CV headers and Links, the biosketch research",
+    "scope, the cover-letter sender, and the profile ids that scripts/update-stats.js",
+    "fetches. The site's static contact links and meta description are hand-written in",
+    "index.html for crawlers; test/site.test.js fails when they drift from this file.",
+    "Cited from an application as `profile.<key>`."
+  ],
+  "name": "Yili Yang",
+  "credentials": "PhD",
+  "phone": "+44 7490334233",
+  "email": "yyl.eli@gmail.com",
+  "workEmail": "yyang@woodwellclimate.org",
+  "location": "London, UK",
+  "website": "https://yi-li-yang.github.io/",
+  "researchScope": "My research develops/applies advanced AI methodologies to solve complex scientific problems, especially in geoscience, environmental and climate sciences. I create data/AI-driven approaches that accelerate scientific discovery, improve predictions, and transform our understanding of our changing planet through interdisciplinary collaborations.",
+  "profiles": {
+    "orcid": "0000-0002-1791-3899",
+    "github": "yi-li-yang",
+    "scholar": "8I00DowAAAAJ",
+    "linkedin": "yiliyang"
+  }
+}

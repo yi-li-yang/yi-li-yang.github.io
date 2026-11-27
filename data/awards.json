@@ -3,9 +3,12 @@
   "_comment": [
     "HAND-AUTHORED. Never script-written. Extracted from cv/onepage/ONE-PAGE.tex L208-213.",
     "",
-    "`amountMacro` names a LaTeX macro emitted by scripts/emit-metrics-tex.js — the figure",
-    "itself stays derived from data/stats.json.static.fundingAwarded, so the amount is never",
-    "typed here. Ids are referenced as `award:<id>` from an application manifest.",
+    "`amount` is the single source of the money. The funding total that both CVs and the",
+    "site print is the sum of these amounts (scripts/lib/derive.js fundingTotal); the",
+    "one-pager reaches it through the `\\funding` macro named by `amountMacro`, and the",
+    "biosketch prints each award's own amount. Never type the figure anywhere else.",
+    "`objectives` is printed under the award in the biosketch. Ids are referenced as",
+    "`award:<id>` from an application manifest.",
     "",
     "Typos corrected during extraction: 'Reserach' -> 'Research', 'Pre-diction' -> 'Prediction'."
   ],
@@ -14,9 +17,12 @@
       "id": "fcs-2025",
       "title": "Funding for Climate Solutions",
       "location": "Funding for Climate Solutions, Woodwell Climate Research Center",
+      "org": "Woodwell Climate Research Center",
       "amountMacro": "funding",
+      "amount": { "value": 99749, "currency": "USD" },
       "period": "2025-2026",
-      "project": "A Generic Climate AI Framework for Multi-domain Time Series Prediction"
+      "project": "A Generic Climate AI Framework for Multi-domain Time Series Prediction",
+      "objectives": "This project will attempt to develop a generic climate AI framework that will unify and accelerate time-series inferences across Woodwell Climate Research Center's diverse research domains, from Arctic carbon fluxes to tropical forest dynamics."
     }
   ]
 }

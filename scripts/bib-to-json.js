@@ -12,12 +12,13 @@
 
 import { writeFileSync } from 'node:fs';
 import { join } from 'node:path';
-import { loadData, pubCounts, ROOT } from './lib/data.js';
+import { loadData, pubCounts, sortPublications, ROOT } from './lib/data.js';
 
 const { publications } = loadData();
 
-// Newest first; entries with no year (in-prep / submitted) sort to the top as "current".
-const sorted = [...publications].sort((a, b) => (b.year ?? Infinity) - (a.year ?? Infinity));
+// Undated (in-prep / submitted) first as "current", then newest first. The same order feeds
+// the biosketch's generated \nocite list, so the site and the PDF list papers alike.
+const sorted = sortPublications(publications);
 
 const out = {
   // Emitted, not hand-added: a "never edit me" marker that a regeneration would strip is

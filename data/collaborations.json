@@ -20,19 +20,22 @@
     {
       "id": "petrobras-edinburgh",
       "partners": "PetroBras $\\times$ U of Edinburgh",
-      "text": "Understanding how oil and water flow in rocks"
+      "text": "Understanding how oil and water flow in rocks",
+      "logo": { "name": "Petrobras", "url": "https://www.petrobras.com.br", "src": "assets/logos/petrobras.svg", "width": 216, "height": 43 }
     },
     {
       "id": "google-woodwell",
       "partners": "Google $\\times$ Woodwell",
       "text": "Understanding Permafrosts, AlphaEarth and Satellite Embedding",
-      "role": "participant"
+      "role": "participant",
+      "logo": { "name": "Google", "url": "https://www.google.com", "src": "https://cdn.simpleicons.org/google", "width": 24, "height": 24 }
     },
     {
       "id": "esri-woodwell",
       "partners": "Esri $\\times$ Woodwell",
       "text": "Understanding Permafrosts and Indigenous Communities",
-      "role": "participant"
+      "role": "participant",
+      "logo": { "name": "Esri", "url": "https://www.esri.com", "src": "https://cdn.simpleicons.org/esri", "width": 24, "height": 24 }
     },
     {
       "id": "microsoft-woodwell",
