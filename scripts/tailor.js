@@ -24,8 +24,9 @@ import { readFileSync, existsSync, writeFileSync, cpSync, mkdirSync } from 'node
 import { join } from 'node:path';
 import { execFileSync } from 'node:child_process';
 import { loadData, indexSkills, indexCollaborations, ROOT } from './lib/data.js';
-import { requireApplication } from './lib/applications.js';
+import { requireApplication, letterContext } from './lib/applications.js';
 import { renderPartial } from './lib/render.js';
+import { awardsView, sharedJobs, TAILORED_BLOCKS, SHARED_BLOCKS } from './lib/cv-jobs.js';
 
 const args = process.argv.slice(2);
 const skipVerify = args.includes('--skip-verify');
@@ -58,6 +59,7 @@ const letterPath = join(app.dir, 'letter.json');
 const letterDoc = existsSync(letterPath) ? JSON.parse(readFileSync(letterPath, 'utf8')) : null;
 
 const data = loadData();
+const { profile } = data;
 const skillById = indexSkills(data.skills);
 const collabById = indexCollaborations(data.collaborations);
 const pubByKey = new Map(data.publications.map((p) => [p.key, p]));
@@ -99,7 +101,10 @@ const skills = {
 const publications = (manifest.publications ?? []).map((key) =>
   must(pubByKey.get(key), `pub:${key}`),
 );
-const awards = (manifest.awards ?? []).map((id) => must(awardById.get(id), `award:${id}`));
+// Each with its own amount (awardsView), never the funding total.
+const awards = awardsView(
+  (manifest.awards ?? []).map((id) => must(awardById.get(id), `award:${id}`)),
+);
 
 // Academic ids arrive flat and are chunked three per line, matching the canonical layout.
 const chunk = (arr, n) =>
@@ -119,7 +124,9 @@ const tagline = manifest.tagline
   : null;
 
 // ── Render the tailored partials ─────────────────────────────────────────────
-const BLOCKS = ['tagline', 'skills', 'experience', 'publications', 'awards', 'collaborations'];
+// TAILORED_BLOCKS are chosen from the manifest; SHARED_BLOCKS (header, education, links) are
+// the same for every reader. Both lists live in lib/cv-jobs.js, where a test checks that
+// together they cover every \input in ONE-PAGE.tex.
 
 const emit = (block, context) =>
   renderPartial({
@@ -138,6 +145,10 @@ emit('publications', { publications });
 emit('awards', { awards });
 emit('collaborations', { collaborations });
 
+// Rendered fresh from the data, not copied from cv/onepage/generated/, so a profile or
+// education change shows up without a separate `npm run build`.
+for (const job of sharedJobs(data, outDir)) renderPartial({ ...job, script: 'tailor.js', cmd });
+
 // ── Self-contained compile context ───────────────────────────────────────────
 // The class and fonts must sit beside the shell, since fontspec resolves the class's
 // `Path = fonts/lato/` against the compile working directory. Copied only when absent, so
@@ -155,26 +166,26 @@ for (const asset of ['deedy-resume-openfont.cls', 'fonts']) {
 // ── The shell ────────────────────────────────────────────────────────────────
 // A copy of ONE-PAGE.tex whose \input paths point at this application's partials, which now
 // sit beside it — so the redirect is simply dropping the `generated/` prefix.
-// generated/metrics.tex is the exception: the derived counts are identical for every reader,
-// so it is copied in rather than re-rendered.
+// metrics.tex is the one partial copied in: the derived counts are identical for every reader
+// and come from scripts/emit-metrics-tex.js (`npm run build`).
 let shell = readFileSync(join(ROOT, 'cv/onepage/ONE-PAGE.tex'), 'utf8');
-for (const b of BLOCKS) {
+for (const b of [...TAILORED_BLOCKS, ...SHARED_BLOCKS, 'metrics']) {
   shell = shell.replace(`\\input{generated/${b}.tex}`, `\\input{${b}.tex}`);
 }
-shell = shell.replace('\\input{generated/metrics.tex}', '\\input{metrics.tex}');
-cpSync(join(ROOT, 'cv/onepage/generated/metrics.tex'), join(abs, 'metrics.tex'));
+const metrics = join(ROOT, 'cv/onepage/generated/metrics.tex');
+if (!existsSync(metrics)) {
+  console.error('missing cv/onepage/generated/metrics.tex — run `npm run build` first.');
+  process.exit(1);
+}
+cpSync(metrics, join(abs, 'metrics.tex'));
 
 writeFileSync(join(abs, 'cv.tex'), shell, 'utf8');
 console.log(`wrote ${outDir}/cv.tex  (compile this for the tailored one-pager)`);
 
 // ── Cover letter ─────────────────────────────────────────────────────────────
 if (letterDoc) {
-  const context = {
-    sender: letterDoc.sender,
-    recipient: letterDoc.recipient,
-    date: letterDoc.date,
-    letter: letterDoc.letter,
-  };
+  // The sender (name, email, phone, city) comes from data/profile.json, never letter.json.
+  const context = letterContext(letterDoc, profile);
   const lsrc = `${app.rel}/letter.json`;
   renderPartial({
     template: 'coverletter.tex.njk',

@@ -17,6 +17,7 @@ import nunjucks from 'nunjucks';
 import { writeFileSync, mkdirSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { ROOT } from './data.js';
+import { untex } from './text.js';
 
 export const env = new nunjucks.Environment(
   new nunjucks.FileSystemLoader(join(ROOT, 'cv', 'templates')),
@@ -79,33 +80,9 @@ env.addFilter('skillline', (items) =>
   (items ?? []).map((i) => `\\mbox{${i.label}}`).join('\\discretionary{}{}{|}'),
 );
 
-// Strip LaTeX back to readable plain text, for the cover letter's .txt and .md twins.
-//
-// Order matters, and one step is subtler than it looks. The final `$`-strip removes leftover
-// MATH delimiters ($\mu$ having already been handled, $^2$ and friends have not). But an
-// escaped literal dollar — `\$99,749` in a cover letter naming an award — unescapes to a bare
-// `$`, which that same strip then ate, silently turning "$99,749" into "99,749". A missing
-// currency symbol in a letter about money is not a cosmetic defect.
-//
-// So escaped dollars are parked on a sentinel that cannot appear in LaTeX source, and restored
-// after the math strip has run. NUL is used precisely because no template can produce one.
-const DOLLAR = '\u0000';
-env.addFilter('untex', (s) =>
-  String(s ?? '')
-    .replace(/\\textbar\{\}/g, '|')
-    .replace(/\\(?:textbf|textit|emph|text)\{([^}]*)\}/g, '$1')
-    .replace(/\$\\mu\$/g, 'µ')
-    .replace(/\\times/g, 'x')
-    .replace(/\\&/g, '&')
-    .replace(/\\%/g, '%')
-    .replace(/\\\$/g, DOLLAR)
-    .replace(/\\_/g, '_')
-    .replace(/\\#/g, '#')
-    .replace(/---/g, '—')
-    .replace(/\$/g, '')
-    .split(DOLLAR).join(String.fromCharCode(36))
-    .trim(),
-);
+// Strip LaTeX back to readable plain text, for the cover letter's .txt and .md twins. The
+// function lives in scripts/lib/text.js, shared with the site's data/site.json.
+env.addFilter('untex', untex);
 
 // Every generated file says, in its first lines, what wrote it and what to edit instead.
 // A generated file that doesn't announce itself eventually gets hand-edited.

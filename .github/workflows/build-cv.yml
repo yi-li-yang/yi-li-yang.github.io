@@ -19,6 +19,7 @@ on:
       - 'scripts/render-cv.js'
       - 'scripts/emit-metrics-tex.js'
       - 'scripts/bib-to-json.js'
+      - 'scripts/build-site-json.js'
       - 'package.json'
       - 'package-lock.json'
       - '.github/workflows/build-cv.yml'
@@ -96,7 +97,7 @@ jobs:
           # cv/onepage/generated now holds a partial per prose block (tagline, skills,
           # publications, awards, collaborations) alongside experience/metrics. Tailored
           # app-*/ subdirectories are gitignored and never land here.
-          git add data/publications.json \
+          git add data/publications.json data/site.json \
                   cv/onepage/generated cv/biosketch/generated \
                   assets/cv.pdf assets/biosketch.pdf
           # [skip ci] so this automated commit does not retrigger this workflow.

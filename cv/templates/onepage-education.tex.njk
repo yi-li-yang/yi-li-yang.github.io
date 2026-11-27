@@ -1,0 +1,9 @@
+<# SOURCE — you own this file. Edit freely, by hand or by agent. #>
+<# One-pager Education: each institution, then "<level> <subject>, <end year>" per degree,
+   from data/education.json. The shell keeps the \section header and the \sectionsep. #>
+<% for inst in institutions %>
+\subsection{<< inst.name >>}
+<% for d in inst.degrees %>
+\descript{<< d.short >>, << d.endYear >>}
+<% endfor %>
+<% endfor %>

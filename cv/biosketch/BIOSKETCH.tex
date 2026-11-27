@@ -56,8 +56,8 @@ Last Updated \today
 %%===================================================================================================
 %%===================================================================================================
 
-\name{YILI YANG} % Your name
-\address{+44 7490334233\textbar\textbar yyang@woodwellclimate.org\textbar\textbar ORCID 0000-0002-1791-3899} % Your phone number and email
+% Name, phone, work email and ORCID from data/profile.json (templates/biosketch-header.tex.njk).
+\input{generated/header.tex}
 
 %-------------------------------------------------------------
 %====================================================
@@ -67,21 +67,13 @@ Last Updated \today
 \input{generated/metrics.tex}
 \lastupdated
 \begin{rSection}{Research SCOPE}
-My research develops/applies advanced AI methodologies to solve complex scientific problems, especially in geoscience, environmental and climate sciences. I create data/AI-driven approaches that accelerate scientific discovery, improve predictions, and transform our understanding of our changing planet through interdisciplinary collaborations.
-
+% Research scope from data/profile.json (templates/biosketch-scope.tex.njk). Edit the data, not here.
+\input{generated/scope.tex}
 \end{rSection}
 %====================================================
 \begin{rSection}{Education}
-{\bf University of Edinburgh, UK} 
-
-\begin{indentpar}{0.5cm}
-\textbf{PhD in Petrophysics} \hfill {Oct 2016 - Apr 2021}
-
-\textbf{MSc (Research) in Geology, Distinction} \hfill {August 2015 - August 2016}
-
-\textbf{BSc Geology} \hfill {Sep 2011 - May 2015} 
-\end{indentpar}
-
+% Single-sourced from data/education.json (templates/biosketch-education.tex.njk). Edit the data, not here.
+\input{generated/education.tex}
 \end{rSection}
 %====================================================
 \begin{rSection}{Experience}
@@ -91,113 +83,31 @@ My research develops/applies advanced AI methodologies to solve complex scientif
 \end{rSection}
 %===============================================================
 \begin{rSection}{PUBLICATIONS, CONFERENCES AND DATA SETS}
-\nocite{li2026artificial}
-\nocite{yang2026circumpolarrts}
-\nocite{potter2026abzbam}
-\nocite{yang2026circumpolar}
-\nocite{yang2026keeping}
-\nocite{virkkala2026data}
-\nocite{perera2025panarctic}
-\nocite{potter2026burned}
-\nocite{clelland2025machine}
-\nocite{li2025multiscale}
-\nocite{yang2025collaborative}
-\nocite{yang2024arctic}
-\nocite{li2024segment}
-\nocite{rodenhizer2024comparison}
-\nocite{yang2024arts}
-\nocite{rogers2023permafrost}
-\nocite{yang2023mappingb}
-\nocite{potter2023mapping}
-\nocite{potter4803815mapping}
-\nocite{rodenhizer2023comparison}
-\nocite{li2023geoai}
-\nocite{yang2023mappinga}
-\nocite{mullen2023using}
-\nocite{singh2022mapping}
-\nocite{yang2022fast}
-\nocite{marti2021time}
-\nocite{marti2020chemical}
-\nocite{yang2018immiscible}
+% One citation per .bib entry, in the website order, so adding a paper is one edit
+% in cv/publications.bib (templates/biosketch-nocite.tex.njk).
+\input{generated/nocite.tex}
 \bibliographystyle{unsrtnat}
 \bibliography{../publications}
 \end{rSection}
 %=====================================================
 \begin{rSection}{RESEARCH FUNDINGS}
-
-Funding for Climate Solutions: A Generic Climate AI Framework for Multi-domain Time Series Prediction, Woodwell Climate Research Center, \$\funding
-    
-Overall Objectives: This project will attempt to develop a generic climate AI framework that will unify and accelerate time-series inferences across Woodwell Climate Research Center's diverse research domains, from Arctic carbon fluxes to tropical forest dynamics.
-
-Pending/ongoing/submitted funding applications with NASA, NSF, Google.org and the Bezos Foundation
-    
+% Each award with its own amount, from data/awards.json (templates/biosketch-funding.tex.njk). Edit the data, not here.
+\input{generated/funding.tex}
 \end{rSection}
 %=====================================================
 \begin{rSection}{PARTICIPATED RESEARCH INITIATIVES}
-
-\textbf{Permafrost Discovery Gateways} Funded by Google.org and NSF, the Gateway is making information of permafrost conditions available throughout the Arctic by providing access to big geospatial products and tools to allow exploration and discovery for researchers, educators, and the public at large. This includes providing automated monthly monitoring of permafrost thaw during the snow-free season from satellite imagery.
-
-\textbf{Permafrost Pathways} Funded through the TED Audacious Project — a collaborative funding initiative catalyzing big, bold solutions to the world’s most urgent challenges. Through a joint effort between Woodwell Climate Research Center, the Arctic Initiative at Harvard Kennedy School, and the Alaska Institute for Justice, Permafrost Pathways brings together leading experts in climate science, policy action, and environmental justice to inform and develop adaptation and mitigation strategies to address permafrost thaw.
-
-\textbf{GeoAI Challenge} Cooperate with the Cyberinfrastructure and Computational Intelligence Lab and Prof. Wenwen Li at Arizona State University to host an NSF-funded AI challenge (Cyber2A  Arctic Challenge) using remote sensing imagery to detect permafrost thaw.
-
+% From data/initiatives.json (templates/biosketch-initiatives.tex.njk). Edit the data, not here.
+\input{generated/initiatives.tex}
 \end{rSection}
 %=====================================================
 \begin{rSection}{Mentorship}
-Multi-domain Timeseries Forecasting 
-\begin{indentpar}{0.5cm}
-Sandeep Poudel \hfill2026\\
-Dogukan Teber \hfill2025
-\end{indentpar}
-
-Satellite Image Labelling Workflow and Training Image Generation
-\begin{indentpar}{0.5cm}
-Robb Young \hfill2025\\
-Marly Bartkus \hfill2025
-\end{indentpar}
-
-Deep Learning label data curation for ESRI-Woodwell Collaboration
-\begin{indentpar}{0.5cm}
-Marly Bartkus \hfill2025
-\end{indentpar}
-
-Automatic Improvement of Geospatial Digitisation using Segment Anything Model
-\begin{indentpar}{0.5cm}
-Arav Agarwal \hfill2025\\
-Milagros Becerra \hfill2025
-\end{indentpar}
-
-Estimation of the Volumetric Loss of Retrogressive Thaw Slumps using DEM
-\begin{indentpar}{0.5cm}
-Margo Moceyunas \hfill2024
-\end{indentpar}
-
-Using Vision-Transformer to segment Retrogressive Thaw Slumps on Remote Sensing Imagery
-\begin{indentpar}{0.5cm}
-Ridhima Singh  \hfill2023
-\end{indentpar}
+% From data/mentorship.json; Mentees counts the distinct people here (templates/biosketch-mentorship.tex.njk). Edit the data, not here.
+\input{generated/mentorship.tex}
 \end{rSection}
 %=====================================================
 \begin{rSection}{ACADEMIC SERVICES, CONFERENCES AND TALKS}
-\begin{itemize}
-    \item Manuscripts review: \peerreviews
-    \item NSF Proposal review: \nsfreviews
-    \item Tropical Forest Forever Facility (TFFF): Pathways to Impact, London Climate Action Week, UK \hfill 2026
-    \item Accelerating Climate Progress with AI: From Science to Action Workshop, The National Academies, US \hfill 2024
-    \item Invited talk at the Arctic Carbon Flux Upscaling Workshop, Sweden \hfill 2024
-    \item Invited panel talk at the Esri UC Spatial Analytics Summit, US \hfill 2024
-    \item Invited talk at the Cyber2A Workshop, US \hfill 2024
-    \item European Geophysical Union Annual Conference, EU \hfill 2022, 2023, 2024
-    \item Google Geo-for-Good Summit, US/Singapore \hfill 2022, 2023, 2025
-    \item Tri-Polar Remote Sensing Conference, China \hfill 2023, 2024
-    \item RTSInTrain Workshop, EU \hfill 2023
-    \item NASA Arctic-Boreal Vulnerability Experiment workshop, US \hfill 2022
-    \item Invited Permafrost Discovery Gateway Webinar \hfill 2022
-    \item Invited webinar at the Royal Meteorological Society: Machine Learning for Atmospheric Sciences: Values and Controversies, UK \hfill 2022
-    \item American Geophysical Union annual conference, US \hfill 2018
-\end{itemize}
-
-
+% Review counts, then data/talks.json with invited events marked (templates/biosketch-services.tex.njk). Edit the data, not here.
+\input{generated/services.tex}
 \end{rSection}
 %=====================================================
 \end{document}

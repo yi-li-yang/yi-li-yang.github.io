@@ -1,0 +1,11 @@
+<# SOURCE — you own this file. Edit freely, by hand or by agent. #>
+<# Biosketch Academic Services, Conferences and Talks: the review counts (data/service.json via
+   metrics.tex), then data/talks.json, newest event first. An invited event carries its role
+   as a prefix: "Invited talk:", "Invited panel:" or "Invited:" (attended, no talk). #>
+\begin{itemize}
+    \item Manuscripts review: \peerreviews
+    \item NSF Proposal review: \nsfreviews
+<% for t in talks %>
+    \item << t.prefix >><< t.name >><< t.placeText >> \hfill << t.years >>
+<% endfor %>
+\end{itemize}

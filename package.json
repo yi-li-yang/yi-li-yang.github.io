@@ -8,7 +8,7 @@
     "node": ">=20"
   },
   "scripts": {
-    "build": "node scripts/bib-to-json.js && node scripts/emit-metrics-tex.js && node scripts/render-cv.js",
+    "build": "node scripts/bib-to-json.js && node scripts/emit-metrics-tex.js && node scripts/render-cv.js && node scripts/build-site-json.js",
     "apps": "node scripts/apps.js",
     "tailor": "node scripts/tailor.js",
     "app:status": "node scripts/app-status.js",

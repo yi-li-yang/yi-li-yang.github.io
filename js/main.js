@@ -9,8 +9,10 @@ import { initNav } from './modules/nav.js';
 import { initLinks } from './modules/links.js';
 import { initContact } from './modules/contact.js';
 import { initSeo } from './modules/seo.js';
+import { initFacts } from './modules/facts.js';
 
 document.addEventListener('DOMContentLoaded', () => {
+  initFacts();
   initLinks();
   initNav();
   initContact();

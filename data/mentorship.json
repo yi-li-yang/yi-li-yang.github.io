@@ -1,0 +1,56 @@
+{
+  "_edit": "SOURCE — you own this file. Edit freely, by hand or by agent.",
+  "_comment": [
+    "Mentorship projects and the people mentored on each. The Mentees count on both CVs and",
+    "the site is the number of DISTINCT people here, so one person on two projects counts once.",
+    "Spell each person the same way every time: the build fails if one name appears with",
+    "different case or spacing. Ids are cited from an application as `mentor:<project id>`."
+  ],
+  "projects": [
+    {
+      "id": "multi-domain-ts",
+      "title": "Multi-domain Timeseries Forecasting",
+      "mentees": [
+        { "name": "Sandeep Poudel", "year": 2026 },
+        { "name": "Dogukan Teber", "year": 2025 }
+      ]
+    },
+    {
+      "id": "labelling-workflow",
+      "title": "Satellite Image Labelling Workflow and Training Image Generation",
+      "mentees": [
+        { "name": "Robb Young", "year": 2025 },
+        { "name": "Marly Bartkus", "year": 2025 }
+      ]
+    },
+    {
+      "id": "esri-label-curation",
+      "title": "Deep Learning label data curation for ESRI-Woodwell Collaboration",
+      "mentees": [
+        { "name": "Marly Bartkus", "year": 2025 }
+      ]
+    },
+    {
+      "id": "sam-digitisation",
+      "title": "Automatic Improvement of Geospatial Digitisation using Segment Anything Model",
+      "mentees": [
+        { "name": "Arav Agarwal", "year": 2025 },
+        { "name": "Milagros Becerra", "year": 2025 }
+      ]
+    },
+    {
+      "id": "rts-volume-dem",
+      "title": "Estimation of the Volumetric Loss of Retrogressive Thaw Slumps using DEM",
+      "mentees": [
+        { "name": "Margo Moceyunas", "year": 2024 }
+      ]
+    },
+    {
+      "id": "vit-rts",
+      "title": "Using Vision-Transformer to segment Retrogressive Thaw Slumps on Remote Sensing Imagery",
+      "mentees": [
+        { "name": "Ridhima Singh", "year": 2023 }
+      ]
+    }
+  ]
+}

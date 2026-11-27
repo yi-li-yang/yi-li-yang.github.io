@@ -1,0 +1,25 @@
+{
+  "_edit": "SOURCE — you own this file. Edit freely, by hand or by agent.",
+  "_comment": [
+    "Research initiatives Yili has taken part in, printed in the biosketch section",
+    "'Participated Research Initiatives'. Text may contain LaTeX. Ids are cited from an",
+    "application as `init:<id>`."
+  ],
+  "initiatives": [
+    {
+      "id": "pdg",
+      "title": "Permafrost Discovery Gateway",
+      "text": "Funded by Google.org and NSF, the Gateway is making information of permafrost conditions available throughout the Arctic by providing access to big geospatial products and tools to allow exploration and discovery for researchers, educators, and the public at large. This includes providing automated monthly monitoring of permafrost thaw during the snow-free season from satellite imagery."
+    },
+    {
+      "id": "permafrost-pathways",
+      "title": "Permafrost Pathways",
+      "text": "Funded through the TED Audacious Project — a collaborative funding initiative catalyzing big, bold solutions to the world’s most urgent challenges. Through a joint effort between Woodwell Climate Research Center, the Arctic Initiative at Harvard Kennedy School, and the Alaska Institute for Justice, Permafrost Pathways brings together leading experts in climate science, policy action, and environmental justice to inform and develop adaptation and mitigation strategies to address permafrost thaw."
+    },
+    {
+      "id": "geoai-challenge",
+      "title": "GeoAI Challenge",
+      "text": "Cooperate with the Cyberinfrastructure and Computational Intelligence Lab and Prof. Wenwen Li at Arizona State University to host an NSF-funded AI challenge (Cyber2A Arctic Challenge) using remote sensing imagery to detect permafrost thaw."
+    }
+  ]
+}

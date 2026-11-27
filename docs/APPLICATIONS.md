@@ -123,10 +123,22 @@ So the design removes the opportunity rather than relying on vigilance:
 | `award:<id>` | `data/awards.json` |
 | `collab:<id>` | `data/collaborations.json` |
 | `tagline:<id>` | `data/taglines.json` |
+| `edu:<degreeId>` | `data/education.json` — e.g. `edu:phd` |
+| `talk:<entryId>` | `data/talks.json` — e.g. `talk:esri-uc` (all its years, roles and invited flags) |
+| `mentor:<projectId>` | `data/mentorship.json` — a project and the people mentored on it |
+| `init:<id>` | `data/initiatives.json` |
+| `profile.<key>` | `data/profile.json` — e.g. `profile.location` |
 | `stats.<dotted.path>` | `data/stats.json` — machine-written ingest figures |
-| `service.<key>` | `data/service.json` — funding, mentees, talks, reviews (was `stats.static.*`) |
+| `service.<key>` | `data/service.json` — reviews and proposals written: numbers no list stands behind |
+| `derived.<key>` | counted from a list by `scripts/lib/derive.js`: `menteeCount`, `invitedTalksPanels`, `conferenceEvents` (event-years, not abstracts), `invitedCount`, `fundingTotal`, `fundingDisplay` |
 | `job:<field>` | `job.md` — naming the company or role you are applying to is not a claim about yourself |
 | `none` | connective or motivational prose asserting no fact; triggers the smell test |
+
+`service.menteesSupervised`, `service.invitedTalks`, `service.fundingAwarded` and
+`service.proposalFunders` no longer exist. The first three are now `derived.*` counts; the last
+was removed. Only the submitted Woodwell letter still cites them, and `submitted/` is a frozen
+record that is not re-verified. The count of conference abstracts has no token of its own:
+cite the abstracts themselves with `pub:<bibkey>`.
 
 ## `manifest.json`
 
@@ -166,9 +178,11 @@ and fitting one page matters more on a variant.
 
 ## `letter.json`
 
+There is no `sender` block. `scripts/tailor.js` builds the sender (name, email, phone, city) from
+`data/profile.json`; a `sender` left in an older letter.json is ignored with a warning.
+
 ```jsonc
 {
-  "sender":    { "name": "Yili Yang, PhD", "contact": "email \\textbar{} phone \\textbar{} city" },
   "recipient": { "name": "", "title": "Hiring Team, ...", "company": "...", "address": "" },
   "date": "12 August 2026",
   "letter": {

@@ -14,6 +14,7 @@
 
 import { enhanceCardRow } from './card-row.js';
 import { flipIn } from './flip.js';
+import { categoryOf } from './pub-category.js';
 
 function escapeHtml(s) {
   return String(s ?? '')
@@ -75,20 +76,12 @@ function renderRow(pub) {
   return row;
 }
 
-// One category per entry, checked in this order. No year means unfinished whatever the type
-// (CLAUDE.md: unpublished work is @misc with an empty year), so it never counts as a paper.
-function categoryOf(pub) {
-  if (pub.year == null) return 'in-progress';
-  if (pub.dataset) return 'dataset';
-  if (pub.type === 'article') return 'journal';
-  if (pub.type === 'inproceedings') return 'conference';
-  return 'other';
-}
-
+// One category per entry: see pub-category.js. test/site.test.js checks that these chips count
+// what the CV's Stats column prints.
 const FILTERS = [
   { key: 'all', label: 'All' },
   { key: 'journal', label: 'Journal' },
-  { key: 'conference', label: 'Conference' },
+  { key: 'conference', label: 'Conference abstracts' },
   { key: 'dataset', label: 'Dataset' },
   { key: 'in-progress', label: 'In progress' },
   { key: 'other', label: 'Other' },

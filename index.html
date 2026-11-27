@@ -48,7 +48,9 @@
         <div class="container">
           <div class="hero-inner">
             <div class="hero-copy">
-              <p class="hero-eyebrow">AI Scientist &ndash; Geospatial &amp; Remote Sensing</p>
+              <!-- The current job title, filled from data/site.json (js/modules/facts.js). The
+                   no-break space keeps the line's height so the hero does not shift. -->
+              <p class="hero-eyebrow" id="hero-role">&nbsp;</p>
               <h1 class="hero-title"><span class="hero-name">Yili Yang<span class="stop" aria-hidden="true"></span></span> <span class="hero-line">AI &amp; Machine Learning for Complex Global Systems.</span></h1>
               <div class="hero-actions">
                 <a class="btn btn-primary" href="assets/cv.pdf" target="_blank" rel="noopener noreferrer">View Resume</a>
@@ -201,31 +203,14 @@
       <div class="container logo-cloud-grid">
         <div class="logo-cloud-group">
           <p class="logo-cloud-label">Experience</p>
-          <div class="logo-cloud-items">
-            <a class="logo-item" href="https://www.ed.ac.uk" target="_blank" rel="noopener noreferrer" aria-label="University of Edinburgh">
-              <img src="assets/logos/edinburgh.png" alt="University of Edinburgh" class="logo-img" width="831" height="199" loading="lazy">
-            </a>
-            <a class="logo-item" href="https://faculty.ai" target="_blank" rel="noopener noreferrer" aria-label="Faculty.ai">
-              <img src="assets/logos/faculty-ai.png" alt="Faculty.ai" class="logo-img" width="2288" height="405" loading="lazy">
-            </a>
-            <a class="logo-item" href="https://www.woodwellclimate.org" target="_blank" rel="noopener noreferrer" aria-label="Woodwell Climate Research Center">
-              <img src="assets/logos/woodwell.png" alt="Woodwell Climate Research Center" class="logo-img" width="165" height="33" loading="lazy">
-            </a>
-          </div>
+          <!-- Education and jobs with a `logo` in data/education.json and data/experience.json,
+               via data/site.json (js/modules/facts.js). -->
+          <div class="logo-cloud-items" id="logos-experience"></div>
         </div>
         <div class="logo-cloud-group">
           <p class="logo-cloud-label">Collaborations</p>
-          <div class="logo-cloud-items">
-            <a class="logo-item" href="https://www.petrobras.com.br" target="_blank" rel="noopener noreferrer" aria-label="Petrobras">
-              <img src="assets/logos/petrobras.svg" alt="Petrobras" class="logo-img" width="216" height="43" loading="lazy">
-            </a>
-            <a class="logo-item" href="https://www.google.com" target="_blank" rel="noopener noreferrer" aria-label="Google">
-              <img src="https://cdn.simpleicons.org/google" alt="Google" class="logo-img" width="24" height="24" loading="lazy">
-            </a>
-            <a class="logo-item" href="https://www.esri.com" target="_blank" rel="noopener noreferrer" aria-label="Esri">
-              <img src="https://cdn.simpleicons.org/esri" alt="Esri" class="logo-img" width="24" height="24" loading="lazy">
-            </a>
-          </div>
+          <!-- Industry partners with a `logo` in data/collaborations.json, via data/site.json. -->
+          <div class="logo-cloud-items" id="logos-collaborations"></div>
         </div>
       </div>
     </section>

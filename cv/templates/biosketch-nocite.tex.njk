@@ -1,0 +1,6 @@
+<# SOURCE — you own this file. Edit freely, by hand or by agent. #>
+<# Every .bib entry, in the website order (lib/data.js sortPublications): adding a paper to
+   cv/publications.bib is the only edit. unsrtnat prints them in this citation order. #>
+<% for key in keys %>
+\nocite{<< key >>}
+<% endfor %>

@@ -14,6 +14,13 @@
       "id": "woodwell",
       "role": "AI Scientist -- Geospatial \\& Remote Sensing",
       "org": "Woodwell Climate Research Center",
+      "logo": {
+        "name": "Woodwell Climate Research Center",
+        "url": "https://www.woodwellclimate.org",
+        "src": "assets/logos/woodwell.png",
+        "width": 165,
+        "height": 33
+      },
       "onepage": {
         "descript": "| Woodwell Climate Research Center",
         "location": [
@@ -135,6 +142,13 @@
       "id": "faculty",
       "role": "Data Science Fellow",
       "org": "Faculty.ai",
+      "logo": {
+        "name": "Faculty.ai",
+        "url": "https://faculty.ai",
+        "src": "assets/logos/faculty-ai.png",
+        "width": 2288,
+        "height": 405
+      },
       "onepage": {
         "descript": "| Faculty.AI",
         "location": [

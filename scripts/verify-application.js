@@ -29,9 +29,9 @@ import {
   indexSkills,
   indexExperienceBullets,
   indexCollaborations,
-  resolveStatsPath,
 } from './lib/data.js';
 import { requireApplication } from './lib/applications.js';
+import { makeResolver, normaliseToken } from './lib/tokens.js';
 
 const args = process.argv.slice(2);
 // --strict promotes smell-test warnings to hard failures. Locally the warnings are advisory:
@@ -79,65 +79,10 @@ const warnings = [];
 const provenance = [];
 
 // ── Token resolution ─────────────────────────────────────────────────────────
-// Returns the source TEXT a token points at, or null when it does not resolve.
-function resolveToken(token) {
-  if (token === 'none') return { text: '(no factual claim)', kind: 'none' };
-
-  const [scheme, ...rest] = token.split(':');
-  const arg = rest.join(':');
-
-  switch (scheme) {
-    case 'exp': {
-      const b = bulletById.get(arg);
-      return b ? { text: b.text, kind: `experience/${b.job}` } : null;
-    }
-    case 'pub': {
-      const p = pubByKey.get(arg);
-      return p ? { text: `${p.title} — ${p.venue} (${p.year})`, kind: 'publication' } : null;
-    }
-    case 'skill': {
-      const s = skillById.get(arg);
-      return s ? { text: s.label, kind: 'skill' } : null;
-    }
-    case 'award': {
-      const a = awardById.get(arg);
-      return a ? { text: `${a.title}: ${a.project} (${a.period})`, kind: 'award' } : null;
-    }
-    case 'collab': {
-      const c = collabById.get(arg);
-      return c ? { text: c.partners ?? c.label, kind: 'collaboration' } : null;
-    }
-    case 'tagline': {
-      const t = taglineById.get(arg);
-      return t ? { text: t.text, kind: 'tagline' } : null;
-    }
-    case 'job': {
-      // Naming the company/role you are applying to is not a claim about yourself.
-      if (!jobText) return null;
-      return { text: `(from job.md: ${arg})`, kind: 'job posting' };
-    }
-    case 'stats': {
-      const v = resolveStatsPath(data.stats, arg);
-      return v === undefined ? null : { text: `${arg} = ${JSON.stringify(v)}`, kind: 'stats' };
-    }
-    case 'service': {
-      // Funding, mentees, talks, reviews — the figures you maintain by hand. Previously
-      // reachable as `stats.static.*`; that path no longer exists.
-      const v = resolveStatsPath(data.service, arg);
-      return v === undefined ? null : { text: `${arg} = ${JSON.stringify(v)}`, kind: 'service' };
-    }
-    default:
-      return null;
-  }
-}
-
-// `stats.foo.bar` / `service.foo` are written without a second colon; normalise to scheme form.
-const normalise = (t) =>
-  t.startsWith('stats.')
-    ? `stats:${t.slice('stats.'.length)}`
-    : t.startsWith('service.')
-      ? `service:${t.slice('service.'.length)}`
-      : t;
+// Returns the source TEXT a token points at, or null when it does not resolve. The schemes
+// live in scripts/lib/tokens.js, shared with the tests.
+const resolveToken = makeResolver(data, { jobText });
+const normalise = normaliseToken;
 
 // ── The smell test ───────────────────────────────────────────────────────────
 // An unsourced sentence that carries a number, a percentage, or a capitalised term the data
@@ -149,6 +94,11 @@ const KNOWN_WORDS = new Set(
     ...[...collabById.values()].map((c) => c.partners ?? c.label),
     ...data.experience.map((j) => j.org),
     ...data.publications.flatMap((p) => [p.venue, p.title]),
+    ...data.education.degrees.map((d) => d.subject),
+    ...data.education.institutions.map((i) => i.name),
+    ...data.talks.entries.map((e) => e.name),
+    ...data.initiatives.initiatives.map((i) => i.title),
+    ...data.mentorship.projects.map((p) => p.title),
   ]
     .join(' ')
     .replace(/[^A-Za-z0-9 ]/g, ' ')

@@ -19,12 +19,11 @@ import { fileURLToPath } from 'node:url';
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const OUTPUT = resolve(__dirname, '..', 'data', 'stats.json');
 
-const PROFILES = {
-  orcid:    '0000-0002-1791-3899',
-  github:   'yi-li-yang',
-  scholar:  '8I00DowAAAAJ',
-  linkedin: 'yiliyang'
-};
+// The profile ids are typed once, in data/profile.json; this ingest reads them and still
+// writes a derived copy into stats.json.profiles for the site.
+const PROFILES = JSON.parse(
+  readFileSync(resolve(__dirname, '..', 'data', 'profile.json'), 'utf8'),
+).profiles;
 
 // ── ORCID ────────────────────────────────────────────────
 async function fetchOrcid() {

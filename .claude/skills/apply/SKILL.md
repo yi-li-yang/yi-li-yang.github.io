@@ -74,6 +74,10 @@ Give the user a one-line rationale per selection when you present it.
 Every paragraph carries `src`. Use `["none"]` only for connective or motivational prose that
 asserts nothing about the applicant — and expect the smell test to inspect it.
 
+Do not write a `sender` block: the name, email, phone and city come from `data/profile.json`.
+Cite counts with `derived.*` (for example `derived.menteeCount`, `derived.invitedTalksPanels`),
+never by typing the number; the full token list is in `docs/APPLICATIONS.md`.
+
 **Address the gaps openly.** If a required qualification has no support in the data, say so
 plainly in the letter rather than steering around it. A letter that quietly omits a stated
 requirement reads as evasive; one that names it and pivots reads as honest. Never imply

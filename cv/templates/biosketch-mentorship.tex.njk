@@ -1,0 +1,12 @@
+<# SOURCE — you own this file. Edit freely, by hand or by agent. #>
+<# Biosketch Mentorship: each project, then each person and year, from data/mentorship.json.
+   `m.end` is the line break between people (empty after the last). #>
+<% for p in projects %>
+<< p.title >>
+\begin{indentpar}{0.5cm}
+<% for m in p.mentees %>
+<< m.name >> \hfill<< m.year >><< m.end >>
+<% endfor %>
+\end{indentpar}
+
+<% endfor %>

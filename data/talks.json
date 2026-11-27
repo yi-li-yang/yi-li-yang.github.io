@@ -1,0 +1,161 @@
+{
+  "_edit": "SOURCE — you own this file. Edit freely, by hand or by agent.",
+  "_comment": [
+    "Talks, panels, conferences and workshops: one entry per event, one occurrence per year.",
+    "",
+    "role: 'talk' | 'panel' | 'participant'. 'participant' claims no talk either way; use it",
+    "where you attended or the record does not say. invited: true only for an invitation.",
+    "Within one entry every year must agree on `invited`, and an invited entry must keep one",
+    "role (the biosketch prints one 'Invited talk:' / 'Invited panel:' / 'Invited:' prefix per",
+    "line). Split the entry if that ever stops being true.",
+    "",
+    "Counts derived from this file (scripts/lib/derive.js), one event in one year = one:",
+    "  Invited Talks & Panels = invited occurrences with role talk or panel",
+    "  Conferences            = every other occurrence",
+    "",
+    "The biosketch lists entries by their latest year, newest first; ties keep this file's",
+    "order. Ids are cited from an application as `talk:<id>`."
+  ],
+  "entries": [
+    {
+      "id": "tfff-lcaw",
+      "name": "Tropical Forest Forever Facility (TFFF): Pathways to Impact, London Climate Action Week",
+      "place": "UK",
+      "kind": "summit",
+      "occurrences": [
+        { "year": 2026, "role": "participant", "invited": true, "note": "invited, no talk" }
+      ]
+    },
+    {
+      "id": "nas-ai-workshop",
+      "name": "Accelerating Climate Progress with AI: From Science to Action Workshop, The National Academies",
+      "place": "US",
+      "kind": "workshop",
+      "occurrences": [
+        { "year": 2024, "role": "participant", "invited": true }
+      ]
+    },
+    {
+      "id": "acfu-workshop",
+      "name": "Arctic Carbon Flux Upscaling Workshop",
+      "place": "Sweden",
+      "kind": "workshop",
+      "occurrences": [
+        { "year": 2024, "role": "talk", "invited": true }
+      ]
+    },
+    {
+      "id": "esri-uc",
+      "name": "Esri UC Spatial Analytics Summit",
+      "place": "US",
+      "kind": "summit",
+      "occurrences": [
+        { "year": 2024, "role": "panel", "invited": true }
+      ]
+    },
+    {
+      "id": "cyber2a",
+      "name": "Cyber2A Workshop",
+      "place": "US",
+      "kind": "workshop",
+      "occurrences": [
+        { "year": 2024, "role": "talk", "invited": true }
+      ]
+    },
+    {
+      "id": "egu",
+      "name": "European Geosciences Union General Assembly",
+      "place": "EU",
+      "kind": "conference",
+      "occurrences": [
+        { "year": 2022, "role": "participant", "invited": false },
+        { "year": 2023, "role": "talk", "invited": false, "note": "presented online", "url": "https://meetingorganizer.copernicus.org/EGU23/session/45866" },
+        { "year": 2024, "role": "talk", "invited": false, "title": "ARTS: a scalable data set for Arctic retrogressive thaw slumps" }
+      ]
+    },
+    {
+      "id": "geo-for-good",
+      "name": "Google Geo-for-Good Summit",
+      "place": "US/Singapore",
+      "kind": "summit",
+      "occurrences": [
+        { "year": 2022, "role": "participant", "invited": false },
+        { "year": 2023, "role": "participant", "invited": false },
+        { "year": 2025, "role": "participant", "invited": false }
+      ]
+    },
+    {
+      "id": "tri-polar",
+      "name": "Tri-Polar Remote Sensing Conference",
+      "place": "China",
+      "kind": "conference",
+      "occurrences": [
+        { "year": 2023, "role": "participant", "invited": false },
+        { "year": 2024, "role": "participant", "invited": false }
+      ]
+    },
+    {
+      "id": "rtsintrain",
+      "name": "RTSInTrain Workshop",
+      "place": "EU",
+      "kind": "workshop",
+      "occurrences": [
+        { "year": 2023, "role": "participant", "invited": false }
+      ]
+    },
+    {
+      "id": "above-stm8",
+      "name": "NASA Arctic-Boreal Vulnerability Experiment workshop",
+      "place": "US",
+      "kind": "workshop",
+      "occurrences": [
+        { "year": 2022, "role": "talk", "invited": false, "title": "Using Deep Neural Networks to Map Retrogressive Thaw Slumps in the Northern Siberia", "note": "pre-recorded research highlight, 8th Science Team Meeting" }
+      ]
+    },
+    {
+      "id": "pdg-webinar",
+      "name": "Permafrost Discovery Gateway Webinar",
+      "place": null,
+      "kind": "webinar",
+      "occurrences": [
+        { "year": 2022, "role": "talk", "invited": true, "note": "7 July 2022" }
+      ]
+    },
+    {
+      "id": "rmets-webinar",
+      "name": "Royal Meteorological Society webinar: Machine Learning for Atmospheric Sciences: Values and Controversies",
+      "place": "UK",
+      "kind": "webinar",
+      "occurrences": [
+        { "year": 2022, "role": "talk", "invited": true }
+      ]
+    },
+    {
+      "id": "faculty-demo-day",
+      "name": "Faculty Fellowship Demo Day",
+      "place": "UK",
+      "kind": "demo-day",
+      "occurrences": [
+        { "year": 2021, "role": "talk", "invited": false, "note": "Demo Day XXI", "url": "https://www.youtube.com/watch?v=-rtQqj4A-Eg" }
+      ]
+    },
+    {
+      "id": "interpore",
+      "name": "InterPore Annual Meeting",
+      "place": "Spain",
+      "kind": "conference",
+      "occurrences": [
+        { "year": 2019, "role": "talk", "invited": false, "title": "Fluid displacement and trapping during two-phase steady-state flow in complex carbonate imaged by synchrotron x-ray microtomography", "url": "https://events.interpore.org/event/12/contributions/1177/" }
+      ]
+    },
+    {
+      "id": "agu",
+      "name": "American Geophysical Union Fall Meeting",
+      "place": "US",
+      "kind": "conference",
+      "occurrences": [
+        { "year": 2018, "role": "talk", "invited": false, "note": "oral H41E-08" }
+      ]
+    }
+  ]
+}

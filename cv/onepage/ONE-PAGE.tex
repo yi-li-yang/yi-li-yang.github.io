@@ -73,10 +73,8 @@
 %     TITLE NAME
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-{\huge \textbf{YILI YANG}, PhD}
-
-\href{mailto:yyleli@gmail.com}{yyleli@gmail.com} |
-+44 7490334233 | \faMapMarker London, UK
+% Name and contact line from data/profile.json (templates/onepage-header.tex.njk).
+\input{generated/header.tex}
 \sectionsep
 
 % Optional positioning line, selected by id from data/taglines.json. Empty on the canonical
@@ -106,11 +104,9 @@
 %     EDUCATION
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\section{Education} 
-\subsection{University of Edinburgh}
-\descript{PhD Petrophysics,2021}
-\descript{MSc Geology, 2016}
-\descript{BSc Geoscience, 2015}
+\section{Education}
+% Single-sourced from data/education.json (templates/onepage-education.tex.njk).
+\input{generated/education.tex}
 \sectionsep
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %     WORKS
@@ -120,12 +116,16 @@
 \subsection{Publications}
 Journal Papers: \journalpapers
 \\
-Conferences: \conferences
+Conference Abstracts: \conferences
 \\
 Data Sets: \datasets
 \sectionsep
 \subsection{Academic Services}
+% Both talk counts are derived from data/talks.json: invited talks and panels, and every
+% other event-year (scripts/lib/derive.js).
 Invited Talks \& Panels: \invitedtalks
+\\
+Conferences: \conferenceevents
 \\
 Peer-reviews: \peerreviews
 \\
@@ -135,16 +135,9 @@ Mentees: \mentees
 %     LINKS
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\section{Links} 
-\href{https://yi-li-yang.github.io/}{\bf Personal Website} 
-\\
-\href{https://www.linkedin.com/in/yiliyang}{\bf LinkedIn} 
- ||
- \href{https://orcid.org/0000-0002-1791-3899}{\textbf{ORCID}}
-\\
-\href{https://scholar.google.com/citations?&user=8I00DowAAAAJ}{\bf Google Scholar}
-||
-\href{https://github.com/yi-li-yang}{\bf GitHub}
+\section{Links}
+% Every URL built from data/profile.json (templates/onepage-links.tex.njk).
+\input{generated/links.tex}
 
 \sectionsep
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -178,8 +171,8 @@ Mentees: \mentees
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \section{Awards \& Grants}
-% Single-sourced from data/awards.json. The figure itself comes from \funding
-% (generated/metrics.tex), so no amount is typed anywhere in this file.
+% Single-sourced from data/awards.json; each award prints its own amount, so no amount is
+% typed anywhere in this file (templates/onepage-awards.tex.njk).
 \input{generated/awards.tex}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

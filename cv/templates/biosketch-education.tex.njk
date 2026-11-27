@@ -1,0 +1,12 @@
+<# SOURCE — you own this file. Edit freely, by hand or by agent. #>
+<# Biosketch Education: long degree names with dates, from data/education.json. #>
+<% for inst in institutions %>
+{\bf << inst.name >>, << inst.country >>}
+
+\begin{indentpar}{0.5cm}
+<% for d in inst.degrees %>
+\textbf{<< d.long >>} \hfill {<< d.dates >>}
+
+<% endfor %>
+\end{indentpar}
+<% endfor %>

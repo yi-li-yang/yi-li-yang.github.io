@@ -15,6 +15,13 @@ import { readFileSync, existsSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
 import { parse as parseBibtex } from '@retorquere/bibtex-parser';
+import {
+  validateMentorship,
+  validateTalks,
+  validateAwards,
+  validateEducation,
+  assertNoBareSpecials,
+} from './derive.js';
 
 export const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..', '..');
 
@@ -134,7 +141,57 @@ export function loadData() {
     readJsonIfExists('data/collaborations.json') ?? { industry: [], academic: [] };
   const taglines = readJsonIfExists('data/taglines.json') ?? { default: null, options: [] };
 
-  return { stats, service, publications, experience, skills, awards, collaborations, taglines };
+  // The lists behind the derived counts, and the facts that used to be typed into the .tex
+  // shells (docs/superpowers/specs/2026-11-27-cv-site-ssot-design.md). Required: a CV built
+  // without them would print empty sections, so a missing file fails here, loudly.
+  const education = readJson('data/education.json');
+  const mentorship = readJson('data/mentorship.json');
+  const talks = readJson('data/talks.json');
+  const initiatives = readJson('data/initiatives.json');
+  const profile = readJson('data/profile.json');
+
+  return validateData({
+    stats,
+    service,
+    publications,
+    experience,
+    skills,
+    awards,
+    collaborations,
+    taglines,
+    education,
+    mentorship,
+    talks,
+    initiatives,
+    profile,
+  });
+}
+
+// The checks every build runs on the hand-written lists, before LaTeX or the browser meets
+// them. Each failure names the file and the entry. Returns the data unchanged.
+export function validateData(data) {
+  validateMentorship(data.mentorship);
+  validateTalks(data.talks);
+  validateAwards(data.awards);
+  validateEducation(data.education);
+  for (const [file, value] of Object.entries({
+    'data/education.json': data.education,
+    'data/mentorship.json': data.mentorship,
+    'data/talks.json': data.talks,
+    'data/initiatives.json': data.initiatives,
+    'data/profile.json': data.profile,
+    'data/awards.json': data.awards,
+  })) {
+    assertNoBareSpecials(value, file);
+  }
+  return data;
+}
+
+// The one publication order: undated (in preparation, submitted) first as current work, then
+// newest year first. Array.prototype.sort is stable, so ties keep the .bib's order. The
+// website list (bib-to-json.js) and the biosketch's generated \nocite list both use it.
+export function sortPublications(publications) {
+  return [...publications].sort((a, b) => (b.year ?? Infinity) - (a.year ?? Infinity));
 }
 
 // ── Id lookup, for the application firewall ──────────────────────────────────
@@ -174,7 +231,8 @@ export function indexCollaborations(collaborations) {
   return byId;
 }
 
-// Dotted path into data/stats.json, e.g. `static.fundingAwarded.value`.
+// Dotted path into a data object (stats.json, service.json, profile.json), e.g.
+// `scholar.citations` or `profiles.orcid`.
 // Returns undefined when any segment is missing — the caller reports the dangling token.
 export function resolveStatsPath(stats, path) {
   return path.split('.').reduce((node, key) => (node == null ? undefined : node[key]), stats);
