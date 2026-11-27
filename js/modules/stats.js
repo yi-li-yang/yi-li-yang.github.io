@@ -1,22 +1,20 @@
 // SOURCE — you own this file. Edit freely, by hand or by agent.
 import { flipIn } from './flip.js';
+import { loadSiteFacts } from './facts.js';
 
 export async function initStats() {
   const container = document.getElementById('stats');
   if (!container) return;
 
   try {
-    // Two sources: stats.json is machine-written by the ingest, service.json is maintained
-    // by hand. They used to be one file with a hand-authored island inside it; splitting
-    // them means neither has two writers. service.json is optional — if it fails to load,
-    // the ingest-derived cards still render.
-    const [res, serviceRes] = await Promise.all([
-      fetch('data/stats.json'),
-      fetch('data/service.json').catch(() => null),
-    ]);
+    // Two sources: stats.json is machine-written by the ingest; site.json is derived by
+    // `npm run build` from the hand-written data, with the same counts the CVs print
+    // (mentees, talks and funding are counted from their lists). site.json is optional — if
+    // it fails to load, the ingest-derived cards still render.
+    const [res, facts] = await Promise.all([fetch('data/stats.json'), loadSiteFacts()]);
     if (!res.ok) throw new Error(`Stats fetch: ${res.status}`);
     const { profiles, publications, orcid, scholar, lastUpdated } = await res.json();
-    const hand = serviceRes?.ok ? await serviceRes.json() : null;
+    const hand = facts?.service ?? null;
 
     const scholarLink = `https://scholar.google.com/citations?user=${profiles.scholar}`;
     const orcidLink   = `https://orcid.org/${profiles.orcid}`;
@@ -38,17 +36,24 @@ export async function initStats() {
     // Curated total: ORCID tracks fewer reviews, because some aren't ORCID-registered. The true
     // count lives in data/service.json; fall back to ORCID if it didn't load. The NSF proposal
     // reviews are reviews too, so they are the peer-review readout's note, not a fifth cell.
+    // Invited talks & panels and the conferences beside them are both counted from
+    // data/talks.json, so "invited" means invited, as on the CV.
     const nsf = hand?.nsfProposalReviews;
-    const funding = hand?.fundingAwarded;
+    const funding = hand?.funding;
+    const conferences = hand?.conferences;
     const service = [
       {
         value: hand?.peerReviews ?? orcid?.reviews,
         label: 'Peer reviews',
         note: nsf ? `+ ${nsf} NSF proposal review${nsf === 1 ? '' : 's'}` : (hand ? 'Curated' : 'ORCID'),
       },
-      { value: funding ? funding.display ?? funding.value : null, label: funding?.label ?? 'Funding', note: 'Awarded' },
-      { value: hand?.menteesSupervised, label: 'Mentees', note: 'Supervised' },
-      { value: hand?.invitedTalks, label: 'Invited talks', note: 'Career total' },
+      { value: funding?.display ?? funding?.value ?? null, label: 'USD Funding', note: 'Awarded' },
+      { value: hand?.mentees, label: 'Mentees', note: 'Supervised' },
+      {
+        value: hand?.invitedTalksPanels,
+        label: 'Invited talks & panels',
+        note: conferences != null ? `+ ${conferences} conference${conferences === 1 ? '' : 's'}` : '',
+      },
     ];
 
     const renderCard = (item) => {

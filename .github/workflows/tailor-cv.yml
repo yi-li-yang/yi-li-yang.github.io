@@ -131,7 +131,7 @@ jobs:
             # treating them as inputs would make every bot commit trigger a full rebuild on
             # the next push — a rebuild whose only effect is a new date stamp on every PDF.
             # (Their real sources — cv/publications.bib, the templates — are still watched.)
-            derived='^assets/|^cv/[^/]+/generated/|^data/publications\.json$'
+            derived='^assets/|^cv/[^/]+/generated/|^data/publications\.json$|^data/site\.json$'
             shared=$(printf '%s\n' "$changed" | { grep -vE "$derived" || true; } \
                      | { grep -E '^(data|cv|scripts)/|^\.github/workflows/tailor-cv\.yml$' \
                          || true; })

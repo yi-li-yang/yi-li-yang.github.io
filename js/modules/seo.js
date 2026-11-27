@@ -3,9 +3,12 @@
 //
 // Adds schema.org Person structured data, so search engines can tie this page to the same
 // person's ORCID, Scholar, GitHub and LinkedIn profiles. Nothing here is typed: the profile
-// ids come from data/stats.json (their authoritative home, written by the ingest), and the
-// name and job title are read off this page's own brand and hero eyebrow. Google, the main
-// consumer of Person markup, runs JavaScript, so injecting it at runtime is enough.
+// ids come from data/stats.json (a copy the ingest writes from data/profile.json), the name
+// is read off this page's brand, and the job title comes from data/site.json — the same
+// value the hero shows, without waiting for the hero to be filled. Google, the main consumer
+// of Person markup, runs JavaScript, so injecting it at runtime is enough.
+
+import { loadSiteFacts } from './facts.js';
 
 export async function initSeo() {
   try {
@@ -25,7 +28,7 @@ export async function initSeo() {
       '@context': 'https://schema.org',
       '@type': 'Person',
       name: document.querySelector('.brand')?.textContent.trim(),
-      jobTitle: document.querySelector('.hero-eyebrow')?.textContent.trim(),
+      jobTitle: (await loadSiteFacts())?.role || undefined,
       url: `${location.origin}/`,
       sameAs,
     };
