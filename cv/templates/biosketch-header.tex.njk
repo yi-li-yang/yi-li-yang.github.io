@@ -1,0 +1,4 @@
+<# SOURCE — you own this file. Edit freely, by hand or by agent. #>
+<# Biosketch preamble: \name and \address from data/profile.json. \input before \begin{document}. #>
+\name{<< profile.name | upper >>}
+\address{<< profile.phone >>\textbar\textbar << profile.workEmail >>\textbar\textbar ORCID << profile.profiles.orcid >>}

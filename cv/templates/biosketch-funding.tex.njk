@@ -1,0 +1,9 @@
+<# SOURCE — you own this file. Edit freely, by hand or by agent. #>
+<# Biosketch Research Fundings: each award with its own amount and objectives, from
+   data/awards.json. Pending applications are not listed. #>
+<% for a in awards %>
+<< a.title >>: << a.project >>, << a.org >>, \$<< a.amountText >>
+
+Overall Objectives: << a.objectives >>
+
+<% endfor %>

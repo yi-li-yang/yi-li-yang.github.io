@@ -8,6 +8,8 @@
 // \input{generated/X} in a .tex shell must have a job here (metrics.tex aside, which
 // scripts/emit-metrics-tex.js writes).
 
+import { sortPublications } from './data.js';
+
 const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 const monthYear = (ym) => `${MONTHS[Number(ym.slice(5, 7)) - 1]} ${ym.slice(0, 4)}`;
 
@@ -31,8 +33,37 @@ export function educationView(education) {
   }));
 }
 
+const INVITED_PREFIX = { talk: 'Invited talk: ', panel: 'Invited panel: ', participant: 'Invited: ' };
+
+// Talks entries newest first by their latest year; Array.prototype.sort is stable, so ties
+// keep data/talks.json's order. validateTalks() guarantees one invited flag (and, for invited
+// entries, one role) per entry, so one prefix per line is enough.
+export function talksView(talks) {
+  const latest = (e) => Math.max(...e.occurrences.map((o) => o.year));
+  return [...(talks.entries ?? [])]
+    .sort((a, b) => latest(b) - latest(a))
+    .map((e) => {
+      const first = e.occurrences[0];
+      return {
+        ...e,
+        prefix: first.invited ? INVITED_PREFIX[first.role] : '',
+        placeText: e.place ? `, ${e.place}` : '',
+        years: e.occurrences
+          .map((o) => o.year)
+          .sort((a, b) => a - b)
+          .join(', '),
+      };
+    });
+}
+
 export function canonicalJobs(data) {
   const { experience, skills, awards, collaborations, taglines, profile, education } = data;
+  const bio = (name, src, context) => ({
+    template: `biosketch-${name}.tex.njk`,
+    out: `cv/biosketch/generated/${name}.tex`,
+    src,
+    context,
+  });
 
   // The default tagline is `null` in data/taglines.json, so the one-pager renders none —
   // matching the CV as it stood before the tagline became a tailoring lever.
@@ -96,11 +127,26 @@ export function canonicalJobs(data) {
       src: 'data/collaborations.json',
       context: { collaborations },
     },
-    {
-      template: 'biosketch-experience.tex.njk',
-      out: 'cv/biosketch/generated/experience.tex',
-      src: 'data/experience.json',
-      context: { experience },
-    },
+    bio('header', 'data/profile.json', { profile }),
+    bio('scope', 'data/profile.json', { profile }),
+    bio('education', 'data/education.json', { institutions: educationView(education) }),
+    bio('experience', 'data/experience.json', { experience }),
+    bio('nocite', 'cv/publications.bib', {
+      keys: sortPublications(data.publications).map((p) => p.key),
+    }),
+    bio('funding', 'data/awards.json', {
+      awards: (awards.awards ?? []).map((a) => ({
+        ...a,
+        amountText: (a.amount?.value ?? 0).toLocaleString('en-US'),
+      })),
+    }),
+    bio('initiatives', 'data/initiatives.json', { initiatives: data.initiatives.initiatives }),
+    bio('mentorship', 'data/mentorship.json', {
+      projects: data.mentorship.projects.map((p) => ({
+        ...p,
+        mentees: p.mentees.map((m, i) => ({ ...m, end: i < p.mentees.length - 1 ? '\\\\' : '' })),
+      })),
+    }),
+    bio('services', 'data/talks.json + data/service.json', { talks: talksView(data.talks) }),
   ];
 }

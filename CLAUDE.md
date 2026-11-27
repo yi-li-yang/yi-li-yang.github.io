@@ -96,10 +96,14 @@ from data, not a literal).
   `year = {}`; the null year sorts the entry to the top of the website list as current work.
   Examples: `clelland2025machine`, `potter2026abzbam`, `yang2026circumpolarrts`. Promote it to
   `@article` with a real year on acceptance and every count moves on its own.
-- **Adding a publication is two edits, not one.** `cv/publications.bib` feeds the website and every
-  derived count, but the biosketch bibliography prints only what `cv/biosketch/BIOSKETCH.tex`
-  explicitly `\nocite`s, in citation order. An entry that is never `\nocite`d there is invisible in
-  that PDF, and a `\nocite` with no matching entry fails the bibtex run.
+- **Adding a publication is one edit.** `cv/publications.bib` feeds the website, every derived
+  count and the biosketch: `cv/biosketch/generated/nocite.tex` cites every entry, in the
+  website's order (`sortPublications()` in `scripts/lib/data.js`: undated first, then newest).
+  Never type a `\nocite` into `BIOSKETCH.tex`; `test/shells.test.js` fails if one appears.
+- **Every other CV fact is one edit too.** Education, mentorship, talks, initiatives, the research
+  scope and contact details live in `data/*.json`; both `.tex` shells hold layout and `\input`s
+  only. A count is never typed beside its list: mentees, talks and funding are counted by
+  `scripts/lib/derive.js`, and `data/service.json` keeps only numbers no list stands behind.
 
 ---
 
