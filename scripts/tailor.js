@@ -155,14 +155,22 @@ for (const asset of ['deedy-resume-openfont.cls', 'fonts']) {
 // ── The shell ────────────────────────────────────────────────────────────────
 // A copy of ONE-PAGE.tex whose \input paths point at this application's partials, which now
 // sit beside it — so the redirect is simply dropping the `generated/` prefix.
-// generated/metrics.tex is the exception: the derived counts are identical for every reader,
-// so it is copied in rather than re-rendered.
+// SHARED partials are the exception: the derived counts, the name and contact line, the
+// education and the links are the same for every reader, so the canonical ones (written by
+// `npm run build`) are copied in rather than re-rendered.
+const SHARED = ['metrics', 'header', 'education', 'links'];
 let shell = readFileSync(join(ROOT, 'cv/onepage/ONE-PAGE.tex'), 'utf8');
-for (const b of BLOCKS) {
+for (const b of [...BLOCKS, ...SHARED]) {
   shell = shell.replace(`\\input{generated/${b}.tex}`, `\\input{${b}.tex}`);
 }
-shell = shell.replace('\\input{generated/metrics.tex}', '\\input{metrics.tex}');
-cpSync(join(ROOT, 'cv/onepage/generated/metrics.tex'), join(abs, 'metrics.tex'));
+for (const b of SHARED) {
+  const from = join(ROOT, `cv/onepage/generated/${b}.tex`);
+  if (!existsSync(from)) {
+    console.error(`missing cv/onepage/generated/${b}.tex — run \`npm run build\` first.`);
+    process.exit(1);
+  }
+  cpSync(from, join(abs, `${b}.tex`));
+}
 
 writeFileSync(join(abs, 'cv.tex'), shell, 'utf8');
 console.log(`wrote ${outDir}/cv.tex  (compile this for the tailored one-pager)`);

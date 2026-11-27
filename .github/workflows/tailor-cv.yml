@@ -170,9 +170,11 @@ jobs:
 
       - run: npm ci
 
-      # The variant shell \inputs metrics.tex, which tailor.js copies into build/<slug>/.
-      - name: Generate metrics
-        run: node scripts/emit-metrics-tex.js
+      # The variant shell \inputs the shared partials (metrics, header, education, links),
+      # which tailor.js copies from cv/onepage/generated/ into build/<slug>/. A branch does not
+      # commit generated files, so render them here rather than trusting what is checked in.
+      - name: Generate metrics and shared partials
+        run: node scripts/emit-metrics-tex.js && node scripts/render-cv.js
 
       # Tectonic instead of a TeX Live container.
       #
