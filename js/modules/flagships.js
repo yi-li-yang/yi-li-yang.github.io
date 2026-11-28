@@ -3,8 +3,12 @@
 //
 // Renders the Featured section from data/flagships.json: one card per flagship, all built the
 // same way (map image, kicker, title, summary, three numbers, the live link, then text links),
-// in a card row (card-row.js). Wide screens show the cards side by side and nothing moves;
-// narrower ones show one card, with the next fading in at the edge.
+// in a card row (card-row.js). Wide screens show the cards side by side and the row does not
+// scroll; narrower ones show one card, with the next fading in at the edge.
+//
+// A flagship with `motion` has an image that moves: a zoom or a dissolve through a stack of
+// still frames (motion.js). It plays once when the image comes into view, rests on the last
+// frame, and plays again when the pointer or keyboard focus comes to the card.
 //
 // "How it was built" opens the long story in one full-width drawer under the row, so opening it
 // never makes one card taller than its neighbour. One drawer is open at a time.
@@ -15,6 +19,7 @@
 
 import { enhanceCardRow } from './card-row.js';
 import { flipIn } from './flip.js';
+import { mountMotion, cssTime } from './motion.js';
 
 async function fetchJson(path) {
   const res = await fetch(path);
@@ -63,8 +68,12 @@ function makeCard(item, sources) {
   Object.assign(img, { src: item.image.src, alt: '', width: 1200, height: 750, loading: 'lazy', decoding: 'async' });
   // A missing image leaves the card's text, not a broken-image box.
   img.onerror = () => img.remove();
-  media.append(img, el('span', 'flagship-chip', item.chip));
-  if (item.image.credit) media.appendChild(el('span', 'flagship-credit', item.image.credit));
+  const tags = el('span', 'flagship-tags');
+  tags.appendChild(el('span', 'flagship-chip', item.chip));
+  media.append(img, tags);
+  const credit = item.image.credit ? el('span', 'flagship-credit', item.image.credit) : null;
+  if (credit) media.appendChild(credit);
+  if (item.motion) mountMotion({ card, media, still: img, tags, credit, motion: item.motion });
 
   const stats = el('dl', 'flagship-stats');
   for (const stat of item.stats ?? []) {
@@ -136,11 +145,7 @@ function makeDrawer(item, sources) {
 // A drawer slides open and shut (height, its spacing and opacity together), so the page under
 // it moves smoothly instead of jumping by the drawer's full height in one frame. The lengths
 // and the curve are the CSS's --settle, --leave and --soft-out (css/variables.css), which are
-// 0ms for a reader who asks for reduced motion.
-function cssTime(name) {
-  const value = getComputedStyle(document.documentElement).getPropertyValue(name).trim();
-  return value.endsWith('ms') ? parseFloat(value) : parseFloat(value) * 1000 || 0;
-}
+// 0ms for a reader who asks for reduced motion. cssTime() reads them (motion.js).
 
 // A drawer's figure has no size until it loads, so the drawer could only be measured short and
 // would then jump when the picture arrives. Its images start loading when the pointer or focus

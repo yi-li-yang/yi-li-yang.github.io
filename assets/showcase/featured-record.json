@@ -1,0 +1,128 @@
+{
+  "_edit": "DERIVED — written by scripts/capture-featured.js (npm run capture:featured) with the frames beside it. Never edit; the next capture rewrites it.",
+  "rts": {
+    "capturedAt": "2026-11-28T10:43:14.971Z",
+    "app": "https://abruptthawmapping.projects.earthengine.app/view/south-rts-map",
+    "lon": 134.77,
+    "lat": 67.58,
+    "frames": [
+      {
+        "file": "assets/showcase/rts-zoom/z03.webp",
+        "bytes": 163988,
+        "sha256": "e43dece3594259cc30d1aeb9b63fe1cdc84e13877e37125841daffa602277c56",
+        "zoom": 3,
+        "providers": "NASA"
+      },
+      {
+        "file": "assets/showcase/rts-zoom/z04.webp",
+        "bytes": 69388,
+        "sha256": "161b892efcf2c530c4936e7c2647fef3f541f7ec4f0cac6b9bbb07662b272df1",
+        "zoom": 4,
+        "providers": "NASA"
+      },
+      {
+        "file": "assets/showcase/rts-zoom/z05.webp",
+        "bytes": 102322,
+        "sha256": "28029b3009889965b8f18eb4100e9552107c89e20d92b4becd874a5fcfdf4ec7",
+        "zoom": 5,
+        "providers": "NASA"
+      },
+      {
+        "file": "assets/showcase/rts-zoom/z06.webp",
+        "bytes": 99602,
+        "sha256": "ebaa96e72ae1170ea3736a3315345770e4cb3b79ebe82615d101701d3d0cf770",
+        "zoom": 6,
+        "providers": "NASA"
+      },
+      {
+        "file": "assets/showcase/rts-zoom/z07.webp",
+        "bytes": 74996,
+        "sha256": "d42451dba03a87ff372e161e5f0468ce05d94ce5874a7bc2b2ccb71848105d38",
+        "zoom": 7,
+        "providers": "NASA"
+      },
+      {
+        "file": "assets/showcase/rts-zoom/z08.webp",
+        "bytes": 34290,
+        "sha256": "3ddf21b9152d87e0722f2c88cec0c18c963170d630aac3b302cdd46e0bdaa2c3",
+        "zoom": 8,
+        "providers": "NASA"
+      },
+      {
+        "file": "assets/showcase/rts-zoom/z09.webp",
+        "bytes": 26362,
+        "sha256": "a50e1b825d90dfc9062e12daa8f9a2537264d27f655249fb04b17603b10ca396",
+        "zoom": 9,
+        "providers": "NASA"
+      },
+      {
+        "file": "assets/showcase/rts-zoom/z10.webp",
+        "bytes": 22134,
+        "sha256": "ac26821f31973998a1cac4e058d45d93c3f37d161f1e929e71953bb58c7e187e",
+        "zoom": 10,
+        "providers": null
+      },
+      {
+        "file": "assets/showcase/rts-zoom/z11.webp",
+        "bytes": 25786,
+        "sha256": "3032a9009d2ac603d8a096f113543d02d671f41dc3d7b85e1ed6d084162fc547",
+        "zoom": 11,
+        "providers": null
+      },
+      {
+        "file": "assets/showcase/rts-zoom/z12.webp",
+        "bytes": 25170,
+        "sha256": "9a10a2e0a2b0dd273e39f9614491836015e10f3e3f3feebd6c15943e927ab257",
+        "zoom": 12,
+        "providers": null
+      },
+      {
+        "file": "assets/showcase/rts-zoom/z13.webp",
+        "bytes": 44242,
+        "sha256": "d072ca8b035d19f4479b2b155fa6581e16fbafe97093b535b8513f92e27a3831",
+        "zoom": 13,
+        "providers": "Airbus, CNES / Airbus, Landsat / Copernicus, Maxar Technologies"
+      },
+      {
+        "file": "assets/showcase/rts-zoom/z14.webp",
+        "bytes": 136724,
+        "sha256": "e9d6cac30507dfe0ec8bb2bbf03f197b1ca319639b27d6133eda65276d5fbec5",
+        "zoom": 14,
+        "providers": "Airbus, CNES / Airbus, Landsat / Copernicus, Maxar Technologies"
+      },
+      {
+        "file": "assets/showcase/rts-zoom/z15.webp",
+        "bytes": 261018,
+        "sha256": "5b971178aed2a0f503467a79165126619d58d0e0be720c82ed2af4a0a608773b",
+        "zoom": 15,
+        "providers": "Airbus, CNES / Airbus, Maxar Technologies"
+      }
+    ]
+  },
+  "atlas": {
+    "capturedAt": "2026-11-28T10:43:39.211Z",
+    "app": "https://yi-li-yang.github.io/Livability-Atlas/",
+    "view": "Rank in London",
+    "appPreview": "a105f000187bd00ae85f7ecb55a45652e654215c37689d87e63f2738d1361988",
+    "frames": [
+      {
+        "file": "assets/showcase/atlas-presets/student.webp",
+        "bytes": 204310,
+        "sha256": "6f47c2aaa8f72e8d3ae8e9bd56382805aff25ba397e16fbfc62977e2a17797e8",
+        "preset": "Student"
+      },
+      {
+        "file": "assets/showcase/atlas-presets/retired.webp",
+        "bytes": 201952,
+        "sha256": "673e2b302e2e3c8c84bdf1aa5cd63a1530e8bc596bbb85779fd4d0a1f06ec500",
+        "preset": "Retired"
+      },
+      {
+        "file": "assets/showcase/atlas-presets/family-with-children.webp",
+        "bytes": 204338,
+        "sha256": "05bd681b1de615d077156cdcf6059332a04e1823841e0991ab64979825dd1ce9",
+        "preset": "Family with children"
+      }
+    ]
+  }
+}

@@ -4,7 +4,9 @@
     "The flagship projects in the website's Featured section, in display order. Read by js/modules/flagships.js.",
     "Each card shows: image, kicker, title, summary, up to three stats, the live link, and `links`. The `story` panels open under the cards from \"How it was built\".",
     "Numbers that another project owns are never typed here. {atlas.cells}, {atlas.indicators}, {atlas.factors}, {atlas.datasets}, {atlas.presets}, {atlas.stations} and {atlas.resolution} are filled from data/livability-atlas.json, which scripts/fetch-atlas.js reads from the Atlas's live data bundle. A stat or a foot line whose number is missing is left out, never printed blank.",
-    "Images are 1200x750 WebP screenshots of each live app, under 250 KB. The crop cuts the map's own credits, so `image.credit` puts them back on the card. The screenshot is a mouse shortcut to the live link, hidden from screen readers because the card's main button says the same, so it needs no alt text."
+    "Images are 1200x750 WebP screenshots of each live app, under 250 KB. The crop cuts the map's own credits, so `image.credit` puts them back on the card. The screenshot is a mouse shortcut to the live link, hidden from screen readers because the card's main button says the same, so it needs no alt text.",
+    "`motion` makes the image move (js/modules/motion.js). `kind` is `zoom` (each frame shows the same place at twice the scale of the frame before it, around the centre of the picture) or `dissolve` (one frame fades into the next). `frames` lists the stills in order. The first is `image.src`, which shows before the motion and to a reader who asks for reduced motion. The motion plays once when the image comes into view and rests on the last frame; the pointer on the card plays it again. A frame may have a `caption`, drawn on the image while that frame shows, and its own `credit`, which replaces `image.credit` while that frame shows. A credit names the providers that the map itself named for that frame (assets/showcase/featured-record.json).",
+    "scripts/capture-featured.js (npm run capture:featured) takes the frames from the live apps and writes that record. To change a frame, change the script and run it; never edit a frame by hand. test/motion.test.js checks the files against the record, the byte budget and the length of a play."
   ],
   "flagships": [
     {
@@ -13,8 +15,26 @@
       "title": "Mapping thaw slumps across the Arctic",
       "summary": "A deep-learning system that finds retrogressive thaw slumps, the most dramatic form of abrupt permafrost thaw, in satellite imagery. I led it from the training data to a 32-GPU sweep of the circumpolar Arctic and an open, citable map.",
       "image": {
-        "src": "assets/showcase/rts-live-map.webp",
+        "src": "assets/showcase/rts-zoom/z03.webp",
         "credit": "Imagery: Google, NASA"
+      },
+      "motion": {
+        "kind": "zoom",
+        "frames": [
+          { "src": "assets/showcase/rts-zoom/z03.webp" },
+          { "src": "assets/showcase/rts-zoom/z04.webp" },
+          { "src": "assets/showcase/rts-zoom/z05.webp" },
+          { "src": "assets/showcase/rts-zoom/z06.webp" },
+          { "src": "assets/showcase/rts-zoom/z07.webp" },
+          { "src": "assets/showcase/rts-zoom/z08.webp" },
+          { "src": "assets/showcase/rts-zoom/z09.webp" },
+          { "src": "assets/showcase/rts-zoom/z10.webp" },
+          { "src": "assets/showcase/rts-zoom/z11.webp" },
+          { "src": "assets/showcase/rts-zoom/z12.webp" },
+          { "src": "assets/showcase/rts-zoom/z13.webp", "credit": "Imagery: Google, Airbus, CNES, Landsat / Copernicus, Maxar" },
+          { "src": "assets/showcase/rts-zoom/z14.webp", "credit": "Imagery: Google, Airbus, CNES, Landsat / Copernicus, Maxar" },
+          { "src": "assets/showcase/rts-zoom/z15.webp", "credit": "Imagery: Google, Airbus, CNES, Maxar" }
+        ]
       },
       "chip": "Live map · Earth Engine",
       "live": { "label": "Open the live map", "href": "https://abruptthawmapping.projects.earthengine.app/view/south-rts-map" },
@@ -64,8 +84,16 @@
       "title": "Scoring London by what matters to you",
       "summary": "An open-source tool for one question: where should I live? It scores every part of London by your own priorities, in your browser, and shows the data behind each score. I designed and built it, from the data pipeline to the web app.",
       "image": {
-        "src": "assets/showcase/livability-atlas.webp",
+        "src": "assets/showcase/atlas-presets/student.webp",
         "credit": "Map: © OpenStreetMap contributors, OpenMapTiles"
+      },
+      "motion": {
+        "kind": "dissolve",
+        "frames": [
+          { "src": "assets/showcase/atlas-presets/student.webp", "caption": "Priorities: Student" },
+          { "src": "assets/showcase/atlas-presets/retired.webp", "caption": "Priorities: Retired" },
+          { "src": "assets/showcase/atlas-presets/family-with-children.webp", "caption": "Priorities: Family with children" }
+        ]
       },
       "chip": "Live app · London",
       "live": { "label": "Try the live app", "href": "https://yi-li-yang.github.io/Livability-Atlas/" },

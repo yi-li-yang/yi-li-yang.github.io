@@ -32,6 +32,7 @@ Every fact has an owner (who may write it). Partition storage by owner:
 | You (CV facts) | hand | `data/experience.json`, `education.json`, `mentorship.json`, `talks.json`, `initiatives.json`, `profile.json`, `awards.json`, `service.json`, … (the `.tex` shells hold layout only) | you only |
 | Derived | pure render | `cv/**/generated/*`, `data/publications.json`, `data/site.json`, `assets/*.pdf` | scripts only |
 | Each project repo (its `docs/preview.webp`) | ingest | `assets/previews/*`, `data/previews.json` | `scripts/fetch-previews.js` only |
+| The two Featured apps, live (the Earth Engine map, the Livability Atlas) | capture, run by hand | `assets/showcase/rts-zoom/*`, `assets/showcase/atlas-presets/*`, `assets/showcase/featured-record.json` | `scripts/capture-featured.js` only |
 
 Invariant 2 falls out: a human file is never script-written and vice-versa. Your repo already
 honors this for `stats.json` (script-written) — the rule just needs stating and extending.
@@ -87,7 +88,9 @@ without collapsing the two templates, and it revives the old role-variants
 
 Generated paths have exactly one writer — the build (CI or local scripts):
 `data/stats.json`, `data/publications.json`, `data/site.json`, `data/previews.json`,
-`cv/**/generated/*`, `assets/*.pdf`, `assets/previews/*`.
+`cv/**/generated/*`, `assets/*.pdf`, `assets/previews/*`. The frames of the Featured images'
+motion have one writer too, `scripts/capture-featured.js`, which you run by hand:
+`assets/showcase/rts-zoom/*`, `assets/showcase/atlas-presets/*`, `assets/showcase/featured-record.json`.
 You author the rest of `data/*.json`, `cv/publications.bib`, the `.tex` shells (layout only),
 the `.njk` templates, and the site source. **Never hand-edit a generated file** — the
 next build silently reverts it.

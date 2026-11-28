@@ -14,6 +14,17 @@
   --leave: 180ms;
   --soft-out: cubic-bezier(0.33, 1, 0.68, 1);
 
+  /* The motion of a Featured image (js/modules/motion.js). A zoom takes lead + dive. A
+     dissolve takes lead, then one dissolve to each next frame, with a hold on each frame
+     between the first and the last. A replay starts with back, the fade from the last frame
+     to the first. One play stays under 5 seconds and stops by itself, so it needs no Pause
+     control (WCAG 2.2.2); test/motion.test.js checks that. Judgement: see docs/DESIGN.md. */
+  --motion-lead: 300ms;
+  --motion-dive: 3000ms;
+  --motion-dissolve: 600ms;
+  --motion-dissolve-hold: 1000ms;
+  --motion-back: 400ms;
+
   /* Monochrome logos: drawn in ink, so they turn dark on the light theme. */
   --logo-ink: brightness(0) invert(1);
 
@@ -24,7 +35,15 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  :root { --settle: 0ms; --leave: 0ms; }
+  :root {
+    --settle: 0ms;
+    --leave: 0ms;
+    --motion-lead: 0ms;
+    --motion-dive: 0ms;
+    --motion-dissolve: 0ms;
+    --motion-dissolve-hold: 0ms;
+    --motion-back: 0ms;
+  }
 }
 
 [data-theme="light"] {

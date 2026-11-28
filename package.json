@@ -24,6 +24,8 @@
     "ingest:skills": "node scripts/fetch-skills.js",
     "ingest:atlas": "node scripts/fetch-atlas.js",
     "ingest:previews": "node scripts/fetch-previews.js",
+    "capture:featured": "node scripts/capture-featured.js",
+    "featured:status": "node scripts/capture-featured.js --status",
     "test": "node --test"
   },
   "dependencies": {
