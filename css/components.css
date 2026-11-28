@@ -1032,10 +1032,21 @@
   object-fit: cover;
 }
 
-.flagship-chip {
+/* The labels on the image, stacked at its lower left: the caption of the frame in view (the
+   Atlas preset, in the site's own type, because the app's text is too small to read at this
+   size), then the chip. The lower left holds no title and no map credit to cover. */
+.flagship-tags {
   position: absolute;
   left: 12px;
   bottom: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-1);
+}
+
+.flagship-chip,
+.flagship-caption {
   padding: 3px 10px;
   background: var(--raised);
   border: 1px solid var(--rule);
@@ -1043,6 +1054,45 @@
   font-size: 12px;
   font-weight: 500;
   color: var(--ink);
+}
+
+/* The frames of the image's motion (js/modules/motion.js), stacked on the still image. Only
+   the frames that the motion is drawing show (.is-on); before the first play none does, so
+   the still image shows. */
+.flagship-frames {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.flagship-frames img {
+  position: absolute;
+  inset: 0;
+  visibility: hidden;
+}
+
+.flagship-frames img.is-on {
+  visibility: visible;
+}
+
+.flagship-frames.is-moving img.is-on {
+  will-change: transform, opacity;
+}
+
+/* In a zoom, a frame comes in small, in the middle of the frame under it. A soft edge hides
+   the line where the two meet. --soft is the share of the full soft edge, 0 to 1, set for
+   each frame as it moves. The values are a mask's alpha, not colours that show. */
+.flagship-frames img.is-soft {
+  --edge: calc(var(--soft, 0) * 12%);
+  -webkit-mask-image:
+    linear-gradient(to right, transparent, black var(--edge), black calc(100% - var(--edge)), transparent),
+    linear-gradient(to bottom, transparent, black var(--edge), black calc(100% - var(--edge)), transparent);
+  mask-image:
+    linear-gradient(to right, transparent, black var(--edge), black calc(100% - var(--edge)), transparent),
+    linear-gradient(to bottom, transparent, black var(--edge), black calc(100% - var(--edge)), transparent);
+  -webkit-mask-composite: source-in;
+  mask-composite: intersect;
 }
 
 .flagship-chip::after {
@@ -1055,6 +1105,7 @@
   position: absolute;
   top: 8px;
   right: 8px;
+  max-width: calc(100% - 16px);
   padding: 1px 6px;
   background: var(--raised);
   border-radius: 0;

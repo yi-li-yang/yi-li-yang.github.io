@@ -29,7 +29,9 @@ The real, implemented site is **vanilla**:
   at a stated version — never edit) + `css/variables.css` + `base.css` + `components.css`,
 - ES modules: `js/main.js` → `js/modules/{nav,links,contact,stats,flagships,thoughts,skills,tools,publications,seo}.js`,
   plus `card-row.js`, the sideways card row that `flagships`, `thoughts` and `publications` share,
-  and `flip.js`, which flips every number in the first time it scrolls into view,
+  `flip.js`, which flips every number in the first time it scrolls into view,
+  and `motion.js` with `motion-timeline.js`, which move each Featured image through a stack of
+  still frames (a zoom, a dissolve),
 - data fetched at runtime from `data/*.json`,
 - design: Yili's visual system 1.0.0, lichen accent. `DESIGN.md` (root) is the system's record;
   `docs/DESIGN.md` says how the site applies it. Use the tokens (`var(--ink)`, `var(--space-4)`);
@@ -123,6 +125,8 @@ yi-li-yang.github.io/                 CURRENT (keep)
 ├── scripts/fetch-skills.js           ingest: skills in yi-li-yang/skills -> data/claude-skills.json (fail-safe)
 ├── scripts/fetch-atlas.js            ingest: the Livability Atlas's live data bundle -> data/livability-atlas.json (fail-safe)
 ├── scripts/fetch-previews.js         ingest: each `preview: true` repo's docs/preview.webp -> assets/previews/ + data/previews.json (fail-safe)
+├── scripts/capture-featured.js       by hand (`npm run capture:featured`): the frames of the Featured images' motion, from the two live apps
+│                                     -> assets/showcase/{rts-zoom,atlas-presets}/ + assets/showcase/featured-record.json (script-written)
 ├── test/                             `npm test` (node --test)
 ├── .github/workflows/update-stats.yml monthly cron
 ├── .github/workflows/update-previews.yml daily cron: previews + the skills list; commits on main only, starts no CV build

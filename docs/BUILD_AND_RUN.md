@@ -17,6 +17,7 @@ there is no TeX Live to install. See *Local commands* below.
 ```
 update-stats.js  ──→ data/stats.json                       (existing, monthly)
 fetch-previews.js : each repo's docs/preview.webp ──→ assets/previews/ + data/previews.json (daily)
+capture-featured.js : the two live Featured apps ──→ assets/showcase/{rts-zoom,atlas-presets}/ + featured-record.json (by hand)
 bib-to-json.js   : cv/publications.bib ──→ data/publications.json        (site)
 emit-metrics-tex : data/stats.json + bib ──→ cv/**/generated/metrics.tex (CV numbers)
 render-cv.js     : data/* + templates/*.njk ──→ cv/**/generated/*.tex    (CV bodies)

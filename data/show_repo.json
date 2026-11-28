@@ -43,7 +43,7 @@
       "group": "Tools & apps",
       "description": "An open-source decision tool for one question: where should I live? It scores every part of London by your own weights and hard limits, in your browser, lights up the best areas on a map, and explains every score one layer at a time. Live for London.",
       "url": "https://github.com/yi-li-yang/Livability-Atlas",
-      "image": "assets/showcase/livability-atlas.webp",
+      "image": "assets/showcase/atlas-presets/student.webp",
       "preview": true
     },
     {

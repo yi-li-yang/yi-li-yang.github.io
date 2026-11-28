@@ -99,3 +99,16 @@ Confirm these or add them to the system.
     it was chosen over random digits settling (a departure board) and counting up from zero.
     Nothing moves for a reader who asks for reduced motion, and a screen reader reads the final
     value at once.
+15. **The Featured images move.** Each image plays one short motion when it comes into view,
+    then rests on its last frame; the pointer or keyboard focus on the card plays it again.
+    The thaw-slump map dives from the Arctic to one slump: 13 stills, each at twice the scale
+    of the one before. The Atlas dissolves through three presets, coloured by rank in London,
+    because by score the presets look alike. The page builds the motion from still WebP
+    frames (`js/modules/motion.js`). That was chosen over an animated WebP (the page cannot
+    start or replay it, and a zoom needs megabytes) and over a video (it needs a step that
+    composites the frames, and a frame that holds shows the compression). A play lasts under
+    5 seconds and stops by itself, so it needs no Pause control (WCAG 2.2.2); the lengths are
+    in `css/variables.css`. The Atlas preset is named on the image in the site's own type,
+    because the app's text is too small to read at card size. A reader who asks for reduced
+    motion sees the first frame only, and the other frames are never loaded.
+    `npm run capture:featured` takes the frames again from the live apps.
